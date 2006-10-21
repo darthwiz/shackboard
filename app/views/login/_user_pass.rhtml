@@ -1,0 +1,19 @@
+<table class="loginbox" cellspacing="0" cellpadding="0">
+<%= start_form_tag :method     => 'post"',
+                   :controller => 'login',
+                   :action     => 'login' %>
+  <tr>
+    <td>
+      Username:
+      <%= text_field 'user', 'username',
+                     :size => 12,
+                     :class => 'loginbox' %>
+      Password:
+      <%= password_field 'user', 'password', 
+                         :size => 12,
+                         :class => 'loginbox' %>
+      <%= submit_tag 'Login', :class => 'loginbox' %>
+    </td>
+  </tr>
+<%= end_form_tag %>
+</table>

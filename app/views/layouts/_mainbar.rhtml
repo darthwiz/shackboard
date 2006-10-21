@@ -1,0 +1,25 @@
+<div id="mainbar" class="mainbar">
+  <table cellspacing="1" cellpadding="0">
+    <tr>
+      <td><div class="bbname"><%=@settings.bbname%></div></td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td class="loginbox">
+        <% if (@user) then %>
+        Benvenuto <span class="author"><%=@user.username%></span> | 
+        <span class="menuhl">
+          <%= link_to 'logout', { :controller => 'login', :action => 'logout' },
+                                { :class => 'menuhl' } %>
+        </span>
+        <% else %>
+        <%= render :partial => '/login/user_pass' %>
+        <% end %>
+      </td>
+      <td>
+        <div align="right">
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

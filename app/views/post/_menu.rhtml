@@ -1,0 +1,27 @@
+<%
+  baseURL    = 'http://www.studentibicocca.it/portale/forum/images/'
+  profileImg = '<img src ="' + baseURL + 'profile.gif' + '" alt="profile"/>'
+  editImg    = '<img src ="' + baseURL + 'edit.gif'    + '" alt="edit"/>'
+  quoteImg   = '<img src ="' + baseURL + 'quote.gif'   + '" alt="quote"/>'
+  homeImg    = '<img src ="' + baseURL + 'site.gif'    + '" alt="homepage"/>'
+  searchImg  = '<img src ="' + baseURL + 'find.gif'    + '" alt="search"/>'
+  pmImg      = '<img src ="' + baseURL + 'u2u.gif'     + '" alt="u2u"/>'
+%>
+<%= link_to profileImg, :controller => 'user', 
+                        :action     => 'view',
+                        :id         => @author.id %>
+<%= link_to editImg,    :controller => 'post', 
+                        :action     => 'edit',
+                        :id         => @post.id %>
+<%= link_to quoteImg,   :controller => 'post', 
+                        :action     => 'reply',
+                        :id         => @post.id %>
+<%= link_to homeImg,    :controller => 'user', 
+                        :action     => 'home',
+                        :id         => @author.id %>
+<%= link_to searchImg,  :controller => 'post', 
+                        :action     => 'search',
+                        :id         => @author.id %>
+<%= link_to pmImg,      :controller => 'pm', 
+                        :action     => 'new',
+                        :id         => @author.id %>

@@ -1,0 +1,26 @@
+<%
+  maxwidth = 120
+  starURL  = "http://www.studentibicocca.it/portale/forum/images/star.gif"
+  username = utf8(@author.username)
+  rank     = lookup :rank, :user => @author
+  regdate  = Time.at(@author.regdate).strftime("%d/%m/%Y")
+  avW_orig = @author.avatar_width.to_i
+  avH_orig = @author.avatar_height.to_i
+  avURL    = @author.avatar
+  avW      = avW_orig
+  avH      = avH_orig
+  if (avW_orig > maxwidth) then
+    avW = maxwidth
+    avH = avH_orig*maxwidth/avW_orig if avH_orig
+  end
+%>
+<div class="post_user_icon post_<%=bg%>">
+  <span class="author"><%=h username%></span><br/>
+  <span class="rank"><%=rank.title%></span><br/>
+  <span class="stars">
+    <% rank.stars.times do %><img src="<%=starURL%>" alt="*"><% end %>
+  </span><br/>
+  <img class="avatar" src="<%=avURL%>" alt="" width="<%=avW%>" height="<%=avH%>">
+  <br/><span class="postnum"><%=h @author.postnum%> posts</span>
+  <br/><span class="regdate">Registrato: <%=regdate%></span>
+</div>

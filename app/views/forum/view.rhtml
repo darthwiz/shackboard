@@ -1,0 +1,22 @@
+<% bw = 1 %>
+<% ts = 6 %>
+<div id="navbar_top">
+  <%= render :partial => '/layouts/navbar' %>
+</div>
+<div id="topics">
+  <table class="topics" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
+    <tr class="header">
+      <td></td>
+      <td></td>
+      <td>Oggetto:</td>
+      <td>Autore:</td>
+      <td>Post:</td>
+      <td>Visite:</td>
+      <td>Ultimo post:</td>
+    </tr>
+    <%= render :partial => "/topic/topic", :collection => @topics %>
+  </table>
+</div>
+<div id="navbar_bottom">
+  <%= render :partial => '/layouts/navbar' %>
+</div>

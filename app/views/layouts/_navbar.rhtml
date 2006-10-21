@@ -1,0 +1,19 @@
+<div class="navbar">
+  <!-- trail {{{ -->
+  <div class="navbar_trail">
+    <%= render :partial => '/layouts/trail' %>
+  </div>
+  <!-- }}} -->
+  <!-- main nav menu {{{ -->
+  <div class="navbar_options">
+      <%= render :partial => '/layouts/navopts' %>
+  </div>
+  <!-- }}} -->
+  <!-- page sequence {{{ -->
+  <div class="navbar_pageseq">
+    <% @pageseq_opts[:extra_links] = [:first, :back, :forward, :last] %>
+    <%= page_seq(@pageseq_opts) %>
+  </div>
+  <!-- }}} -->
+  <div class="spacer"></div>
+</div>

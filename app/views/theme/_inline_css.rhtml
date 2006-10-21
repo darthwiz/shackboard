@@ -1,0 +1,434 @@
+<% theme = @opts[:theme] %>
+<% sidemargin = '20px' %>
+<% if theme.css then %>
+<%= theme.css %>
+<% else %>
+  body { /* {{{ */
+    font-family: <%=theme.font%>;
+    font-size: <%=theme.fontsize%>;
+    background-color: <%=theme.bgcolor%>;
+    color: <%=theme.text%>;
+  } /* }}} */
+/* navigation bars {{{ */
+  #mainbar { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 6px;
+  } /* }}} */
+  #navbar_top { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 12px;
+  } /* }}} */
+  #navbar_bottom { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+  } /* }}} */
+  .loginbox { /* {{{ */
+    font-size: <%=theme.altfontsize%>
+  } /* }}} */
+  .navbar_trail { /* {{{ */
+    float: right;
+    font-size: <%=theme.altfontsize%>
+  } /* }}} */
+  .navbar_options { /* {{{ */
+    font-size: <%=theme.altfontsize%>
+  } /* }}} */
+  .navbar_pageseq { /* {{{ */
+    float: right;
+    font-size: <%=theme.altfontsize%>
+  } /* }}} */
+/* navigation bars }}} */
+/* posts {{{ */
+  #posts { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 6px;
+    /*
+    padding: 6px;
+    border: thin solid <%=theme.bordercolor%>
+    */
+  } /* }}} */
+  div.post { /* {{{ */
+    margin-top: 6px;
+    margin-bottom: 6px;
+  } /* }}} */
+  .post_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .post_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .post_header { /* {{{ */
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    font-size: <%=theme.altfontsize%>;
+    font-weight: bold;
+    padding: .5em;
+    border: thin solid <%=theme.bordercolor%>;
+  } /* }}} */
+  .post_date { /* {{{ */
+    border: thin solid <%=theme.bordercolor%>;
+    padding: 4px;
+    margin-bottom: 2px;
+  } /* }}} */
+  .post_seqnr { /* {{{ */
+    /*
+    border: thin solid <%=theme.bordercolor%>;
+    padding: 4px;
+    float: right;
+    margin: 2px;
+    */
+  } /* }}} */
+  .post_content { /* {{{ */
+    margin-left: 146px;
+  } /* }}} */
+  .post_textbox { /* {{{ */
+    border: thin solid <%=theme.bordercolor%>;
+    padding: 4px;
+    margin-bottom: 2px;
+  } /* }}} */
+  .post_text { /* {{{ */
+    max-width: 50em;
+    min-height: 18em;
+  } /* }}} */
+  .post_menu { /* {{{ */
+    border: thin solid <%=theme.bordercolor%>;
+    padding: 4px;
+    margin-top: 2px;
+  } /* }}} */
+  .post_user_icon { /* {{{ */
+    width: 130px;
+    border: thin solid <%=theme.bordercolor%>;
+    padding: 6px;
+    float: left;
+    position: relative;
+    min-height: 100%;
+  } /* }}} */
+  .post_quote { /* {{{ */
+    background-color: <%=theme.bgcolor%>;
+    color: <%=theme.text%>;
+    font-size: <%=theme.altfontsize%>;
+    border: thin solid <%=theme.bordercolor%>;
+    padding: <%=theme.tablespace%>px;
+  } /* }}} */
+  .post_permalink { /* {{{ */
+    font-size: <%=theme.altfontsize%>;
+  } /* }}} */
+/* posts }}} */
+/* topics {{{ */
+  #topics { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 6px;
+  } /* }}} */
+  table.topics { /* {{{ */
+    background-color: <%=theme.bordercolor%>;
+    font-family: <%=theme.font%>;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  } /* }}} */
+  td.topics { /* {{{ */
+    font-family: <%=theme.font%>;
+    font-size: <%=theme.fontsize%>;
+  } /* }}} */
+  .topics_topped_caption { /* {{{ */
+    font-size: <%=theme.altfontsize%>
+  } /* }}} */
+  .topics_title { /* {{{ */
+    float: left;
+  } /* }}} */
+  .topics_pages { /* {{{ */
+    float: right;
+    font-size: <%=theme.altfontsize%>
+  } /* }}} */
+  .topics_snippet { /* {{{ */
+    clear: both;
+    font-size: <%=theme.altfontsize%>;
+    color: gray;
+  } /* }}} */
+  .folder_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .folder_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .title_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .title_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .author_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .author_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .postnum_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .postnum_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .views_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .views_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .lastpost_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .lastpost_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+/* topics }}} */
+/* private messages {{{ */
+  #pms { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 6px;
+  } /* }}} */
+  table.pms { /* {{{ */
+    background-color: <%=theme.bordercolor%>;
+    font-family: <%=theme.font%>;
+    margin-left: auto;
+    margin-right: auto;
+  } /* }}} */
+  td.pms { /* {{{ */
+    font-family: <%=theme.font%>;
+    font-size: <%=theme.fontsize%>;
+  } /* }}} */
+  .pm_del_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .pm_del_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .pm_subj_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .pm_subj_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .pm_from_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .pm_from_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .pm_date_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .pm_date_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .pm_status_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .pm_status_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .pm_message_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .pm_message_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .pm_user_icon { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+    width: 10em;
+    border: thin solid <%=theme.bordercolor%>;
+    padding: 6px;
+    float: left;
+    margin-right: 10px;
+  } /* }}} */
+/* private messages }}} */
+/* files {{{ */
+  #files { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 6px;
+  } /* }}} */
+  #file_categories { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 6px;
+  } /* }}} */
+  #file_license { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 6px;
+  } /* }}} */
+  table.files { /* {{{ */
+    background-color: <%=theme.bordercolor%>;
+    font-family: <%=theme.font%>;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  } /* }}} */
+  table.file_categories { /* {{{ */
+    background-color: <%=theme.bordercolor%>;
+    font-family: <%=theme.font%>;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  } /* }}} */
+  td.files { /* {{{ */
+    font-family: <%=theme.font%>;
+    font-size: <%=theme.fontsize%>;
+    background-color: <%=theme.altbg1%>; /* XXX */
+  } /* }}} */
+  .file_header { /* {{{ */
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    font-size: <%=theme.altfontsize%>;
+    font-weight: bold;
+    padding: .5em;
+  } /* }}} */
+  .file_cat_header { /* {{{ */
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    font-size: <%=theme.altfontsize%>;
+    font-weight: bold;
+    padding: .5em;
+  } /* }}} */
+  .file_license_name { /* {{{ */
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    font-size: <%=theme.altfontsize%>;
+    font-weight: bold;
+    padding: .5em;
+    border: thin solid <%=theme.bordercolor%>;
+  } /* }}} */
+  .file_license_filename { /* {{{ */
+    margin-top: 6px;
+    margin-bottom: 6px;
+    padding: 6px;
+    border: thin solid <%=theme.bordercolor%>;
+  } /* }}} */
+  .file_license_text { /* {{{ */
+    margin-top: 6px;
+    margin-bottom: 6px;
+    padding: 6px;
+    border: thin solid <%=theme.bordercolor%>;
+  } /* }}} */
+  .file_license_buttons { /* {{{ */
+    margin-top: 6px;
+    margin-bottom: 6px;
+    padding: 6px;
+    border: thin solid <%=theme.bordercolor%>;
+  } /* }}} */
+/* files }}} */
+/* music database {{{ */
+  #mdb_albums { /* {{{ */
+    margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+    margin-bottom: 6px;
+  } /* }}} */
+  table.mdb_albums { /* {{{ */
+    background-color: <%=theme.bordercolor%>;
+    font-family: <%=theme.font%>;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  } /* }}} */
+  td.mdb_albums { /* {{{ */
+    font-family: <%=theme.font%>;
+    font-size: <%=theme.fontsize%>;
+    padding: .3em;
+    background-color: <%=theme.altbg1%>; /* XXX */
+  } /* }}} */
+  .mdb_albums_header { /* {{{ */
+    font-family: <%=theme.font%>;
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    font-size: <%=theme.altfontsize%>;
+    font-weight: bold;
+    padding: .3em;
+  } /* }}} */
+/* music database }}} */
+/* general {{{*/
+  .spacer { /* {{{ */
+    clear: both;
+  } /* }}} */
+  img { /* {{{ */
+    border: 0px;
+  } /* }}} */
+  a { /* {{{ */
+    text-decoration: none;
+    color: <%=theme.link%>;
+  } /* }}} */
+  a:visited { /* {{{ */
+    text-decoration: none;
+    color: <%=theme.link%>;
+  } /* }}} */
+  a:hover { /* {{{ */
+    text-decoration: underline;
+  } /* }}} */
+  a.menuhl { /* {{{ */
+    color: <%=theme.headertext%>;
+  } /* }}} */
+  a.menuhl:visited { /* {{{ */
+    color: <%=theme.headertext%>;
+  } /* }}} */
+/* general }}} */
+  .deleted_bg1 { /* {{{ */
+    background-color: <%=dimmer(theme.altbg1, 80)%>;
+  } /* }}} */
+  .deleted_bg2 { /* {{{ */
+    background-color: <%=dimmer(theme.altbg2, 80)%>;
+  } /* }}} */
+  div.mainbar { /* {{{ */
+    background-color: <%=theme.top%>;
+    color: <%=theme.text%>;
+    font-size: <%=theme.altfontsize%>;
+    border: thin solid <%=theme.bordercolor%>;
+    padding: <%=theme.tablespace%>px;
+  } /* }}} */
+  div.bbname { /* {{{ */
+    font-size: <%=theme.fontsize%>;
+    margin-bottom: 0.5em;
+  } /* }}} */
+  div.navbar { /* {{{ */
+    background-color: <%=theme.top%>;
+    color: <%=theme.text%>;
+    font-size: <%=theme.altfontsize%>;
+    border: thin solid <%=theme.bordercolor%>;
+    padding: <%=theme.tablespace%>px;
+  } /* }}} */
+  span.author { /* {{{ */
+    font-weight: bold;
+  } /* }}} */
+  span.menuhl { /* {{{ */
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+  } /* }}} */
+  span.curpage { /* {{{ */
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+  } /* }}} */
+  div.menuhl { /* {{{ */
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    font-size: <%=theme.altfontsize%>;
+    padding-left: <%=theme.tablespace%>px;
+    padding-right: <%=theme.tablespace%>px;
+  } /* }}} */
+<% end %>

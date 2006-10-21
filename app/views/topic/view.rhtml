@@ -1,0 +1,15 @@
+<% bw    = 1 %>
+<% ts    = 6 %>
+<% title = utf8(@topic.title) %>
+<div id="navbar_top">
+  <%= render :partial => '/layouts/navbar' %>
+</div>
+<div id="posts">
+  <div class="post_header">
+    <%= h title %>
+  </div>
+  <%= render :partial => "/post/post", :collection => @posts %>
+</div>
+<div id="navbar_bottom">
+  <%= render :partial => '/layouts/navbar' %>
+</div>

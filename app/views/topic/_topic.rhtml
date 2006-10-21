@@ -1,0 +1,53 @@
+<%
+  @flip   = 0 unless @flip
+  tdclass = "bg" + (1 + @flip).to_s
+  #date    = Time.at(post.dateline.to_i).strftime("%d/%m/%Y")
+  #time    = Time.at(post.dateline.to_i).strftime("%H.%M")
+  title   = utf8(topic.title)
+  author  = utf8(topic.author)
+  ppp     = @opts[:ppp]
+%>
+<tr width="100%">
+  <td class="topics folder_<%=tdclass%>">
+  </td>
+  <td class="topics icon_<%=tdclass%>">
+  </td>
+  <td class="topics title_<%=tdclass%>">
+    <div class="topics_title">
+      <%= link_to title, :controller => 'topic',
+                         :action     => 'view',
+                         :id         => topic.id %>
+      <% if (topic.topped == 1) then %>
+      <span class="topics_topped_caption">(in evidenza)</span>
+      <% end %>
+    </div>
+    <% if (topic.posts > ppp) then %>
+    <div class="topics_pages">
+      Pagine: <%= page_seq( :controller  => 'topic',
+                            :action      => 'view',
+                            :id          => topic.id,
+                            :first       => 1,
+                            :last        => topic.posts,
+                            :ipp         => ppp,
+                            :extra_links => [:last] ) %>
+    </div>
+    <% end %>
+    <div class="topics_snippet">
+      <%= h utf8(topic.message[0,80]) %>
+    </div>
+  </td>
+  <td class="topics author_<%=tdclass%>">
+    <%= link_to author, :controller => 'user',
+                        :action     => 'view',
+                        :id         => topic.author %>
+  </td>
+  <td class="topics postnum_<%=tdclass%>">
+    <div align="center"><%=topic.replies + 1%></div>
+  </td>
+  <td class="topics views_<%=tdclass%>">
+    <div align="center"><%=topic.views%></div>
+  </td>
+  <td class="topics lastpost_<%=tdclass%>">
+  </td>
+</tr>
+<% @flip = 1 - @flip %>

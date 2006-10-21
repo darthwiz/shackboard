@@ -1,0 +1,13 @@
+<% if @user then %>
+  <%= link_to 'Profilo',
+              :controller => 'user',
+              :action     => 'edit' %> |
+<% end %>
+<%= link_to 'Cerca',
+            :controller => 'post',
+            :action     => 'search' %>
+<% if @user then %> |
+  <%= link_to 'Messaggi privati',
+              :controller => 'pm',
+              :action     => 'list' %>
+<% end %>

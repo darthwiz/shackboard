@@ -1,0 +1,20 @@
+<% bw = 1 %>
+<% ts = 6 %>
+<div id="navbar_top">
+  <%= render :partial => '/layouts/navbar' %>
+</div>
+<div id="pms">
+  <table class="pms" cellspacing="<%=bw%>" cellpadding="<%=ts%>" width="100%">
+    <tr class="header">
+      <td>Oggetto:</td>
+      <td>Da:</td>
+      <td width="1">Data:</td>
+      <td width="1">Stato:</td>
+    </tr>
+    <%= render :partial => "/pm/row", :collection => @pms %>
+  </table>
+</div>
+<div id="navbar_bottom">
+  <%= render :partial => '/layouts/navbar' %>
+</div>
+

@@ -1,0 +1,28 @@
+<%
+  obj   = @forum if @forum
+  obj   = @topic if @topic
+  cur   = obj
+  trail = []
+  if obj.respond_to? :container then
+    trail = [obj]
+    while (obj = obj.container) do
+      trail.unshift(obj)
+    end
+  end
+  trail.each do |i|
+    opts = { :action => 'view', :id => i.id }
+    case i.class.to_s
+    when 'Forum'
+      opts[:controller] = 'forum'
+    when 'Topic'
+      opts[:controller] = 'topic'
+    end
+    i.name = 'Home' if i.container == nil
+    name   = utf8(i.name)
+    unless (i == cur) then %>
+      <%= link_to name, opts %> &gt; <%
+    else %>
+      <%= name %> <%
+    end
+  end
+%>

@@ -1,0 +1,25 @@
+<div id="file_license">
+  <div class="file_license_name">
+    <%= utf8(@file.license.name) %>
+  </div>
+  <div class="file_license_text">
+    <%= utf8(@file.license.text) %>
+  </div>
+  <div class="file_license_buttons">
+    <center>
+      <table>
+        <tr>
+          <td>
+            <%=button_to 'Accetto', :controller => 'file',
+                                    :action     => 'download',
+                                    :id         => @file.id %>
+          </td>
+          <td>
+            <%=button_to 'Non accetto', :controller => 'file',
+                                        :action     => 'categories' %>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </div>
+</div>

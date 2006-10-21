@@ -1,0 +1,55 @@
+<%
+  @flip   = 0 unless @flip
+  tdclass = "bg" + (1 + @flip).to_s
+  subj    = utf8(row.subject)
+  subj    = "(nessun oggetto)" if (subj.strip == "")
+  from    = utf8(row.msgfrom)
+  status  = "?"
+  date    = Time.at(row.dateline.to_i).strftime("%d/%m/%Y")
+  time    = Time.at(row.dateline.to_i).strftime("%H.%M")
+  from_u  = lookup :user, :username => row.msgfrom
+  from_id = from_u.id if from_u
+  case row.status
+  when "read"
+    status = "Letto"
+  when "new"
+    status = "Nuovo"
+  end
+%>
+<tr>
+  <td class="pms pm_subj_<%=tdclass%>">
+    <%= link_to subj, :action => 'view',
+                      :id     => row.id %>
+  </td>
+  <td class="pms pm_from_<%=tdclass%>">
+    <%= link_to from, :controller => 'user',
+                      :action     => 'view',
+                      :id         => from_id %>
+  </td>
+  <td class="pms pm_date_<%=tdclass%>">
+    <div align="right"><%= date + " " + time %></div>
+  </td>
+  <td class="pms pm_status_<%=tdclass%>">
+    <%= status %>
+  </td>
+</tr>
+<tr class="pms pm_message_<%=tdclass%> pm_<%=row.id%>">
+  <td colspan="4">
+    <table>
+      <tr>
+        <td valign="top">
+          <div class="pm_user_icon">
+            <% @author = from_u %>
+            <%= render :partial => "/user/icon" if @author %>
+          </div>
+        </td>
+        <td valign="top">
+          <div class="pm_message_text">
+            <%= utf8(bb_to_html(row.message)) %>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<% @flip = 1 - @flip %>

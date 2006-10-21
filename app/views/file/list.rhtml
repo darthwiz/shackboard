@@ -1,0 +1,32 @@
+<% bw = 1 %>
+<% ts = 6 %>
+<div id="navbar_top" class="navbar">
+  <div align="right">Pagine: <%=page_seq @pageseq_opts%></div>
+</div>
+<div id="files">
+  <table class="files" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
+    <tr class="header">
+      <td class="file_header">id</td>
+      <td class="file_header">nome</td>
+      <td class="file_header">descrizione</td>
+      <td class="file_header">categoria</td>
+      <td class="file_header">downloads</td>
+    </tr>
+    <% @files.each do |f| %>
+    <tr>
+      <td class="files"><%=f.id%></td>
+      <td class="files">
+        <%= link_to h(utf8(f.file_name)), :controller => 'license',
+                                          :action     => 'confirm',
+                                          :id         => f.id %>
+      </td>
+      <td class="files"><%=h utf8(f.file_desc)%></td>
+      <td class="files"><%=h utf8(f.filedb_category.cat_name)%></td>
+      <td class="files"><%=f.file_dls%></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+<div id="navbar_bottom" class="navbar">
+  <div align="right">Pagine: <%=page_seq @pageseq_opts%></div>
+</div>
