@@ -162,6 +162,7 @@ module ApplicationHelper
       end
     end
     # }}}
+    return '' if (cur && cur == first && cur == last)
     return s
   end # }}}
   def bb_to_html(s) # {{{

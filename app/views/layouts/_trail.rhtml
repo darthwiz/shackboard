@@ -17,8 +17,7 @@
     when 'Topic'
       opts[:controller] = 'topic'
     end
-    i.name = 'Home' if i.container == nil
-    name   = utf8(i.name)
+    name = utf8(i.name)
     unless (i == cur) then %>
       <%= link_to name, opts %> &gt; <%
     else %>

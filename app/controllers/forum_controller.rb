@@ -1,4 +1,8 @@
 class ForumController < ApplicationController
+  def index # {{{
+    @forums = Forum.find(:all, :conditions => 'fup = 0',
+                               :order      => 'displayorder')
+  end # }}}
   def view # {{{
     tpp   = @opts[:tpp]
     start = params[:start].to_i

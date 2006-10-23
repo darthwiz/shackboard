@@ -7,7 +7,9 @@
   <div class="navbar">
     <table>
       <tr>
-        <td colspan="2"><%= utf8(@forum.name) %></td>
+        <td colspan="2"><%=
+          link_to utf8(@forum.name), :action => 'view',
+                                     :id     => @forum.id %></td>
       </tr>
       <%= render :partial => '/forum/map', 
                  :locals  => { :tree   => Forum.tree(@forum),
@@ -15,6 +17,7 @@
     </table>
   </div>
 </div>
+<% unless @topics.empty? %>
 <div id="topics">
   <table class="topics" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
     <tr class="topics_header">
@@ -29,6 +32,7 @@
     <%= render :partial => "/topic/topic", :collection => @topics %>
   </table>
 </div>
+<% end %>
 <div id="navbar_bottom">
   <%= render :partial => '/layouts/navbar' %>
 </div>

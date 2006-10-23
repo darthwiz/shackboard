@@ -24,6 +24,11 @@ class TopicController < ApplicationController
       render :partial => "not_found" and return
     end
     # }}}
+    # check access control once we have found the topic {{{
+    unless @topic.acl.can_read?(@user)
+      render :partial => "not_authorized" and return
+    end
+    # }}}
     # XXX ugly workaround to bad legacy data model {{{
     firstpost = Post.new
     @topic.attribute_names.each do |a|

@@ -44,14 +44,4 @@ class Forum < ActiveRecord::Base
     end
     tree
   end # }}}
-  def Forum.treedump(tree, indent=0) # {{{
-    s = ""
-    if (tree.is_a? Fixnum)
-      s << "#{' '*indent}#{Forum.find(tree).name}\n"
-      print s
-    elsif (tree.is_a? Array)
-      tree.each { |t| s << Forum.treedump(t, indent + 1) }
-    end
-    return s
-  end # }}}
 end
