@@ -12,8 +12,8 @@
                                      :id     => @forum.id %></td>
       </tr>
       <%= render :partial => '/forum/map', 
-                 :locals  => { :tree   => Forum.tree(@forum),
-                               :indent => 0 } %>
+                 :locals  => { :tree  => Forum.tree(@forum),
+                               :depth => 0 } %>
     </table>
   </div>
 </div>

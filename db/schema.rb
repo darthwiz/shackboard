@@ -24,9 +24,20 @@ ActiveRecord::Schema.define() do
     t.column "messaggio1", :text, :default => "", :null => false
   end
 
-  create_table "xmb_acl", :force => true do |t|
+  create_table "xmb_acl_mappings", :force => true do |t|
+    t.column "object_type", :string, :limit => 20, :default => "", :null => false
+    t.column "object_id", :integer, :limit => 20, :default => 0, :null => false
+    t.column "acl_id", :integer, :limit => 20, :default => 0, :null => false
+  end
+
+  add_index "xmb_acl_mappings", ["object_type", "object_id", "acl_id"], :name => "object_type"
+
+  create_table "xmb_acls", :force => true do |t|
+    t.column "name", :string, :limit => 40
     t.column "permissions", :text
   end
+
+  add_index "xmb_acls", ["name"], :name => "name"
 
   create_table "xmb_announce", :id => false, :force => true do |t|
     t.column "aid", :integer, :limit => 6, :null => false
@@ -119,8 +130,12 @@ ActiveRecord::Schema.define() do
     t.column "title", :string, :limit => 100
     t.column "author", :string, :limit => 100
     t.column "publisher", :string, :limit => 40
+    t.column "timestamp", :integer
     t.column "user_id", :integer
   end
+
+  add_index "xmb_musicdb_albums", ["title", "author", "publisher", "user_id"], :name => "title"
+  add_index "xmb_musicdb_albums", ["timestamp"], :name => "timestamp"
 
   create_table "xmb_posts", :id => false, :force => true do |t|
     t.column "fid", :integer, :limit => 6, :default => 0, :null => false
