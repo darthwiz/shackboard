@@ -181,7 +181,7 @@ module ApplicationHelper
     s.gsub!(/\[\/b\]/i, "</b>")
     s.gsub!(/\[u\]/i, "<u>")
     s.gsub!(/\[\/u\]/i, "</u>")
-    s.gsub!(/\[quote\]/i, "<div class=\"quote\">")
+    s.gsub!(/\[quote\]/i, "<div class=\"post_quote\">")
     s.gsub!(/\[\/quote\]/i, "</div>")
     Smiley.all.each do |sm|
       s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\"> ")
