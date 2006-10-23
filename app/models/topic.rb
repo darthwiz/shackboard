@@ -15,4 +15,7 @@ class Topic < ActiveRecord::Base
   def posts # {{{
     self.replies + 1
   end # }}}
+  def acl # {{{
+    AclMapping.map(self) || self.container.acl
+  end # }}}
 end

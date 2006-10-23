@@ -13,4 +13,12 @@ class User < ActiveRecord::Base
     end
     return nil
   end # }}}
+  def User.supermods # {{{
+    mods  = []
+    conds = "status = 'Super Moderator' OR status = 'Administrator'"
+    User.find(:all, :conditions => conds).each do |u|
+      mods << u.id
+    end
+    mods
+  end # }}}
 end

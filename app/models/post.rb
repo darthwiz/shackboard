@@ -7,4 +7,7 @@ class Post < ActiveRecord::Base
   def container # {{{
     Topic.find(self.tid)
   end # }}}
+  def acl # {{{
+    acl = AclMapping.map(self) || self.container.acl
+  end # }}}
 end

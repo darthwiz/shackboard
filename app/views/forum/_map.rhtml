@@ -1,0 +1,19 @@
+<% if tree.is_a? Fixnum %>
+  <% forum = Forum.find(tree) %>
+  <% if forum.acl.can_read?(@user) %>
+    <tr>
+      <td valign="top" style="padding-right: 3ex;">
+        <% indent.times do %>&nbsp;<% end %><%=
+          link_to utf8(forum.name), :action => 'view', :id => forum.id %>
+      </td>
+      <td valign="top">
+        <%= utf8(forum.description) %>
+      </td>
+    </tr>
+  <% end %>
+<% elsif tree.is_a? Array %>
+  <% tree.each do |t| %>
+    <%= render :partial => '/forum/map',
+               :locals  => { :tree => t, :indent => indent + 1 } %>
+  <% end %>
+<% end %>

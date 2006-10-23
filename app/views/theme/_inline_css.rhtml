@@ -20,10 +20,14 @@
     margin-top: 6px;
     margin-left: <%=sidemargin%>;
     margin-right: <%=sidemargin%>;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
   } /* }}} */
   #navbar_bottom { /* {{{ */
     margin-top: 6px;
+    margin-left: <%=sidemargin%>;
+    margin-right: <%=sidemargin%>;
+  } /* }}} */
+  #forum_map { /* {{{ */
     margin-left: <%=sidemargin%>;
     margin-right: <%=sidemargin%>;
   } /* }}} */
@@ -40,6 +44,24 @@
   .navbar_pageseq { /* {{{ */
     float: right;
     font-size: <%=theme.altfontsize%>
+  } /* }}} */
+  div.mainbar { /* {{{ */
+    background-color: <%=theme.top%>;
+    color: <%=theme.text%>;
+    font-size: <%=theme.altfontsize%>;
+    border: thin solid <%=theme.bordercolor%>;
+    padding: <%=theme.tablespace%>px;
+  } /* }}} */
+  div.bbname { /* {{{ */
+    font-size: <%=theme.fontsize%>;
+    margin-bottom: 0.5em;
+  } /* }}} */
+  div.navbar { /* {{{ */
+    background-color: <%=theme.top%>;
+    color: <%=theme.text%>;
+    font-size: <%=theme.altfontsize%>;
+    border: thin solid <%=theme.bordercolor%>;
+    padding: <%=theme.tablespace%>px;
   } /* }}} */
 /* navigation bars }}} */
 /* posts {{{ */
@@ -138,6 +160,14 @@
     font-family: <%=theme.font%>;
     font-size: <%=theme.fontsize%>;
   } /* }}} */
+  .topics_header { /* {{{ */
+    background-color: <%=theme.header%>;
+    color: <%=theme.headertext%>;
+    font-size: <%=theme.altfontsize%>;
+    font-weight: bold;
+    padding: .5em;
+    border: thin solid <%=theme.bordercolor%>;
+  } /* }}} */
   .topics_topped_caption { /* {{{ */
     font-size: <%=theme.altfontsize%>
   } /* }}} */
@@ -157,6 +187,12 @@
     background-color: <%=theme.altbg1%>;
   } /* }}} */
   .folder_bg2 { /* {{{ */
+    background-color: <%=theme.altbg2%>;
+  } /* }}} */
+  .icon_bg1 { /* {{{ */
+    background-color: <%=theme.altbg1%>;
+  } /* }}} */
+  .icon_bg2 { /* {{{ */
     background-color: <%=theme.altbg2%>;
   } /* }}} */
   .title_bg1 { /* {{{ */
@@ -390,24 +426,6 @@
   } /* }}} */
   .deleted_bg2 { /* {{{ */
     background-color: <%=dimmer(theme.altbg2, 80)%>;
-  } /* }}} */
-  div.mainbar { /* {{{ */
-    background-color: <%=theme.top%>;
-    color: <%=theme.text%>;
-    font-size: <%=theme.altfontsize%>;
-    border: thin solid <%=theme.bordercolor%>;
-    padding: <%=theme.tablespace%>px;
-  } /* }}} */
-  div.bbname { /* {{{ */
-    font-size: <%=theme.fontsize%>;
-    margin-bottom: 0.5em;
-  } /* }}} */
-  div.navbar { /* {{{ */
-    background-color: <%=theme.top%>;
-    color: <%=theme.text%>;
-    font-size: <%=theme.altfontsize%>;
-    border: thin solid <%=theme.bordercolor%>;
-    padding: <%=theme.tablespace%>px;
   } /* }}} */
   span.author { /* {{{ */
     font-weight: bold;

@@ -3,9 +3,21 @@
 <div id="navbar_top">
   <%= render :partial => '/layouts/navbar' %>
 </div>
+<div id="forum_map">
+  <div class="navbar">
+    <table>
+      <tr>
+        <td colspan="2"><%= utf8(@forum.name) %></td>
+      </tr>
+      <%= render :partial => '/forum/map', 
+                 :locals  => { :tree   => Forum.tree(@forum),
+                               :indent => 0 } %>
+    </table>
+  </div>
+</div>
 <div id="topics">
   <table class="topics" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
-    <tr class="header">
+    <tr class="topics_header">
       <td></td>
       <td></td>
       <td>Oggetto:</td>

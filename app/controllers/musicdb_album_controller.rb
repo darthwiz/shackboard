@@ -11,6 +11,10 @@ class MusicdbAlbumController < ApplicationController
   def new # {{{
   end # }}}
   def edit # {{{
+    @musicdb_album = MusicdbAlbum.find(params[:id])
+    unless (@musicdb_album)
+      redirect_to :action => 'list'
+    end
   end # }}}
   def create # {{{
     album = MusicdbAlbum.new { |a|
@@ -28,5 +32,13 @@ class MusicdbAlbumController < ApplicationController
     end
   end # }}}
   def update # {{{
+    album = MusicdbAlbum.find(params[:id])
+    if (album && album.user_id == session[:userid])
+      album.title     = params[:musicdb_album][:title]
+      album.author    = params[:musicdb_album][:author]
+      album.publisher = params[:musicdb_album][:publisher]
+      album.save
+    end
+    redirect_to :action => 'list'
   end # }}}
 end
