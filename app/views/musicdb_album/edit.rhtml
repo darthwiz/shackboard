@@ -1,7 +1,12 @@
 <div id="mdb_albums">
-  <div class="mdb_albums_header">Nuovo album</div>
+  <div class="mdb_albums_header">Modifica album</div>
   <br/>
   <%=start_form_tag :action => 'update', :id => @musicdb_album%>
   <%=render :partial => 'form'%>
   <%=end_form_tag%>
+  <%=button_to 'Elimina', { :action => :destroy, :id => @musicdb_album },
+   :confirm => "Eliminare '#{@musicdb_album.title}'?"%>
+  <p>
+    <%=link_to 'torna alla lista', :action => :list %>
+  </p>
 </div>

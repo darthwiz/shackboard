@@ -11,7 +11,11 @@ class MusicdbAlbumController < ApplicationController
   def new # {{{
   end # }}}
   def edit # {{{
-    @musicdb_album = MusicdbAlbum.find(params[:id])
+    conds = ['user_id = ?', session[:userid]]
+    begin
+      @musicdb_album = MusicdbAlbum.find(params[:id], :conditions => conds)
+    rescue
+    end
     unless (@musicdb_album)
       redirect_to :action => 'list'
     end
@@ -39,6 +43,15 @@ class MusicdbAlbumController < ApplicationController
       album.publisher = params[:musicdb_album][:publisher]
       album.save
     end
+    redirect_to :action => 'list'
+  end # }}}
+  def destroy # {{{
+    conds = ['user_id = ?', session[:userid]]
+    begin
+      album = MusicdbAlbum.find(params[:id], :conditions => conds)
+    rescue
+    end
+    album.destroy if album
     redirect_to :action => 'list'
   end # }}}
 end
