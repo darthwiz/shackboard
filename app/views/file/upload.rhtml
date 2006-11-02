@@ -1,0 +1,31 @@
+<% bw = 1 %>
+<% ts = 6 %>
+<div id="files">
+  <%= start_form_tag({ :action => :create }, { :multipart => true }) %>
+  <table>
+    <tr>
+      <td>Nome</td>
+      <td><%= text_field 'file', 'name', :size => 40 %></td>
+    </tr>
+    <tr>
+      <td>Descrizione</td>
+      <td><%= text_field 'file', 'description', :size => 40 %></td>
+    </tr>
+    <tr>
+      <td>Categoria</td>
+      <td>
+        <%= collection_select 'file', 'category', @categories,
+          :id, :name %>
+        <%= hidden_field 'file', 'license', :value => 1 %>
+      </td>
+    </tr>
+    <tr>
+      <td>File</td>
+      <td>
+        <%= file_field 'file', 'data', :size => 40 %>
+      </td>
+    </tr>
+  </table>
+  <%= submit_tag 'Invia' %>
+  <%= end_form_tag %>
+</div>

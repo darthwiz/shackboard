@@ -1,0 +1,2 @@
+id = params[:id].to_i
+page.replace "approve_#{id}", :partial => 'approved', :locals => { :f => FiledbFile.find(id) }

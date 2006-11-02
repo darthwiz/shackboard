@@ -16,8 +16,8 @@
     <tr>
       <td class="files"><%=f.id%></td>
       <td class="files">
-        <%= link_to h(utf8(f.file_name)), :controller => 'license',
-                                          :action     => 'confirm',
+        <%= link_to h(utf8(f.file_name)), :controller => 'file',
+                                          :action     => 'download',
                                           :id         => f.id %>
       </td>
       <td class="files"><%=h utf8(f.file_desc)%></td>

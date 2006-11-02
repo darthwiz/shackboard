@@ -1,0 +1,28 @@
+    <tr id="approve_<%=f.id%>">
+      <td class="files">
+        <table>
+          <tr>
+            <td style="padding-right: 1em;">Nome</td>
+            <td><%= h utf8(f.file_name) %></td>
+          </tr>
+          <tr>
+            <td style="padding-right: 1em;">Descrizione</td>
+            <td><%= h utf8(f.file_desc) %></td>
+          </tr>
+          <tr>
+            <td style="padding-right: 1em;">Categoria</td>
+            <td><%= h f.category.name %>
+              <%= link_to 'download', :controller => 'file',
+                                      :action     => 'download',
+                                      :id         => f.id %>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td class="files" align="center"><%=h f.user.username%></td>
+      <td class="files" align="center"><%=timestamp_to_date(f.file_time)%></td>
+      <td class="files" align="center">
+        <%= submit_to_remote :unapprove, 'disapprova',
+          :url => { :action => :unapprove, :id => f } %><br/>
+      </td>
+    </tr>

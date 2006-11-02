@@ -188,6 +188,23 @@ module ApplicationHelper
     end
     return s
   end # }}}
+  def timestamp_to_date(ts) # {{{
+    date = Time.at(ts).strftime("%d/%m/%Y")
+    time = Time.at(ts).strftime("%H.%M")
+    "#{date}, #{time}"
+  end # }}}
+def collection_select_with_selected(object, method, collection, value_method, text_method, current_value=nil) # {{{
+  result = "<select name='#{object}[#{method}]'>\n" 
+  for element in collection
+    if current_value.to_s == element.send(value_method).to_s
+      result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n" 
+    else
+      result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n" 
+    end
+  end
+  result << "</select>\n" 
+  return result
+end # }}}
   private
   def lookup_user(opts) # {{{
     if (username = opts[:username]) then

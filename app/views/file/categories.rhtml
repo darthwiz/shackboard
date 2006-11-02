@@ -12,8 +12,7 @@
         <%= link_to h(utf8(c.cat_name)), :action => 'list',
                                          :id     => c.id %>
       </td>
-      <% files = FiledbFile.count(:conditions => "file_catid = #{c.id}") %>
-      <td class="files" align="center"><%=files%></td>
+      <td class="files" align="center"><%=@numfiles[c.id]%></td>
     </tr>
     <% end %>
   </table>

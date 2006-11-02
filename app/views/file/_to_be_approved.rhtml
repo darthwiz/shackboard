@@ -1,0 +1,36 @@
+    <tr id="approve_<%=f.id%>">
+      <td class="files">
+        <table>
+          <tr>
+            <td style="padding-right: 1em;">Nome</td>
+            <td>
+              <%= text_field 'name', f.id, :value => utf8(f.file_name) %>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-right: 1em;">Descrizione</td>
+            <td>
+              <%= text_field 'description', f.id,
+                :value => utf8(f.file_desc) %>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-right: 1em;">Categoria</td>
+            <td>
+              <%= collection_select_with_selected :category, f.id,
+                @categories, :id, :name, f.file_catid %>
+              <%= link_to 'download', :controller => 'file',
+                                      :action     => 'download',
+                                      :id         => f.id %>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td class="files" align="center"><%=h f.user.username%></td>
+      <td class="files" align="center"><%=timestamp_to_date(f.file_time)%></td>
+      <td class="files" align="center">
+        <%= submit_to_remote :approve, 'approva',
+          :url => { :action => :approve, :id => f } %><br/>
+        <%= submit_to_remote :delete, 'elimina' %>
+      </td>
+    </tr>

@@ -5,6 +5,7 @@ class FiledbFile < ActiveRecord::Base
   has_one              :filedb_filedata
   belongs_to           :filedb_category, :foreign_key => 'file_catid'
   belongs_to           :filedb_license,  :foreign_key => 'file_license'
+  belongs_to           :user
   MIMETYPES = {
     'zip'  => 'application/zip',
     'pdf'  => 'application/pdf',
@@ -36,5 +37,19 @@ class FiledbFile < ActiveRecord::Base
   end # }}}
   def license # {{{
     filedb_license
+  end # }}}
+  def category # {{{
+    filedb_category
+  end # }}}
+  def name # {{{
+    file_name
+  end # }}}
+  def description # {{{
+    file_desc
+  end # }}}
+  def FiledbFile.find_all_unapproved # {{{
+    FiledbFile.find(:all, 
+                    :conditions => 'approved_by IS NULL',
+                    :order      => 'file_time')
   end # }}}
 end
