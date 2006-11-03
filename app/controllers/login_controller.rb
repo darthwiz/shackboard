@@ -7,9 +7,11 @@ class LoginController < ApplicationController
     password = params[:user][:password]
     user     = User.find_by_username(username)
     if (user) then
-      if user.auth(password) then
-        session[:userid] = user.id
-        redirect_to :back
+      if user.auth(password)
+        session[:userid]          = user.id
+        intended_action           = session[:intended_action]
+        session[:intended_action] = nil
+        redirect_to intended_action if intended_action
       else
         redirect_to :controller => "login", :action => "index"
       end

@@ -1,4 +1,5 @@
 class WelcomeController < ApplicationController
-  def index# {{{
-  end# }}}
+  def index # {{{
+    redirect_to :controller => 'forum', :action => 'index'
+  end # }}}
 end

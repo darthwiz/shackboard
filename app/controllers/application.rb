@@ -25,6 +25,8 @@ class ApplicationController < ActionController::Base
     if (session[:userid]) then
       @user = User.find(session[:userid])
     else
+      session[:intended_action] = { :controller => controller_name, 
+                                    :action     => action_name }
       redirect_to :controller => "login", :action => "index"
     end
   end # }}}
