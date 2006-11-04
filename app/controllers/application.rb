@@ -15,11 +15,11 @@ class ApplicationController < ActionController::Base
       ###### Custom user settings
       @opts[:ppp]   = @user.ppp.to_i || 30
       @opts[:tpp]   = @user.tpp.to_i || 30
-      if @user.theme.scan(/^http/).empty?
-        @opts[:theme] = Theme.find_by_name(@user.theme)
-      else
+      if @user.theme =~ /^http/
         @opts[:theme] = Theme.find_by_name(@settings.theme)
         @opts[:theme].css = @user.theme
+      else
+        @opts[:theme] = Theme.find_by_name(@user.theme)
       end
     else
       ###### Default settings
