@@ -1,4 +1,6 @@
 class FiledbFile < ActiveRecord::Base
+  require 'iso_helper.rb'
+  include ActiveRecord::IsoHelper
   set_table_name       FILEDB_PREFIX + 'files'
   establish_connection FILEDB_CONN_PARAMS
   set_primary_key      'file_id'
@@ -47,9 +49,24 @@ class FiledbFile < ActiveRecord::Base
   def description # {{{
     file_desc
   end # }}}
+  def approve(user, opts={}) # {{{
+    self.approved_by = user.id
+    self.file_name   = opts[:name]        if opts[:name]
+    self.file_catid  = opts[:category]    if opts[:category]
+    self.file_desc   = opts[:description] if opts[:description]
+    self.save
+  end # }}}
+  def unapprove # {{{
+    self.approved_by = nil
+    self.save
+  end # }}}
   def FiledbFile.find_all_unapproved # {{{
     FiledbFile.find(:all, 
                     :conditions => 'approved_by IS NULL',
                     :order      => 'file_time')
+  end # }}}
+  def FiledbFile.unapprove(id) # {{{
+    f = FiledbFile.find(id)
+    f.unapprove
   end # }}}
 end

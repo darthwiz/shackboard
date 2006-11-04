@@ -1,4 +1,6 @@
 class Topic < ActiveRecord::Base
+  require 'magic_fixes.rb'
+  include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "threads"
   set_primary_key "tid"
   belongs_to :forum, :foreign_key => "fid"

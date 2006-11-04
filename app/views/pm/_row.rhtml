@@ -1,9 +1,9 @@
 <%
   @flip   = 0 unless @flip
   tdclass = "bg" + (1 + @flip).to_s
-  subj    = utf8(row.subject)
+  subj    = row.subject
   subj    = "(nessun oggetto)" if (subj.strip == "")
-  from    = utf8(row.msgfrom)
+  from    = row.msgfrom
   status  = "?"
   date    = Time.at(row.dateline.to_i).strftime("%d/%m/%Y")
   time    = Time.at(row.dateline.to_i).strftime("%H.%M")
@@ -45,7 +45,7 @@
         </td>
         <td valign="top">
           <div class="pm_message_text">
-            <%= utf8(bb_to_html(row.message)) %>
+            <%= bb_to_html(row.message) %>
           </div>
         </td>
       </tr>

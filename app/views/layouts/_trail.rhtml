@@ -17,8 +17,8 @@
     when 'Topic'
       opts[:controller] = 'topic'
     end
-    name = utf8(i.name)
-    unless (i == cur) then %>
+    name = i.name if i.name
+    unless (i == cur) %>
       <%= link_to name, opts %> &gt; <%
     else %>
       <%= name %> <%

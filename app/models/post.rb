@@ -1,4 +1,6 @@
 class Post < ActiveRecord::Base
+  require 'magic_fixes.rb'
+  include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "posts"
   set_primary_key "pid"
   belongs_to :topic, :foreign_key => "tid"

@@ -1,0 +1,23 @@
+<%
+  icon_url = "http://www.studentibicocca.it/portale/materiali/images/posticons/"
+%>
+    <tr id="download_<%=f.id%>">
+      <td class="files">
+        <img src="<%=icon_url%><%=f.file_posticon%>" alt=""/>
+      </td>
+      <td class="files">
+        <%= link_to h(f.file_name), :controller => 'file',
+                                          :action     => 'download',
+                                          :id         => f.id %>
+      </td>
+      <td class="files"><%=h f.file_desc%></td>
+      <td class="files"><%=h f.filedb_category.cat_name%></td>
+      <td class="files" align="center"><%=f.file_dls%></td>
+      <% if is_adm? %>
+      <td class="files">
+        <%=button_to_remote 'disapprova',
+          :url => { :action => :unapprove, :id => f,
+            :from_controller => :list } %>
+      </td>
+      <% end %>
+    </tr>

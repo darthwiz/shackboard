@@ -1,2 +1,8 @@
 id = params[:id].to_i
-page.replace "approve_#{id}", :partial => 'to_be_approved', :locals => { :f => FiledbFile.find(id) }
+case params[:from_controller].to_sym
+when :review
+  page.replace "approve_#{id}", :partial => 'to_be_approved',
+    :locals => { :f => FiledbFile.find(id) }
+when :list
+  page.hide "download_#{id}"
+end

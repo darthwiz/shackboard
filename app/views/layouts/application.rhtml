@@ -11,8 +11,8 @@
   </style>
   </head>
   <body>
-    <p style="color: green"><%= flash[:notice] %></p>
     <%= render :partial => "/layouts/mainbar" %>
+    <p style="color: green"><%= flash[:notice] %></p>
     <%= @content_for_layout %>
   </body>
 <html>

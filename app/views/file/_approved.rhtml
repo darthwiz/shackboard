@@ -3,11 +3,11 @@
         <table>
           <tr>
             <td style="padding-right: 1em;">Nome</td>
-            <td><%= h utf8(f.file_name) %></td>
+            <td><%= h f.file_name %></td>
           </tr>
           <tr>
             <td style="padding-right: 1em;">Descrizione</td>
-            <td><%= h utf8(f.file_desc) %></td>
+            <td><%= h f.file_desc %></td>
           </tr>
           <tr>
             <td style="padding-right: 1em;">Categoria</td>
@@ -19,10 +19,11 @@
           </tr>
         </table>
       </td>
-      <td class="files" align="center"><%=h f.user.username%></td>
+      <td class="files" align="center"><%=h f.user.username if f.user%></td>
       <td class="files" align="center"><%=timestamp_to_date(f.file_time)%></td>
       <td class="files" align="center">
         <%= submit_to_remote :unapprove, 'disapprova',
-          :url => { :action => :unapprove, :id => f } %><br/>
+          :url => { :action => :unapprove, :id => f,
+            :from_controller => :review } %><br/>
       </td>
     </tr>

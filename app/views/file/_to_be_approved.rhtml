@@ -4,14 +4,14 @@
           <tr>
             <td style="padding-right: 1em;">Nome</td>
             <td>
-              <%= text_field 'name', f.id, :value => utf8(f.file_name) %>
+              <%= text_field 'name', f.id, :value => f.file_name %>
             </td>
           </tr>
           <tr>
             <td style="padding-right: 1em;">Descrizione</td>
             <td>
               <%= text_field 'description', f.id,
-                :value => utf8(f.file_desc) %>
+                :value => f.file_desc %>
             </td>
           </tr>
           <tr>
@@ -26,11 +26,13 @@
           </tr>
         </table>
       </td>
-      <td class="files" align="center"><%=h f.user.username%></td>
+      <td class="files" align="center"><%=h f.user.username if f.user%></td>
       <td class="files" align="center"><%=timestamp_to_date(f.file_time)%></td>
       <td class="files" align="center">
         <%= submit_to_remote :approve, 'approva',
           :url => { :action => :approve, :id => f } %><br/>
-        <%= submit_to_remote :delete, 'elimina' %>
+        <%= submit_to_remote :delete, 'elimina',
+          :url     => { :action => :delete, :id => f },
+          :confirm => "Eliminare '#{f.file_name}'?" %>
       </td>
     </tr>

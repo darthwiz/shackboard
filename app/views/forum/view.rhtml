@@ -8,8 +8,8 @@
     <table>
       <tr>
         <td colspan="2"><%=
-          link_to utf8(@forum.name), :action => 'view',
-                                     :id     => @forum.id %></td>
+          link_to @forum.name, :action => 'view',
+                               :id     => @forum.id %></td>
       </tr>
       <%= render :partial => '/forum/map', 
                  :locals  => { :tree     => Forum.tree(@forum),

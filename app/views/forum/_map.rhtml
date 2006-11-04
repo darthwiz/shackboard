@@ -4,10 +4,10 @@
     <tr>
       <td valign="top" style="padding-right: 3ex;">
         <% depth.times do %>&nbsp;<% end %><%=
-          link_to utf8(forum.name), :action => 'view', :id => forum.id %>
+          link_to forum.name, :action => 'view', :id => forum.id %>
       </td>
       <td valign="top">
-        <%= utf8(forum.description) %>
+        <%= forum.description %>
       </td>
     </tr>
   <% end %>

@@ -1,16 +1,16 @@
 <%
   @flip   = 0 unless @flip
   bg = "bg" + (1 + @flip).to_s
-  @author = lookup :user, :username => post.author
+  @author = User.find_by_username(iso(post.author))
   pid     = post.id
   seq     = post.seq
   date    = Time.at(post.dateline.to_i).strftime("%d/%m/%Y")
   time    = Time.at(post.dateline.to_i).strftime("%H.%M")
-  sig     = utf8(@author.sig).gsub(/</, "&lt;").
-                              gsub(/>/, "&gt;").
-                              gsub(/&/, "&amp;").
-                              gsub(/\n/, "<br/>\n")
-  text    = utf8(bb_to_html(post.message))
+  sig     = @author.sig.gsub(/</, "&lt;").
+                        gsub(/>/, "&gt;").
+                        gsub(/&/, "&amp;").
+                        gsub(/\n/, "<br/>\n") if @author
+  text    = bb_to_html(post.message)
   @post   = post
 %>
 <div class="post">

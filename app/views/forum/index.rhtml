@@ -6,8 +6,8 @@
       <% @forums.each do |f| %>
       <tr>
         <td colspan="2"><%=
-          link_to utf8(f.name), :action => 'view',
-                                :id     => f.id %></td>
+          link_to f.name, :action => 'view',
+                          :id     => f.id %></td>
       </tr>
       <%= render :partial => '/forum/map', 
                  :locals  => { :tree     => Forum.tree(f),

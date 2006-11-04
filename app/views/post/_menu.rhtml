@@ -9,7 +9,7 @@
 %>
 <%= link_to profileImg, :controller => 'user', 
                         :action     => 'view',
-                        :id         => @author.id %>
+                        :id         => @author.id if @author %>
 <%= link_to editImg,    :controller => 'post', 
                         :action     => 'edit',
                         :id         => @post.id %>
@@ -18,10 +18,10 @@
                         :id         => @post.id %>
 <%= link_to homeImg,    :controller => 'user', 
                         :action     => 'home',
-                        :id         => @author.id %>
+                        :id         => @author.id if @author %>
 <%= link_to searchImg,  :controller => 'post', 
                         :action     => 'search',
-                        :id         => @author.id %>
+                        :id         => @author.id if @author %>
 <%= link_to pmImg,      :controller => 'pm', 
                         :action     => 'new',
-                        :id         => @author.id %>
+                        :id         => @author.id if @author %>

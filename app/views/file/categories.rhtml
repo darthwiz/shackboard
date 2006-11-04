@@ -1,6 +1,7 @@
 <% bw = 1 %>
 <% ts = 6 %>
 <div id="file_categories">
+  <%= render :partial => 'need_approval' %>
   <table class="file_categories" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
     <tr class="header">
       <td class="file_cat_header">Categoria</td>
@@ -9,7 +10,7 @@
     <% @categories.each do |c| %>
     <tr>
       <td class="files">
-        <%= link_to h(utf8(c.cat_name)), :action => 'list',
+        <%= link_to h(c.cat_name), :action => 'list',
                                          :id     => c.id %>
       </td>
       <td class="files" align="center"><%=@numfiles[c.id]%></td>

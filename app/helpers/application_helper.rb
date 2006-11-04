@@ -4,6 +4,9 @@ module ApplicationHelper
   def utf8(string) # {{{
     Iconv.new('utf-8', 'iso-8859-1').iconv(string)
   end # }}}
+  def iso(string) # {{{
+    Iconv.new('iso-8859-1', 'utf-8').iconv(string)
+  end # }}}
   def lookup(what, opts = {}) # {{{
     if (!@helper_lut) then
       @helper_lut = {
@@ -204,6 +207,9 @@ def collection_select_with_selected(object, method, collection, value_method, te
   end
   result << "</select>\n" 
   return result
+end # }}}
+def button_to_remote(name, options = {}, html_options = {})  # {{{
+  button_to_function(name, remote_function(options), html_options)
 end # }}}
   private
   def lookup_user(opts) # {{{

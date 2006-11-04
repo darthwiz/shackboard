@@ -1,9 +1,0 @@
-<%
-  @page_hash.keys.sort.each do |i|
-    if (@page_hash[i]) then
-      %><span class="curpage"><%=i%></span> <%
-    else
-      %><%=link_to i, @topic.link_to_page_opts(@opts[:ppp], i)%> <%
-    end
-  end
-%>
