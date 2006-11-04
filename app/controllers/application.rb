@@ -12,10 +12,17 @@ class ApplicationController < ActionController::Base
     end
     @opts     = {}
     if (@user) then
+      ###### Custom user settings
       @opts[:ppp]   = @user.ppp.to_i || 30
       @opts[:tpp]   = @user.tpp.to_i || 30
-      @opts[:theme] = Theme.find_by_name(@user.theme)
+      if @user.theme.scan(/^http/).empty?
+        @opts[:theme] = Theme.find_by_name(@user.theme)
+      else
+        @opts[:theme] = Theme.find_by_name(@settings.theme)
+        @opts[:theme].css = @user.theme
+      end
     else
+      ###### Default settings
       @opts[:ppp]   = @settings.postperpage.to_i
       @opts[:tpp]   = @settings.topicperpage.to_i
       @opts[:theme] = Theme.find_by_name(@settings.theme)
