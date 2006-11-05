@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "members"
   set_primary_key "uid"
+  @@supermods = nil
   def auth(password) # {{{
     password == self.password
   end # }}}
@@ -16,11 +17,12 @@ class User < ActiveRecord::Base
     return nil
   end # }}}
   def User.supermods # {{{
+    return @@supermods if @@supermods
     mods  = []
     conds = "status = 'Super Moderator' OR status = 'Administrator'"
     User.find(:all, :conditions => conds).each do |u|
       mods << u.id
     end
-    mods
+    @@supermods = mods
   end # }}}
 end

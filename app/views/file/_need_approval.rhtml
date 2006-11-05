@@ -1,6 +1,8 @@
-<% count = FiledbFile.count(:conditions => 'approved_by IS NULL') if is_adm? %>
-<% msg   = "Ci sono #{count} file in attesa di approvazione." if count > 0 %>
-<% msg   = "C'è #{count} file in attesa di approvazione." if count == 1 %>
-<% if msg %>
-  <%= link_to msg, :action => :review %>
+<% if is_adm? %>
+  <% count = FiledbFile.count(:conditions => 'approved_by IS NULL') %>
+  <% msg   = "Ci sono #{count} file in attesa di approvazione." if count > 0 %>
+  <% msg   = "C'è #{count} file in attesa di approvazione." if count == 1 %>
+  <% if msg %>
+    <%= link_to msg, :action => :review %>
+  <% end %>
 <% end %>

@@ -50,15 +50,17 @@ class FileController < ApplicationController
   def download # {{{
     confirmed = params[:license_confirmed] || is_adm?
     id        = params[:id]
-    @file     = FiledbFile.find(id)
+    @file      = FiledbFile.find(id)
     if confirmed
       send_data @file.filedb_filedata.data,
         :filename => @file.filedb_filedata.filename,
         :type     => @file.filedb_filedata.mimetype
       if (@file.file_dls > 0)
         @file.file_dls += 1
+        @file.save
       else
         @file.file_dls = 1
+        @file.save
       end
     else
       render :action => 'confirm_license', :id => id
@@ -72,13 +74,14 @@ class FileController < ApplicationController
   end # }}}
   def create # {{{
     @new_file = FiledbFile.new { |f|
-      f.user_id      = session[:userid]
-      f.file_name    = params[:file][:name]
-      f.file_desc    = params[:file][:description]
-      f.file_catid   = params[:file][:category]
-      f.file_license = params[:file][:license]
-      f.file_time    = Time.now.to_i
-      f.file_dls     = 0
+      f.user_id       = session[:userid]
+      f.file_name     = params[:file][:name]
+      f.file_desc     = params[:file][:description]
+      f.file_catid    = params[:file][:category]
+      f.file_license  = params[:file][:license]
+      f.file_posticon = params[:file][:icon]
+      f.file_time     = Time.now.to_i
+      f.file_dls      = 0
     }
     @new_file.save
     @new_file_data = FiledbFiledata.new { |fd|
@@ -103,13 +106,22 @@ class FileController < ApplicationController
     f.approve(@user,
       :name        => params[:name][id.to_s],
       :description => params[:description][id.to_s],
-      :category    => params[:category][id.to_s].to_i
+      :category    => params[:category][id.to_s].to_i,
+      :icon        => params[:icon][id.to_s]
     )
   end # }}}
   def unapprove # {{{
     render :nothing unless is_adm?
     @categories   = FiledbCategory.find :all, :order => 'cat_order'
     FiledbFile.unapprove(params[:id].to_i)
+  end # }}}
+  def delete # {{{
+    render :nothing unless is_adm?
+    id = params[:id].to_i
+    @file = FiledbFile.destroy(id)
+  end # }}}
+  def show_icon # {{{
+    render :partial => 'icon', :locals => { :icon => params[:icon] }
   end # }}}
   private
   def is_adm?(user=@user) # {{{

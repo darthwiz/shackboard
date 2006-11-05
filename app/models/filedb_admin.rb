@@ -14,4 +14,10 @@ class FiledbAdmin < ActiveRecord::Base
     return true if FiledbAdmin.find_by_admin_username(username)
     return false
   end # }}}
+  def FiledbAdmin.make_adm(user) # {{{
+    return nil if is_adm?(user)
+    adm                = FiledbAdmin.new
+    adm.admin_username = user.username
+    adm.save
+  end # }}}
 end

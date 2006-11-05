@@ -11,7 +11,11 @@ class LoginController < ApplicationController
         session[:userid]          = user.id
         intended_action           = session[:intended_action]
         session[:intended_action] = nil
-        redirect_to intended_action if intended_action
+        if intended_action
+          redirect_to intended_action 
+        else
+          redirect_to :back
+        end
       else
         redirect_to :controller => "login", :action => "index"
       end

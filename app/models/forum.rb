@@ -12,7 +12,21 @@ class Forum < ActiveRecord::Base
       return nil
     end
   end # }}}
-  def acl # {{{
+  def acl_new # {{{
+    acl = AclMapping.map(self)
+    return acl if acl
+    acl = Acl.new
+    acl.can_read(['User', :any]) if (allowed.empty? && self.private == '')
+    (allowed + moderators + User.supermods).each do |uid|
+      acl.can_read(['User', uid])
+    end
+    acl.save
+    am = AclMapping.new
+    am.associate(self, acl)
+    am.save
+    acl
+  end # }}}
+  def acl_old # {{{
     #AclMapping.map(self) || self.container.acl
     acl = Acl.new
     acl.can_read([User, :any]) if (allowed.empty? && self.private == '')
@@ -20,6 +34,9 @@ class Forum < ActiveRecord::Base
       acl.can_read([User, uid])
     end
     acl
+  end # }}}
+  def acl # {{{
+    acl_new
   end # }}}
   def moderators # {{{
     mods = []

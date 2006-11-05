@@ -2,15 +2,13 @@
       <td class="files">
         <table>
           <tr>
-            <td style="padding-right: 1em;">Nome</td>
+            <td rowspan="3"><%=icon(f.file_posticon)%></td>
             <td><%= h f.file_name %></td>
           </tr>
           <tr>
-            <td style="padding-right: 1em;">Descrizione</td>
             <td><%= h f.file_desc %></td>
           </tr>
           <tr>
-            <td style="padding-right: 1em;">Categoria</td>
             <td><%= h f.category.name %>
               <%= link_to 'download', :controller => 'file',
                                       :action     => 'download',
@@ -24,6 +22,6 @@
       <td class="files" align="center">
         <%= submit_to_remote :unapprove, 'disapprova',
           :url => { :action => :unapprove, :id => f,
-            :from_controller => :review } %><br/>
+            :from_action => :review } %><br/>
       </td>
     </tr>

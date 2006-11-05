@@ -5,6 +5,9 @@
       javascript_include_tag :defaults
 %>
 <div id="navbar_top" class="navbar">
+  <div style="float: left">
+    <%= link_to "Torna all'indice", :action => :categories %>
+  </div>
   <div align="right">Pagine: <%=page_seq @pageseq_opts%></div>
 </div>
 <div id="files">
@@ -24,5 +27,8 @@
   </table>
 </div>
 <div id="navbar_bottom" class="navbar">
+  <div style="float: left">
+    <%= link_to "Torna all'indice", :action => :categories %>
+  </div>
   <div align="right">Pagine: <%=page_seq @pageseq_opts%></div>
 </div>

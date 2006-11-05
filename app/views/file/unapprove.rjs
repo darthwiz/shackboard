@@ -1,5 +1,5 @@
 id = params[:id].to_i
-case params[:from_controller].to_sym
+case params[:from_action].to_sym
 when :review
   page.replace "approve_#{id}", :partial => 'to_be_approved',
     :locals => { :f => FiledbFile.find(id) }

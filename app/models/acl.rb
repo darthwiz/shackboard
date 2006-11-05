@@ -17,10 +17,10 @@ class Acl < ActiveRecord::Base
 private
   def can_do?(action, *args) # {{{
     arg = args[0]
-    arr = arg            if arg.is_a? Array
-    arr = [User, arg.id] if arg.is_a? User
+    arr = arg              if arg.is_a? Array
+    arr = ['User', arg.id] if arg.is_a? User
     begin
-      if self.permissions[:granted][action].include?([User, :any])
+      if self.permissions[:granted][action].include?(['User', :any])
         return true
       end
       if self.permissions[:granted][action].include?(arr)

@@ -1,0 +1,5 @@
+id = params[:id].to_i
+case params[:from_action]
+when 'review'
+  page.hide "approve_#{id}" if @file.frozen?
+end

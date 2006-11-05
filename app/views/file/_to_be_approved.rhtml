@@ -19,6 +19,19 @@
             <td>
               <%= collection_select_with_selected :category, f.id,
                 @categories, :id, :name, f.file_catid %>
+            </td>
+            <td rowspan="2" valign="bottom">
+              <div id="iconbox_<%=f.id%>"><%=icon(f.file_posticon)%></div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-right: 1em;">Icona</td>
+            <td>
+              <%= icon_selector('icon', f.id, f.file_posticon) %>
+              <%= observe_field "icon_#{f.id}", 
+                :url    => { :controller => 'file', :action => 'show_icon' }, 
+                :with   => 'icon', 
+                :update => "iconbox_#{f.id}" %>
               <%= link_to 'download', :controller => 'file',
                                       :action     => 'download',
                                       :id         => f.id %>
@@ -32,7 +45,8 @@
         <%= submit_to_remote :approve, 'approva',
           :url => { :action => :approve, :id => f } %><br/>
         <%= submit_to_remote :delete, 'elimina',
-          :url     => { :action => :delete, :id => f },
+          :url => { :action => :delete, :id => f, 
+            :from_action => :review },
           :confirm => "Eliminare '#{f.file_name}'?" %>
       </td>
     </tr>

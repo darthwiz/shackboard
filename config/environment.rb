@@ -57,3 +57,16 @@ end
 #  :database => 'portal'
 #}
 FILEDB_PREFIX = 'materiali_'
+FILEDB_ICONS  = [
+  'http://www.studentibicocca.it/portale/materiali/images/posticons/',
+  [
+    ['supporti',           'supporti.gif'],
+    ['appunti studenti',   'studenti.gif'],
+    ['materiali docenti',  'docenti.gif'],
+    ["domande d'esame",    'domande.gif'],
+    ['dritte esami',       'dritte.gif'],
+    ['esercizi',           'esercizi.gif'],
+    ['schemi e riassunti', 'schemi.gif'],
+    ['altri materiali',    'altri.gif'],
+  ]
+]

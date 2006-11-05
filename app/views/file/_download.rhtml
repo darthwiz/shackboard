@@ -1,9 +1,7 @@
-<%
-  icon_url = "http://www.studentibicocca.it/portale/materiali/images/posticons/"
-%>
     <tr id="download_<%=f.id%>">
-      <td class="files">
-        <img src="<%=icon_url%><%=f.file_posticon%>" alt=""/>
+      <td class="files" align="center">
+        <%= render :partial => 'icon',
+                   :locals  => { :icon => f.file_posticon } %>
       </td>
       <td class="files">
         <%= link_to h(f.file_name), :controller => 'file',
@@ -14,10 +12,10 @@
       <td class="files"><%=h f.filedb_category.cat_name%></td>
       <td class="files" align="center"><%=f.file_dls%></td>
       <% if is_adm? %>
-      <td class="files">
+      <td class="files" align="center">
         <%=button_to_remote 'disapprova',
           :url => { :action => :unapprove, :id => f,
-            :from_controller => :list } %>
+            :from_action => :list } %>
       </td>
       <% end %>
     </tr>

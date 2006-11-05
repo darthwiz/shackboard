@@ -12,4 +12,9 @@ class Post < ActiveRecord::Base
   def acl # {{{
     acl = AclMapping.map(self) || self.container.acl
   end # }}}
+  def user # {{{
+    user = User.find_by_username(self.author)
+    user = User.new unless user
+    user
+  end # }}}
 end

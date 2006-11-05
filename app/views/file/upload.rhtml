@@ -1,5 +1,6 @@
 <% bw = 1 %>
 <% ts = 6 %>
+<%= javascript_include_tag :defaults %>
 <div id="files">
   <%= start_form_tag({ :action => :create }, { :multipart => true }) %>
   <table>
@@ -25,7 +26,31 @@
         <%= file_field 'file', 'data', :size => 40 %>
       </td>
     </tr>
+    <tr>
+      <td>Icona</td>
+      <td>
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <td>
+              <%= icon_selector 'file', 'icon' %>
+              <%= observe_field 'file_icon',
+                :url    => { :controller => 'file', :action => 'show_icon' },
+                :with   => 'icon',
+                :update => 'icon_box' %>
+            </td>
+            <td>
+              <div id="icon_box" style="margin-left: 1em;">
+                <img src="<%=FILEDB_ICONS[0]+FILEDB_ICONS[1][0][1]%>"/>
+              </div>
+            </td>
+          <tr>
+        </table>
+      </td>
+    </tr>
   </table>
   <%= submit_tag 'Invia' %>
   <%= end_form_tag %>
+  <p>
+    <%= link_to "Torna all'indice", :action => :categories %>
+  </p>
 </div>
