@@ -15,7 +15,7 @@
   <td class="topics folder_<%=tdclass%>">
     <%
       folder_icon = 'folder.gif'
-      folder_icon = 'hot_folder.gif'  if topic.posts > 25
+      folder_icon = 'hot_folder.gif'  if topic.total_posts > 25
       folder_icon = 'lock_folder.gif' unless topic.closed.empty?
     %><img src="<%=icons + folder_icon %>" alt=""/>
   </td>
@@ -31,13 +31,13 @@
       <span class="topics_topped_caption">(in evidenza)</span>
       <% end %>
     </div>
-    <% if (topic.posts > ppp) then %>
+    <% if (topic.total_posts > ppp) then %>
     <div class="topics_pages">
       Pagine: <%= page_seq( :controller  => 'topic',
                             :action      => 'view',
                             :id          => topic.id,
                             :first       => 1,
-                            :last        => topic.posts,
+                            :last        => topic.total_posts,
                             :ipp         => ppp,
                             :extra_links => [:last] ) %>
     </div>

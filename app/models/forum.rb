@@ -4,7 +4,8 @@ class Forum < ActiveRecord::Base
   set_table_name table_name_prefix + "forums"
   set_inheritance_column "_type"
   set_primary_key "fid"
-  has_many :topics
+  has_many :topics, :foreign_key   => 'fid', :dependent => :destroy
+  has_many :posts,  :foreign_key   => 'fid', :dependent => :destroy
   def container # {{{
     begin
       Forum.find(self.fup)
@@ -62,5 +63,11 @@ class Forum < ActiveRecord::Base
       tree << [f.id, Forum.tree(f)]
     end
     tree
+  end # }}}
+  def fix_counters # {{{
+    self[:threads] = Forum.find(self.id).topics_count
+    self[:posts]   = Forum.find(self.id).posts_count
+    self.save
+    [ self[:threads], self[:posts] ]
   end # }}}
 end

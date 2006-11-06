@@ -50,7 +50,7 @@ class FileController < ApplicationController
   def download # {{{
     confirmed = params[:license_confirmed] || is_adm?
     id        = params[:id]
-    @file      = FiledbFile.find(id)
+    @file     = FiledbFile.find(id)
     if confirmed
       send_data @file.filedb_filedata.data,
         :filename => @file.filedb_filedata.filename,
