@@ -44,6 +44,6 @@ class ForumController < ApplicationController
                       :id         => fid }
   end # }}}
   def tree # {{{
-    @tree = Forum.buildtree
+    @tree = Forum.tree
   end # }}}
 end
