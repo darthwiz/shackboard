@@ -1,5 +1,5 @@
-<% if tree.is_a? Fixnum %>
-  <% forum = Forum.find(tree) %>
+<% if tree.is_a? Forum %>
+  <% forum = tree %>
   <% if forum.acl.can_read?(@user) %>
     <tr>
       <td valign="top" style="padding-right: 3ex;">

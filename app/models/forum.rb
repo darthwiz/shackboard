@@ -6,6 +6,7 @@ class Forum < ActiveRecord::Base
   set_primary_key "fid"
   has_many :topics, :foreign_key   => 'fid', :dependent => :destroy
   has_many :posts,  :foreign_key   => 'fid', :dependent => :destroy
+  attr_accessor :children
   def container # {{{
     begin
       Forum.find(self.fup)
@@ -60,9 +61,27 @@ class Forum < ActiveRecord::Base
     Forum.find(:all, :conditions => ['fup = ?', fup],
                      :order      => 'displayorder'
     ).each do |f|
-      tree << [f.id, Forum.tree(f)]
+      tree << [f, Forum.tree(f)]
     end
     tree
+  end # }}}
+  def Forum.buildtree(root=nil) # {{{
+    unless root.is_a? Forum
+      root    = Forum.new 
+      root.id = 0
+    end
+    root.children = []
+    Forum.find(:all, :conditions => ['fup = ?', root.id],
+                     :order      => 'displayorder'
+    ).each do |f|
+      root.children << f
+      f.children = Forum.buildtree(f)
+    end
+    return root.children
+  end # }}}
+  def child # {{{
+    Forum.find(:all, :conditions => ['fup = ?', self.id],
+                     :order      => 'displayorder')
   end # }}}
   def fix_counters # {{{
     self[:threads] = Forum.find(self.id).topics_count

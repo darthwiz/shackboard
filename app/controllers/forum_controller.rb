@@ -43,4 +43,7 @@ class ForumController < ApplicationController
                       :action     => 'view',
                       :id         => fid }
   end # }}}
+  def tree # {{{
+    @tree = Forum.buildtree
+  end # }}}
 end
