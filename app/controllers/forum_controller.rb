@@ -1,4 +1,5 @@
 class ForumController < ApplicationController
+  before_filter :forum_cache
   def index # {{{
     @forums = Forum.find(:all, :conditions => 'fup = 0',
                                :order      => 'displayorder')

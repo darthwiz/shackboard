@@ -29,12 +29,19 @@ class ApplicationController < ActionController::Base
     end
   end # }}}
   def authenticate # {{{
-    if (session[:userid]) then
+    if (session[:userid])
       @user = User.find(session[:userid])
     else
       session[:intended_action] = { :controller => controller_name, 
                                     :action     => action_name }
       redirect_to :controller => "login", :action => "index"
+    end
+  end # }}}
+  def forum_cache # {{{
+    if (session[:forum_tree])
+      Forum.set_tree(session[:forum_tree])
+    else
+      session[:forum_tree] = Forum.tree
     end
   end # }}}
 end

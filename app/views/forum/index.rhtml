@@ -10,7 +10,7 @@
                           :id     => f.id %></td>
       </tr>
       <%= render :partial => '/forum/map', 
-                 :locals  => { :tree     => Forum.tree(f),
+                 :locals  => { :tree     => Forum.subtree(f),
                                :depth    => 0,
                                :maxdepth => 10 } %>
       <% end %>

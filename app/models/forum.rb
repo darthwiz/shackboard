@@ -7,6 +7,7 @@ class Forum < ActiveRecord::Base
   belongs_to :forum,  :foreign_key   => 'fup'
   has_many   :topics, :foreign_key   => 'fid', :dependent => :destroy
   has_many   :posts,  :foreign_key   => 'fid', :dependent => :destroy
+  @@tree = nil
   def container # {{{
     self.forum
   end # }}}
@@ -43,6 +44,7 @@ class Forum < ActiveRecord::Base
                      :order      => 'displayorder')
   end # }}}
   def Forum.tree(root=nil) # {{{
+    return @@tree if (@@tree && root == nil)
     unless root.is_a? Forum
       root    = Forum.new
       root.id = 0
@@ -51,7 +53,21 @@ class Forum < ActiveRecord::Base
     root.children.each do |f|
       tree << [f, Forum.tree(f)]
     end
+    @@tree = tree if (!@@tree && root.id == 0)
     tree
+  end # }}}
+  def Forum.set_tree(tree=nil) # {{{
+    @@tree = tree if tree.is_a? Array
+  end # }}}
+  def Forum.subtree(f, tree=[[],Forum.tree]) # {{{
+    if tree[0] == f
+      return [f, tree[1]]
+    else
+      tree[1].each do |t|
+        r = Forum.subtree(f, t)
+        return r if r[0] == f
+      end
+    end
   end # }}}
   def fix_counters # {{{
     self[:threads] = Forum.find(self.id).topics_count
