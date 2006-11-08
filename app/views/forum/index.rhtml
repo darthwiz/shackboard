@@ -1,19 +1,39 @@
 <% bw = 1 %>
 <% ts = 6 %>
+<style type="text/css">
+  ul {
+    list-style: none;
+  }
+  /*
+  ul {
+    padding-left: 1ex;
+    margin: 0;
+    list-style: none;
+  }
+  li {
+    position: relative;
+  }
+  li ul {
+    position: absolute;
+    top: 1em;
+    left: 0;
+    list-style: none;
+    margin-top: -1.1em;
+    margin-left: 62ex;
+  }
+  li:hover ul {
+    display: block;
+  }
+  */
+</style>
 <div id="forum_map">
   <div class="navbar">
-    <table>
-      <% @forums.each do |f| %>
-      <tr>
-        <td colspan="2"><%=
-          link_to f.name, :action => 'view',
-                          :id     => f.id %></td>
-      </tr>
+    <ul>
       <%= render :partial => '/forum/map', 
-                 :locals  => { :tree     => Forum.subtree(f),
+                 :locals  => { :tree     => Forum.tree,
                                :depth    => 0,
                                :maxdepth => 10 } %>
-      <% end %>
-    </table>
+    </ul>
   </div>
 </div>
+

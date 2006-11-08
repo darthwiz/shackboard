@@ -53,13 +53,16 @@ class Forum < ActiveRecord::Base
     root.children.each do |f|
       tree << [f, Forum.tree(f)]
     end
-    @@tree = tree if (!@@tree && root.id == 0)
+    if root.id == 0
+      tree = [[], tree]
+      @@tree = tree unless @@tree
+    end
     tree
   end # }}}
   def Forum.set_tree(tree=nil) # {{{
     @@tree = tree if tree.is_a? Array
   end # }}}
-  def Forum.subtree(f, tree=[[],Forum.tree]) # {{{
+  def Forum.subtree(f, tree=Forum.tree) # {{{
     if tree[0] == f
       return [f, tree[1]]
     else

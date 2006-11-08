@@ -1,15 +1,13 @@
 <% if tree.is_a? Forum %>
   <% forum = tree %>
   <% if forum.acl.can_read?(@user) %>
-    <tr>
-      <td valign="top" style="padding-right: 3ex;">
-        <% depth.times do %>&nbsp;<% end %><%=
+    <li>
+      <% depth.times do %>&nbsp;<% end %><%=
           link_to forum.name, :action => 'view', :id => forum.id %>
-      </td>
-      <td valign="top">
-        <%= forum.description %>
-      </td>
-    </tr>
+      <ul>
+        <li><%= forum.description %></li>
+      </ul>
+    </li>
   <% end %>
 <% elsif tree.is_a? Array %>
   <% if maxdepth.nil? || depth < maxdepth %>
