@@ -41,8 +41,9 @@ end # }}}
   end # }}}
   def posts_each # {{{
     total  = self.posts_count
-    limit  = 50
+    limit  = 1
     offset = 0
+    prog   = Progress.new
     while offset <= total
       Post.find(:all,
         :order      => 'dateline', 
@@ -51,8 +52,10 @@ end # }}}
         :limit      => limit
       ).each do |p|
         yield p
+        sleep 0.7
       end
       offset += limit
+      prog.measure(total, offset)
     end
     nil
   end # }}}
