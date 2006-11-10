@@ -32,11 +32,28 @@ def fix_counters # {{{
 end # }}}
   def move_to(forum) # {{{
     raise ArgumentError, "argument is not a Forum" unless forum.is_a? Forum
-    self.posts.each do |p|
+    self.posts_each do |p|
       p.forum = forum
       p.save
     end
     self.forum = forum
     self.save
+  end # }}}
+  def posts_each # {{{
+    total  = self.posts_count
+    limit  = 50
+    offset = 0
+    while offset <= total
+      Post.find(:all,
+        :order      => 'dateline', 
+        :conditions => ['fid = ? AND tid = ?', self.fid, self.id],
+        :offset     => offset,
+        :limit      => limit
+      ).each do |p|
+        yield p
+      end
+      offset += limit
+    end
+    nil
   end # }}}
 end
