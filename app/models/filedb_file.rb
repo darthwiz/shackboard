@@ -79,4 +79,17 @@ class FiledbFile < ActiveRecord::Base
     f = FiledbFile.find(id)
     f.unapprove
   end # }}}
+  def FiledbFile.count_approved # {{{
+    FiledbFile.count(
+      :conditions => 'approved_by IS NOT NULL'
+    )
+  end # }}}
+  def FiledbFile.latest(n=5) # {{{
+    FiledbFile.find(
+      :all,
+      :conditions => 'approved_by IS NOT NULL',
+      :order      => 'file_time',
+      :limit      => n
+    )
+  end # }}}
 end

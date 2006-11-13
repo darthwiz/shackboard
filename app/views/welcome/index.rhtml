@@ -1,6 +1,205 @@
-<div id="topics">
-  <%= link_to 'demo',
-              :controller => 'forum',
-              :action     => 'view',
-              :id         => 98 %>
-</div>
+<style type="text/css"><%#{{{%>
+  div#portal_main {
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #ff9900;
+    border: 1px solid black;
+  }
+  div#portal_left {
+    width: 30%;
+    float: left;
+    clear: left;
+  }
+  div#portal_center {
+    width: 40%;
+    float: left;
+  }
+  div#portal_right {
+    width: 30%;
+    float: left;
+    clear: right;
+  }
+  div.spacer {
+    clear: both;
+  }
+  #portal_main ul {
+    padding: 0;
+    list-style: none;
+  }
+  ul.column h2 {
+    color: yellow;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+  }
+  ul.column h3 {
+    font-weight: bold;
+    margin: 0;
+  }
+  ul.column li {
+    padding: .5em;
+  }
+  ul.column li ul li {
+    color: black;
+    background-color: yellow;
+  }
+  li a {
+    text-decoration: none;
+  }
+  li a:hover {
+    background-color: blue;
+    color: yellow;
+    text-decoration: none;
+  }
+  ul.latest_topics li {
+    margin: 0;
+    padding: 0;
+    padding-left: .5em;
+  }
+  ul.latest_topics li a {
+    font-weight: normal;
+    display: block;
+  }
+  h2 a {
+    display: block;
+    color: yellow;
+    border: thin dotted yellow;
+    border-bottom: none;
+  }
+  h3 a {
+    display: block;
+  }
+  h2 a:hover, h3 a:hover {
+    font-weight: bold;
+    background-color: blue;
+    color: yellow;
+    text-decoration: none;
+  }
+  ul.announcement li {
+    padding: 0;
+    padding-top: .3em;
+    padding-bottom: .2em;
+    padding-left: .5em;
+    padding-right: .5em;
+  }
+  ul.announcement li a {
+    display: block;
+  }
+</style><%#}}}%>
+<div id="portal_main"><%#{{{%>
+  <div id="header"><%#Header {{{%>
+    <div style="float: left;">
+      <img src="http://www.studentibicocca.it/portale/immagini-nh/titolo.jpg"/>
+    </div>
+    <div style="float: left; margin-right: 1em;">
+      <img src="http://www.studentibicocca.it/portale/immagini-nh/ASB_pic.gif"/>
+    </div>
+    <div style="float: right; margin: 1em; margin-top: 0;">
+      <%=render :partial => '/login/user_pass_old'%>
+    </div>
+    <div id="icons">
+      <%=render :partial => '/welcome/icons'%>
+    </div>
+    <div class="spacer"></div>
+  </div><%#}}}%>
+  <div id="portal_left"><%#{{{%>
+    <ul class="column">
+      <li><%#Materiali {{{%>
+        <h2><%= link_to 'Materiali ◂', '/portale/materiali/pafiledb.php'%></h2>
+        <%= render :partial => '/welcome/files' %>
+      </li><%#}}}%>
+      <li><%#Bacheche {{{%>
+        <h2><%=link_to 'Bacheche ◂', '/portale/forum/index.php?gid=51'%></h2>
+        <%= render :partial => '/welcome/boards' %>
+      </li><%#}}}%>
+    </ul>
+  </div><%#}}}%>
+  <div id="portal_center"><%#{{{%>
+    <ul class="column">
+      <li><%#Forum {{{%>
+        <h2><%=link_to 'Forum ◂', '/portale/forum/'%></h2>
+        <%=render :partial => '/welcome/forums_old'%>
+      </li><%#}}}%>
+      <li><%#Canali tematici {{{%>
+        <h2><%=link_to 'Canali tematici ◂', '/portale/forum/index.php?gid=24'%></h2>
+        <%=render :partial => '/welcome/channels_old'%>
+      </li><%#}}}%>
+      <li><%#Cerco/Offro {{{%>
+        <h2><%=link_to 'Cerco/Offro ◂', '/portale/forum/index.php?gid=108'%></h2>
+        <%=render :partial => '/welcome/market_old'%>
+      </li><%#}}}%>
+    </ul>
+  </div><%#}}}%>
+  <div id="portal_right"><%#{{{%>
+    <ul class="column">
+      <li><%#Avvisi {{{%>
+        <h2><%=link_to 'Avvisi ◂', '/portale/avvisi/avvisi.php'%></h2>
+        <%= render :partial => '/announcement/latest_old' %>
+      </li><%#}}}%>
+      <li><%#Servizi {{{%>
+        <h2><%=link_to 'Servizi ◂', 'http://www.servizi-uni.studentibicocca.it/"' %></h2>
+        <%=render :partial => '/welcome/services'%>
+      </li><%#}}}%>
+      <li><%#ASB {{{%>
+        <h2><%=link_to 'ASB ◂', '/asb/'%></h2>
+        <ul>
+          <li>
+            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/ASB.gif', '/asb/',
+              { :style => 'float: left; margin-right: .7em;' }%>
+            Da tempo l'Associazione Studenti Bicocca è attiva in università
+            proponendo in collaborazione con altri gruppi del nostro ateneo e
+            delle altre università attività e servizi sempre nuovi.
+            <strong><%=mail_to 'asb@studentibicocca.it', 'Partecipa anche tu!',
+              :encode => 'javascript'%></strong>
+          </li>
+        </ul>
+      </li><%#}}}%>
+      <li><%#Network {{{%>
+        <h2><%=link_to 'Network ◂', '/portale/network.php'%></h2>
+        <ul>
+          <li>
+            Il portale dà gratuitamente spazio a molte realtà presenti nella
+            nostra università, prova a conoscerle cliccando
+            <a href="http://www.studentibicocca.it/network.php">qui</a>...
+            <br/><br/>
+            Oltre a queste altri gruppi, associazioni e iniziative continuano
+            a nascere puoi trovare informazioni su di loro sulla guida "Esami
+            E.." oppure cliccando
+            <a href="http://www.studentibicocca.it/iniziative/index.htm">qui</a>.
+          </li>
+        </ul>
+      </li><%#}}}%>
+      <li><%#Rappresentanti {{{%>
+        <h2><%=link_to 'Rappresentanti ◂', '/portale/rappresentanti/'%></h2>
+        <ul>
+          <li>
+            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini/monkeys.gif',
+              '/portale/rappresentanti/',
+              { :style => 'float: left; margin-right: .7em;' }%>
+            Un filo diretto con i rappresentanti ed i gruppi politici del
+            nostro ateneo.
+            <div class="spacer"></div>
+          </li>
+        </ul>
+      </li><%#}}}%>
+      <li><%#Links {{{%>
+        <h2><%=link_to 'Links ◂', '/portale/links.php'%></h2>
+        <ul>
+          <li>
+            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/Cathegory.jpg',
+              '/portale/links.php',
+              { :style => 'float: left; margin-right: .7em;' }%>
+            Qui troverete i siti di tutte le realtà che trovate nella nostra
+            università.<br/>
+            <br/>
+            Fai parte di un gruppo e non hai un link?
+            <strong><%=mail_to 'asb@studentibicocca.it?subject="Richiesta di link"',
+              'Contattaci!', :encode => 'javascript'%></strong>
+            <div class="spacer"></div>
+          </li>
+        </ul>
+      </li><%#}}}%>
+    </ul>
+  </div><%#}}}%>
+  <div class="spacer"></div>
+</div><%#}}}%>

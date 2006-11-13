@@ -1,0 +1,7 @@
+<ul class="latest_topics">
+<% Forum.latest_topics(id, 5).each do |t| %>
+  <li><%=link_to truncate(t.subject), :controller => 'topic',
+                                      :action     => 'view',
+                                      :id         => t %></li>
+<% end %>
+</ul>

@@ -1,0 +1,8 @@
+<%
+  url = 'http://www.studentibicocca.it/portale/avvisi/avvisi.php?artc='
+%>
+<ul class="announcement">
+  <% Announcement.latest(5).each do |i| %>
+  <li><%=link_to strip_tags(i.title), url + i.id.to_s %></li>
+  <% end %>
+</ul>

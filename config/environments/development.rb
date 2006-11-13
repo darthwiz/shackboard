@@ -25,3 +25,10 @@ FILEDB_CONN_PARAMS = {
   :password => 'stuDEV',
   :database => 'portal'
 }
+ANNOUNCEDB_CONN_PARAMS = {
+  :adapter  => 'mysql',
+  :host     => 'dbase',
+  :username => 'ciao',
+  :password => 'ciao123',
+  :database => 'news'
+}

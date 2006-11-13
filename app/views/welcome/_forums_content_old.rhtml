@@ -1,0 +1,12 @@
+<ul>
+  <% forums.each do |i| %>
+  <li style="text-align: center;">
+    <%=link_image_to i[:image], base_url + i[:forum].to_s if i[:image]%>
+    <h3><%=link_to i[:name], base_url + i[:forum].to_s%></h3>
+  </li>
+  <li style="padding-top: 0;">
+    <%= render :partial => '/forum/latest_topics_old',
+               :locals  => { :id => i[:forum], :n => i[:ntopics] } %>
+  </li>
+  <% end %>
+</ul>

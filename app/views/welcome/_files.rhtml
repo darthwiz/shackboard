@@ -1,0 +1,19 @@
+<%
+  nfiles = FiledbFile.count_approved
+  latest = FiledbFile.latest(3)
+  url    = '/portale/materiali/pafiledb.php?action=file&id='
+%>
+<ul>
+  <li>
+    <%=nfiles%> file condivisi fra appunti, domande e temi d'esame. I più
+    recenti sono:
+    <ul>
+      <% latest.each do |i| %>
+      <li style="padding-top: 0; padding-bottom: 0;">
+        <%=link_to "#{i.name} (#{i.category.name})", url + i.id.to_s,
+          { :style => 'display: block;' }%>
+      </li>
+      <% end %>
+    </ul>
+  </li>
+</ul>

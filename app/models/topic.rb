@@ -32,16 +32,13 @@ def fix_counters # {{{
 end # }}}
   def move_to(forum) # {{{
     raise ArgumentError, "argument is not a Forum" unless forum.is_a? Forum
-    self.posts_each do |p|
-      p.forum = forum
-      p.save
-    end
+    Post.update_all("fid = #{forum.fid}",
+      "fid = #{self.fid} AND tid = #{self.id}")
     self.forum = forum
     self.save
   end # }}}
-  def posts_each # {{{
+  def posts_each(limit=50) # {{{
     total  = self.posts_count
-    limit  = 1
     offset = 0
     prog   = Progress.new
     while offset <= total
@@ -52,7 +49,6 @@ end # }}}
         :limit      => limit
       ).each do |p|
         yield p
-        sleep 0.7
       end
       offset += limit
       prog.measure(total, offset)

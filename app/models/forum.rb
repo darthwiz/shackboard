@@ -78,4 +78,15 @@ class Forum < ActiveRecord::Base
     self.save
     [ self[:threads], self[:posts] ]
   end # }}}
+  def latest_topics(n=5) # {{{
+    Topic.find(:all,
+               :conditions => ['fid = ?', self.id],
+               :order      => 'lastpost DESC',
+               :limit      => n
+    )
+  end # }}}
+  def Forum.latest_topics(id, *args) # {{{
+    f = Forum.find(id)
+    f.latest_topics(*args)
+  end # }}}
 end

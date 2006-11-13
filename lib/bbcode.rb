@@ -1,7 +1,7 @@
 class BBCode < String
   def to_html # {{{
     s = BBCode.new(self)
-    s.gsub!(/&[^#]+/, "&amp;\1")
+    s.gsub!(/&[^#]+/, "&amp;\\1")
     s.gsub!(/>/, "&gt;")
     s.gsub!(/</, "&lt;")
     s.gsub!(/\n/, "<br/>\n")

@@ -1,0 +1,33 @@
+<%
+  services = [
+    { # Sportello Reclami {{{
+      :title   => 'Sportello Reclami',
+      :caption => 'cosa non va in Università',
+      :url     => 'http://www.servizi-uni.studentibicocca.it/sportello.php',
+      :icon    => 'http://www.studentibicocca.it/portale/immagini-nh/sportello.gif',
+    }, # }}}
+    { # Biclocka {{{
+      :title   => 'Biclocka',
+      :caption => 'la Banca del Tempo',
+      :url     => 'http://www.servizi-uni.studentibicocca.it/bdt.php',
+      :icon    => 'http://www.studentibicocca.it/portale/immagini-nh/bdt_p.gif',
+    }, # }}}
+    { # CAsUMi {{{
+      :title   => 'CAsUMi',
+      :caption => 'il cerca-alloggio',
+      :url     => 'http://www.ateneonuovo.it/',
+      :icon    => 'http://www.studentibicocca.it/portale/immagini-nh/logocercalloggio-home-sb.gif', 
+    }, # }}}
+  ]
+%>
+<ul>
+  <% services.each do |i| %>
+  <li>
+    <%=link_image_to i[:icon], i[:url], 
+      { :style => 'float: left; margin-right: 15px' }%>
+    <h3><%=link_to i[:title], i[:url]%></h3>
+    <%=i[:caption]%>
+    <div class="spacer"></div>
+  </li>
+  <% end %>
+</ul>

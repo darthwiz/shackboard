@@ -1,0 +1,53 @@
+<%
+  base_url = '/portale/forum/forumdisplay.php?fid='
+  forums   = [
+    { # Poesia {{{
+      :name    => 'Poesia',
+      :forum   => 46,
+      :ntopics => 3,
+    }, # }}}
+    { # Musica {{{
+      :name    => 'Musica',
+      :forum   => 87,
+      :ntopics => 3,
+    }, # }}}
+    { # Fahrenheit 451 {{{
+      :name    => 'Fahrenheit 451',
+      :forum   => 89,
+      :ntopics => 3,
+    }, # }}}
+    { # Cinema e Teatro {{{
+      :name    => 'Cinema e Teatro',
+      :forum   => 90,
+      :ntopics => 3,
+    }, # }}}
+    { # Televisione {{{
+      :name    => 'Televisione',
+      :forum   => 143,
+      :ntopics => 3,
+    }, # }}}
+    { # Bar dello Sport {{{
+      :name    => 'Bar dello Sport',
+      :forum   => 97,
+      :ntopics => 3,
+    }, # }}}
+    { # Motori {{{
+      :name    => 'Motori',
+      :forum   => 112,
+      :ntopics => 3,
+    }, # }}}
+    { # LudoSpace {{{
+      :name    => 'LudoSpace',
+      :forum   => 165,
+      :ntopics => 3,
+    }, # }}}
+    { # Matrix {{{
+      :name    => 'Matrix',
+      :forum   => 114,
+      :ntopics => 3,
+    }, # }}}
+  ]
+%><%=
+  render :partial => '/welcome/forums_content_old',
+         :locals  => { :forums => forums, :base_url =>  base_url }
+%>

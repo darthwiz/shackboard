@@ -169,7 +169,7 @@ module ApplicationHelper
     return s
   end # }}}
   def bb_to_html(s) # {{{
-    s.gsub!(/&[^#]+/, "&amp;\1")
+    s.gsub!(/&([^#]+)/, "&amp;\\1")
     s.gsub!(/>/, "&gt;")
     s.gsub!(/</, "&lt;")
     s.gsub!(/\n/, "<br/>\n")

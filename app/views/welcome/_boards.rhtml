@@ -1,0 +1,84 @@
+<%
+  fdisplay  = '/portale/forum/forumdisplay.php?fid='
+  book_icon = 'http://www.studentibicocca.it/portale/immagini-nh/libri.gif'
+  boards    = [
+    { # Economia {{{
+      :name  => 'Economia',
+      :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/economia.gif',
+      :forum => 70,
+      :site  => 'http://www.studentibicocca.it/economia',
+      :books => 101,
+    }, # }}}
+    { # Giurisprudenza {{{
+      :name  => 'Giurisprudenza',
+      :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/giurisprudenza.gif',
+      :forum => 69,
+      :site  => 'http://www.studentibicocca.it/giurisprudenza/',
+      :books => 100,
+    }, # }}}
+    { # Medicina e Chirurgia {{{
+      :name  => 'Medicina e Chirurgia',
+      :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/medicina.gif',
+      :forum => 61,
+      :books => 102,
+    }, # }}}
+    { # Psicologia {{{
+      :name  => 'Psicologia',
+      :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/psicologia.gif',
+      :forum => 67,
+      :site  => 'http://www.studentibicocca.it/psicologia/',
+      :books => 103,
+    }, # }}}
+    { # Scienze della Formazione {{{
+      :name  => 'Scienze della Formazione',
+      :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/formazione.jpg',
+      :forum => 52,
+      :site  => 'http://www.studentibicocca.it/sde/',
+      :books => 104,
+    }, # }}}
+    { # Scienze MM.FF.NN. {{{
+      :name  => 'Scienze MM.FF.NN.',
+      :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/mmffnn.gif',
+      :forum => 57,
+      :site  => 'http://www.studentibicocca.it/mmffnn/',
+      :books => 105,
+    }, # }}}
+    { # Scienze Statistiche {{{
+      :name  => 'Scienze Statistiche',
+      :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/statistica.gif',
+      :forum => 59,
+      :books => 106,
+    }, # }}}
+    { # Sociologia {{{
+      :name  => 'Sociologia',
+      :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/sociologia.gif',
+      :forum => 55,
+      :site  => 'http://www.studentibicocca.it/pompelmorosa/',
+      :books => 107,
+    }, # }}}
+  ]
+%>
+<ul>
+  <% boards.each do |i| %>
+  <li>
+    <%= link_image_to i[:icon], fdisplay + i[:forum].to_s,
+      { :alt => i[:name],
+        :style => 'float: left; margin-right: 10px; margin-left: .5em; border: thin solid black;' } %>
+    <h3><%= link_to i[:name], fdisplay + i[:forum].to_s %></h3>
+    <% if i[:site] %>
+    <%= link_to 'Sito degli Studenti', i[:site],
+      { :style => 'display: block;' } %>
+    <% end %>
+    <div class="spacer"></div>
+    <%= render :partial => '/forum/latest_topics_old',
+               :locals  => { :id => i[:forum], :n => 3 } %>
+    <%= link_image_to book_icon, fdisplay + i[:books].to_s,
+      { :style => 'float: left; margin-left: .5em;' } %>
+    <%= render :partial => '/forum/latest_topics_old',
+               :locals  => { :id => i[:books], :n => 1 } %>
+    <div class="spacer">
+      <hr style="margin-top: 1em;"/>
+    </div>
+  </li>
+  <% end %>
+</ul>

@@ -70,3 +70,4 @@ FILEDB_ICONS  = [
     ['altri materiali',    'altri.gif'],
   ]
 ]
+ANNOUNCEDB_PREFIX = 'TW_'
