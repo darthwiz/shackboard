@@ -80,7 +80,7 @@ class Forum < ActiveRecord::Base
   end # }}}
   def latest_topics(n=5) # {{{
     Topic.find(:all,
-               :conditions => ['fid = ?', self.id],
+               :conditions => ['fid = ? AND deleted IS NULL', self.id],
                :order      => 'lastpost DESC',
                :limit      => n
     )
@@ -88,5 +88,11 @@ class Forum < ActiveRecord::Base
   def Forum.latest_topics(id, *args) # {{{
     f = Forum.find(id)
     f.latest_topics(*args)
+  end # }}}
+  def move_to_sub(forum) # {{{
+    raise ArgumentError unless forum.is_a? Forum
+    self.fup = forum.id
+    self[:type] = "sub"
+    self.save
   end # }}}
 end

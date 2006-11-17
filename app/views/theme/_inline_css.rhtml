@@ -1,6 +1,6 @@
 <% theme = @opts[:theme] %>
 <% sidemargin = '20px' %>
-<% if theme.css then %>
+<% if theme.attribute_names.include?('css') && theme.css %>
 <%= theme.css %>
 <% else %>
   body { /* {{{ */
