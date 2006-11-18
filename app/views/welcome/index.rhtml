@@ -63,14 +63,15 @@
     font-weight: normal;
     display: block;
   }
-  h2 a {
-    display: block;
+  h2 a, h2 a:visited {
     color: yellow;
+    display: block;
     border: thin dotted yellow;
     border-bottom: none;
   }
   h3 a {
     display: block;
+    background-color: #ffd000;
   }
   h2 a:hover, h3 a:hover {
     font-weight: bold;
@@ -145,7 +146,7 @@
         <%=render :partial => '/welcome/services'%>
       </li><%#}}}%>
       <li><%#ASB {{{%>
-        <h2><%=link_to 'ASB ◂', '/asb/'%></h2>
+        <h2><%=link_to 'ASB ◂', '/portale/asb/'%></h2>
         <ul>
           <li>
             <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/ASB.gif', '/asb/',

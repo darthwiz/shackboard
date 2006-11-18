@@ -1,6 +1,6 @@
 <ul>
   <% forums.each do |i| %>
-  <li class="forum_name" style="background-color: #ffe000;"><%#XXX hack!%>
+  <li class="forum_name">
     <%=link_image_to i[:image], base_url + i[:forum].to_s if i[:image]%>
     <h3><%=link_to i[:name], base_url + i[:forum].to_s%></h3>
   </li>

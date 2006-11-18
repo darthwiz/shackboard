@@ -77,7 +77,7 @@
     <% end %>
     <div class="spacer"></div>
     <%= render :partial => '/forum/latest_topics_old',
-               :locals  => { :id => i[:forum], :n => 3 } %>
+               :locals  => { :id => i[:forum], :n => 5 } %>
     <% if i[:books] %>
         <%= link_image_to book_icon, fdisplay + i[:books].to_s,
           { :style => 'float: left; margin-left: .5em;' } %>

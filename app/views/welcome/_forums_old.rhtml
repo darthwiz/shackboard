@@ -3,14 +3,15 @@
   forums = []
   i = 0
   Forum.subtree(Forum.find(25)).flatten.each do |f|
-    forums[i] = {
-      :name    => strip_tags(f.name),
-      :forum   => f.id,
-      :ntopics => 5,
-    } if f.acl.can_read?(@user)
-    i += 1
+    if f.acl.can_read?(@user)
+      forums[i] = {
+        :name    => strip_tags(f.name),
+        :forum   => f.id,
+        :ntopics => 5,
+      }
+      i += 1
+    end
   end
-  forums.shift
 %><%=
   render :partial => '/welcome/forums_content_old',
          :locals  => { :forums => forums, :base_url => base_url }
