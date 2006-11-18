@@ -1,7 +1,10 @@
 <% n = 5 unless n %>
-<ul class="latest_topics">
-<% Forum.latest_topics(id, n).each do |t| %>
-  <li><%=link_to truncate(strip_tags(t.subject), 40), 
-    "/portale/forum/viewthread.php?tid=#{t.id}" %></li>
+<% topics = Forum.latest_topics(id, n) %>
+<% unless topics.empty? %>
+  <ul class="latest_topics">
+  <% topics.each do |t| %>
+    <li><%=link_to truncate(strip_tags(t.subject), 40), 
+      "/portale/forum/viewthread.php?tid=#{t.id}" %></li>
+  <% end %>
+  </ul>
 <% end %>
-</ul>

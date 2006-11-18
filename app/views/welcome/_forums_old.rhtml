@@ -1,43 +1,17 @@
 <%
   base_url = '/portale/forum/forumdisplay.php?fid='
-  forums   = [
-    { # Agorà {{{
-      :name    => 'Agorà',
-      :forum   => 27,
+  forums = []
+  i = 0
+  Forum.subtree(Forum.find(25)).flatten.each do |f|
+    forums[i] = {
+      :name    => strip_tags(f.name),
+      :forum   => f.id,
       :ntopics => 5,
-      :image   => 'http://www.studentibicocca.it/portale/immagini-nh/agora.jpg',
-    }, # }}}
-    { # Il quarto d'ora accademico {{{
-      :name    => "Il quarto d'ora accademico",
-      :forum   => 171,
-      :ntopics => 3,
-      #:image   => 'http://www.studentibicocca.it/portale/immagini-nh/Quelli_di.jpg',
-    }, # }}}
-    { # Specchio {{{
-      :name    => "Specchio & diario",
-      :forum   => 172,
-      :ntopics => 3,
-    }, # }}}
-    { # Eventi {{{
-      :name    => "Eventi",
-      :forum   => 175,
-      :ntopics => 3,
-      #:image   => 'http://www.studentibicocca.it/portale/immagini-nh/Quelli_di.jpg',
-    }, # }}}
-    { # Community {{{
-      :name    => "Community",
-      :forum   => 173,
-      :ntopics => 3,
-      #:image   => 'http://www.studentibicocca.it/portale/immagini-nh/Quelli_di.jpg',
-    }, # }}}
-    { # Fun {{{
-      :name    => "Fun",
-      :forum   => 174,
-      :ntopics => 3,
-      #:image   => 'http://www.studentibicocca.it/portale/immagini-nh/Quelli_di.jpg',
-    }, # }}}
-  ]
+    } if f.acl.can_read?(@user)
+    i += 1
+  end
+  forums.shift
 %><%=
   render :partial => '/welcome/forums_content_old',
-         :locals  => { :forums => forums, :base_url =>  base_url }
+         :locals  => { :forums => forums, :base_url => base_url }
 %>

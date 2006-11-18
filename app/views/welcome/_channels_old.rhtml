@@ -1,27 +1,16 @@
 <%
   base_url = '/portale/forum/forumdisplay.php?fid='
-  forums   = [
-    { # Arte {{{
-      :name    => 'Arte',
-      :forum   => 176,
-      :ntopics => 5,
-    }, # }}}
-    { # Sport & Motori {{{
-      :name    => 'Sport & Motori',
-      :forum   => 178,
-      :ntopics => 5,
-    }, # }}}
-    { # Tempo libero {{{
-      :name    => 'Tempo Libero',
-      :forum   => 179,
-      :ntopics => 5,
-    }, # }}}
-    { # Matrix {{{
-      :name    => 'Matrix',
-      :forum   => 114,
-      :ntopics => 5,
-    }, # }}}
-  ]
+  forums = []
+  i = 0
+  Forum.subtree(Forum.find(24)).flatten.each do |f|
+    forums[i] = {
+      :name    => strip_tags(f.name),
+      :forum   => f.id,
+      :ntopics => 3,
+    } if f.acl.can_read?(@user)
+    i += 1
+  end
+  forums.shift
 %><%=
   render :partial => '/welcome/forums_content_old',
          :locals  => { :forums => forums, :base_url =>  base_url }

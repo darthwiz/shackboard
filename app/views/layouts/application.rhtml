@@ -4,7 +4,7 @@
     <title>Forum degli Studenti della Bicocca</title>
     <%=
       # javascript_include_tag :defaults
-      stylesheet_link_tag @opts[:theme].css || 'themes/default'
+      stylesheet_link_tag 'themes/' + @opts[:theme].css || 'themes/default'
     %>
   </head>
   <body>
