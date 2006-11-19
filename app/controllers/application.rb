@@ -10,7 +10,15 @@ class ApplicationController < ActionController::Base
     rescue
       @user = nil
     end
-    @opts     = {}
+    # legacy authentication {{{
+    unless @user
+      username         = cookies[:thisuser]
+      password         = cookies[:thispw]
+      @user            = User.authenticate(username, password)
+      session[:userid] = @user.id if @user
+    end
+    # }}}
+    @opts = {}
     if (@user) then
       ###### Custom user settings
       @opts[:ppp]   = @user.ppp.to_i || 30

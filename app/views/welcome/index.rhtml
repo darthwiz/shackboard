@@ -106,13 +106,22 @@
       <%=render :partial => '/welcome/icons'%>
     </div>
     <div class="spacer"></div>
+    <% if @user %>
+    <div style="margin-left: 1em;">
+      Benvenuto <strong><%=h @user.username%></strong>!
+    </div>
+    <% end %>
   </div><%#}}}%>
   <div id="portal_left"><%#{{{%>
     <ul class="column">
       <li><%#Materiali {{{%>
         <h2><%= link_to 'Materiali ◂', '/portale/materiali/pafiledb.php'%></h2>
         <%# render :partial => '/welcome/files' %>
-        <ul><li>(in manutenzione)</li></ul>
+        <ul>
+          <li>
+            (in manutenzione)
+          </li>
+        </ul>
       </li><%#}}}%>
       <li><%#Bacheche {{{%>
         <h2><%=link_to 'Bacheche ◂', '/portale/forum/index.php?gid=51'%></h2>
