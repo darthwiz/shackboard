@@ -26,7 +26,7 @@ body {
  */
   body { /* {{{ */
     font-family: Verdana, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     background-color: #99ccff;
     color: #000000;
   } /* }}} */
@@ -74,7 +74,7 @@ body {
     padding: 6px;
   } /* }}} */
   div.bbname { /* {{{ */
-    font-size: 12px;
+    font-size: 11px;
     margin-bottom: 0.5em;
   } /* }}} */
   div.navbar { /* {{{ */
@@ -179,7 +179,7 @@ body {
   } /* }}} */
   td.topics { /* {{{ */
     font-family: Verdana, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
   } /* }}} */
   .topics_header { /* {{{ */
     background-color: #ffff00;
@@ -265,7 +265,7 @@ body {
   } /* }}} */
   td.pms { /* {{{ */
     font-family: Verdana, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 11px;;
   } /* }}} */
   .pm_del_bg1 { /* {{{ */
     background-color: #ff9900;
@@ -347,7 +347,7 @@ body {
   } /* }}} */
   td.files { /* {{{ */
     font-family: Verdana, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     background-color: #ff9900; /* XXX */
   } /* }}} */
   .file_header { /* {{{ */
@@ -407,7 +407,7 @@ body {
   } /* }}} */
   td.mdb_albums { /* {{{ */
     font-family: Verdana, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     padding: .3em;
     background-color: #ff9900; /* XXX */
   } /* }}} */

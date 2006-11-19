@@ -1,8 +1,9 @@
 <ul>
   <% forums.each do |i| %>
   <li class="forum_name">
+    <% name = h(strip_tags(i[:name])) %>
     <%=link_image_to i[:image], base_url + i[:forum].to_s if i[:image]%>
-    <h3><%=link_to i[:name], base_url + i[:forum].to_s%></h3>
+    <h3><%=link_to name, base_url + i[:forum].to_s%></h3>
   </li>
   <li style="padding-top: 0;">
     <%= render :partial => '/forum/latest_topics_old',
