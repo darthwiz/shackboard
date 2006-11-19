@@ -108,7 +108,8 @@
     <div class="spacer"></div>
     <% if @user %>
     <div style="margin-left: 1em;">
-      Benvenuto <strong><%=h @user.username%></strong>!
+      Benvenuto <strong><%=h @user.username%></strong><%=
+        render :partial => '/pm/unread_old' %>
     </div>
     <% end %>
   </div><%#}}}%>
