@@ -1,0 +1,107 @@
+<% t = @opts[:theme] %>
+body {
+  color: <%=t.text%>;
+  background-color: <%=t.bgcolor%>;
+}
+div#portal_main {
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: <%=t.altbg1%>;
+  border: 1px solid <%=t.bordercolor%>;
+}
+div#portal_left {
+  width: 30%;
+  float: left;
+  clear: left;
+}
+div#portal_center {
+  width: 40%;
+  float: left;
+}
+div#portal_right {
+  width: 30%;
+  float: left;
+  clear: right;
+}
+div.spacer {
+  clear: both;
+}
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+ul.column h2 {
+  color: <%=t.altbg2%>;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+ul.column h3 {
+  font-weight: bold;
+  margin: 0;
+}
+ul.column li {
+  padding: .5em;
+}
+ul.column li ul li {
+  color: <%=t.text%>;
+  background-color: <%=t.altbg2%>;
+}
+li.forum_name {
+  text-align: center;
+}
+a, a:visited {
+  text-decoration: none;
+  color: <%=t.link%>;
+}
+a:hover {
+  background-color: blue;
+  /* color: <%=t.altbg2%>; */
+  color: yellow;
+  text-decoration: none;
+}
+ul.latest_topics li {
+  margin: 0;
+  padding: 0;
+  padding-left: .5em;
+}
+ul.latest_topics li a {
+  font-weight: normal;
+  display: block;
+}
+h2 a, h2 a:visited {
+  color: <%=t.link%>;
+  background-color: <%=t.catcolor%>;
+  display: block;
+  border: thin dotted <%=t.altbg2%>;
+  border-bottom: none;
+}
+h3 a {
+  display: block;
+  background-color: <%=t.catcolor%>;
+  /* background-color: #ffd000; */
+}
+h2 a:hover, h3 a:hover {
+  font-weight: bold;
+  color: yellow;
+  background-color: blue;
+}
+ul.announcement li {
+  padding: 0;
+  padding-top: .3em;
+  padding-bottom: .2em;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+ul.announcement li a {
+  display: block;
+}
+<% if t.name == "studentibicocca" %>
+h2 a, h2 a:visited {
+  color: yellow;
+}
+h3 a {
+  background-color: #ffd000;
+}
+<% end %>

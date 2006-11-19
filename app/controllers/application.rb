@@ -1,7 +1,7 @@
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
-  before_filter :load_defaults
+  before_filter :load_defaults, :set_stylesheet
   private
   def load_defaults # {{{
     @settings = Settings.find_all[0]
@@ -35,6 +35,13 @@ class ApplicationController < ActionController::Base
       @opts[:tpp]   = @settings.topicperpage.to_i
       @opts[:theme] = Theme.find_by_name(@settings.theme)
     end
+  end # }}}
+  def set_stylesheet # {{{
+    @stylesheet = url_for(
+      :controller => controller_name,
+      :action     => 'css',
+      :id         => @opts[:theme].name
+    )
   end # }}}
   def authenticate # {{{
     if (session[:userid])
