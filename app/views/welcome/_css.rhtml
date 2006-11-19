@@ -1,4 +1,5 @@
-<% t = @opts[:theme] %>
+<% t = Theme.find_by_name(@theme_name) || Theme.new %>
+/* Theme: <%=t.name.inspect if t%> */
 body {
   color: <%=t.text%>;
   background-color: <%=t.bgcolor%>;
