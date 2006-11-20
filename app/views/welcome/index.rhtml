@@ -1,10 +1,12 @@
 <div id="portal_main"><%#{{{%>
   <div id="header"><%#Header {{{%>
-    <div style="float: left;">
-      <img src="http://www.studentibicocca.it/portale/immagini-nh/titolo.jpg" alt=""/>
+    <div id="title">
+      <h1>StudentiBicocca.it</h1>
+      <span id="subtitle">Il portale degli Studenti dell'Università di Milano-Bicocca</span>
+      <%#<img src="http://www.studentibicocca.it/portale/immagini-nh/titolo.jpg" alt=""/>%>
     </div>
-    <div style="float: left; margin-right: 1em;">
-      <img src="http://www.studentibicocca.it/portale/immagini-nh/ASB_pic.gif" alt=""/>
+    <div id="asb_icon">
+      <img src="http://www.studentibicocca.it/portale/immagini-nh/asb_small.png" alt=""/>
     </div>
     <div style="float: right; margin: 1em; margin-top: 0;">
       <%=render :partial => '/login/user_pass_old'%>
@@ -14,7 +16,7 @@
     </div>
     <div class="spacer"></div>
     <% if @user %>
-    <div style="margin-left: 1em;">
+    <div id="unread_messages">
       Benvenuto <strong><%=h @user.username%></strong><%=
         render :partial => '/pm/unread_old' %>
     </div>
@@ -25,11 +27,6 @@
       <li><%#Materiali {{{%>
         <h2><%= link_to 'Materiali ◂', '/portale/materiali/pafiledb.php'%></h2>
         <%# render :partial => '/welcome/files' %>
-        <ul>
-          <li>
-            (in manutenzione)
-          </li>
-        </ul>
       </li><%#}}}%>
       <li><%#Bacheche {{{%>
         <h2><%=link_to 'Bacheche ◂', '/portale/forum/index.php?gid=51'%></h2>

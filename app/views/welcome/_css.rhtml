@@ -10,6 +10,14 @@ div#portal_main {
   background-color: <%=t.altbg1%>;
   border: 1px solid <%=t.bordercolor%>;
 }
+div#title {
+  float: left;
+  margin-left: .5em;
+  margin-right: .5em;
+  width: 375px;
+  height: 100px;
+  text-align: center;
+}
 div#portal_left {
   width: 30%;
   float: left;
@@ -24,8 +32,35 @@ div#portal_right {
   float: left;
   clear: right;
 }
+div#asb_icon {
+  float: left;
+  margin-right: 1em;
+}
+div#login_box {
+  float: right;
+}
+div#icons, div#login_box, div#asb_icon, div#title {
+  margin-top: .5em;
+}
 div.spacer {
   clear: both;
+}
+h1 {
+  color: <%=t.header%>;
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+span#subtitle {
+  color: <%=t.headertext%>;
+  background-color: <%=t.header%>;
+  padding-left: .5em;
+  padding-right: .5em;
+  padding-top: .1em;
+  padding-bottom: .1em;
+}
+div#unread_messages {
+  margin-left: .5em;
 }
 ul {
   padding: 0;
@@ -72,8 +107,8 @@ ul.latest_topics li a {
   display: block;
 }
 h2 a, h2 a:visited {
-  color: <%=t.link%>;
-  background-color: <%=t.catcolor%>;
+  color: <%=t.headertext%>;
+  background-color: <%=t.header%>;
   display: block;
   border: thin dotted <%=t.altbg2%>;
   border-bottom: none;
@@ -99,8 +134,15 @@ ul.announcement li a {
   display: block;
 }
 <% if t.name == "studentibicocca" %>
+div#title {
+  background: url(http://www.studentibicocca.it/portale/immagini-nh/titolo.jpg);
+}
+div h1, span {
+  display: none;
+}
 h2 a, h2 a:visited {
   color: yellow;
+  background-color: <%=t.altbg1%>;
 }
 h3 a {
   background-color: #ffd000;
