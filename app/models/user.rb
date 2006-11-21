@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "members"
   set_primary_key "uid"
+  has_many :portal_admin_group_memberships
+  has_many :portal_admin_groups, :through => :portal_admin_group_memberships
   @@supermods = nil
   def auth(password) # {{{
     password == self.password
