@@ -53,7 +53,8 @@
   <div id="portal_right"><%#{{{%>
     <ul class="column">
       <li><%#Avvisi {{{%>
-        <h2><%=link_to 'Avvisi ◂', '/portale/avvisi/avvisi.php'%></h2>
+        <h2><%=link_to 'Avvisi ◂',
+            'http://asb.studentibicocca.it/avvisi/'%></h2>
         <%= render :partial => '/announcement/latest_old' %>
       </li><%#}}}%>
       <li><%#Servizi {{{%>
@@ -61,10 +62,11 @@
         <%=render :partial => '/welcome/services'%>
       </li><%#}}}%>
       <li><%#ASB {{{%>
-        <h2><%=link_to 'ASB ◂', '/portale/asb/'%></h2>
+        <h2><%=link_to 'ASB ◂', 'http://asb.studentibicocca.it/asb/'%></h2>
         <ul>
           <li>
-            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/ASB.gif', '/asb/',
+            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/ASB.gif',
+                'http://asb.studentibicocca.it/asb/',
               { :style => 'float: left; margin-right: .7em;' }%>
             Da tempo l'Associazione Studenti Bicocca è attiva in università
             proponendo in collaborazione con altri gruppi del nostro ateneo e
@@ -75,12 +77,13 @@
         </ul>
       </li><%#}}}%>
       <li><%#Network {{{%>
-        <h2><%=link_to 'Network ◂', '/portale/network.php'%></h2>
+        <h2><%=link_to 'Network ◂',
+            'http://asb.studentibicocca.it/network/'%></h2>
         <ul>
           <li>
             Il portale dà gratuitamente spazio a molte realtà presenti nella
             nostra università, prova a conoscerle cliccando
-            <a href="http://www.studentibicocca.it/portale/network.php">qui</a>.
+            <a href="http://asb.studentibicocca.it/network/">qui</a>.
             <br/><br/>
             Oltre a queste altri gruppi, associazioni e iniziative continuano
             a nascere puoi trovare informazioni su di loro sulla guida "Esami
@@ -91,12 +94,14 @@
         </ul>
       </li><%#}}}%>
       <li><%#Rappresentanti {{{%>
-        <h2><%=link_to 'Rappresentanti ◂', '/portale/rappresentanti/'%></h2>
+        <h2><%=link_to 'Rappresentanti ◂',
+            'http://asb.studentibicocca.it/rappresentanti/'%></h2>
         <ul>
           <li>
             <%=link_image_to 'http://www.studentibicocca.it/portale/immagini/monkeys.gif',
-              '/portale/rappresentanti/',
-              { :style => 'float: left; margin-right: .7em;' }%>
+              'http://asb.studentibicocca.it/rappresentanti/',
+              { :style => 'float: left; margin-right: .7em;',
+                :alt   => 'rappresentanti' }%>
             Un filo diretto con i rappresentanti ed i gruppi politici del
             nostro ateneo.
             <div class="spacer"></div>
@@ -104,12 +109,13 @@
         </ul>
       </li><%#}}}%>
       <li><%#Links {{{%>
-        <h2><%=link_to 'Links ◂', '/portale/links.php'%></h2>
+        <h2><%=link_to 'Links ◂', 'http://asb.studentibicocca.it/links/'%></h2>
         <ul>
           <li>
             <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/Cathegory.jpg',
-              '/portale/links.php',
-              { :style => 'float: left; margin-right: .7em;' }%>
+              'http://asb.studentibicocca.it/links/',
+              { :style => 'float: left; margin-right: .7em;',
+                :alt   => 'links' }%>
             Qui troverete i siti di tutte le realtà che trovate nella nostra
             università.<br/>
             <br/>
