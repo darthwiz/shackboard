@@ -26,7 +26,9 @@
       </li><%#}}}%>
       <li class="icon"><%#{{{%>
 	<div class="vmid">
-	  <%unless topic.icon.empty?%><%=image_tag icons + topic.icon%><%end%>
+	  <% unless topic.icon.to_s.empty? %>
+	  <%=image_tag icons + topic.icon%>
+	  <% end %>
 	</div>
       </li><%#}}}%>
       <li class="title"><%#{{{%>
