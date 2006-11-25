@@ -55,4 +55,20 @@ end # }}}
     end
     nil
   end # }}}
+  def lastpost(what=nil) # {{{
+    (time, username) = self[:lastpost].split(/\|/, 2)
+    time             = Time.at(time.to_i)
+    case what
+    when nil
+      return self[:lastpost]
+    when :username
+      return username
+    when :user
+      return User.find_by_username(username)
+    when :time
+      return time
+    else
+      return nil
+    end
+  end # }}}
 end

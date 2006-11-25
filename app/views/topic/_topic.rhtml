@@ -15,71 +15,71 @@
   <div class="row">
     <ul>
       <li class="folder"><%#{{{%>
-	<%
-	  folder_icon = 'folder.gif'
-	  folder_icon = 'hot_folder.gif'  if topic.total_posts > 25
-	  folder_icon = 'lock_folder.gif' unless topic.closed.empty?
-	%>
-	<div class="vmid">
-	  <%= image_tag icons + folder_icon %>
-	</div>
+        <%
+          folder_icon = 'folder.gif'
+          folder_icon = 'hot_folder.gif'  if topic.total_posts > 25
+          folder_icon = 'lock_folder.gif' unless topic.closed.empty?
+        %>
+        <div class="vmid">
+          <%= image_tag icons + folder_icon %>
+        </div>
       </li><%#}}}%>
       <li class="icon"><%#{{{%>
-	<div class="vmid">
-	  <% unless topic.icon.to_s.empty? %>
-	  <%=image_tag icons + topic.icon%>
-	  <% end %>
-	</div>
+        <div class="vmid">
+          <% unless topic.icon.to_s.empty? %>
+          <%=image_tag icons + topic.icon%>
+          <% end %>
+        </div>
       </li><%#}}}%>
       <li class="title"><%#{{{%>
-	<div class="lpad vmid">
-	  <% if (topic.total_posts > ppp) then %>
-	  <div class="pageseq">
-	    Pagine: <%= page_seq( :controller  => 'topic',
-				  :action      => 'view',
-				  :id          => topic.id,
-				  :first       => 1,
-				  :last        => topic.total_posts,
-				  :ipp         => ppp,
-				  :extra_links => [:last] ) %>
-	  </div>
-	  <% end %>
-	  <div class="topic_title">
-	    <h3>
-	      <%= link_to title, :controller => 'topic',
-				:action     => 'view',
-				:id         => topic.id %>
-	    </h3>
-	    <% if (topic.topped == 1) then %>
-	    <span class="topped_caption">(in evidenza)</span>
-	    <% end %>
-	  </div>
-	  <span class="snippet">
-	    <%= h truncate(topic.message, 80) %>
-	  </span>
-	</div>
+        <div class="pad vmid">
+          <div class="topic_title">
+            <h3>
+              <%= link_to title, :controller => 'topic',
+                                 :action     => 'view',
+                                 :id         => topic.id %>
+            </h3>
+            <% if (topic.topped == 1) %>
+            <span class="topped_caption">(in evidenza)</span>
+            <% end %>
+          </div>
+          <% if (topic.total_posts > ppp) %>
+          <div class="pageseq">
+            Pagine: <%= page_seq( :controller  => 'topic',
+                                  :action      => 'view',
+                                  :id          => topic.id,
+                                  :first       => 1,
+                                  :last        => topic.total_posts,
+                                  :ipp         => ppp,
+                                  :extra_links => [:last] ) %>
+          </div>
+          <% end %>
+          <span class="snippet">
+            <%= h truncate(topic.message, 80) %>
+          </span>
+        </div>
       </li><%#}}}%>
       <li class="lastpost"><%#{{{%>
-	<div class="lpad vmid">
-	  <%=lastpa%><br/><%=lastdate%>, <%=lasttime%>
-	</div>
-      </li><%#}}}%>
-      <li class="views"><%#{{{%>
-	<div class="vmid">
-	  <%=topic.views%>
-	</div>
-      </li><%#}}}%>
-      <li class="posts"><%#{{{%>
-	<div class="vmid">
-	  <%=topic.replies + 1%>
-	</div>
+        <div class="pad vmid">
+          <%=lastpa%><br/><%=lastdate%>, <%=lasttime%>
+        </div>
       </li><%#}}}%>
       <li class="author"><%#{{{%>
-	<div class="vmid">
-	  <%= link_to author, :controller => 'user',
-			      :action     => 'view',
-			      :id         => topic.author %>
-	</div>
+        <div class="vmid">
+          <%= link_to author, :controller => 'user',
+                              :action     => 'view',
+                              :id         => topic.author %>
+        </div>
+      </li><%#}}}%>
+      <li class="posts"><%#{{{%>
+        <div class="vmid">
+          <%=topic.replies + 1%>
+        </div>
+      </li><%#}}}%>
+      <li class="views"><%#{{{%>
+        <div class="vmid">
+          <%=topic.views%>
+        </div>
       </li><%#}}}%>
     </ul>
   </div>
