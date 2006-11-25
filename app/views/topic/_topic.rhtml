@@ -5,60 +5,81 @@
   lastpa   = topic.lastpost.split('|')[1]
   lastdate = Time.at(lastpt.to_i).strftime("%d/%m/%Y")
   lasttime = Time.at(lastpt.to_i).strftime("%H.%M")
-  title    = topic.title
+  title    = h(truncate(strip_tags(topic.title), 80))
   author   = topic.author
   lastpa   = lastpa
   ppp      = @opts[:ppp]
   icons    = 'http://www.studentibicocca.it/portale/forum/images/' # XXX
 %>
-<tr width="100%">
-  <td class="topics folder_<%=tdclass%>">
-    <%
-      folder_icon = 'folder.gif'
-      folder_icon = 'hot_folder.gif'  if topic.total_posts > 25
-      folder_icon = 'lock_folder.gif' unless topic.closed.empty?
-    %><img src="<%=icons + folder_icon %>" alt=""/>
-  </td>
-  <td class="topics icon_<%=tdclass%>">
-    <% if topic.icon %><img src="<%=icons + topic.icon %>" alt=""/><% end %>
-  </td>
-  <td class="topics title_<%=tdclass%>">
-    <div class="topics_title">
-      <%= link_to title, :controller => 'topic',
-                         :action     => 'view',
-                         :id         => topic.id %>
-      <% if (topic.topped == 1) then %>
-      <span class="topics_topped_caption">(in evidenza)</span>
-      <% end %>
-    </div>
-    <% if (topic.total_posts > ppp) then %>
-    <div class="topics_pages">
-      Pagine: <%= page_seq( :controller  => 'topic',
-                            :action      => 'view',
-                            :id          => topic.id,
-                            :first       => 1,
-                            :last        => topic.total_posts,
-                            :ipp         => ppp,
-                            :extra_links => [:last] ) %>
-    </div>
-    <% end %>
-    <div class="topics_snippet">
-      <%= h topic.message[0,80] %>
-    </div>
-  </td>
-  <td class="topics author_<%=tdclass%>">
-    <%= link_to author, :controller => 'user',
-                        :action     => 'view',
-                        :id         => topic.author %>
-  </td>
-  <td class="topics postnum_<%=tdclass%>">
-    <div align="center"><%=topic.replies + 1%></div>
-  </td>
-  <td class="topics views_<%=tdclass%>">
-    <div align="center"><%=topic.views%></div>
-  </td>
-  <td class="topics_lastpost lastpost_<%=tdclass%>">
-    <%=lastpa%><br/><%=lastdate%>, <%=lasttime%>
-  </td>
-</tr>
+<li>
+  <div class="row">
+    <ul>
+      <li class="folder"><%#{{{%>
+	<%
+	  folder_icon = 'folder.gif'
+	  folder_icon = 'hot_folder.gif'  if topic.total_posts > 25
+	  folder_icon = 'lock_folder.gif' unless topic.closed.empty?
+	%>
+	<div class="vmid">
+	  <%= image_tag icons + folder_icon %>
+	</div>
+      </li><%#}}}%>
+      <li class="icon"><%#{{{%>
+	<div class="vmid">
+	  <%unless topic.icon.empty?%><%=image_tag icons + topic.icon%><%end%>
+	</div>
+      </li><%#}}}%>
+      <li class="title"><%#{{{%>
+	<div class="lpad vmid">
+	  <% if (topic.total_posts > ppp) then %>
+	  <div class="pageseq">
+	    Pagine: <%= page_seq( :controller  => 'topic',
+				  :action      => 'view',
+				  :id          => topic.id,
+				  :first       => 1,
+				  :last        => topic.total_posts,
+				  :ipp         => ppp,
+				  :extra_links => [:last] ) %>
+	  </div>
+	  <% end %>
+	  <div class="topic_title">
+	    <h3>
+	      <%= link_to title, :controller => 'topic',
+				:action     => 'view',
+				:id         => topic.id %>
+	    </h3>
+	    <% if (topic.topped == 1) then %>
+	    <span class="topped_caption">(in evidenza)</span>
+	    <% end %>
+	  </div>
+	  <span class="snippet">
+	    <%= h truncate(topic.message, 80) %>
+	  </span>
+	</div>
+      </li><%#}}}%>
+      <li class="lastpost"><%#{{{%>
+	<div class="lpad vmid">
+	  <%=lastpa%><br/><%=lastdate%>, <%=lasttime%>
+	</div>
+      </li><%#}}}%>
+      <li class="views"><%#{{{%>
+	<div class="vmid">
+	  <%=topic.views%>
+	</div>
+      </li><%#}}}%>
+      <li class="posts"><%#{{{%>
+	<div class="vmid">
+	  <%=topic.replies + 1%>
+	</div>
+      </li><%#}}}%>
+      <li class="author"><%#{{{%>
+	<div class="vmid">
+	  <%= link_to author, :controller => 'user',
+			      :action     => 'view',
+			      :id         => topic.author %>
+	</div>
+      </li><%#}}}%>
+    </ul>
+  </div>
+</li>
 <% @flip = 1 - @flip %>

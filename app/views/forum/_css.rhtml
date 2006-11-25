@@ -1,0 +1,83 @@
+<% t = Theme.find_by_name(@theme_name) || Theme.new %>
+/* Theme: <%=t.name.inspect if t%> */
+body {
+  color: <%=t.text%>;
+  background-color: <%=t.bgcolor%>;
+}
+.lpad {
+  padding-left: .5em;
+}
+.vmid {
+  display: table-cell;
+  vertical-align: middle;
+}
+li.folder, li.title, li.posts, li.lastpost {
+  background-color: <%=t.altbg2%>;
+}
+li.icon, li.author, li.views {
+  background-color: <%=t.altbg1%>;
+}
+a, a:visited {
+  color: <%=t.link%>
+}
+ul#topics, ul#topics ul {
+  list-style: none;
+  padding-left: 0;
+  background-color: <%=t.altbg2%>;
+}
+div.topic_title {
+  display: inline;
+}
+div.pageseq {
+  float: right;
+}
+span.snippet {
+  display: block;
+  clear: both;
+  color: gray;
+}
+div.row {
+  border-top: 1px solid black;
+  clear: both;
+}
+ul#topics li {
+  padding-left: 0;
+  overflow: hidden;
+}
+ul#topics h3 {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+li.folder, li.icon, li.title, li.lastpost, li.views, li.posts, li.author {
+  display: table;
+  height: 5em;
+  border-left: 1px solid black;
+}
+li.folder, li.icon, li.title {
+  float: left;
+}
+li.lastpost, li.views, li.posts, li.author {
+  float: right;
+}
+li.folder, li.icon {
+  width: 3%;
+  text-align: center;
+}
+li.lastpost {
+  width: 16%;
+  clear: right;
+  border-right: 1px solid black;
+}
+li.views, li.posts {
+  width: 6%;
+  text-align: center;
+}
+li.title {
+  width: 48%;
+}
+li.author {
+  width: 16%;
+  text-align: center;
+}

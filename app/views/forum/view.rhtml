@@ -19,20 +19,9 @@
   </div>
 </div>
 <% unless @topics.empty? %>
-<div id="topics">
-  <table class="topics" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
-    <tr class="topics_header">
-      <td></td>
-      <td></td>
-      <td>Oggetto:</td>
-      <td>Autore:</td>
-      <td>Post:</td>
-      <td>Visite:</td>
-      <td>Ultimo post:</td>
-    </tr>
-    <%= render :partial => "/topic/topic", :collection => @topics %>
-  </table>
-</div>
+<ul id="topics">
+  <%= render :partial => "/topic/topic", :collection => @topics %>
+</ul>
 <% end %>
 <div id="navbar_bottom">
   <%= render :partial => '/layouts/navbar' %>
