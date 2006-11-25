@@ -3,8 +3,11 @@
 <% unless topics.empty? %>
   <ul class="latest_topics">
   <% topics.each do |t| %>
-    <li><%=link_to h(truncate(strip_tags(t.subject), 40)),
-      "/portale/forum/viewthread.php?tid=#{t.id}" %></li>
+    <li>
+      <div class="lastposter"><%=h t.lastpost(:username)%></div>
+      <%=link_to h(truncate(strip_tags(t.subject), 40)),
+	"/portale/forum/viewthread.php?tid=#{t.id}" %>
+    </li>
   <% end %>
   </ul>
 <% end %>
