@@ -1,23 +1,23 @@
 <% bw = 1 %>
 <% ts = 6 %>
+<%= render :partial => 'header' %>
 <div id="file_categories">
-  <%= render :partial => 'need_approval' %>
   <table class="file_categories" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
     <tr class="header">
-      <td class="file_cat_header">Categoria</td>
-      <td class="file_cat_header" width="1%">Files</td>
+      <td class="cat_name_header">Categoria</td>
+      <td class="cat_count_header">Files</td>
     </tr>
     <% @categories.each do |c| %>
     <tr>
-      <td class="files">
+      <td class="cat_name">
         <%= link_to h(c.cat_name), :action => 'list',
                                          :id     => c.id %>
       </td>
-      <td class="files" align="center"><%=@numfiles[c.id]%></td>
+      <td class="cat_count"><%=@numfiles[c.id]%></td>
     </tr>
     <% end %>
   </table>
-  <p>
-    <%= link_to 'Upload nuovo file', :action => :upload %>
-  </p>
+</div>
+<div id="navbar_bottom">
+  <%= link_to 'Upload nuovo file', :action => :upload %>
 </div>

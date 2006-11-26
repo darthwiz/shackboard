@@ -1,0 +1,138 @@
+<% t = Theme.find_by_name(@theme_name) || Theme.new %>
+/* Theme: <%=t.name.inspect if t%> */
+body {
+  color: <%=t.text%>;
+  background-color: <%=t.bgcolor%>;
+}
+.vmid {
+  display: table-cell;
+  vertical-align: middle;
+}
+/* header {{{ */
+h1 {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+div#notification_bar {
+  margin-top: 6px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 6px;
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding: 1em;
+}
+/* }}} */
+/* navbars {{{ */
+div#navbar_top, div#navbar_bottom {
+  margin-top: 6px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 6px;
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding: .6em;
+}
+/* }}} */
+/* file list page {{{ */
+div#files {
+  margin-top: 6px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 6px;
+}
+table.file_list {
+  background-color: <%=t.bordercolor%>;
+  font-family: Verdana, Arial, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+table.file_list tr.header td {
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+  font-weight: bold;
+}
+table.file_list tr td {
+  background-color: <%=t.altbg1%>;
+  color: <%=t.text%>;
+}
+/* }}} */
+/* category page {{{ */
+div#file_categories {
+  margin-top: 6px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 6px;
+}
+table.file_categories {
+  background-color: <%=t.bordercolor%>;
+  font-family: Verdana, Arial, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+td.cat_name_header, td.cat_count_header {
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+  font-weight: bold;
+}
+td.cat_name {
+  background-color: <%=t.altbg1%>;
+  color: <%=t.text%>;
+}
+td.cat_count {
+  background-color: <%=t.altbg2%>;
+  color: <%=t.text%>;
+  text-align: center;
+  width: 4em;
+}
+/* }}} */
+/* license confirmation page {{{ */
+div#file_license {
+  margin-top: 6px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 6px;
+}
+div.file_license_filename, div.file_license_name, div.file_license_text,
+div.file_license_buttons {
+  border: 1px solid <%=t.bordercolor%>;
+  padding: .7em;
+  margin-top: 1em;
+}
+div.file_license_filename, div.file_license_text, div.file_license_buttons {
+  background-color: <%=t.altbg1%>;
+  color: <%=t.text%>;
+}
+div.file_license_name {
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+  font-weight: bold;
+}
+/* }}} */
+/* file review page {{{ */
+div#file_review {
+  margin-top: 6px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 6px;
+}
+table.file_review {
+  background-color: <%=t.bordercolor%>;
+  font-family: Verdana, Arial, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+table.file_review tr.header td {
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+  font-weight: bold;
+}
+table.file_review tr td {
+  background-color: <%=t.altbg1%>;
+  color: <%=t.text%>;
+}
+/* }}} */

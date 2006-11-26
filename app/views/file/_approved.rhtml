@@ -1,5 +1,5 @@
     <tr id="approve_<%=f.id%>">
-      <td class="files">
+      <td>
         <table>
           <tr>
             <td rowspan="3"><%=icon(f.file_posticon)%></td>
@@ -17,9 +17,9 @@
           </tr>
         </table>
       </td>
-      <td class="files" align="center"><%=h f.user.username if f.user%></td>
-      <td class="files" align="center"><%=timestamp_to_date(f.file_time)%></td>
-      <td class="files" align="center">
+      <td align="center"><%=h f.user.username if f.user%></td>
+      <td align="center"><%=timestamp_to_date(f.file_time)%></td>
+      <td align="center">
         <%= submit_to_remote :unapprove, 'disapprova',
           :url => { :action => :unapprove, :id => f,
             :from_action => :review } %><br/>

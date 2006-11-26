@@ -55,7 +55,7 @@
           </div>
           <% end %>
           <span class="snippet">
-            <%= h truncate(topic.message, 80) %>
+            <%= h truncate(strip_tags(bb_to_html(topic.message)), 80) %>
           </span>
         </div>
       </li><%#}}}%>

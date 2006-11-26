@@ -11,7 +11,7 @@
           link_to @forum.name, :action => 'view',
                                :id     => @forum.id %></td>
       </tr>
-      <%= render :partial => '/forum/map', 
+      <%# render :partial => '/forum/map', 
                  :locals  => { :tree     => Forum.tree(@forum),
                                :depth    => 0,
                                :maxdepth => 10 } %>

@@ -1,8 +1,19 @@
-<% if is_adm? %>
-  <% count = FiledbFile.count(:conditions => 'approved_by IS NULL') %>
-  <% msg   = "Ci sono #{count} file in attesa di approvazione." if count > 0 %>
-  <% msg   = "C'è #{count} file in attesa di approvazione." if count == 1 %>
+<%
+if is_adm?
+  bulb  = 'http://www.studentibicocca.it/portale/forum/images/newu2u.gif'
+  count = FiledbFile.count(:conditions => 'approved_by IS NULL')
+  msg   = "ci sono #{count} file in attesa di approvazione." if count > 0
+  msg   = "c'è #{count} file in attesa di approvazione." if count == 1
+%>
   <% if msg %>
-    <%= link_to msg, :action => :review %>
+    <div id="notification_bar">
+      <div class="vmid">
+	<%= image_tag bulb, :alt => "(*)", :style => 'margin-right: 1.5em;' %>
+      </div>
+      <div class="vmid">
+	Benvenuto <strong><%=@user.username%></strong>,
+	<%= link_to msg, :action => :review %>
+      </div>
+    </div>
   <% end %>
 <% end %>

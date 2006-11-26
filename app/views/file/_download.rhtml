@@ -1,21 +1,20 @@
-    <tr id="download_<%=f.id%>">
-      <td class="files" align="center">
-        <%= render :partial => 'icon',
-                   :locals  => { :icon => f.file_posticon } %>
-      </td>
-      <td class="files">
-        <%= link_to h(f.file_name), :controller => 'file',
-                                          :action     => 'download',
-                                          :id         => f.id %>
-      </td>
-      <td class="files"><%=h f.file_desc%></td>
-      <td class="files"><%=h f.filedb_category.cat_name%></td>
-      <td class="files" align="center"><%=f.file_dls%></td>
-      <% if is_adm? %>
-      <td class="files" align="center">
-        <%=button_to_remote 'disapprova',
-          :url => { :action => :unapprove, :id => f,
-            :from_action => :list } %>
-      </td>
-      <% end %>
-    </tr>
+<tr id="download_<%=f.id%>">
+  <td align="center">
+    <%= render :partial => 'icon',
+		:locals  => { :icon => f.file_posticon } %>
+  </td>
+  <td class="files">
+    <%= link_to h(f.file_name), :controller => 'file',
+				      :action     => 'download',
+				      :id         => f.id %>
+  </td>
+  <td><%=h f.file_desc%></td>
+  <td><%=h f.filedb_category.cat_name%></td>
+  <td align="center"><%=f.file_dls%></td>
+  <% if is_adm? %>
+  <td align="center">
+    <%=button_to_remote 'disapprova',
+      :url => { :action => :unapprove, :id => f, :from_action => :list } %>
+  </td>
+  <% end %>
+</tr>

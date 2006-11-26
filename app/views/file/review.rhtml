@@ -4,15 +4,18 @@
       # stylesheet_link_tag 'scaffold'
       javascript_include_tag :defaults
 %>
-<div id="files">
-  <%= link_to "Torna all'indice", :action => :categories %><br/>
+<%= render :partial => 'header' %>
+<div id="navbar_top">
+  <%= link_to "Torna all'indice", :action => :categories %>
+</div>
+<div id="file_review">
   <%= form_remote_tag :url => { :action => :do_approve } %>
-  <table class="files" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
+  <table class="file_review" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
     <tr class="header">
-      <td class="file_header">file</td>
-      <td class="file_header">mittente</td>
-      <td class="file_header">data</td>
-      <td class="file_header">approva</td>
+      <td>file</td>
+      <td>mittente</td>
+      <td>data</td>
+      <td>approva</td>
     </tr>
     <% @unapproved.each do |f| %>
       <%= render :partial => "to_be_approved", :locals => { :f => f } %>
