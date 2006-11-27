@@ -14,11 +14,15 @@
       )%>
     </div>
     <% end %>
-    La ricerca di <em><%=params[:file]%></em> ha prodotto <%=@results_count%>
-    risultati.<br/>
+    La ricerca di <em><%=params[:file]%></em> ha prodotto
+    <%=@results_count%>
+    <%='risultati.' if @results_count != 1%>
+    <%='risultato.' if @results_count == 1%>
+    <br/>
     <%= link_to "Torna all'indice", :action => :categories %> |
     <%= link_to "Nuova ricerca", :action => :search %>
   </div>
+  <% unless @results_count == 0 %>
   <table class="file_list" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
     <tr class="header">
       <td></td>
@@ -32,4 +36,5 @@
       <%= render :partial => 'download', :locals => { :f => f } %>
     <% end %>
   </table>
+  <% end %>
 </div>
