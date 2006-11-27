@@ -1,6 +1,10 @@
 <% bw = 1 %>
 <% ts = 6 %>
 <%= render :partial => 'header' %>
+<div id="navbar_top">
+  <%= link_to "Ricerca", :action => :search %> |
+  <%= link_to 'Caricamento nuovo file', :action => :upload %>
+</div>
 <div id="file_categories">
   <table class="file_categories" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
     <tr class="header">
@@ -17,7 +21,4 @@
     </tr>
     <% end %>
   </table>
-</div>
-<div id="navbar_bottom">
-  <%= link_to 'Upload nuovo file', :action => :upload %>
 </div>

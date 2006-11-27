@@ -4,7 +4,8 @@
 <%= render :partial => 'header' %>
 <div id="navbar_top">
   <div style="float: left">
-    <%= link_to "Torna all'indice", :action => :categories %>
+    <%= link_to "Torna all'indice", :action => :categories %> |
+    <%= link_to "Ricerca", :action => :search %>
   </div>
   <div align="right">Pagine: <%=page_seq @pageseq_opts%></div>
 </div>

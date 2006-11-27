@@ -8,14 +8,14 @@ class FiledbFile < ActiveRecord::Base
   belongs_to           :filedb_category, :foreign_key => 'file_catid'
   belongs_to           :filedb_license,  :foreign_key => 'file_license'
   belongs_to           :user
-  MIMETYPES = {
+  MIMETYPES = { # {{{
     'zip'  => 'application/zip',
     'pdf'  => 'application/pdf',
     'rtf'  => 'application/rtf',
     'txt'  => 'text/plain',
     'html' => 'text/html',
     'doc'  => 'application/msword',
-  }
+  } # }}}
   def sync_data # {{{
     require 'net/http'
     fd   = FiledbFiledata.find_by_sql("select id
@@ -74,6 +74,32 @@ class FiledbFile < ActiveRecord::Base
     FiledbFile.find(:all, 
                     :conditions => 'approved_by IS NULL',
                     :order      => 'file_time')
+  end # }}}
+  def FiledbFile.count_by_name_words(words) # {{{
+    conds = ""
+    words.each do |i|
+      word = sanitize_sql(i)
+      conds << " AND file_name LIKE '%#{word}%'"
+    end
+    conds.sub!(/^ AND /, '')
+    FiledbFile.count(:conditions => conds)
+  end # }}}
+  def FiledbFile.find_by_name_words(words, params={}) # {{{
+    conds  = ""
+    limit  = params[:limit]  || 20
+    offset = params[:offset] || 0
+    order  = params[:order]  || 'file_name'
+    words.each do |i|
+      word = sanitize_sql(i)
+      conds << " AND file_name LIKE '%#{word}%'"
+    end
+    conds.sub!(/^ AND /, '')
+    FiledbFile.find(:all, 
+      :conditions => conds, 
+      :offset     => offset, 
+      :limit      => limit,
+      :order	  => order
+    )
   end # }}}
   def FiledbFile.unapprove(id) # {{{
     f = FiledbFile.find(id)

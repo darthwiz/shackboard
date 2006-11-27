@@ -7,13 +7,14 @@ if is_adm?
 %>
   <% if msg %>
     <div id="notification_bar">
-      <div class="vmid">
+      <div class="vmid" style="float: left;">
 	<%= image_tag bulb, :alt => "(*)", :style => 'margin-right: 1.5em;' %>
       </div>
-      <div class="vmid">
+      <div class="vmid" style="float: left;">
 	Benvenuto <strong><%=@user.username%></strong>,
 	<%= link_to msg, :action => :review %>
       </div>
+      <div class="spacer"></div>
     </div>
   <% end %>
 <% end %>

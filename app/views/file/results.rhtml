@@ -1,0 +1,35 @@
+<% bw = 1 %>
+<% ts = 6 %>
+<%= render :partial => 'header' %>
+<div id="file_search_results">
+  <div id="results">
+    <% if @results_count > @opts[:ppp] %>
+    <div style="float: right;">
+      Pagine: <%= page_seq(
+	:controller  => 'file',
+	:action      => 'search',
+	:ipp         => @opts[:ppp],
+	:last	     => @results_count,
+	:extra_parms => { :file => params[:file] }
+      )%>
+    </div>
+    <% end %>
+    La ricerca di <em><%=params[:file]%></em> ha prodotto <%=@results_count%>
+    risultati.<br/>
+    <%= link_to "Torna all'indice", :action => :categories %> |
+    <%= link_to "Nuova ricerca", :action => :search %>
+  </div>
+  <table class="file_list" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
+    <tr class="header">
+      <td></td>
+      <td>nome</td>
+      <td>descrizione</td>
+      <td>categoria</td>
+      <td>downloads</td>
+      <% if is_adm? %><td></td><% end %>
+    </tr>
+    <% @results.each do |f| %>
+      <%= render :partial => 'download', :locals => { :f => f } %>
+    <% end %>
+  </table>
+</div>

@@ -123,6 +123,22 @@ class FileController < ApplicationController
   def show_icon # {{{
     render :partial => 'icon', :locals => { :icon => params[:icon] }
   end # }}}
+  def search # {{{
+    words = params[:file].to_s.scan_words
+    start = params[:start].to_i
+    start = 1 if start < 1
+    if words.empty?
+      render :action => 'search'
+    else
+      @results_count = FiledbFile.count_by_name_words(words)
+      @results       = FiledbFile.find_by_name_words(
+	words,
+	:offset => start - 1,
+	:limit  => @opts[:ppp]
+      )
+      render :action => 'results'
+    end
+  end # }}}
   def css # {{{
     @headers["Content-Type"] = 'text/css; charset = utf-8'
     @theme_name              = params[:id].sub(/\.css$/, "")

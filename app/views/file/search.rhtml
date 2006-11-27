@@ -1,0 +1,10 @@
+<%= render :partial => 'header' %>
+<div id="file_search">
+  <div id="search_form">
+    <h2>Ricerca</h2>
+    <%= start_form_tag({:action => 'search'}, {:method => 'get'}) %>
+      <%= text_field_tag 'file' %>
+      <%= submit_tag 'Cerca' %>
+    <%= end_form_tag %>
+  </div>
+</div>

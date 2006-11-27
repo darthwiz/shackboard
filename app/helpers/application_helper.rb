@@ -35,11 +35,12 @@ module ApplicationHelper
   end # }}}
   def page_seq(opts = {}) # {{{
     # shortcut variables {{{
-    first  = opts[:first]
-    last   = opts[:last] || first
+    first  = opts[:first] || 1
+    last   = opts[:last]  || first
     cur    = opts[:current]
     ipp    = opts[:ipp]               # items per page
-    extra  = opts[:extra_links] || [] # [:first, :back, :forward, :last]
+    extral = opts[:extra_links] || [] # [:first, :back, :forward, :last]
+    extrap = opts[:extra_parms] || {}
     ctrl   = opts[:controller]
     actn   = opts[:action]
     id     = opts[:id]
@@ -70,10 +71,13 @@ module ApplicationHelper
     end
     # }}}
     ctrl_opts = { :controller => ctrl, :action => actn, :id => id }
+    extrap.each_pair do |key, value|
+      ctrl_opts[key] = value
+    end
     # first and back links {{{
     if (cur)
       if (cur > first) then
-        if (extra.include? :first) then
+        if (extral.include? :first) then
           if (ipp) then
             ctrl_opts[:start] = (first - 1) * ipp + 1
           else
@@ -81,7 +85,7 @@ module ApplicationHelper
           end
           s << link_to(label[:first], ctrl_opts) + "\n"
         end
-        if (extra.include? :back) then
+        if (extral.include? :back) then
           if (ipp) then
             ctrl_opts[:start] = (cur - 2) * ipp + 1
           else
@@ -91,7 +95,7 @@ module ApplicationHelper
         end
       end
     else
-      if (extra.include? :first) then
+      if (extral.include? :first) then
         if (ipp) then
           ctrl_opts[:start] = (first - 1) * ipp + 1
         else
@@ -137,7 +141,7 @@ module ApplicationHelper
     # forward and last links {{{
     if (cur)
       if (cur < last) then
-        if (extra.include? :forward) then
+        if (extral.include? :forward) then
           if (ipp) then
             ctrl_opts[:start] = cur * ipp + 1
           else
@@ -145,7 +149,7 @@ module ApplicationHelper
           end
           s << link_to(label[:forward], ctrl_opts) + "\n"
         end
-        if (extra.include? :last) then
+        if (extral.include? :last) then
           if (ipp) then
             ctrl_opts[:start] = (last - 1) * ipp + 1
           else
@@ -155,7 +159,7 @@ module ApplicationHelper
         end
       end
     else
-      if (extra.include? :last) then
+      if (extral.include? :last) then
         if (ipp) then
           ctrl_opts[:start] = (last - 1) * ipp + 1
         else
@@ -244,3 +248,15 @@ end # }}}
     return rank
   end # }}}
 end
+class String # {{{
+  def scan_words # {{{
+    s = self.strip
+    return [] if !s
+    return [] if s == ""
+    a = s.scan(/("[^"]+"|[^ ]+)/)
+    a.each do |s|
+      s[0].gsub!(/^"(.*)"$/, "\\1")
+    end
+    a.flatten!
+  end # }}}
+end # }}}
