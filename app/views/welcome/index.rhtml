@@ -18,7 +18,7 @@
     <% if @user %>
     <div id="unread_messages">
       Benvenuto <strong><%=h @user.username%></strong><%=
-        render :partial => '/pm/unread_old' %>
+        render :partial => '/pm/unread_old' %>!
     </div>
     <% end %>
   </div><%#}}}%>
@@ -62,11 +62,11 @@
         <%=render :partial => '/welcome/services'%>
       </li><%#}}}%>
       <li><%#ASB {{{%>
-        <h2><%=link_to 'ASB ◂', 'http://asb.studentibicocca.it/asb/'%></h2>
+        <h2><%=link_to 'ASB ◂', 'http://asb.studentibicocca.it'%></h2>
         <ul>
           <li>
             <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/ASB.gif',
-                'http://asb.studentibicocca.it/asb/',
+                'http://asb.studentibicocca.it',
               { :style => 'float: left; margin-right: .7em;' }%>
             Da tempo l'Associazione Studenti Bicocca è attiva in università
             proponendo in collaborazione con altri gruppi del nostro ateneo e
@@ -95,33 +95,15 @@
       </li><%#}}}%>
       <li><%#Rappresentanti {{{%>
         <h2><%=link_to 'Rappresentanti ◂',
-            'http://asb.studentibicocca.it/rappresentanti/'%></h2>
+            'http://rappresentanti.studentibicocca.it/'%></h2>
         <ul>
           <li>
             <%=link_image_to 'http://www.studentibicocca.it/portale/immagini/monkeys.gif',
-              'http://asb.studentibicocca.it/rappresentanti/',
+              'http://rappresentanti.studentibicocca.it/',
               { :style => 'float: left; margin-right: .7em;',
                 :alt   => 'rappresentanti' }%>
             Un filo diretto con i rappresentanti ed i gruppi politici del
             nostro ateneo.
-            <div class="spacer"></div>
-          </li>
-        </ul>
-      </li><%#}}}%>
-      <li><%#Links {{{%>
-        <h2><%=link_to 'Links ◂', 'http://asb.studentibicocca.it/links/'%></h2>
-        <ul>
-          <li>
-            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/Cathegory.jpg',
-              'http://asb.studentibicocca.it/links/',
-              { :style => 'float: left; margin-right: .7em;',
-                :alt   => 'links' }%>
-            Qui troverete i siti di tutte le realtà che trovate nella nostra
-            università.<br/>
-            <br/>
-            Fai parte di un gruppo e non hai un link?
-            <strong><%=mail_to 'asb@studentibicocca.it?subject="Richiesta di link"',
-              'Contattaci!', :encode => 'javascript'%></strong>
             <div class="spacer"></div>
           </li>
         </ul>
