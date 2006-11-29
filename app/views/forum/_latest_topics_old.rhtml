@@ -6,7 +6,7 @@
     <li>
       <div class="lastposter"><%=h t.lastpost(:username)%></div>
       <%=link_to h(truncate(strip_tags(t.subject), 40)),
-	"/portale/forum/viewthread.php?tid=#{t.id}" %>
+	"/portale/forum/viewthread.php?tid=#{t.actual.id}"%>
     </li>
   <% end %>
   </ul>

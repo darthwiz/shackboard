@@ -71,4 +71,8 @@ end # }}}
       return nil
     end
   end # }}}
+  def actual # {{{
+    return Topic.find(self.message.strip.to_i).actual if self.closed == "moved"
+    return self
+  end # }}}
 end
