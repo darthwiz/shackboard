@@ -84,6 +84,13 @@ ul.column li ul li {
   color: <%=t.text%>;
   background-color: <%=t.altbg2%>;
 }
+li#initiatives ul li img {
+  float: left;
+  margin-right: .7em;
+}
+ul.column li ul li div {
+  clear: both;
+}
 li.forum_name {
   text-align: center;
 }
@@ -104,7 +111,7 @@ ul.latest_topics li {
 }
 ul.latest_topics li a {
   font-weight: normal;
-  display: block;
+  /* display: block; */ /* removed for IE compatibility */
 }
 h2 a, h2 a:visited {
   color: <%=t.headertext%>;
@@ -116,7 +123,7 @@ h2 a, h2 a:visited {
 h3 a {
   display: block;
   background-color: <%=t.catcolor%>;
-  /* background-color: #ffd000; */
+  font-size: <%=t.fontsize%>;
 }
 ul.announcement li {
   padding: 0;
@@ -128,7 +135,7 @@ ul.announcement li {
 ul.announcement li a {
   display: block;
 }
-div.lastposter {
+.lastposter {
   float: right;
 }
 <% if t.name == "studentibicocca" %>
