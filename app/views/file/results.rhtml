@@ -1,5 +1,6 @@
 <% bw = 1 %>
 <% ts = 6 %>
+<%= javascript_include_tag :defaults %>
 <%= render :partial => 'header' %>
 <div id="file_search_results">
   <div id="results">
@@ -29,6 +30,7 @@
       <td>nome</td>
       <td>descrizione</td>
       <td>categoria</td>
+      <td>mittente</td>
       <td>downloads</td>
       <% if is_adm? %><td></td><% end %>
     </tr>

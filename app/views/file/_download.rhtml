@@ -1,3 +1,5 @@
+<% username = f.file_creator %>
+<% username = f.user.username if f.user %>
 <tr id="download_<%=f.id%>">
   <td align="center">
     <%= render :partial => 'icon',
@@ -10,6 +12,7 @@
   </td>
   <td><%=h f.file_desc%></td>
   <td><%=h f.filedb_category.cat_name%></td>
+  <td><%=username%></td>
   <td align="center"><%=f.file_dls%></td>
   <% if is_adm? %>
   <td align="center">
