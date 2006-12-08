@@ -4,9 +4,9 @@ class Forum < ActiveRecord::Base
   set_table_name table_name_prefix + "forums"
   set_inheritance_column "_type"
   set_primary_key "fid"
-  belongs_to :forum,  :foreign_key   => 'fup'
-  has_many   :topics, :foreign_key   => 'fid', :dependent => :destroy
-  has_many   :posts,  :foreign_key   => 'fid', :dependent => :destroy
+  belongs_to :forum,  :foreign_key => 'fup'
+  has_many   :topics, :foreign_key => 'fid', :dependent => :destroy
+  has_many   :posts,  :foreign_key => 'fid', :dependent => :destroy
   @@tree = nil
   def container # {{{
     self.forum
@@ -28,14 +28,16 @@ class Forum < ActiveRecord::Base
   def moderators # {{{
     mods = []
     self.moderator.split(/,\s*/).each do |n|
-      mods << User.find_by_username(n.strip).id.to_i
+      u = User.find_by_username(n.strip)
+      mods << u.id.to_i unless u.nil?
     end
     mods
   end # }}}
   def allowed # {{{
     users = []
     self.userlist.split(/,\s*/).each do |n|
-      users << User.find_by_username(n.strip).id.to_i
+      u = User.find_by_username(n.strip)
+      users << u.id.to_i unless u.nil?
     end
     users
   end # }}}
@@ -78,12 +80,21 @@ class Forum < ActiveRecord::Base
     self.save
     [ self[:threads], self[:posts] ]
   end # }}}
-  def latest_topics(n=5) # {{{
-    Topic.find(:all,
+  def latest_topics(n=5, parms={}) # {{{
+    topics = Topic.find(:all,
                :conditions => ['fid = ? AND deleted IS NULL', self.id],
                :order      => 'lastpost DESC',
                :limit      => n
     )
+    if parms[:include_sub]
+      self.children.each do |f|
+	if f.acl.can_read?(parms[:user])
+	  topics += Forum.latest_topics(f.id, n, :include_sub => true)
+	end
+      end
+    end
+    topics.sort! { |a, b| a.lastpost <=> b.lastpost }
+    topics.reverse[0...n]
   end # }}}
   def Forum.latest_topics(id, *args) # {{{
     f = Forum.find(id)

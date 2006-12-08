@@ -7,20 +7,6 @@ module ApplicationHelper
   def iso(string) # {{{
     Iconv.new('iso-8859-1', 'utf-8').iconv(string)
   end # }}}
-  def lookup(what, opts = {}) # {{{
-    if (!@helper_lut) then
-      @helper_lut = {
-        :user => {},
-        :rank => [],
-      }
-    end
-    case what
-    when :user
-      return lookup_user(opts)
-    when :rank
-      return lookup_rank(opts)
-    end
-  end # }}}
   def dimmer(color, pct) # {{{
     if (color =~ /#[0-9a-fA-F]{6}/) then
       r = (color[1,2].hex) * pct / 100.0
@@ -215,38 +201,6 @@ end # }}}
 def button_to_remote(name, options = {}, html_options = {})  # {{{
   button_to_function(name, remote_function(options), html_options)
 end # }}}
-  private
-  def lookup_user(opts) # {{{
-    if (username = opts[:username]) then
-      if (u = @helper_lut[:user][username]) then
-        return u
-      else
-        u = User.find_by_username(username)
-        @helper_lut[:user][username] = u
-        return u
-      end
-    end
-  end # }}}
-  def lookup_rank(opts) # {{{
-    user  = opts[:user]
-    ranks = @helper_lut[:rank]
-    now   = Time.now.to_i
-    if (ranks.empty?) then
-      ranks    = Rank.find(:all, :order => 'posts')
-      maxposts = User.maximum(:postnum)
-      ranksnum = ranks.length
-      for i in 0..(ranksnum - 1)
-        ranks[i].freakfactor = maxposts.to_f / 4**(ranksnum-i)
-      end
-    end
-    rank = ranks[0]
-    if (user)
-      ranks.each do |r|
-        rank = r if user.postnum > r.freakfactor
-      end
-    end
-    return rank
-  end # }}}
 end
 class String # {{{
   def scan_words # {{{

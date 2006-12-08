@@ -1,0 +1,32 @@
+<% t = Theme.find_by_name(@theme_name) || Theme.new %>
+/* Theme: <%=t.name.inspect if t%> */
+body {
+  color: <%=t.text%>;
+  background-color: <%=t.bgcolor%>;
+}
+div#pms {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  border: 1px solid black;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul#pmlist>li>div {
+  clear: both;
+}
+li.userinfo {
+  clear: left;
+  float: left;
+  width: 10em;
+  border: 1px solid black;
+}
+li.pm {
+  clear: right;
+  float: left;
+  border: 1px solid black;
+}

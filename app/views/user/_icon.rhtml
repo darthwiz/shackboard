@@ -1,14 +1,14 @@
 <%
   maxwidth = 120
   starURL  = "http://www.studentibicocca.it/portale/forum/images/star.gif"
-  if @author
-    username = @author.username
-    postnum  = @author.postnum
-    rank     = lookup :rank, :user => @author
+  if user
+    username = user.username
+    postnum  = user.postnum
+    rank     = user.rank
     regdate  = Time.at(@author.regdate).strftime("%d/%m/%Y")
-    avW_orig = @author.avatar_width.to_i
-    avH_orig = @author.avatar_height.to_i
-    avURL    = @author.avatar
+    avW_orig = user.avatar_width.to_i
+    avH_orig = user.avatar_height.to_i
+    avURL    = user.avatar
     avW      = avW_orig
     avH      = avH_orig
     if (avW_orig > maxwidth) then

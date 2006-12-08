@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
   @@supermods = nil
+  def rank # {{{
+    Rank.evaluate(self.postnum)
+  end # }}}
   def auth(password) # {{{
     password == self.password
   end # }}}

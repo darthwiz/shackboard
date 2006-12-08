@@ -2,15 +2,14 @@
   base_url = '/portale/forum/forumdisplay.php?fid='
   forums = []
   i = 0
-  Forum.subtree(Forum.find(24)).flatten.each do |f|
-    forums[i] = {
-      :name    => strip_tags(f.name),
-      :forum   => f.id,
-      :ntopics => 3,
-    } if f.acl.can_read?(@user)
-    i += 1
+  Forum.find(24).children.each do |f|
+    forums << {
+      :name        => strip_tags(f.name),
+      :forum       => f.id,
+      :ntopics     => 5,
+      :include_sub => true,
+    } 
   end
-  forums.shift
 %><%=
   render :partial => '/welcome/forums_content_old',
          :locals  => { :forums => forums, :base_url =>  base_url }

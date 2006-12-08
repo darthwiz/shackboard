@@ -1,0 +1,33 @@
+<% t = Theme.find_by_name(@theme_name) || Theme.new %>
+/* Theme: <%=t.name.inspect if t%> */
+body {
+  color: <%=t.text%>;
+  background-color: <%=t.bgcolor%>;
+  font-family: <%=t.font%>, sans-serif;
+  font-size: <%=t.fontsize%>;
+}
+.xmb_altbg1 {
+  background-color: <%=t.altbg1%>;
+}
+.xmb_altbg2 {
+  background-color: <%=t.altbg1%>;
+}
+.xmb_altfont {
+  font-family: <%=t.altfont%>, sans-serif;
+  font-size: <%=t.altfontsize%>;
+}
+a.xmb_link, a.xmb_link:visited {
+  text-decoration: none;
+  color: <%=t.link%>;
+}
+.xmb_header {
+  color: <%=t.headertext%>;
+  background-color: <%=t.header%>;
+  font-weight: bold;
+}
+.xmb_bordered {
+  border: <%=t.borderwidth%>px solid <%=t.bordercolor%>;
+}
+.xmb_padded {
+  padding: <%=t.tablespace%>px;
+}

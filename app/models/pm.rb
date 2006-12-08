@@ -5,4 +5,16 @@ class Pm < ActiveRecord::Base
     return nil unless user.is_a? User
     Pm.count(:conditions => ['msgto = ? AND status = ?', user.username, 'new'])
   end # }}}
+  def from # {{{
+    User.find_by_username(self.msgfrom)
+  end # }}}
+  def to # {{{
+    User.find_by_username(self.msgto)
+  end # }}}
+  def Pm.count_from_to(from, to) # {{{
+    raise ArgumentError unless from.is_a? User
+    raise ArgumentError unless to.is_a? User
+    conds = [ "msgfrom = ? AND msgto = ?", from.username, to.username ]
+    Pm.count(from, to)
+  end # }}}
 end

@@ -1,20 +1,25 @@
 <% bw = 1 %>
 <% ts = 6 %>
 <div id="navbar_top">
-  <%= render :partial => '/layouts/navbar' %>
+  <%# render :partial => '/layouts/navbar' %>
 </div>
 <div id="pms">
-  <table class="pms" cellspacing="<%=bw%>" cellpadding="<%=ts%>" width="100%">
-    <tr class="header">
-      <td>Oggetto:</td>
-      <td>Da:</td>
-      <td width="1">Data:</td>
-      <td width="1">Stato:</td>
-    </tr>
-    <%= render :partial => "/pm/row", :collection => @pms %>
-  </table>
+  <ul id="pmlist">
+    <% @pms.each do |pm| %>
+    <li>
+      <ul>
+	<li class="userinfo">
+	  <%= pm.from.username %>
+	</li>
+	<li class="pm">
+	  <%= bb_to_html(pm.message) %>
+	</li>
+      </ul>
+      <div/>
+    </li>
+    <% end %>
+  </ul>
+  <div id="navbar_bottom">
+    <%# render :partial => '/layouts/navbar' %>
+  </div>
 </div>
-<div id="navbar_bottom">
-  <%= render :partial => '/layouts/navbar' %>
-</div>
-

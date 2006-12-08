@@ -1,5 +1,6 @@
-<% n = 5 unless n %>
-<% topics = Forum.latest_topics(id, n) %>
+<% n           = 5     unless n %>
+<% include_sub = false unless include_sub %>
+<% topics = Forum.latest_topics(id, n, :include_sub => include_sub) %>
 <% unless topics.empty? %>
   <ul class="latest_topics">
   <% topics.each do |t| %>

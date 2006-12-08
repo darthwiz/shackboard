@@ -1,5 +1,7 @@
 class ThemeController < ApplicationController
-  def test# {{{
-    @theme = Theme.find_by_name("studentibicocca")
-  end# }}}
+  def css # {{{
+    @headers["Content-Type"] = 'text/css; charset = utf-8'
+    @theme_name              = params[:id].sub(/\.css$/, "")
+    render :partial => 'css'
+  end # }}}
 end
