@@ -3,6 +3,7 @@
 body {
   color: <%=t.text%>;
   background-color: <%=t.bgcolor%>;
+  font-size: <%=t.fontsize%>;
 }
 a, a:visited {
   color: <%=t.link%>;
@@ -18,10 +19,10 @@ h1 {
   text-align: center;
 }
 div#notification_bar {
-  margin-top: 6px;
+  margin-top: .5em;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 6px;
+  margin-bottom: .5em;
   border: 1px solid <%=t.bordercolor%>;
   background-color: <%=t.altbg1%>;
   padding: 1em;
@@ -29,21 +30,27 @@ div#notification_bar {
 /* }}} */
 /* navbars {{{ */
 div#navbar_top, div#navbar_bottom {
-  margin-top: 6px;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 6px;
   border: 1px solid <%=t.bordercolor%>;
   background-color: <%=t.altbg1%>;
   padding: .6em;
 }
+div#navbar_top {
+  margin-top: 3em;
+  margin-bottom: .5em;
+}
+div#navbar_bottom {
+  margin-top: .5em;
+  margin-bottom: 1em;
+}
 /* }}} */
 /* file list page {{{ */
 div#files {
-  margin-top: 6px;
+  margin-top: .5em;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 6px;
+  margin-bottom: .5em;
 }
 table.file_list {
   background-color: <%=t.bordercolor%>;
@@ -64,10 +71,10 @@ table.file_list tr td {
 /* }}} */
 /* category page {{{ */
 div#file_categories {
-  margin-top: 6px;
+  margin-top: 2em;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 6px;
+  margin-bottom: .5em;
   max-width: 60em;
 }
 table.file_categories {
@@ -95,10 +102,10 @@ td.cat_count {
 /* }}} */
 /* license confirmation page {{{ */
 div#file_license {
-  margin-top: 6px;
+  margin-top: .5em;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 6px;
+  margin-bottom: .5em;
 }
 div.file_license_filename, div.file_license_name, div.file_license_text,
 div.file_license_buttons {
@@ -118,10 +125,10 @@ div.file_license_name {
 /* }}} */
 /* file review page {{{ */
 div#file_review {
-  margin-top: 6px;
+  margin-top: .5em;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 6px;
+  margin-bottom: .5em;
 }
 table.file_review {
   background-color: <%=t.bordercolor%>;
@@ -142,10 +149,10 @@ table.file_review tr td {
 /* }}} */
 /* file search page {{{ */
 div#file_search {
-  margin-top: 6px;
+  margin-top: .5em;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 6px;
+  margin-bottom: .5em;
 }
 div#search_form {
   background-color: <%=t.altbg1%>;
@@ -157,21 +164,45 @@ h2 {
   margin: 0;
 }
 /* }}} */
-/* search results page {{{ */
-div#file_search_results {
-  margin-top: 6px;
+/* file upload page {{{ */
+div#file_upload {
+  margin-top: .5em;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 6px;
+  margin-bottom: .5em;
+  background-color: <%=t.altbg1%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 1.5em;
+}
+div#file_upload table {
+  margin-top: 1em;
+}
+/* }}} */
+/* search results page {{{ */
+div#file_search_results {
+  margin-top: .5em;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: .5em;
 }
 div#results {
   background-color: <%=t.altbg1%>;
   color: <%=t.text%>;
   padding: 1em;
   border: 1px solid <%=t.bordercolor%>;
-  margin-bottom: 6px;
+  margin-bottom: .5em;
 }
 h2 {
   margin: 0;
+}
+/* }}} */
+/* footer {{{ */
+div#footer {
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+  padding: 1em;
+  text-align: center;
 }
 /* }}} */

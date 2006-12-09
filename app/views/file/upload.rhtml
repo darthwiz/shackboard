@@ -1,7 +1,13 @@
 <% bw = 1 %>
 <% ts = 6 %>
 <%= javascript_include_tag :defaults %>
-<div id="files">
+<%= render :partial => 'header' %>
+<div id="navbar_top">
+  <%= link_to "Torna all'indice", :action => :categories %>
+  <%= link_to "Ricerca", :action => :search %> |
+</div>
+<div id="file_upload">
+  <h2>Caricamento nuovo file</h2>
   <%= start_form_tag({ :action => :create }, { :multipart => true }) %>
   <table>
     <tr>
@@ -50,7 +56,5 @@
   </table>
   <%= submit_tag 'Invia' %>
   <%= end_form_tag %>
-  <p>
-    <%= link_to "Torna all'indice", :action => :categories %>
-  </p>
 </div>
+<%= render :partial => 'footer' %>
