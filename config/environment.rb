@@ -49,15 +49,12 @@ end
 # end
 
 # Include your application configuration below
-#FILEDB_CONN_PARAMS = {
-#  :adapter  => 'mysql',
-#  :host     => 'localhost',
-#  :username => 'administrator',
-#  :password => 'stuDEV',
-#  :database => 'portal'
-#}
-FILEDB_PREFIX = 'materiali_'
-FILEDB_ICONS  = [
+ActionController::Base.fragment_cache_store = :mem_cache_store, "localhost"
+$KCODE = 'UTF8'
+
+FILEDB_PREFIX    = 'materiali_'
+FILEDB_ADM_GROUP = "materiali_adm"
+FILEDB_ICONS     = [
   'http://www.studentibicocca.it/portale/materiali/images/posticons/',
   [
     ['supporti',           'supporti.gif'],

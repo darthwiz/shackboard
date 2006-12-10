@@ -2,7 +2,7 @@
 module ApplicationHelper
   include ActionView::Helpers::UrlHelper
   def is_adm?(user=@user) # {{{
-    FiledbAdmin.is_adm?(user)
+    Group.include?(FILEDB_ADM_GROUP, user)
   end # }}}
   def icon_selector(object, method, icon=nil) # {{{
     s = "<select id='#{object}_#{method}' name='#{object}[#{method}]'>\n"
