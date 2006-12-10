@@ -2,10 +2,6 @@
   fdisplay  = '/portale/forum/forumdisplay.php?fid='
   book_icon = 'http://www.studentibicocca.it/portale/immagini-nh/libri.gif'
   boards    = [
-    { # Mondo Università {{{
-      :name  => 'Mondo Università',
-      :forum => 164,
-    }, # }}}
     { # Economia {{{
       :name  => 'Economia',
       :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/economia.gif',
@@ -61,6 +57,7 @@
       :books => 107,
     }, # }}}
   ]
+  boards.each { |b| b[:ntopics] = 3 unless b[:ntopics] }
 %>
 <ul>
   <% boards.each do |i| %>
@@ -77,7 +74,7 @@
     <% end %>
     <div class="spacer"></div>
     <%= render :partial => '/forum/latest_topics_old',
-               :locals  => { :id => i[:forum], :n => 5 } %>
+               :locals  => { :id => i[:forum], :n => i[:ntopics] } %>
     <% if i[:books] %>
         <%= link_image_to book_icon, fdisplay + i[:books].to_s,
           { :style => 'float: left; margin-left: .5em;' } %>

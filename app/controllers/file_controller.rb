@@ -112,7 +112,7 @@ class FileController < ApplicationController
   end # }}}
   def unapprove # {{{
     render :nothing unless is_adm?
-    @categories   = FiledbCategory.find :all, :order => 'cat_order'
+    @categories = FiledbCategory.find :all, :order => 'cat_order'
     FiledbFile.unapprove(params[:id].to_i)
   end # }}}
   def delete # {{{
@@ -146,6 +146,6 @@ class FileController < ApplicationController
   end # }}}
   private
   def is_adm?(user=@user) # {{{
-    FiledbAdmin.is_adm?(user)
+    Group.include?(FILEDB_ADM_GROUP, user)
   end # }}}
 end

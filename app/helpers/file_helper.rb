@@ -1,8 +1,6 @@
-# Methods added to this helper will be available to all templates in the application.
-module ApplicationHelper
-  include ActionView::Helpers::UrlHelper
+module FileHelper
   def is_adm?(user=@user) # {{{
-    Group.include?(FILEDB_ADM_GROUP, user)
+    @controller.send(:is_adm?, user)
   end # }}}
   def icon_selector(object, method, icon=nil) # {{{
     s = "<select id='#{object}_#{method}' name='#{object}[#{method}]'>\n"

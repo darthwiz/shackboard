@@ -5,10 +5,21 @@
     forums << {
       :name        => strip_tags(f.name),
       :forum       => f.id,
-      :ntopics     => 5,
+      :ntopics     => 7,
       :include_sub => true,
     }
   end
+  adjust_ntopics = [ [109, 0], [164, 3] ]
+  # quite a ugly hack {{{
+  adjust_ntopics.each do |adj|
+    forums.each do |f|
+      if f[:forum] == adj[0]
+	f[:ntopics] = adj[1] 
+	break
+      end
+    end
+  end
+  # }}}
 %><%=
   render :partial => '/welcome/forums_content_old',
          :locals  => { :forums => forums, :base_url => base_url }
