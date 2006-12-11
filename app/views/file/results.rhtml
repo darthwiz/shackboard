@@ -7,11 +7,10 @@
     <% if @results_count > @opts[:ppp] %>
     <div style="float: right;">
       Pagine: <%= page_seq(
-	:controller  => 'file',
-	:action      => 'search',
-	:ipp         => @opts[:ppp],
-	:last	     => @results_count,
-	:extra_parms => { :file => params[:file] }
+        :ipp         => @opts[:ppp],
+        :last        => @results_count,
+        :get_parms   => [:file, :order],
+        :current     => params[:start].to_i || 1
       )%>
     </div>
     <% end %>
@@ -25,15 +24,7 @@
   </div>
   <% unless @results_count == 0 %>
   <table class="file_list" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
-    <tr class="header">
-      <td></td>
-      <td>nome</td>
-      <td>descrizione</td>
-      <td>categoria</td>
-      <td>mittente</td>
-      <td>downloads</td>
-      <% if is_adm? %><td></td><% end %>
-    </tr>
+    <%=render :partial => 'list_header'%>
     <% @results.each do |f| %>
       <%= render :partial => 'download', :locals => { :f => f } %>
     <% end %>

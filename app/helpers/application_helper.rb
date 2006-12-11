@@ -26,10 +26,11 @@ module ApplicationHelper
     cur    = opts[:current]
     ipp    = opts[:ipp]               # items per page
     extral = opts[:extra_links] || [] # [:first, :back, :forward, :last]
+    getp   = opts[:get_parms]   || [] # extra parameters copied from GET method
     extrap = opts[:extra_parms] || {}
-    ctrl   = opts[:controller]
-    actn   = opts[:action]
-    id     = opts[:id]
+    ctrl   = opts[:controller]  || params[:controller]
+    actn   = opts[:action]      || params[:action]
+    id     = opts[:id]          || params[:id]
     hclass = opts[:classes]  || { :normal => nil, :current => 'current_page' }
     adj    = opts[:adjacent] || 1
     label  = { :first   => '<< inizio', :back => '< indietro',
@@ -57,9 +58,8 @@ module ApplicationHelper
     end
     # }}}
     ctrl_opts = { :controller => ctrl, :action => actn, :id => id }
-    extrap.each_pair do |key, value|
-      ctrl_opts[key] = value
-    end
+    getp.each { |pname| ctrl_opts[pname] = params[pname] }
+    extrap.each_pair { |key, value| ctrl_opts[key] = value }
     # first and back links {{{
     if (cur)
       if (cur > first) then

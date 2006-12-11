@@ -11,15 +11,7 @@
 </div>
 <div id="files">
   <table class="file_list" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
-    <tr class="header">
-      <td></td>
-      <td>nome</td>
-      <td>descrizione</td>
-      <td>categoria</td>
-      <td>mittente</td>
-      <td>downloads</td>
-      <% if is_adm? %><td></td><% end %>
-    </tr>
+    <%=render :partial => 'list_header'%>
     <% @files.each do |f| %>
       <%= render :partial => 'download', :locals => { :f => f } %>
     <% end %>

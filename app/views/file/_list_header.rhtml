@@ -1,0 +1,12 @@
+    <tr class="header">
+      <td></td>
+      <td><%=order_link('nome',        :name)       %></td>
+      <td><%=order_link('descrizione', :description)%></td>
+      <td><%=order_link('categoria',   :category)   %></td>
+      <td><%=order_link('autore',      :author)     %></td>
+      <td><%=order_link('downloads',   :downloads)  %></td>
+      <% if is_adm? %>
+      <td><%=order_link('mittente',    :uploader)   %></td>
+      <td></td>
+      <% end %>
+    </tr>

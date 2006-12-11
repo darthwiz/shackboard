@@ -19,4 +19,14 @@ module FileHelper
     filename = '' unless caption
     "<img src='#{FILEDB_ICONS[0]}#{filename}' alt='#{caption}'/>"
   end # }}}
+  def order_link(text, field) # {{{
+    fields = [:name, :description, :category, :author, :downloads, :uploader]
+    order  = nil
+    order  = field if fields.include?(field)
+    link_to(text, { :controller => params[:controller],
+                    :action     => params[:action],
+                    :file       => params[:file],
+                    :start      => params[:start],
+                    :order      => order } )
+  end # }}}
 end

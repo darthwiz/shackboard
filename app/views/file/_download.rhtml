@@ -3,18 +3,19 @@
 <tr id="download_<%=f.id%>">
   <td align="center">
     <%= render :partial => 'icon',
-		:locals  => { :icon => f.file_posticon } %>
+                :locals  => { :icon => f.file_posticon } %>
   </td>
   <td class="files">
     <%= link_to h(f.file_name), :controller => 'file',
-				      :action     => 'download',
-				      :id         => f.id %>
+                                :action     => 'download',
+                                :id         => f.id %>
   </td>
   <td><%=h f.file_desc%></td>
   <td><%=h f.filedb_category.cat_name%></td>
-  <td><%=username%></td>
+  <td><%=h f.file_creator%></td>
   <td align="center"><%=f.file_dls%></td>
   <% if is_adm? %>
+  <td><%=username%></td>
   <td align="center">
     <%=button_to_remote 'disapprova',
       :url => { :action => :unapprove, :id => f, :from_action => :list } %>

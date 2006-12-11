@@ -11,6 +11,7 @@ class FileController < ApplicationController
   def list # {{{
     ppp    = @opts[:ppp]
     start  = params[:start].to_i
+    order  = params[:order].to_sym if params[:order]
     start  = 1 if (start == 0)
     offset = start - 1
     limit  = ppp
@@ -36,15 +37,12 @@ class FileController < ApplicationController
                              :conditions => conds,
                              :offset     => offset,
                              :limit      => limit,
-                             :order      => 'file_time DESC'
+                             :order      => order_clause(order)
     @pageseq_opts = {
-      :first      => 1,
       :last       => FiledbFile.count(:conditions => conds),
       :current    => start,
       :ipp        => ppp,
-      :controller => 'file',
-      :action     => 'list',
-      :id         => cid
+      :get_parms  => [:order]
     }
   end # }}}
   def download # {{{
@@ -126,15 +124,17 @@ class FileController < ApplicationController
   def search # {{{
     words = params[:file].to_s.scan_words
     start = params[:start].to_i
+    order = params[:order].to_sym if params[:order]
     start = 1 if start < 1
     if words.empty?
       render :action => 'search'
     else
       @results_count = FiledbFile.count_by_name_words(words)
       @results       = FiledbFile.find_by_name_words(
-	words,
-	:offset => start - 1,
-	:limit  => @opts[:ppp]
+        words,
+        :offset => start - 1,
+        :limit  => @opts[:ppp],
+        :order  => order_clause(order)
       )
       render :action => 'results'
     end
@@ -147,5 +147,21 @@ class FileController < ApplicationController
   private
   def is_adm?(user=@user) # {{{
     Group.include?(FILEDB_ADM_GROUP, user)
+  end # }}}
+  def order_clause(order) # {{{
+    case order
+    when :name
+      order_clause = 'file_name'
+    when :description
+      order_clause = 'file_desc'
+    when :author
+      order_clause = 'file_creator, file_time DESC'
+    when :downloads
+      order_clause = 'file_dls DESC'
+    when :time
+      order_clause = 'file_time DESC'
+    else
+      order_clause = 'file_name'
+    end
   end # }}}
 end
