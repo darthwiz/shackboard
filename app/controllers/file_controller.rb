@@ -86,6 +86,7 @@ class FileController < ApplicationController
       fd.filename       = params[:file][:data].original_filename
       fd.data           = params[:file][:data].read
       fd.mimetype       = params[:file][:data].content_type.strip
+      fd.filesize       = fd.data.length
       fd.filedb_file_id = @new_file.id
     }
     @new_file_data.save

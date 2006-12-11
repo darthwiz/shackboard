@@ -70,6 +70,14 @@ class FiledbFile < ActiveRecord::Base
     self.approved_by = nil
     self.save
   end # }}}
+  def metadata # {{{
+    attrs = FiledbFiledata.new.attribute_names
+    attrs.delete("data")
+    attr_list = ""
+    attrs.each { |i| attr_list += ", #{i}" }
+    attr_list.gsub!(/^, /, '')
+    FiledbFiledata.find(self.id, :select => attr_list, :readonly => true)
+  end # }}}
   def FiledbFile.find_all_unapproved # {{{
     FiledbFile.find(:all, 
                     :conditions => 'approved_by IS NULL',

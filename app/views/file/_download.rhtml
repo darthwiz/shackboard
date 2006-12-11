@@ -10,7 +10,10 @@
                                 :action     => 'download',
                                 :id         => f.id %>
   </td>
-  <td><%=h f.file_desc%></td>
+  <td>
+    <%=h f.file_desc%>
+    <div class="filesize"><%=f.metadata.filesize / 1.kilobyte%> kB</div>
+  </td>
   <td><%=h f.filedb_category.cat_name%></td>
   <td><%=h f.file_creator%></td>
   <td align="center"><%=f.file_dls%></td>
