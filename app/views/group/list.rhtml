@@ -1,0 +1,12 @@
+<ul>
+	<% @groups.each do |g| %>
+	<li>
+		<h3><%= h g.name %></h3>
+		<ul>
+			<% g.users.each do |g| %>
+        <li><%= h g.username %></li>
+			<% end %>
+		</ul>
+	</li>
+	<% end %>
+</ul>

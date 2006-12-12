@@ -74,12 +74,12 @@
     <% end %>
     <div class="spacer"></div>
     <%= render :partial => '/forum/latest_topics_old',
-               :locals  => { :id => i[:forum], :n => i[:ntopics] } %>
+               :locals  => { :id => i[:forum], :n => i[:ntopics],
+                             :include_sub => true } %>
     <% if i[:books] %>
         <%= link_image_to book_icon, fdisplay + i[:books].to_s,
-          { :style => 'float: left; margin-left: .5em;' } %>
-        <%= render :partial => '/forum/latest_topics_old',
-                   :locals  => { :id => i[:books], :n => 1 } %>
+          { :style => 'float: left; margin-left: 1em; margin-right: .5em' } %>
+        <strong><%= link_to 'Libri', fdisplay + i[:books].to_s %></strong>
     <% end %>
     <div class="spacer">
       <hr style="margin-top: 1em;"/>
