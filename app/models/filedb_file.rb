@@ -60,11 +60,11 @@ class FiledbFile < ActiveRecord::Base
   end # }}}
   def approve(user, opts={}) # {{{
     self.approved_by   = user.id
-    self.file_name     = opts[:name]        if opts[:name]
-    self.file_catid    = opts[:category]    if opts[:category]
-    self.file_desc     = opts[:description] if opts[:description]
-    self.file_posticon = opts[:icon]        if opts[:icon]
-    self.file_creator  = opts[:author]      if opts[:author]
+    self.file_name     = opts[:name]          if opts[:name]
+    self.file_catid    = opts[:category].to_i if opts[:category]
+    self.file_desc     = opts[:description]   if opts[:description]
+    self.file_posticon = opts[:icon]          if opts[:icon]
+    self.file_creator  = opts[:author]        if opts[:author]
     if opts[:filename]
       FiledbFiledata.update(self.metadata.id, { :filename => opts[:filename] } )
     end

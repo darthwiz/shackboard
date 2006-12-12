@@ -74,6 +74,7 @@ class FileController < ApplicationController
     @new_file = FiledbFile.new { |f|
       f.user_id       = session[:userid]
       f.file_name     = params[:file][:name]
+      f.file_creator  = params[:file][:author]
       f.file_desc     = params[:file][:description]
       f.file_catid    = params[:file][:category]
       f.file_license  = params[:file][:license]
@@ -102,14 +103,15 @@ class FileController < ApplicationController
     @categories   = FiledbCategory.find :all, :order => 'cat_order'
     id            = params[:id]
     f             = FiledbFile.find(id)
-    f.approve(@user,
-      :name        => params[:name][id.to_s],
-      :description => params[:description][id.to_s],
-      :category    => params[:category][id.to_s].to_i,
-      :icon        => params[:icon][id.to_s],
-      :filename    => params[:filename][id.to_s],
-      :author      => params[:author][id.to_s]
-    )
+    param_hash    = {}
+    # this is a trick to transform from params[:keys][id] to just params[:keys]
+    # which is nicer as we don't need to duplicate all the assignments already
+    # present in the model -- just pass everything along, the model will take
+    # care of it.
+    params.each_pair do |key, value|
+      param_hash[key.to_sym] = value[id] if value.is_a? Hash
+    end
+    f.approve(@user, param_hash)
   end # }}}
   def unapprove # {{{
     render :nothing unless is_adm?
