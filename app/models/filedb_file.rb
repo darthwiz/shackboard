@@ -17,10 +17,8 @@ class FiledbFile < ActiveRecord::Base
   } # }}}
   def sync_data # {{{
     require 'net/http'
-    fd   = FiledbFiledata.find_by_sql("select id
-      from portal.materiali_filedata
-      where id = #{self.id}")
-    return true unless fd.empty?
+    fd   = self.metadata
+    return true unless fd.nil?
     fd   = FiledbFiledata.new
     pfx  = 'http://www.studentibicocca.it/portale/materiali/'
     url  = URI.escape(self.file_dlurl)

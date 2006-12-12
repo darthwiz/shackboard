@@ -10,8 +10,12 @@
                                 :id         => f.id %>
   </td>
   <td>
+    <% if f.metadata %>
     <div class="filesize"><%=f.metadata.filesize / 1.kilobyte%> kB</div>
     <%=h f.file_desc%>
+    <% else %>
+    <strong>Errore:</strong> mancano i dati del file.
+    <% end %>
   </td>
   <td><%=h f.filedb_category.cat_name%></td>
   <td><%=h f.file_creator%></td>
