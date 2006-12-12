@@ -64,6 +64,10 @@ class FiledbFile < ActiveRecord::Base
     self.file_catid    = opts[:category]    if opts[:category]
     self.file_desc     = opts[:description] if opts[:description]
     self.file_posticon = opts[:icon]        if opts[:icon]
+    self.file_creator  = opts[:author]      if opts[:author]
+    if opts[:filename]
+      FiledbFiledata.update(self.metadata.id, { :filename => opts[:filename] } )
+    end
     self.save
   end # }}}
   def unapprove # {{{
@@ -73,10 +77,13 @@ class FiledbFile < ActiveRecord::Base
   def metadata # {{{
     attrs = FiledbFiledata.new.attribute_names
     attrs.delete("data")
-    attr_list = ""
+    attr_list = "id"
     attrs.each { |i| attr_list += ", #{i}" }
-    attr_list.gsub!(/^, /, '')
-    FiledbFiledata.find(self.id, :select => attr_list, :readonly => true)
+    FiledbFiledata.find_by_filedb_file_id(
+      self.id,
+      :select   => attr_list,
+      :readonly => true
+    )
   end # }}}
   def FiledbFile.find_all_unapproved # {{{
     FiledbFile.find(:all, 

@@ -1,7 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <title>Forum degli Studenti della Bicocca</title>
+    <title>
+      <%=@page_title || "Forum degli Studenti della Bicocca"%>
+    </title>
     <%=
       # javascript_include_tag :defaults
       stylesheet_link_tag 'themes/' + @opts[:theme].css || 'themes/default',

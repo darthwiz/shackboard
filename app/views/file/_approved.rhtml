@@ -2,19 +2,29 @@
       <td>
         <table>
           <tr>
-            <td rowspan="3"><%=icon(f.file_posticon)%></td>
+            <td rowspan="6"><%=icon(f.file_posticon)%></td>
             <td><%= h f.file_name %></td>
+          </tr>
+          <tr>
+            <td><%= h f.metadata.filename %></td>
+          </tr>
+          <tr>
+            <td><%= h f.file_creator %></td>
           </tr>
           <tr>
             <td><%= h f.file_desc %></td>
           </tr>
           <tr>
-            <td><%= h f.category.name %>
+            <td><%= h f.category.name %></td>
+          </tr>
+          <tr>
+	    <td>
               <%= link_to 'download', :controller => 'file',
                                       :action     => 'download',
                                       :id         => f.id %>
-            </td>
-          </tr>
+	      (<%= f.metadata.filesize / 1.kilobyte %> kB)
+	    </td>
+	  </tr>
         </table>
       </td>
       <td align="center"><%=h f.user.username if f.user%></td>

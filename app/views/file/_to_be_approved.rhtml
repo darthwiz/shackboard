@@ -8,6 +8,18 @@
             </td>
           </tr>
           <tr>
+            <td style="padding-right: 1em;">Nome file</td>
+            <td>
+              <%= text_field 'filename', f.id, :value => f.metadata.filename %>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-right: 1em;">Autore</td>
+            <td>
+              <%= text_field 'author', f.id, :value => f.file_creator %>
+            </td>
+          </tr>
+          <tr>
             <td style="padding-right: 1em;">Descrizione</td>
             <td>
               <%= text_field 'description', f.id,
@@ -32,9 +44,14 @@
                 :url    => { :controller => 'file', :action => 'show_icon' }, 
                 :with   => 'icon', 
                 :update => "iconbox_#{f.id}" %>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <%= link_to 'download', :controller => 'file',
                                       :action     => 'download',
                                       :id         => f.id %>
+	      (<%= f.metadata.filesize / 1.kilobyte %> kB)
             </td>
           </tr>
         </table>

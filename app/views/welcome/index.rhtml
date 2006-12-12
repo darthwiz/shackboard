@@ -1,3 +1,4 @@
+<%@page_title = "StudentiBicocca.it - il portale degli studenti della Bicocca"%>
 <div id="portal_main"><%#{{{%>
   <div id="header"><%#Header {{{%>
     <div id="title">
@@ -58,7 +59,7 @@
         <h2><%=link_to 'Servizi ◂', 'http://www.servizi-uni.studentibicocca.it/' %></h2>
         <%=render :partial => '/welcome/services'%>
       </li><%#}}}%>
-      <li id="initiatives"><%#Iniziative {{{%>
+      <li id="iniziative"><%#Iniziative {{{%>
         <h2><%=link_to 'Iniziative ◂', 'http://asb.studentibicocca.it'%></h2>
         <ul>
           <li><%url = 'http://asb.studentibicocca.it'%>
@@ -77,6 +78,12 @@
             <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/drink.gif', url%>
             Ogni mercoledì <%=link_to 'aperitivo', url%> 18.30/19.00 al bar
 	    <%=link_to 'a_mi bar', 'http://www.amibar.it/'%>.
+	    <div/>
+          </li>
+          <li><%url = 'http://cineforum.studentibicocca.it/'%>
+            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/icone/cineforum.gif', url%>
+	    Prossimamente avrà inizio il <%=link_to 'Cineforum', url%> degli
+	    studenti in lingua originale!
 	    <div/>
           </li>
           <li><%url = 'http://concorsofoto.studentibicocca.it/'%>

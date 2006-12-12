@@ -1,5 +1,5 @@
 class FileController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate, :init
   def categories # {{{
     @numfiles   = {}
     @categories = FiledbCategory.find :all, :order => 'cat_order'
@@ -106,7 +106,9 @@ class FileController < ApplicationController
       :name        => params[:name][id.to_s],
       :description => params[:description][id.to_s],
       :category    => params[:category][id.to_s].to_i,
-      :icon        => params[:icon][id.to_s]
+      :icon        => params[:icon][id.to_s],
+      :filename    => params[:filename][id.to_s],
+      :author      => params[:author][id.to_s]
     )
   end # }}}
   def unapprove # {{{
@@ -164,5 +166,8 @@ class FileController < ApplicationController
     else
       order_clause = 'file_name'
     end
+  end # }}}
+  def init # {{{
+    @page_title = "Area Materiali studentibicocca.it"
   end # }}}
 end
