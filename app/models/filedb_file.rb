@@ -112,7 +112,7 @@ class FiledbFile < ActiveRecord::Base
       :conditions => conds, 
       :offset     => offset, 
       :limit      => limit,
-      :order	  => order
+      :order      => order
     )
   end # }}}
   def FiledbFile.unapprove(id) # {{{
@@ -128,7 +128,7 @@ class FiledbFile < ActiveRecord::Base
     FiledbFile.find(
       :all,
       :conditions => 'approved_by IS NOT NULL',
-      :order      => 'file_time',
+      :order      => 'file_time DESC',
       :limit      => n
     )
   end # }}}

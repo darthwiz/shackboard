@@ -23,8 +23,10 @@
   <div id="portal_left"><%#{{{%>
     <ul class="column">
       <li><%#Materiali {{{%>
-        <h2><%= link_to 'Materiali ◂', '/portale/materiali/pafiledb.php'%></h2>
-        <%# render :partial => '/welcome/files' %>
+        <h2>
+    <%= link_to 'Materiali ◂', 'http://materiali.studentibicocca.it'%>
+  </h2>
+        <%= render :partial => '/welcome/files' %>
       </li><%#}}}%>
       <li><%#Bacheche {{{%>
         <h2><%=link_to 'Bacheche ◂', '/portale/forum/index.php?gid=51'%></h2>
@@ -64,40 +66,40 @@
         <ul>
           <li><%url = 'http://asb.studentibicocca.it'%>
             <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/asb.gif', url%>
-	    Da tempo l'<%=link_to 'Associazione Studenti Bicocca', url%> è
-	    attiva in università proponendo in collaborazione con altri gruppi
-	    del nostro ateneo e delle altre università attività e servizi
-	    sempre nuovi.
-	    <strong>
-	      <%=mail_to 'asb@studentibicocca.it', 'Partecipa anche tu!',
-		:encode => 'javascript'%>
-	    </strong>
-	    <div/>
+      Da tempo l'<%=link_to 'Associazione Studenti Bicocca', url%> è
+      attiva in università proponendo in collaborazione con altri gruppi
+      del nostro ateneo e delle altre università attività e servizi
+      sempre nuovi.
+      <strong>
+        <%=mail_to 'asb@studentibicocca.it', 'Partecipa anche tu!',
+    :encode => 'javascript'%>
+      </strong>
+      <div/>
           </li>
           <li><%url = 'http://asb.studentibicocca.it/aperitivo'%>
             <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/drink.gif', url%>
             Ogni mercoledì <%=link_to 'aperitivo', url%> 18.30/19.00 al bar
-	    <%=link_to 'a_mi bar', 'http://www.amibar.it/'%>.
-	    <div/>
+      <%=link_to 'a_mi bar', 'http://www.amibar.it/'%>.
+      <div/>
           </li>
           <li><%url = 'http://cineforum.studentibicocca.it/'%>
             <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/icone/cineforum.gif', url%>
-	    Prossimamente avrà inizio il <%=link_to 'Cineforum', url%> degli
-	    studenti in lingua originale!
-	    <div/>
+      Prossimamente avrà inizio il <%=link_to 'Cineforum', url%> degli
+      studenti in lingua originale!
+      <div/>
           </li>
           <li><%url = 'http://concorsofoto.studentibicocca.it/'%>
             <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/foto.gif', url%>
             Tra poco la terza edizione del
-	    <%=link_to 'Concorso Fotografico della Bicocca', url%>.
-	    <div/>
+      <%=link_to 'Concorso Fotografico della Bicocca', url%>.
+      <div/>
           </li>
           <li><%url = 'http://b-radio.studentibicocca.it/'%>
             <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/radio.gif', url%>
             Ascolta <%=link_to 'B-Radio', url%>, la radio degli studenti della
-	    Bicocca. (<%=link_to 'banda larga', 'http://s3.mediastreaming.it/7550/listen.asx'%>,
-	    <%=link_to '56k', 'http://s3.mediastreaming.it/7320/listen.asx'%>)
-	    <div/>
+      Bicocca. (<%=link_to 'banda larga', 'http://s3.mediastreaming.it/7550/listen.asx'%>,
+      <%=link_to '56k', 'http://s3.mediastreaming.it/7320/listen.asx'%>)
+      <div/>
           </li>
         </ul>
       </li><%#}}}%>
