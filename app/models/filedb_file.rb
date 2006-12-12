@@ -1,13 +1,12 @@
 class FiledbFile < ActiveRecord::Base
   require 'iso_helper.rb'
   include ActiveRecord::IsoHelper
-  set_table_name       FILEDB_PREFIX + 'files'
-  establish_connection FILEDB_CONN_PARAMS
-  set_primary_key      'file_id'
-  has_one              :filedb_filedata, :dependent   => :destroy
-  belongs_to           :filedb_category, :foreign_key => 'file_catid'
-  belongs_to           :filedb_license,  :foreign_key => 'file_license'
-  belongs_to           :user
+  set_table_name  FILEDB_PREFIX + 'files'
+  set_primary_key 'file_id'
+  has_one         :filedb_filedata, :dependent   => :destroy
+  belongs_to      :filedb_category, :foreign_key => 'file_catid'
+  belongs_to      :filedb_license,  :foreign_key => 'file_license'
+  belongs_to      :user
   MIMETYPES = { # {{{
     'zip'  => 'application/zip',
     'pdf'  => 'application/pdf',

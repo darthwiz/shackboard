@@ -1,6 +1,5 @@
 class FiledbCategory < ActiveRecord::Base
-  set_table_name FILEDB_PREFIX + 'cat'
-  establish_connection FILEDB_CONN_PARAMS
+  set_table_name  FILEDB_PREFIX + 'cat'
   set_primary_key "cat_id"
   def name # {{{
     cat_name

@@ -1,6 +1,5 @@
 class FiledbFiledata < ActiveRecord::Base
   require 'zlib'
-  establish_connection FILEDB_CONN_PARAMS
   set_table_name FILEDB_PREFIX + 'filedata'
   belongs_to :filedb_file
   def data # {{{
