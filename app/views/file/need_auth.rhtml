@@ -1,0 +1,12 @@
+<%= javascript_include_tag :defaults %>
+<%= render :partial => 'header' %>
+<div id="navbar_top">
+  <%= link_to "Torna all'indice", :action => :categories %> |
+  <%= link_to "Ricerca", :action => :search %>
+</div>
+<div id="auth_required">
+  <strong>Per proseguire è necessario autenticarsi:</strong>
+  <p>
+    <%= render :partial => '/login/user_pass' %>
+  </p>
+</div>
