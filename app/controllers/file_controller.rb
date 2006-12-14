@@ -1,5 +1,5 @@
 class FileController < ApplicationController
-  before_filter :authenticate, :init
+  before_filter :init
   def categories # {{{
     @numfiles   = {}
     @categories = FiledbCategory.find :all, :order => 'cat_order'
@@ -66,6 +66,11 @@ class FileController < ApplicationController
   end # }}}
   def upload # {{{
     @categories = FiledbCategory.find(:all, :order => 'cat_order')
+    unless is_authenticated?
+      session[:intended_action] = { :controller => controller_name, 
+                                    :action     => action_name }
+      render :action => 'need_auth'
+    end
   end # }}}
   def index # {{{
     redirect_to :action => 'categories'
@@ -151,7 +156,11 @@ class FileController < ApplicationController
   end # }}}
   private
   def is_adm?(user=@user) # {{{
-    Group.include?(FILEDB_ADM_GROUP, user)
+    begin
+      Group.include?(FILEDB_ADM_GROUP, user)
+    rescue
+      return false
+    end
   end # }}}
   def order_clause(order) # {{{
     case order

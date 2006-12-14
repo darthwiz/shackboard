@@ -25,6 +25,7 @@ class LoginController < ApplicationController
   end # }}}
   def logout # {{{
     reset_session
-    redirect_to :back
+    redirect_to :back if @request.env["HTTP_REFERER"]
+    render :nothing => true
   end # }}}
 end

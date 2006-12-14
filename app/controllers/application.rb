@@ -52,6 +52,9 @@ class ApplicationController < ActionController::Base
       redirect_to :controller => "login", :action => "index"
     end
   end # }}}
+  def is_authenticated? # {{{
+    session[:userid] && User.find(session[:userid]).is_a?(User)
+  end # }}}
   def forum_cache # {{{
     if (session[:forum_tree])
       Forum.set_tree(session[:forum_tree])
