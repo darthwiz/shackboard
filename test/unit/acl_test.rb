@@ -17,4 +17,29 @@ class AclTest < Test::Unit::TestCase
     runner = User.find_by_username("runner")
     assert bin.acl.can_read?(runner)
   end # }}}
+  def test_permission_assignment # {{{
+    mod_agora = Group.find_by_name('mod_agora')
+    runner    = User.find_by_username("runner")
+    wiz       = User.find_by_username('wiz')
+    assert !mod_agora.acl.can_edit?(wiz)
+    assert !mod_agora.acl.can_edit?(runner)
+    mod_agora.acl.can_edit(wiz)
+    assert mod_agora.acl.can_edit?(wiz)
+    assert !mod_agora.acl.can_edit?(runner)
+    mod_agora.acl.can_edit(Group.find_by_name("mod_agora"))
+    assert mod_agora.acl.can_edit?(wiz)
+    assert mod_agora.acl.can_edit?(runner)
+    mod_agora.acl.cant_edit(['User', :any])
+    assert !mod_agora.acl.can_edit?(wiz)
+  end # }}}
+  def test_permission_removal # {{{
+    mod_agora = Group.find_by_name('mod_agora')
+    runner    = User.find_by_username("runner")
+    wiz       = User.find_by_username('wiz')
+    assert !mod_agora.acl.can_edit?(wiz)
+    assert !mod_agora.acl.can_edit?(runner)
+    mod_agora.acl.remove_cant_edit(["User", :any])
+    assert mod_agora.acl.can_edit?(wiz)
+    assert mod_agora.acl.can_edit?(runner)
+  end # }}}
 end

@@ -32,4 +32,14 @@ class Group < ActiveRecord::Base
     return false unless g.is_a? Group
     g.include?(user)
   end # }}}
+  def acl # {{{
+    acl = AclMapping.map(self)
+    return acl if acl
+    acl = Acl.new
+    acl.save
+    am = AclMapping.new
+    am.associate(self, acl)
+    am.save
+    acl
+  end # }}}
 end
