@@ -1,0 +1,20 @@
+mod_agora_01:
+  username: Ark Intruso
+  group_id: "1"
+  id: "1"
+  user_id: "871"
+  groupname: mod_agora
+
+mod_agora_02:
+  username: Kaworu
+  group_id: "1"
+  id: "2"
+  user_id: "11468"
+  groupname: mod_agora
+
+mod_agora_03:
+  username: runner
+  group_id: "1"
+  id: "3"
+  user_id: "9913"
+  groupname: mod_agora

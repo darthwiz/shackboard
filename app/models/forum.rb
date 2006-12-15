@@ -16,7 +16,7 @@ class Forum < ActiveRecord::Base
     return acl if acl
     acl = Acl.new
     acl.can_read(['User', :any]) if (allowed.empty? && self.private == '')
-    (allowed + moderators + User.supermods).each do |uid|
+    (allowed + moderator_ids + User.supermods).each do |uid|
       acl.can_read(['User', uid])
     end
     acl.save
@@ -29,9 +29,14 @@ class Forum < ActiveRecord::Base
     mods = []
     self.moderator.split(/,\s*/).each do |n|
       u = User.find_by_username(n.strip)
-      mods << u.id.to_i unless u.nil?
+      mods << u unless u.nil?
     end
     mods
+  end # }}}
+  def moderator_ids # {{{
+    mod_ids = []
+    self.moderators.each { |u| mod_ids << u.id.to_i }
+    mod_ids
   end # }}}
   def allowed # {{{
     users = []
@@ -88,9 +93,9 @@ class Forum < ActiveRecord::Base
     )
     if parms[:include_sub]
       self.children.each do |f|
-	if f.acl.can_read?(parms[:user])
-	  topics += Forum.latest_topics(f.id, n, :include_sub => true)
-	end
+  if f.acl.can_read?(parms[:user])
+    topics += Forum.latest_topics(f.id, n, :include_sub => true)
+  end
       end
     end
     topics.sort! { |a, b| a.lastpost <=> b.lastpost }

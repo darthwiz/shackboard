@@ -26,8 +26,13 @@ class User < ActiveRecord::Base
     mods  = []
     conds = "status = 'Super Moderator' OR status = 'Administrator'"
     User.find(:all, :conditions => conds).each do |u|
-      mods << u.id
+      mods << u
     end
     @@supermods = mods
+  end # }}}
+  def User.supermod_ids # {{{
+    mod_ids = []
+    User.supermods.each { |u| mod_ids << u.id }
+    mod_ids
   end # }}}
 end

@@ -1,0 +1,46 @@
+agora:
+  lastpost: 1164456421|dakkar
+  status: "on"
+  name: "<b>Agor\xE0</b>"
+  fup: "25"
+  displayorder: "2"
+  fid: "27"
+  threads: "50"
+  theme: studentibicocca
+  userlist: ""
+  guestposting: ""
+  private: ""
+  allowbbcode: "yes"
+  type: forum
+  postperm: 1|1
+  moderator: Ark Intruso, Kaworu, runner
+  description: "Spazio dedicato a discussioni su Cultura e Societ\xE0"
+  allowimgcode: ""
+  posts: "102461"
+  allowhtml: ""
+  pollstatus: "off"
+  allowsmilies: "yes"
+
+bin:
+  lastpost: 1163146799|stellarossa86
+  status: "off"
+  name: Bin
+  fup: "108"
+  displayorder: "5"
+  fid: "93"
+  threads: "50"
+  theme: studentibicocca
+  userlist: wiz, eddie, ale, buventura, ASB,
+  guestposting: ""
+  private: staff
+  allowbbcode: "yes"
+  type: forum
+  postperm: 2|2
+  moderator: tex1803
+  description: ""
+  allowimgcode: "yes"
+  posts: "9938"
+  allowhtml: ""
+  pollstatus: "off"
+  allowsmilies: "yes"
+

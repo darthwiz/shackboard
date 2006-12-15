@@ -15,4 +15,7 @@ class AclMapping < ActiveRecord::Base
       return nil
     end
   end # }}}
+  def associated_object # {{{
+    Module.const_get(self[:object_type]).find(self[:object_id])
+  end # }}}
 end

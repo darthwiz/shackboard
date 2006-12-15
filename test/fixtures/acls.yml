@@ -1,0 +1,85 @@
+agora:
+  name:
+  id: "1"
+  permissions: |
+    ---
+    :negated: {}
+
+    :granted:
+      :read:
+      - - User
+        - :any
+      - - User
+        - 871
+      - - User
+        - 1714
+      - - User
+        - 11468
+      - - User
+        - 34
+      - - User
+        - 182
+      - - User
+        - 237
+      - - User
+        - 298
+      - - User
+        - 987
+      - - User
+        - 1380
+      - - User
+        - 1650
+      - - User
+        - 1932
+      - - User
+        - 2224
+      - - User
+        - 4317
+      - - User
+        - 4858
+
+bin:
+  name:
+  id: "84"
+  permissions: |
+    ---
+    :negated: {}
+
+    :granted:
+      :read:
+      - - User
+        - 182
+      - - User
+        - 839
+      - - User
+        - 1
+      - - User
+        - 806
+      - - User
+        - 1380
+      - - User
+        - 4317
+      - - User
+        - 34
+      - - User
+        - 182
+      - - User
+        - 237
+      - - User
+        - 298
+      - - User
+        - 987
+      - - User
+        - 1380
+      - - User
+        - 1650
+      - - User
+        - 1932
+      - - User
+        - 2224
+      - - User
+        - 4317
+      - - User
+        - 4858
+      - - Group
+        - 1

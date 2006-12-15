@@ -1,0 +1,144 @@
+wiz:
+  avatar_width: "120"
+  timeoffset: "0"
+  status: Administrator
+  icq: "4241786"
+  theme: biancogrigio
+  lastvisit: "1165947794"
+  langfile: italian
+  timeformat: "24"
+  bday: Giugno 14, 1977
+  yahoo: ""
+  username: wiz
+  jid:
+  ppp: "30"
+  aim: ""
+  uid: "182"
+  avatar_height: "150"
+  sig: |-
+    * He who re-invents the wheel, understands much better how a wheel works.
+    * If you're not on anyone's shitlist, you're not doing anything worthwhile.
+    * No matter how far you've gone the wrong way, TURN BACK.
+  postnum: "3140"
+  regdate: "1021632381"
+  newsletter: "yes"
+  customstatus: Amministratore tecnico
+  avatar: http://img293.imageshack.us/img293/8812/anakin6an.jpg
+  site: http://www.studentibicocca.it/~wiz/media/
+  msn: wiz@studentibicocca.it
+  bio: ""
+  dateformat: gg/mm/aaaa
+  regip: 192.168.8.2
+  tpp: "100"
+  showemail: "no"
+  password: testpassword
+  ignoreu2u: ""
+  location: Informatica
+  email: wiz@studentibicocca.it
+
+ark_intruso:
+  avatar_width: "150"
+  timeoffset: "0"
+  status: Moderator
+  icq: ""
+  theme: studentibicocca
+  lastvisit: "1153390314"
+  langfile: italian
+  timeformat: "24"
+  bday: Maggio 2, 1980
+  yahoo: ""
+  username: Ark Intruso
+  jid:
+  ppp: "99"
+  aim: ""
+  uid: "871"
+  avatar_height: "112"
+  sig: "il - \xC3\xA8 il +\r\n\
+    \r\n\
+    lmvdr"
+  postnum: "12328"
+  regdate: "1033677937"
+  newsletter: "yes"
+  customstatus: "Mod. Agor\xC3\xA0"
+  avatar: http://www.mondophoto.net/europe/italy/venice/san-marco/imgp0276.jpg
+  site: ""
+  msn: blrborst@hotmail.com
+  bio: ebbene si, son un intruso d arkitectura. e allora???
+  dateformat: gg/mm/aaaa
+  regip: 217.133.222.96
+  tpp: "30"
+  showemail: "no"
+  password: testpassword
+  ignoreu2u: ""
+  location: arkitectura
+  email: ""
+
+kaworu:
+  avatar_width: "150"
+  timeoffset: "0"
+  status: Moderator
+  icq: ""
+  theme: studentibicocca
+  lastvisit: "1143032239"
+  langfile: italian
+  timeformat: "24"
+  bday: Maggio 10, 1986
+  yahoo: ""
+  username: Kaworu
+  jid:
+  ppp: "25"
+  aim: ""
+  uid: "11468"
+  avatar_height: "150"
+  sig: ""
+  postnum: "265"
+  regdate: "1126811251"
+  newsletter: "yes"
+  customstatus: ""
+  avatar: http://img214.imageshack.us/img214/323/angeltears8we.jpg
+  site: ""
+  msn: kaworu86@hotmail.it
+  bio: ""
+  dateformat: gg/mm/aaaa
+  regip: 82.50.10.65
+  tpp: "30"
+  showemail: "no"
+  password: testpassword
+  ignoreu2u: ""
+  location: Scienze e tecniche psicologiche
+  email: ""
+
+runner:
+  avatar_width: "125"
+  timeoffset: "0"
+  status: Member
+  icq: ""
+  theme: biancogrigio
+  lastvisit: "1143973585"
+  langfile: italian
+  timeformat: "24"
+  bday: ""
+  yahoo: ""
+  username: runner
+  jid:
+  ppp: "25"
+  aim: ""
+  uid: "9913"
+  avatar_height: "150"
+  sig: "When the field's wide open, I'll pick the horse who's got the biggest heart "
+  postnum: "608"
+  regdate: "1113308063"
+  newsletter: "yes"
+  customstatus: ""
+  avatar: http://img.freeforumzone.it/upload/397462_X3.jpg
+  site: ""
+  msn: ""
+  bio: ""
+  dateformat: gg/mm/aaaa
+  regip: 151.42.170.54
+  tpp: "30"
+  showemail: "no"
+  password: testpassword
+  ignoreu2u: ""
+  location: ""
+  email: ""
