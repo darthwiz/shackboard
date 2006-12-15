@@ -59,10 +59,21 @@ table.file_list {
   margin-right: auto;
   width: 100%;
 }
-table.file_list tr.header td, table.file_list tr.header a {
+table.file_list tr.header td {
   background-color: <%=t.header%>;
   color: <%=t.headertext%>;
   font-weight: bold;
+}
+table.file_list tr.header a {
+  display: block;
+  color: <%=t.headertext%>;
+  padding-left: .2em;
+  padding-right: .2em;
+}
+table.file_list tr.header a:hover {
+  background-color: blue;
+  color: yellow;
+  text-decoration: none;
 }
 table.file_list tr td {
   background-color: <%=t.altbg1%>;

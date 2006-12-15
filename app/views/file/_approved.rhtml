@@ -18,13 +18,13 @@
             <td><%= h f.category.name %></td>
           </tr>
           <tr>
-	    <td>
+            <td>
               <%= link_to 'download', :controller => 'file',
                                       :action     => 'download',
                                       :id         => f.id %>
-	      (<%= f.metadata.filesize / 1.kilobyte %> kB)
-	    </td>
-	  </tr>
+              (<%= f.metadata.filesize / 1.kilobyte %> kB)
+            </td>
+          </tr>
         </table>
       </td>
       <td align="center"><%=h f.user.username if f.user%></td>

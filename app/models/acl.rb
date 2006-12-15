@@ -2,7 +2,7 @@ class Acl < ActiveRecord::Base
   serialize 'permissions'
   def method_missing(method, *args) # {{{
     begin
-      super
+      super # see if we can execute an ActiveRecord method
     rescue Exception => e
       action = method.to_s.sub(/^can_/, '').sub(/\?$/, '').to_sym
       if (method.to_s =~ /^can_[[:alnum:]_]+\?$/)
@@ -37,7 +37,6 @@ private
         end
       end
     rescue
-      return false
     end
     return false
   end # }}}

@@ -8,12 +8,12 @@
     <% @pms.each do |pm| %>
     <li>
       <ul>
-	<li class="userinfo">
-	  <%= pm.from.username %>
-	</li>
-	<li class="pm">
-	  <%= bb_to_html(pm.message) %>
-	</li>
+        <li class="userinfo">
+          <%= pm.from.username %>
+        </li>
+        <li class="pm">
+          <%= bb_to_html(pm.message) %>
+        </li>
       </ul>
       <div/>
     </li>
