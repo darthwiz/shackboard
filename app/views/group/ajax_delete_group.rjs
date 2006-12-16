@@ -1,0 +1,3 @@
+gid = params[:id]
+uid = params[:user]
+page.hide "group_#{gid}"

@@ -1,0 +1,12 @@
+      <% domid = "group_#{g.id}_user_#{u.id}" %>
+      <tr id="<%=domid%>">
+        <td>
+          <%= h u.username %>
+        </td>
+        <td>
+          <% if can_edit?(g) %>
+          <%=button_to_remote 'elimina',
+            :url => { :action => :remove_user, :id => g, :user => u }%>
+          <% end %>
+        </td>
+      </tr>

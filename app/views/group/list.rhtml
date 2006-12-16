@@ -1,12 +1,16 @@
+<%= javascript_include_tag :defaults %>
 <ul>
   <% @groups.each do |g| %>
-  <li>
-    <h3><%= h g.name %></h3>
-    <ul>
-      <% g.users.each do |g| %>
-        <li><%= h g.username %></li>
-      <% end %>
-    </ul>
+  <%=render :partial => 'list_element', :locals => { :g => g }%>
+  <% end %>
+  <% if is_adm? %>
+  <li id="add_group">
+    <h3>Nuovo gruppo</h3>
+    <%=form_remote_tag :url => { :action => :add_group }%>
+      <%=text_field_tag 'groupname'%>
+      <%=submit_to_remote :add_group, 'aggiungi gruppo',
+        :url => { :action => :add_group } %>
+    <%=end_form_tag%>
   </li>
   <% end %>
 </ul>

@@ -1,0 +1,3 @@
+domid = "add_group"
+page.insert_html :before, domid, :partial => 'list_element',
+  :locals => { :g => @added_group }

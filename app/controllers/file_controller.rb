@@ -157,7 +157,7 @@ class FileController < ApplicationController
   private
   def is_adm?(user=@user) # {{{
     begin
-      Group.include?(FILEDB_ADM_GROUP, user)
+      Group.include?(['Group', FILEDB_ADM_GROUP], user)
     rescue
       return false
     end

@@ -1,0 +1,3 @@
+domid = "group_#{@updated_group.id}_add_user"
+page.insert_html :before, domid, :partial => 'group_element',
+  :locals => { :g => @updated_group, :u => @added_user }
