@@ -6,9 +6,12 @@ class GroupTest < Test::Unit::TestCase
     assert_equal("mod_agora", Group.find(1).name)
   end # }}}
   def test_include? # {{{
-    assert Group.include?("mod_agora", User.find_by_username("Ark Intruso"))
-    assert Group.include?("mod_agora", User.find_by_username("Kaworu"))
-    assert Group.include?("mod_agora", User.find_by_username("runner"))
+    ark    = User.find_by_username("Ark Intruso")
+    kaworu = User.find_by_username("Kaworu")
+    runner = User.find_by_username("runner")
+    assert Group.include?(['Group', 'mod_agora'], ark)
+    assert Group.include?(['Group', 'mod_agora'], kaworu)
+    assert Group.include?(['Group', 'mod_agora'], runner)
   end # }}}
   def test_membership # {{{
     usernames = []

@@ -56,29 +56,29 @@ class AclTest < Test::Unit::TestCase
     # it is persistently mapped to the group as it is saved.
 
     # ACLs are (supposed to be) fresh, so the following tests should all fail
-    assert !mod_agora.acl.can_edit?(wiz)
-    assert !mod_agora.acl.can_edit?(runner)
-    assert !mod_agora.acl.can_edit?(tex)
-    assert !mod_qdoa.acl.can_edit?(wiz)
-    assert !mod_qdoa.acl.can_edit?(runner)
-    assert !mod_qdoa.acl.can_edit?(tex)
+    assert !mod_agora.can_edit?(wiz)
+    assert !mod_agora.can_edit?(runner)
+    assert !mod_agora.can_edit?(tex)
+    assert !mod_qdoa.can_edit?(wiz)
+    assert !mod_qdoa.can_edit?(runner)
+    assert !mod_qdoa.can_edit?(tex)
 
     # let's add some permissions
-    mod_agora.acl.can_edit(mod_agora)
-    mod_agora.acl.can_edit(tex)
-    mod_qdoa.acl.can_edit(wiz)
+    mod_agora.can_edit(mod_agora)
+    mod_agora.can_edit(tex)
+    mod_qdoa.can_edit(wiz)
 
     # and check that they are as intended
-    assert !mod_agora.acl.can_edit?(wiz)
-    assert mod_agora.acl.can_edit?(runner)
-    assert mod_agora.acl.can_edit?(tex)
-    assert mod_qdoa.acl.can_edit?(wiz)
-    assert !mod_qdoa.acl.can_edit?(runner)
-    assert !mod_qdoa.acl.can_edit?(tex)
+    assert !mod_agora.can_edit?(wiz)
+    assert mod_agora.can_edit?(runner)
+    assert mod_agora.can_edit?(tex)
+    assert mod_qdoa.can_edit?(wiz)
+    assert !mod_qdoa.can_edit?(runner)
+    assert !mod_qdoa.can_edit?(tex)
 
     # now we persist only one of the ACLs, the other one will be lost as soon
     # as it is no longer referenced
-    mod_agora.acl.save
+    mod_agora.acl_save
   end # }}}
   def test_object_attachment_and_persistence_step_2 # {{{
     runner    = User.find_by_username("runner")
@@ -88,12 +88,12 @@ class AclTest < Test::Unit::TestCase
     mod_qdoa  = Group.find_by_name("mod_qdoa")
 
     # from the previous test we expect that only mod_agora's ACL has been saved
-    assert !mod_agora.acl.can_edit?(wiz)
-    assert mod_agora.acl.can_edit?(runner)
-    assert mod_agora.acl.can_edit?(tex)
+    assert !mod_agora.can_edit?(wiz)
+    assert mod_agora.can_edit?(runner)
+    assert mod_agora.can_edit?(tex)
     # so these should all fail
-    assert !mod_qdoa.acl.can_edit?(wiz)
-    assert !mod_qdoa.acl.can_edit?(runner)
-    assert !mod_qdoa.acl.can_edit?(tex)
+    assert !mod_qdoa.can_edit?(wiz)
+    assert !mod_qdoa.can_edit?(runner)
+    assert !mod_qdoa.can_edit?(tex)
   end # }}}
 end
