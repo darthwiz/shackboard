@@ -52,6 +52,7 @@ end
 ActionController::Base.fragment_cache_store = :mem_cache_store, "localhost"
 $KCODE = 'UTF8'
 
+GLOBAL_ADM_GROUP = "administrators"
 FILEDB_PREFIX    = 'materiali_'
 FILEDB_ADM_GROUP = "materiali_adm"
 FILEDB_ICONS     = [
