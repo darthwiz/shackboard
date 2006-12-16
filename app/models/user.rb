@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
   @@supermods = nil
+  @@admins    = nil
   def rank # {{{
     Rank.evaluate(self.postnum)
   end # }}}
@@ -25,14 +26,25 @@ class User < ActiveRecord::Base
     return @@supermods if @@supermods
     mods  = []
     conds = "status = 'Super Moderator' OR status = 'Administrator'"
-    User.find(:all, :conditions => conds).each do |u|
-      mods << u
-    end
+    User.find(:all, :conditions => conds).each { |u| mods << u }
     @@supermods = mods
   end # }}}
   def User.supermod_ids # {{{
-    mod_ids = []
-    User.supermods.each { |u| mod_ids << u.id }
-    mod_ids
+    ids = []
+    User.supermods.each { |u| ids << u.id }
+    ids
+  end # }}}
+  def User.admins # {{{
+    return @@admins if @@admins
+    adms = []
+    User.find(:all, :conditions => "status = 'Administrator'").each do |u|
+      adms << u
+    end
+    @@admins = adms
+  end # }}}
+  def User.admin_ids # {{{
+    ids = []
+    User.admins.each { |u| ids << u.id }
+    ids
   end # }}}
 end

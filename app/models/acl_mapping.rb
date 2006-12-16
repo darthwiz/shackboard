@@ -5,6 +5,9 @@ class AclMapping < ActiveRecord::Base
     self.object_id   = object.id.to_i
     self.acl         = acl
   end # }}}
+  def associated_object # {{{
+    Module.const_get(self[:object_type]).find(self[:object_id])
+  end # }}}
   def AclMapping.map(object) # {{{
     am = AclMapping.find(:first,
                          :conditions => [ 'object_type = ? AND object_id = ?',
@@ -15,7 +18,9 @@ class AclMapping < ActiveRecord::Base
       return nil
     end
   end # }}}
-  def associated_object # {{{
-    Module.const_get(self[:object_type]).find(self[:object_id])
+  def AclMapping.associate!(object, acl) # {{{
+    am = AclMapping.new
+    am.associate(object, acl)
+    am.save
   end # }}}
 end

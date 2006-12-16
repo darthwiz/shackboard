@@ -21,25 +21,41 @@ class Group < ActiveRecord::Base
     m.destroy
   end # }}}
   def include?(user) # {{{
-    raise ArgumentError, "Argument is not a User" unless user.is_a? User
-    m = GroupMembership.find_by_group_id_and_user_id(self.id, user.id)
+    arr = arg_to_array(user)
+    raise TypeError, "Argument is not a User or a ['User', user.id] array" \
+      unless arr[0] == 'User'
+    case arr[1].class.to_s
+    when 'Fixnum'
+      userid = arr[1]
+    when 'String'
+      user   = User.find_by_username(arr[1])
+      userid = user.id if user
+      return false unless user
+    else
+      return false
+    end
+    m = GroupMembership.find_by_group_id_and_user_id(self.id, userid)
     return true if m.is_a? GroupMembership
     return false
   end # }}}
   def Group.include?(groupname, user) # {{{
-    raise ArgumentError, "Argument is not a User" unless user.is_a? User
     g = Group.find_by_name(groupname)
     return false unless g.is_a? Group
     g.include?(user)
   end # }}}
   def acl # {{{
-    acl = AclMapping.map(self)
-    return acl if acl
-    acl = Acl.new
-    acl.save
-    am = AclMapping.new
-    am.associate(self, acl)
-    am.save
-    acl
+    return @acl if @acl
+    @acl = AclMapping.map(self)
+    return @acl if @acl
+    @acl = Acl.new.attach_to(self)
+  end # }}}
+  private
+  def arg_to_array(arg) # {{{
+    case arg.class.to_s
+    when 'Array'
+      arr = arg
+    else
+      arr = [ arg.class.to_s, arg.id ]
+    end
   end # }}}
 end

@@ -1,3 +1,6 @@
 mod_agora:
   name: mod_agora
   id: "1"
+mod_qdoa:
+  name: mod_qdoa
+  id: "2"

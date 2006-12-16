@@ -1,5 +1,14 @@
 class Acl < ActiveRecord::Base
   serialize 'permissions'
+  def save # {{{
+    previously_new = self.new_record?
+    super
+    AclMapping.associate!(@owner, self) if (@owner && previously_new)
+  end # }}}
+  def attach_to(object) # {{{
+    @owner = object
+    self
+  end # }}}
   def method_missing(method, *args) # {{{
     begin
       super # see if we can call an ActiveRecord method
@@ -22,10 +31,7 @@ class Acl < ActiveRecord::Base
   end # }}}
 private
   def perm?(type, action, *args) # {{{
-    arg  = args[0]
-    arr  = arg_to_array(arg)
-    user = arg if arg.is_a? User
-    user = User.find(arr[1]) if (arg[0] == 'User' && arg[1].is_a?(Fixnum))
+    arr = arg_to_array(args[0])
     begin
       if self.permissions[type][action].include?(['User', :any])
         return true
@@ -34,8 +40,8 @@ private
         return true
       end
       self.permissions[type][action].each do |a|
-        if a[0] == 'Group' && user
-          return true if Group.find(a[1]).include?(user)
+        if a[0] == 'Group'
+          return true if Group.find(a[1]).include?(arr)
         end
       end
     rescue
@@ -45,15 +51,13 @@ private
   def add_perm(type, action, *args) # {{{
     add                            = arg_to_array(args[0])
     self.permissions               = {} unless self.permissions
-    self.permissions[:granted]     = {} unless self.permissions[:granted]
-    self.permissions[:negated]     = {} unless self.permissions[:negated]
+    self.permissions[type]         = {} unless self.permissions[type]
     self.permissions[type][action] = [] unless self.permissions[type][action]
     self.permissions[type][action] << add
-    self.save unless self.new_record?
   end # }}}
   def remove_perm(type, action, *args) # {{{
-    self.permissions[type][action].delete(args[0])
-    self.save unless self.new_record?
+    arg = arg_to_array(args[0])
+    self.permissions[type][action].delete(arg)
   end # }}}
   def can_do?(action, *args) # {{{
     perm?(:granted, action, *args) && !perm?(:negated, action, *args)

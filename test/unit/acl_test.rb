@@ -1,45 +1,99 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'acl'
 class AclTest < Test::Unit::TestCase
-  fixtures :acls, :acl_mappings, :forums, :members, :groups, :group_memberships
-  def test_reality_check # {{{
-    assert Acl.find(1).can_read?(["User", :any])
-    assert !Acl.find(84).can_read?(["User", :any])
-  end # }}}
-  def test_can_do? # {{{
-    assert Acl.find(1).can_read?(["User", :any])
-    assert Acl.find(84).can_read?(["User", 182])
-    assert !Acl.find(84).can_read?(["User", :any])
-    assert !Acl.find(1).can_walk_on_water?(["User", 182])
-  end # }}}
-  def test_forum_acl # {{{
-    bin    = Forum.find(93)
-    runner = User.find_by_username("runner")
-    assert bin.acl.can_read?(runner)
-  end # }}}
+  fixtures :members, :groups, :group_memberships, :acls, :acl_mappings
   def test_permission_assignment # {{{
-    mod_agora = Group.find_by_name('mod_agora')
-    runner    = User.find_by_username("runner")
-    wiz       = User.find_by_username('wiz')
-    assert !mod_agora.acl.can_edit?(wiz)
-    assert !mod_agora.acl.can_edit?(runner)
-    mod_agora.acl.can_edit(wiz)
-    assert mod_agora.acl.can_edit?(wiz)
-    assert !mod_agora.acl.can_edit?(runner)
-    mod_agora.acl.can_edit(Group.find_by_name("mod_agora"))
-    assert mod_agora.acl.can_edit?(wiz)
-    assert mod_agora.acl.can_edit?(runner)
-    mod_agora.acl.cant_edit(['User', :any])
-    assert !mod_agora.acl.can_edit?(wiz)
+    runner = User.find_by_username("runner")
+    wiz    = User.find_by_username('wiz')
+    tex    = User.find_by_username('tex1803')
+    acl    = Acl.new
+
+    # with a new ACL, every permission is negated for everyone
+    assert !acl.can_edit?(wiz)
+    assert !acl.can_edit?(runner)
+
+    # adding a new action for a single user: it should grant the permission for
+    # him only, and for that action only
+    acl.can_edit(wiz)
+    assert acl.can_edit?(wiz)     # this is what we intended
+    assert !acl.can_edit?(runner) # same action, different user should fail
+    assert !acl.can_delete?(wiz)  # same user, different action should fail
+
+    # test with group ownership
+    acl.can_edit(Group.find_by_name("mod_agora"))
+    assert acl.can_edit?(wiz)    # same user as before should still pass
+    assert acl.can_edit?(runner) # user in the group should pass
+    assert !acl.can_edit?(tex)   # user not in group should fail
+
+    # permission negation
+    acl.cant_edit(['User', :any]) # everything should fail from now on
+    assert !acl.can_edit?(wiz)    # single user should fail
+    assert !acl.can_edit?(runner) # user in a group should fail
   end # }}}
   def test_permission_removal # {{{
-    mod_agora = Group.find_by_name('mod_agora')
+    wiz = User.find_by_username('wiz')
+    acl = Acl.new
+    assert !acl.can_test?(wiz) # undefined action should fail
+    acl.can_test(wiz)
+    assert acl.can_test?(wiz)  # should now pass
+    acl.cant_test(wiz)
+    assert !acl.can_test?(wiz) # negated action should fail
+    acl.remove_cant_test(wiz)
+    assert acl.can_test?(wiz)  # should now pass
+    acl.remove_can_test(wiz)
+    assert !acl.can_test?(wiz) # should now fail
+  end # }}}
+  def test_object_attachment_and_persistence_step_1 # {{{
+    # NOTE this test depends on Group implementation
     runner    = User.find_by_username("runner")
     wiz       = User.find_by_username('wiz')
+    tex       = User.find_by_username('tex1803')
+    mod_agora = Group.find_by_name("mod_agora")
+    mod_qdoa  = Group.find_by_name("mod_qdoa")
+
+    # groups attach themselves a new ACL as soon as it is referenced, but
+    # saving it is the caller's responsibility. Also, if a new ACL is attached,
+    # it is persistently mapped to the group as it is saved.
+
+    # ACLs are (supposed to be) fresh, so the following tests should all fail
     assert !mod_agora.acl.can_edit?(wiz)
     assert !mod_agora.acl.can_edit?(runner)
-    mod_agora.acl.remove_cant_edit(["User", :any])
-    assert mod_agora.acl.can_edit?(wiz)
+    assert !mod_agora.acl.can_edit?(tex)
+    assert !mod_qdoa.acl.can_edit?(wiz)
+    assert !mod_qdoa.acl.can_edit?(runner)
+    assert !mod_qdoa.acl.can_edit?(tex)
+
+    # let's add some permissions
+    mod_agora.acl.can_edit(mod_agora)
+    mod_agora.acl.can_edit(tex)
+    mod_qdoa.acl.can_edit(wiz)
+
+    # and check that they are as intended
+    assert !mod_agora.acl.can_edit?(wiz)
     assert mod_agora.acl.can_edit?(runner)
+    assert mod_agora.acl.can_edit?(tex)
+    assert mod_qdoa.acl.can_edit?(wiz)
+    assert !mod_qdoa.acl.can_edit?(runner)
+    assert !mod_qdoa.acl.can_edit?(tex)
+
+    # now we persist only one of the ACLs, the other one will be lost as soon
+    # as it is no longer referenced
+    mod_agora.acl.save
+  end # }}}
+  def test_object_attachment_and_persistence_step_2 # {{{
+    runner    = User.find_by_username("runner")
+    wiz       = User.find_by_username('wiz')
+    tex       = User.find_by_username('tex1803')
+    mod_agora = Group.find_by_name("mod_agora")
+    mod_qdoa  = Group.find_by_name("mod_qdoa")
+
+    # from the previous test we expect that only mod_agora's ACL has been saved
+    assert !mod_agora.acl.can_edit?(wiz)
+    assert mod_agora.acl.can_edit?(runner)
+    assert mod_agora.acl.can_edit?(tex)
+    # so these should all fail
+    assert !mod_qdoa.acl.can_edit?(wiz)
+    assert !mod_qdoa.acl.can_edit?(runner)
+    assert !mod_qdoa.acl.can_edit?(tex)
   end # }}}
 end

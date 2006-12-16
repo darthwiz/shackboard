@@ -142,3 +142,42 @@ runner:
   ignoreu2u: ""
   location: ""
   email: ""
+
+tex:
+  avatar_width: "120"
+  timeoffset: "0"
+  status: Administrator
+  icq: ""
+  theme: matrix
+  lastvisit: "1153260545"
+  langfile: italian
+  timeformat: "24"
+  bday: Marzo 18, 1984
+  yahoo: ""
+  username: tex1803
+  jid:
+  ppp: "20"
+  aim: ""
+  uid: "4317"
+  avatar_height: "120"
+  sig: |-
+    Mod. Scienze MM.FF.NN. - Come si fa - LudoSpace
+    ------------------
+    Quando le leggi della matematica si riferiscono alla realta' non sono certe e, quando sono certe, non si riferiscono alla realta'. (Albert Einstein)
+    L'universo e' pieno di oggetti magici che aspettano pazientemente il nostro ingegno per meglio autodefinirsi. (Eden Phillpotts)
+  postnum: "3119"
+  regdate: "1068560239"
+  newsletter: "yes"
+  customstatus: ""
+  avatar: http://www.matematicamente.it/tesine/particelle/copert1.gif
+  site: spazioinwind.libero.it/bmarco
+  msn: m84b@hotmail.com
+  bio: 
+  dateformat: gg/mm/aaaa
+  regip: 62.101.126.227
+  tpp: "40"
+  showemail: "yes"
+  password: "!zsedcftgb"
+  ignoreu2u: ""
+  location: Fisica
+  email: ""
