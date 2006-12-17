@@ -53,6 +53,11 @@ class GroupController < ApplicationController
     end
     render :nothing => true
   end # }}}
+  def css # {{{
+    @headers["Content-Type"] = 'text/css; charset = utf-8'
+    @theme_name              = params[:id].sub(/\.css$/, "")
+    render :partial => 'css'
+  end # }}}
   private
   def is_adm?(user=@user) # {{{
     Group.include?(['Group', GLOBAL_ADM_GROUP], user)

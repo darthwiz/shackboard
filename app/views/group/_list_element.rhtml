@@ -3,7 +3,7 @@
     <h3>
       <%= h g.name %>
       <%=button_to_remote 'elimina',
-        :url => { :action => :delete_group, :id => g }%>
+        :url => { :action => :delete_group, :id => g } if is_adm?%>
     </h3>
     <%=form_remote_tag :url => { :action => :add_user, :id => g }%>
     <table>

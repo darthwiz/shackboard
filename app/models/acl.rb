@@ -54,10 +54,13 @@ private
     self.permissions[type]         = {} unless self.permissions[type]
     self.permissions[type][action] = [] unless self.permissions[type][action]
     self.permissions[type][action] << add
+    self
   end # }}}
   def remove_perm(type, action, *args) # {{{
     arg = arg_to_array(args[0])
     self.permissions[type][action].delete(arg)
+    # TODO delete an action if its agent set is empty
+    self
   end # }}}
   def can_do?(action, *args) # {{{
     perm?(:granted, action, *args) && !perm?(:negated, action, *args)
@@ -66,6 +69,8 @@ private
     case arg.class.to_s
     when 'Array'
       arr = arg
+    when 'NilClass'
+      arr = [ 'User', nil ]
     else
       arr = [ arg.class.to_s, arg.id ]
     end

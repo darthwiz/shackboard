@@ -14,19 +14,20 @@ class AclTest < Test::Unit::TestCase
 
     # adding a new action for a single user: it should grant the permission for
     # him only, and for that action only
-    acl.can_edit(wiz)
+    assert_equal(Acl, acl.can_edit(wiz).class)
     assert acl.can_edit?(wiz)     # this is what we intended
     assert !acl.can_edit?(runner) # same action, different user should fail
     assert !acl.can_delete?(wiz)  # same user, different action should fail
 
     # test with group ownership
-    acl.can_edit(Group.find_by_name("mod_agora"))
+    assert_equal(Acl, acl.can_edit(Group.find_by_name("mod_agora")).class)
     assert acl.can_edit?(wiz)    # same user as before should still pass
     assert acl.can_edit?(runner) # user in the group should pass
     assert !acl.can_edit?(tex)   # user not in group should fail
 
     # permission negation
-    acl.cant_edit(['User', :any]) # everything should fail from now on
+    assert_equal(Acl, acl.cant_edit(['User', :any]).class) # everything should
+                                                           # fail from now on
     assert !acl.can_edit?(wiz)    # single user should fail
     assert !acl.can_edit?(runner) # user in a group should fail
   end # }}}
@@ -81,6 +82,7 @@ class AclTest < Test::Unit::TestCase
     mod_agora.acl_save
   end # }}}
   def test_object_attachment_and_persistence_step_2 # {{{
+    # XXX test data is *not* supposed to persist, wtf?
     runner    = User.find_by_username("runner")
     wiz       = User.find_by_username('wiz')
     tex       = User.find_by_username('tex1803')

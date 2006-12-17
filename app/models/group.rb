@@ -1,6 +1,7 @@
 class Group < ActiveRecord::Base
-  has_many :group_memberships
+  has_many :group_memberships, :dependent => :destroy
   has_many :users, :through => :group_memberships
+  validates_uniqueness_of :name
   def associate!(user) # {{{
     arr = object_to_array(user)
     return false unless arr[0] == 'User'
@@ -76,6 +77,8 @@ class Group < ActiveRecord::Base
     case obj.class.to_s
     when 'Array'
       arr = obj
+    when 'NilClass'
+      arr = [ 'User', nil ]
     else
       arr = [ obj.class.to_s, obj.id ]
     end
