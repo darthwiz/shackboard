@@ -31,7 +31,7 @@ class FileController < ApplicationController
     end
     # }}}
     if (cid.to_i > 0)
-      conds = "file_catid = #{cid} AND approved_by IS NOT NULL"
+      conds = "file_catid = #{cid}"
     end
     @files = FiledbFile.find :all,
                              :conditions => conds,
@@ -101,13 +101,13 @@ class FileController < ApplicationController
   def review # {{{
     redirect_to :action => :categories unless is_adm?
     @categories = FiledbCategory.find :all, :order => 'cat_order'
-    @unapproved = FiledbFile.find_all_unapproved
+    @unapproved = FiledbFile.find(:all, :only_unapproved => true)
   end # }}}
   def approve # {{{
     render :nothing unless is_adm?
     @categories   = FiledbCategory.find :all, :order => 'cat_order'
     id            = params[:id]
-    f             = FiledbFile.find(id)
+    f             = FiledbFile.find(id, :with_unapproved => true)
     param_hash    = {}
     # this is a trick to transform from params[:keys][id] to just params[:keys]
     # which is nicer as we don't need to duplicate all the assignments already
@@ -117,6 +117,7 @@ class FileController < ApplicationController
       param_hash[key.to_sym] = value[id] if value.is_a? Hash
     end
     f.approve(@user, param_hash)
+    expire_fragment(:controller => 'file', :action => 'latest')
   end # }}}
   def unapprove # {{{
     render :nothing unless is_adm?
@@ -142,9 +143,10 @@ class FileController < ApplicationController
       @results_count = FiledbFile.count_by_name_words(words)
       @results       = FiledbFile.find_by_name_words(
         words,
-        :offset => start - 1,
-        :limit  => @opts[:ppp],
-        :order  => order_clause(order)
+        #:with_unapproved => is_adm?,
+        :offset          => start - 1,
+        :limit           => @opts[:ppp],
+        :order           => order_clause(order)
       )
       render :action => 'results'
     end

@@ -82,39 +82,28 @@ class FiledbFile < ActiveRecord::Base
       :readonly => true
     )
   end # }}}
-  def FiledbFile.find_all_unapproved # {{{
-    FiledbFile.find(:all, 
-                    :conditions => 'approved_by IS NULL',
-                    :order      => 'file_time')
-  end # }}}
-  def FiledbFile.count_by_name_words(words) # {{{
-    conds = ""
-    words.each do |i|
-      word = sanitize_sql(i)
-      conds << " AND file_name LIKE '%#{word}%'"
-    end
+  def FiledbFile.count_by_name_words(words, opts={}) # {{{
+    conds = FiledbFile.new.send(:words_to_conds, words)
+    conds << " AND approved_by IS NOT NULL" unless opts[:with_unapproved]
     conds.sub!(/^ AND /, '')
     FiledbFile.count(:conditions => conds)
   end # }}}
   def FiledbFile.find_by_name_words(words, params={}) # {{{
-    conds  = ""
-    limit  = params[:limit]  || 20
-    offset = params[:offset] || 0
-    order  = params[:order]  || 'file_name'
-    words.each do |i|
-      word = sanitize_sql(i)
-      conds << " AND file_name LIKE '%#{word}%'"
-    end
-    conds.sub!(/^ AND /, '')
+    limit    = params[:limit]           || 20
+    offset   = params[:offset]          || 0
+    order    = params[:order]           || 'file_name'
+    w_unapp  = params[:with_unapproved] || false
+    conds    = FiledbFile.new.send(:words_to_conds, words)
     FiledbFile.find(:all, 
-      :conditions => conds, 
-      :offset     => offset, 
-      :limit      => limit,
-      :order      => order
+      :conditions      => conds, 
+      :offset          => offset, 
+      :limit           => limit,
+      :order           => order,
+      :with_unapproved => w_unapp
     )
   end # }}}
   def FiledbFile.unapprove(id) # {{{
-    f = FiledbFile.find(id)
+    f = FiledbFile.find(id, :with_unapproved => true) # XXX wtf?
     f.unapprove
   end # }}}
   def FiledbFile.count_approved # {{{
@@ -125,9 +114,40 @@ class FiledbFile < ActiveRecord::Base
   def FiledbFile.latest(n=5) # {{{
     FiledbFile.find(
       :all,
-      :conditions => 'approved_by IS NOT NULL',
-      :order      => 'file_time DESC',
-      :limit      => n
+      :order => 'file_time DESC',
+      :limit => n
     )
+  end # }}}
+  def FiledbFile.find(*args) # {{{
+    options = extract_options_from_args!(args)
+    unless (options[:with_unapproved] || options[:only_unapproved])
+      options[:conditions]  = '' unless options[:conditions]
+      options[:conditions] += ' AND approved_by IS NOT NULL'
+      options[:conditions].sub!(/^ AND /, '')
+    end
+    if (options[:only_unapproved])
+      options[:conditions]  = '' unless options[:conditions]
+      options[:conditions] += ' AND approved_by IS NULL'
+      options[:conditions].sub!(/^ AND /, '')
+    end
+    options.delete(:with_unapproved)
+    options.delete(:only_unapproved)
+    validate_find_options(options)
+    set_readonly_option!(options)
+    case args.first
+      when :first then find_initial(options)
+      when :all   then find_every(options)
+      else             find_from_ids(args, options)
+    end
+  end # }}}
+  private
+  def words_to_conds(words) # {{{
+    conds = ""
+    words.each do |i|
+      word   = ActiveRecord::Base.send(:sanitize_sql, i)
+      conds << " AND (file_name LIKE '%#{word}%'"
+      conds << " OR file_desc LIKE '%#{word}%')"
+    end
+    conds
   end # }}}
 end
