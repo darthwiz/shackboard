@@ -127,7 +127,8 @@ class FileController < ApplicationController
   def delete # {{{
     render :nothing unless is_adm?
     id = params[:id].to_i
-    @file = FiledbFile.destroy(id)
+    @file = FiledbFile.find(id, :with_unapproved => true)
+    @file.destroy
   end # }}}
   def show_icon # {{{
     render :partial => 'icon', :locals => { :icon => params[:icon] }
