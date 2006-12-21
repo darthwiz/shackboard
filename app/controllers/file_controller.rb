@@ -123,6 +123,7 @@ class FileController < ApplicationController
     render :nothing unless is_adm?
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     FiledbFile.unapprove(params[:id].to_i)
+    expire_fragment(:controller => 'file', :action => 'latest')
   end # }}}
   def delete # {{{
     render :nothing unless is_adm?
@@ -141,10 +142,14 @@ class FileController < ApplicationController
     if words.empty?
       render :action => 'search'
     else
-      @results_count = FiledbFile.count_by_name_words(words)
-      @results       = FiledbFile.find_by_name_words(
+      @categories    = FiledbCategory.find :all, :order => 'cat_order'
+      @results_count = FiledbFile.count_by_words(
         words,
-        #:with_unapproved => is_adm?,
+        :with_unapproved => false # is_adm?
+      )
+      @results       = FiledbFile.find_all_by_words(
+        words,
+        :with_unapproved => false, # is_adm?,
         :offset          => start - 1,
         :limit           => @opts[:ppp],
         :order           => order_clause(order)

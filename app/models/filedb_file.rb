@@ -7,6 +7,8 @@ class FiledbFile < ActiveRecord::Base
   belongs_to      :filedb_category, :foreign_key => 'file_catid'
   belongs_to      :filedb_license,  :foreign_key => 'file_license'
   belongs_to      :user
+  validates_presence_of     :file_name
+  validates_numericality_of :file_catid
   MIMETYPES = { # {{{
     'zip'  => 'application/zip',
     'pdf'  => 'application/pdf',
@@ -71,6 +73,10 @@ class FiledbFile < ActiveRecord::Base
     self.approved_by = nil
     self.save
   end # }}}
+  def approved? # {{{
+    return true unless self.approved_by.nil?
+    false
+  end # }}}
   def metadata # {{{
     attrs = FiledbFiledata.new.attribute_names
     attrs.delete("data")
@@ -82,25 +88,16 @@ class FiledbFile < ActiveRecord::Base
       :readonly => true
     )
   end # }}}
-  def FiledbFile.count_by_name_words(words, opts={}) # {{{
+  def FiledbFile.count_by_words(words, opts={}) # {{{
     conds = FiledbFile.new.send(:words_to_conds, words)
     conds << " AND approved_by IS NOT NULL" unless opts[:with_unapproved]
     conds.sub!(/^ AND /, '')
     FiledbFile.count(:conditions => conds)
   end # }}}
-  def FiledbFile.find_by_name_words(words, params={}) # {{{
-    limit    = params[:limit]           || 20
-    offset   = params[:offset]          || 0
-    order    = params[:order]           || 'file_name'
-    w_unapp  = params[:with_unapproved] || false
-    conds    = FiledbFile.new.send(:words_to_conds, words)
-    FiledbFile.find(:all, 
-      :conditions      => conds, 
-      :offset          => offset, 
-      :limit           => limit,
-      :order           => order,
-      :with_unapproved => w_unapp
-    )
+  def FiledbFile.find_all_by_words(words, opts={}) # {{{
+    conds = FiledbFile.new.send(:words_to_conds, words)
+    opts[:conditions] = conds
+    FiledbFile.find(:all, opts)
   end # }}}
   def FiledbFile.unapprove(id) # {{{
     f = FiledbFile.find(id, :with_unapproved => true) # XXX wtf?
@@ -119,25 +116,24 @@ class FiledbFile < ActiveRecord::Base
     )
   end # }}}
   def FiledbFile.find(*args) # {{{
-    options = extract_options_from_args!(args)
-    unless (options[:with_unapproved] || options[:only_unapproved])
-      options[:conditions]  = '' unless options[:conditions]
-      options[:conditions] += ' AND approved_by IS NOT NULL'
-      options[:conditions].sub!(/^ AND /, '')
+    opts = extract_options_from_args!(args)
+    opts[:conditions] = '' unless opts[:conditions]
+    unless (opts[:with_unapproved] || opts[:only_unapproved])
+      opts[:conditions] += ' AND approved_by IS NOT NULL'
     end
-    if (options[:only_unapproved])
-      options[:conditions]  = '' unless options[:conditions]
-      options[:conditions] += ' AND approved_by IS NULL'
-      options[:conditions].sub!(/^ AND /, '')
+    if (opts[:only_unapproved])
+      opts[:conditions] += ' AND approved_by IS NULL'
     end
-    options.delete(:with_unapproved)
-    options.delete(:only_unapproved)
-    validate_find_options(options)
-    set_readonly_option!(options)
+    opts[:conditions].sub!(/^ AND /, '')
+    opts[:conditions] = nil if opts[:conditions].strip.empty?
+    opts.delete(:with_unapproved)
+    opts.delete(:only_unapproved)
+    validate_find_options(opts)
+    set_readonly_option!(opts)
     case args.first
-      when :first then find_initial(options)
-      when :all   then find_every(options)
-      else             find_from_ids(args, options)
+      when :first then find_initial(opts)
+      when :all   then find_every(opts)
+      else             find_from_ids(args, opts)
     end
   end # }}}
   private
@@ -148,6 +144,6 @@ class FiledbFile < ActiveRecord::Base
       conds << " AND (file_name LIKE '%#{word}%'"
       conds << " OR file_desc LIKE '%#{word}%')"
     end
-    conds
+    conds.sub(/^ AND /, '')
   end # }}}
 end

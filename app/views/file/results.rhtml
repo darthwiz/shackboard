@@ -26,7 +26,7 @@
   <table class="file_list" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
     <%=render :partial => 'list_header'%>
     <% @results.each do |f| %>
-      <%= render :partial => 'download', :locals => { :f => f } %>
+      <%=render :partial => 'download', :locals => { :f => f } if f.approved?%>
     <% end %>
   </table>
   <% end %>
