@@ -6,10 +6,10 @@ class Pm < ActiveRecord::Base
     Pm.count(:conditions => ['msgto = ? AND status = ?', user.username, 'new'])
   end # }}}
   def from # {{{
-    User.find_by_username(self.msgfrom)
+    User.find_by_username(self.msgfrom) || User.new
   end # }}}
   def to # {{{
-    User.find_by_username(self.msgto)
+    User.find_by_username(self.msgto) || User.new
   end # }}}
   def read? # {{{
     self.status == 'read'
