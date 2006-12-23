@@ -1,0 +1,2 @@
+page.remove "info_line_#{@pm.id}"
+page.remove "pm_content_#{@pm.id}"

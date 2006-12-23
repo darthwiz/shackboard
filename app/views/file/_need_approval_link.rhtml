@@ -1,0 +1,6 @@
+<%
+  n    = FiledbFile.count_unapproved
+  msg  = "C'è 1 nuovo file in attesa di approvazione."        if n == 1
+  msg  = "Ci sono #{n} nuovi file in attesa di approvazione." if n > 1
+  link = { :controller => 'file', :action => 'review' }
+%><%=link_to msg, link if n > 0%>

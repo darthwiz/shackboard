@@ -1,0 +1,3 @@
+page.toggle "pm_content_#{@pm.id}"
+page.replace_html "subject_#{@pm.id}", link_to_remote(h(@pm.subject),
+  :url => { :controller => 'pm', :action => 'show', :id => @pm.id })
