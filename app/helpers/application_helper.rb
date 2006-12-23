@@ -186,21 +186,24 @@ module ApplicationHelper
     time = Time.at(ts).strftime("%H.%M")
     "#{date}, #{time}"
   end # }}}
-def collection_select_with_selected(object, method, collection, value_method, text_method, current_value=nil) # {{{
-  result = "<select name='#{object}[#{method}]'>\n" 
-  for element in collection
-    if current_value.to_s == element.send(value_method).to_s
-      result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n" 
-    else
-      result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n" 
+  def collection_select_with_selected(object, method, collection, value_method, text_method, current_value=nil) # {{{
+    result = "<select name='#{object}[#{method}]'>\n" 
+    for element in collection
+      if current_value.to_s == element.send(value_method).to_s
+        result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n" 
+      else
+        result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n" 
+      end
     end
-  end
-  result << "</select>\n" 
-  return result
-end # }}}
-def button_to_remote(name, options = {}, html_options = {})  # {{{
-  button_to_function(name, remote_function(options), html_options)
-end # }}}
+    result << "</select>\n" 
+    return result
+  end # }}}
+  def button_to_remote(name, options = {}, html_options = {})  # {{{
+    button_to_function(name, remote_function(options), html_options)
+  end # }}}
+  def is_file_adm?(user=@user) # {{{
+    FileController.new.send(:is_adm?, user)
+  end # }}}
 end
 class String # {{{
   def scan_words # {{{

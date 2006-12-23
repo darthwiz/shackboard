@@ -4,7 +4,6 @@
     <div id="title">
       <h1>StudentiBicocca.it</h1>
       <span id="subtitle">Il portale degli Studenti dell'Università di Milano-Bicocca</span>
-      <%#<img src="http://www.studentibicocca.it/portale/immagini-nh/titolo.jpg" alt=""/>%>
     </div>
     <div id="asb_icon">
       <img src="http://www.studentibicocca.it/portale/immagini-nh/asb_small.png" alt=""/>
@@ -17,6 +16,10 @@
     <div id="unread_messages">
       Benvenuto <strong><%=h @user.username%></strong><%=
         render :partial => '/pm/unread_old' %>!
+      <% if is_file_adm? %>
+      <br/>
+      <%=render :partial => '/file/need_approval_link'%>
+      <% end %>
     </div>
     <% end %>
   </div><%#}}}%>

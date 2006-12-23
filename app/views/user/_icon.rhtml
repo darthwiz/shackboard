@@ -5,7 +5,7 @@
     username = user.username
     postnum  = user.postnum
     rank     = user.rank
-    regdate  = Time.at(@author.regdate).strftime("%d/%m/%Y")
+    regdate  = Time.at(user.regdate).strftime("%d/%m/%Y")
     avW_orig = user.avatar_width.to_i
     avH_orig = user.avatar_height.to_i
     avURL    = user.avatar
@@ -20,13 +20,17 @@
     rank.title = "utente sconosciuto"
   end
 %>
-<div class="post_user_icon post_<%=bg%>">
+<div class="">
   <span class="author"><%=h username%></span><br/>
   <span class="rank"><%=rank.title%></span><br/>
   <span class="stars">
     <% rank.stars.times do %><img src="<%=starURL%>" alt="*"><% end %>
   </span><br/>
   <img class="avatar" src="<%=avURL%>" alt="" width="<%=avW%>" height="<%=avH%>">
+  <% if context == :post %>
   <br/><span class="postnum"><%=h postnum%> posts</span>
+  <% elsif context == :pm %>
+  <br/><span class="msgnum"><%=Pm.count_from_to(user, @user)%> messaggi</span>
+  <% end %>
   <br/><span class="regdate">Registrato: <%=regdate%></span>
 </div>

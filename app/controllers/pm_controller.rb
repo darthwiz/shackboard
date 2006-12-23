@@ -28,4 +28,31 @@ class PmController < ApplicationController
     @theme_name              = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
   end # }}}
+  def show # {{{
+    unless @user
+      render :nothing => true and return
+    end
+    if @request.xml_http_request?
+      @pm = Pm.find(params[:id])
+      if @pm.to == @user && !@pm.read?
+	@pm.status = 'read'
+        @pm.save
+      end
+    else
+      render :nothing => true and return
+    end
+  end # }}}
+  def delete # {{{
+    unless @user
+      render :nothing => true and return
+    end
+    if @request.xml_http_request?
+      @pm = Pm.find(params[:id])
+      if @pm.to == @user
+	#@pm.destroy
+      end
+    else
+      render :nothing => true and return
+    end
+  end # }}}
 end

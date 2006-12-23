@@ -1,32 +1,67 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
-body {
+body {<%#{{{%>
   color: <%=t.text%>;
   background-color: <%=t.bgcolor%>;
-}
-div#pms {
+}<%#}}}%>
+div#pms {<%#{{{%>
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 6px;
   margin-bottom: 6px;
-  border: 1px solid black;
-}
-ul {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}<%#}}}%>
+ul {<%#{{{%>
   margin: 0;
   padding: 0;
   list-style: none;
-}
-ul#pmlist>li>div {
+}<%#}}}%>
+div.info_line, div.content {<%#{{{%>
   clear: both;
-}
-li.userinfo {
-  clear: left;
+  border-top: 1px solid black;
+  padding: 0;
+}<%#}}}%>
+div.sender, div.avatar {<%#{{{%>
+  width: 150px;
   float: left;
-  width: 10em;
-  border: 1px solid black;
-}
-li.pm {
-  clear: right;
-  float: left;
-  border: 1px solid black;
-}
+  overflow: hidden;
+}<%#}}}%>
+div.avatar {<%#{{{%>
+  border-right: 1px solid black;
+}<%#}}}%>
+div.subject, div.message {<%#{{{%>
+  margin-left: 150px;
+  border-left: 1px solid black;
+}<%#}}}%>
+div.date {<%#{{{%>
+  float: right;
+  border-left: 1px solid black;
+  text-align: right;
+}<%#}}}%>
+div.content {<%#{{{%>
+  margin-top: -1px;
+}<%#}}}%>
+div.subject, div.date, div.message, div.sender {<%#{{{%>
+  padding: .2em;
+}<%#}}}%>
+div.subject, div.message, div.sender span, div.avatar div {<%#{{{%>
+  padding-left: .5em;
+}<%#}}}%>
+div.sender span {<%#{{{%>
+  position: relative;
+  left: -.2em;
+}<%#}}}%>
+div.signature {<%#{{{%>
+  margin-top: 3em;
+}<%#}}}%>
+a.delete {<%#{{{%>
+  color: red;
+  font-weight: bold;
+}<%#}}}%>
+a.delete:hover {<%#{{{%>
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}<%#}}}%>

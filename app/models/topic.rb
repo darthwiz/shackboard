@@ -75,4 +75,26 @@ end # }}}
     return Topic.find(self.message.strip.to_i).actual if self.closed == "moved"
     return self
   end # }}}
+  def posts(range) # {{{
+    raise TypeError, 'argument must be a Range' unless range.is_a? Range
+    posts = []
+    if range.begin == 0
+      p = Post.new
+      self.attribute_names.each do |a|
+        p.send(a + '=', self.send(a)) if p.respond_to?(a + '=')
+      end
+      posts << p
+      range = (range.begin.succ..range.end)  if !range.exclude_end?
+      range = (range.begin.succ...range.end) if range.exclude_end?
+    end
+    if range.end > range.begin
+      conds  = ["tid = ? AND fid = ?", self.tid, self.fid]
+      posts += Post.find :all,
+                         :conditions => conds,
+                         :order      => 'dateline',
+                         :offset     => range.begin - 1,
+                         :limit      => range.entries.length
+    end
+    posts
+  end # }}}
 end

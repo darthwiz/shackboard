@@ -1,25 +1,58 @@
 <% bw = 1 %>
 <% ts = 6 %>
+<% flip = 0 unless flip %>
+<%= javascript_include_tag :defaults %>
 <div id="navbar_top">
   <%# render :partial => '/layouts/navbar' %>
 </div>
 <div id="pms">
-  <ul id="pmlist">
+  <ul id="pm_list">
     <% @pms.each do |pm| %>
-    <li>
-      <ul>
-        <li class="userinfo">
-          <%= pm.from.username %>
-        </li>
-        <li class="pm">
-          <%= bb_to_html(pm.message) %>
-        </li>
-      </ul>
-      <div/>
+    <li class="bg<%=flip%>">
+      <div id="info_line_<%=pm.id%>" class="info_line">
+        <div class="sender"><span><%=pm.from.username%></span></div>
+        <div class="date">
+          <%=timestamp_to_date(pm.dateline.to_i)%>
+          <%=link_to_remote('elimina',
+            { :url => { :controller => 'pm', :action => 'delete',
+              :id => pm.id } },
+            { :class => 'delete' })%>
+        </div>
+        <div id="subject_<%=pm.id%>" class="subject">
+          <% unless pm.read? %>
+          <strong>
+            <%=link_to_remote h(pm.subject),
+              :url => { :controller => 'pm', :action => 'show', :id => pm.id }%>
+          </strong>
+          <% else %>
+          <%=link_to_remote h(pm.subject),
+            :url => { :controller => 'pm', :action => 'show', :id => pm.id }%>
+          <% end %>
+        </div>
+      </div>
+      <div id="pm_content_<%=pm.id%>" class="content">
+        <div class="avatar">
+          <%=render :partial => '/user/icon',
+            :locals => { :user => pm.from, :context => :pm }%>
+        </div>
+        <div class="message">
+          <div class="text">
+            <%=bb_to_html(pm.message)%>
+          </div>
+          <% unless pm.from.sig.empty? %>
+          <div class="signature">
+            ____________________<br/>
+            <%=h(strip_tags(pm.from.sig)).gsub(/\n/, '<br/>')%>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <script type="text/javascript" language="javascript">
+        <%= update_page { |p| p.hide "pm_content_#{pm.id}" } %>
+      </script>
+      <div class="spacer"/>
     </li>
+    <% flip = 1 - flip %>
     <% end %>
   </ul>
-  <div id="navbar_bottom">
-    <%# render :partial => '/layouts/navbar' %>
-  </div>
 </div>

@@ -104,9 +104,10 @@ class FiledbFile < ActiveRecord::Base
     f.unapprove
   end # }}}
   def FiledbFile.count_approved # {{{
-    FiledbFile.count(
-      :conditions => 'approved_by IS NOT NULL'
-    )
+    FiledbFile.count(:conditions => 'approved_by IS NOT NULL')
+  end # }}}
+  def FiledbFile.count_unapproved # {{{
+    FiledbFile.count(:conditions => 'approved_by IS NULL')
   end # }}}
   def FiledbFile.latest(n=5) # {{{
     FiledbFile.find(
@@ -142,6 +143,7 @@ class FiledbFile < ActiveRecord::Base
     words.each do |i|
       word   = ActiveRecord::Base.send(:sanitize_sql, i)
       conds << " AND (file_name LIKE '%#{word}%'"
+      conds << " OR file_creator LIKE '%#{word}%'"
       conds << " OR file_desc LIKE '%#{word}%')"
     end
     conds.sub(/^ AND /, '')

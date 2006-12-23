@@ -11,10 +11,13 @@ class Pm < ActiveRecord::Base
   def to # {{{
     User.find_by_username(self.msgto)
   end # }}}
+  def read? # {{{
+    self.status == 'read'
+  end # }}}
   def Pm.count_from_to(from, to) # {{{
-    raise ArgumentError unless from.is_a? User
-    raise ArgumentError unless to.is_a? User
+    raise TypeError unless from.is_a? User
+    raise TypeError unless to.is_a? User
     conds = [ "msgfrom = ? AND msgto = ?", from.username, to.username ]
-    Pm.count(from, to)
+    Pm.count(:conditions => conds)
   end # }}}
 end
