@@ -1,4 +1,6 @@
 class Pm < ActiveRecord::Base
+  require 'magic_fixes.rb'
+  include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "u2u"
   set_primary_key "u2uid"
   def Pm.unread_for(user) # {{{

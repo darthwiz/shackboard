@@ -19,13 +19,15 @@
             { :class => 'delete' })%>
         </div>
         <div id="subject_<%=pm.id%>" class="subject">
+          <%subj = h(pm.subject.strip) unless pm.subject.strip.to_s.empty?%>
+          <%subj = "<em>(nessun oggetto)</em>" if pm.subject.strip.to_s.empty?%>
           <% unless pm.read? %>
           <strong>
-            <%=link_to_remote h(pm.subject),
+            <%=link_to_remote subj,
               :url => { :controller => 'pm', :action => 'show', :id => pm.id }%>
           </strong>
           <% else %>
-          <%=link_to_remote h(pm.subject),
+          <%=link_to_remote subj,
             :url => { :controller => 'pm', :action => 'show', :id => pm.id }%>
           <% end %>
         </div>
@@ -39,7 +41,7 @@
           <div class="text">
             <%=bb_to_html(pm.message)%>
           </div>
-          <% unless pm.from.sig.empty? %>
+          <% unless pm.from.sig.to_s.empty? %>
           <div class="signature">
             ____________________<br/>
             <%=h(strip_tags(pm.from.sig)).gsub(/\n/, '<br/>')%>

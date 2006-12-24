@@ -10,7 +10,11 @@
           <tr>
             <td style="padding-right: 1em;">Nome file</td>
             <td>
+              <% if f.metadata %>
               <%= text_field 'filename', f.id, :value => f.metadata.filename %>
+              <% else %>
+              <strong>Errore:</strong> dati del file assenti.
+              <% end %>
             </td>
           </tr>
           <tr>
@@ -47,10 +51,14 @@
           </tr>
           <tr>
             <td>
+              <% if f.metadata %>
               <%= link_to 'download', :controller => 'file',
                                       :action     => 'download',
                                       :id         => f.id %>
               (<%= f.metadata.filesize / 1.kilobyte %> kB)
+              <% else %>
+              <strong>Errore:</strong> dati del file assenti.
+              <% end %>
             </td>
           </tr>
         </table>
