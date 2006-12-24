@@ -13,6 +13,21 @@ div#pms {<%#{{{%>
   border-right: 1px solid black;
   border-bottom: 1px solid black;
 }<%#}}}%>
+div#navbar_top {<%#{{{%>
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+div#navbar_bottom {<%#{{{%>
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+div.page_links {<%#{{{%>
+  text-align: right;
+}<%#}}}%>
 ul {<%#{{{%>
   margin: 0;
   padding: 0;
@@ -20,8 +35,10 @@ ul {<%#{{{%>
 }<%#}}}%>
 div.info_line, div.content {<%#{{{%>
   clear: both;
-  border-top: 1px solid black;
   padding: 0;
+}<%#}}}%>
+div.info_line, div.message {<%#{{{%>
+  border-top: 1px solid black;
 }<%#}}}%>
 div.sender, div.avatar {<%#{{{%>
   width: 150px;
@@ -64,4 +81,22 @@ a.delete:hover {<%#{{{%>
   background-color: red;
   color: white;
   font-weight: bold;
+}<%#}}}%>
+div.spacer {<%#{{{%>
+  clear: both;
+}<%#}}}%>
+a {<%#{{{%>
+  text-decoration: none;
+}<%#}}}%>
+a:hover {<%#{{{%>
+  text-decoration: underline;
+}<%#}}}%>
+a:visited {<%#{{{%>
+  color: blue;
+}<%#}}}%>
+li.bg0 {<%#{{{%>
+  background-color: <%=t.altbg1%>;
+}<%#}}}%>
+li.bg1 {<%#{{{%>
+  background-color: <%=t.altbg2%>;
 }<%#}}}%>

@@ -3,7 +3,7 @@
 <% flip = 0 unless flip %>
 <%= javascript_include_tag :defaults %>
 <div id="navbar_top">
-  <%# render :partial => '/layouts/navbar' %>
+  <div class="page_links"><%=page_seq @pageseq_opts%></div>
 </div>
 <div id="pms">
   <ul id="pm_list">
@@ -57,4 +57,7 @@
     <% flip = 1 - flip %>
     <% end %>
   </ul>
+</div>
+<div id="navbar_bottom">
+  <div class="page_links"><%=page_seq @pageseq_opts%></div>
 </div>

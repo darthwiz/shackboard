@@ -21,7 +21,7 @@
   end
 %>
 <div class="">
-  <span class="author"><%=h username%></span><br/>
+  <%if context == :post%><span class="author"><%=h username%></span><br/><%end%>
   <span class="rank"><%=rank.title%></span><br/>
   <span class="stars">
     <% rank.stars.times do %><img src="<%=starURL%>" alt="*"><% end %>

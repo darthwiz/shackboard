@@ -19,7 +19,8 @@ class Pm < ActiveRecord::Base
   def Pm.count_from_to(from, to) # {{{
     raise TypeError unless from.is_a? User
     raise TypeError unless to.is_a? User
-    conds = [ "msgfrom = ? AND msgto = ?", from.username, to.username ]
+    conds = [ "msgfrom = ? AND msgto = ? AND folder = 'inbox'",
+      from.username, to.username ]
     Pm.count(:conditions => conds)
   end # }}}
 end

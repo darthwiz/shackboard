@@ -110,11 +110,7 @@ class FiledbFile < ActiveRecord::Base
     FiledbFile.count(:conditions => 'approved_by IS NULL')
   end # }}}
   def FiledbFile.latest(n=5) # {{{
-    FiledbFile.find(
-      :all,
-      :order => 'file_time DESC',
-      :limit => n
-    )
+    FiledbFile.find(:all, :order => 'file_time DESC', :limit => n)
   end # }}}
   def FiledbFile.find(*args) # {{{
     opts = extract_options_from_args!(args)

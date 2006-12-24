@@ -16,12 +16,12 @@ class PmController < ApplicationController
                      :order      => 'dateline DESC',
                      :limit      => limit,
                      :offset     => offset
-    @pageseq_opts = { :controller => 'pm',
-                      :action     => 'list',
-                      :first      => 1,
-                      :last       => Pm.count(conds),
-                      :current    => start,
-                      :ipp        => ppp }
+    @pageseq_opts = { :controller  => 'pm',
+                      :action      => 'list',
+                      :last        => Pm.count(conds),
+                      :current     => start,
+                      :ipp         => ppp,
+                      :extra_links => [ :first, :forward, :back, :last] }
   end # }}}
   def css # {{{
     @headers["Content-Type"] = 'text/css; charset = utf-8'
