@@ -3,6 +3,7 @@
 body {
   color: <%=t.text%>;
   background-color: <%=t.bgcolor%>;
+  font-size: 11px;
 }
 div#portal_main {
   margin-left: 20px;
@@ -100,7 +101,6 @@ a, a:visited {
 }
 a:hover {
   background-color: blue;
-  /* color: <%=t.altbg2%>; */
   color: yellow;
   text-decoration: none;
 }
@@ -137,6 +137,9 @@ ul.announcement li a {
 }
 .lastposter {
   float: right;
+}
+img {
+  border: 0;
 }
 <% if t.name == "studentibicocca" %>
 div#title {
