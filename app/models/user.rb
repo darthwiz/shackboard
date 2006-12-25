@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   set_primary_key "uid"
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
+  validates_uniqueness_of :username
   @@supermods = nil
   @@admins    = nil
   def rank # {{{

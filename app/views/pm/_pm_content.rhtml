@@ -1,0 +1,15 @@
+        <div class="avatar">
+          <%=render :partial => '/user/icon',
+            :locals => { :user => pm.from, :context => :pm }%>
+        </div>
+        <div class="message">
+          <div class="text">
+            <%=bb_to_html(pm.message)%>
+          </div>
+          <% unless pm.from.sig.to_s.empty? %>
+          <div class="signature">
+            ____________________<br/>
+            <%=h(strip_tags(pm.from.sig)).gsub(/\n/, '<br/>')%>
+          </div>
+          <% end %>
+        </div>

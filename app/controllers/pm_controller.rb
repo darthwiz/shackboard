@@ -21,7 +21,7 @@ class PmController < ApplicationController
                       :last        => Pm.count(conds),
                       :current     => start,
                       :ipp         => ppp,
-                      :extra_links => [ :first, :forward, :back, :last] }
+                      :extra_links => [ :first, :forward, :back, :last ] }
   end # }}}
   def css # {{{
     @headers["Content-Type"] = 'text/css; charset = utf-8'

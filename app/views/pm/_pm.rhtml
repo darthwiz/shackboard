@@ -1,0 +1,29 @@
+    <li class="bg<%=flip%>">
+      <div id="info_line_<%=pm.id%>" class="info_line">
+        <div class="sender"><span><%=pm.from.username%></span></div>
+        <div class="date">
+          <%=timestamp_to_date(pm.dateline.to_i)%>
+          <%=link_to_remote('elimina',
+            { :url => { :controller => 'pm', :action => 'delete',
+              :id => pm.id } },
+            { :class => 'delete' })%>
+        </div>
+        <div id="subject_<%=pm.id%>" class="subject">
+          <%subj = h(pm.subject.strip) unless pm.subject.strip.to_s.empty?%>
+          <%subj = "<em>(nessun oggetto)</em>" if pm.subject.strip.to_s.empty?%>
+          <% unless pm.read? %>
+          <strong>
+            <%=link_to_remote subj,
+              :url => { :controller => 'pm', :action => 'show', :id => pm.id }%>
+          </strong>
+          <% else %>
+          <%=link_to_remote subj,
+            :url => { :controller => 'pm', :action => 'show', :id => pm.id }%>
+          <% end %>
+        </div>
+      </div>
+      <div style="display: none;" id="pm_content_<%=pm.id%>" class="content">
+        <%#render :partial => 'pm_content', :locals => { :pm => pm }%>
+      </div>
+      <div class="spacer"/>
+    </li>

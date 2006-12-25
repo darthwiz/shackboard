@@ -4,17 +4,104 @@
 
 ActiveRecord::Schema.define() do
 
-  create_table "dbdesigner4", :id => false, :force => true do |t|
-    t.column "idmodel", :integer, :limit => 10, :default => 0, :null => false
-    t.column "idversion", :integer, :limit => 10, :default => 0, :null => false
-    t.column "name", :string, :limit => 45
-    t.column "version", :string, :limit => 20
-    t.column "username", :string, :limit => 45
-    t.column "createdate", :datetime
-    t.column "iscurrent", :integer, :limit => 1
-    t.column "ischeckedout", :integer, :limit => 1
-    t.column "info", :string
-    t.column "model", :text
+  create_table "materiali_admin", :id => false, :force => true do |t|
+    t.column "admin_id", :integer, :limit => 10, :null => false
+    t.column "admin_username", :text
+    t.column "admin_password", :text
+    t.column "admin_email", :text
+    t.column "admin_status", :integer, :limit => 1
+  end
+
+  create_table "materiali_cat", :id => false, :force => true do |t|
+    t.column "cat_id", :integer, :limit => 10, :null => false
+    t.column "cat_name", :text
+    t.column "cat_desc", :text
+    t.column "cat_files", :integer, :limit => 10
+    t.column "cat_1xid", :integer, :limit => 10
+    t.column "cat_parent", :integer, :limit => 50
+    t.column "cat_order", :integer, :limit => 50
+  end
+
+  create_table "materiali_custom", :id => false, :force => true do |t|
+    t.column "custom_id", :integer, :limit => 50, :null => false
+    t.column "custom_name", :text, :default => "", :null => false
+    t.column "custom_description", :text, :default => "", :null => false
+  end
+
+  create_table "materiali_customdata", :id => false, :force => true do |t|
+    t.column "customdata_file", :integer, :limit => 50, :default => 0, :null => false
+    t.column "customdata_custom", :integer, :limit => 50, :default => 0, :null => false
+    t.column "data", :text, :default => "", :null => false
+  end
+
+  create_table "materiali_filedata", :force => true do |t|
+    t.column "filedb_file_id", :integer, :limit => 20, :default => 0, :null => false
+    t.column "data", :binary
+    t.column "filename", :string, :limit => 100
+    t.column "mimetype", :string, :limit => 40
+    t.column "filesize", :integer, :limit => 20
+    t.column "text", :text
+    t.column "created_on", :date
+    t.column "updated_on", :date
+    t.column "deleted_on", :date
+  end
+
+  add_index "materiali_filedata", ["filedb_file_id"], :name => "file_id", :unique => true
+  add_index "materiali_filedata", ["filename", "mimetype", "filesize", "created_on", "updated_on", "deleted_on"], :name => "filename"
+
+  create_table "materiali_files", :id => false, :force => true do |t|
+    t.column "file_id", :integer, :limit => 10, :null => false
+    t.column "file_name", :text
+    t.column "file_desc", :text
+    t.column "file_creator", :text
+    t.column "file_version", :text
+    t.column "file_longdesc", :text
+    t.column "file_ssurl", :text
+    t.column "file_dlurl", :text
+    t.column "file_time", :integer, :limit => 50
+    t.column "file_catid", :integer, :limit => 10
+    t.column "file_posticon", :text
+    t.column "file_license", :integer, :limit => 10
+    t.column "file_dls", :integer, :limit => 10
+    t.column "file_last", :integer, :limit => 50
+    t.column "file_pin", :integer, :limit => 2
+    t.column "file_docsurl", :text
+    t.column "file_rating", :text, :default => "", :null => false
+    t.column "file_totalvotes", :text, :default => "", :null => false
+    t.column "user_id", :integer, :limit => 20
+    t.column "approved_by", :integer, :limit => 20
+  end
+
+  add_index "materiali_files", ["user_id"], :name => "user_id"
+  add_index "materiali_files", ["approved_by"], :name => "approved_by"
+  add_index "materiali_files", ["file_catid"], :name => "file_catid"
+
+  create_table "materiali_license", :id => false, :force => true do |t|
+    t.column "license_id", :integer, :limit => 10, :null => false
+    t.column "license_name", :text
+    t.column "license_text", :text
+  end
+
+  create_table "materiali_settings", :id => false, :force => true do |t|
+    t.column "settings_id", :integer, :limit => 1, :default => 1, :null => false
+    t.column "settings_dbname", :text, :default => "", :null => false
+    t.column "settings_dbdescription", :text, :default => "", :null => false
+    t.column "settings_dburl", :text, :default => "", :null => false
+    t.column "settings_topnumber", :integer, :limit => 5, :default => 0, :null => false
+    t.column "settings_homeurl", :text, :default => "", :null => false
+    t.column "settings_newdays", :integer, :limit => 5, :default => 0, :null => false
+    t.column "settings_timeoffset", :integer, :limit => 5, :default => 0, :null => false
+    t.column "settings_timezone", :text, :default => "", :null => false
+    t.column "settings_header", :text, :default => "", :null => false
+    t.column "settings_footer", :text, :default => "", :null => false
+    t.column "settings_style", :text, :default => "", :null => false
+    t.column "settings_stats", :integer, :limit => 5, :default => 0, :null => false
+    t.column "settings_lang", :text, :default => "", :null => false
+  end
+
+  create_table "materiali_votes", :id => false, :force => true do |t|
+    t.column "votes_ip", :string, :limit => 50, :default => "0", :null => false
+    t.column "votes_file", :integer, :limit => 50, :default => 0, :null => false
   end
 
   create_table "test_xmb_view", :id => false, :force => true do |t|
@@ -88,6 +175,22 @@ ActiveRecord::Schema.define() do
 
   add_index "xmb_forums", ["fid"], :name => "fid"
 
+  create_table "xmb_group_memberships", :force => true do |t|
+    t.column "group_id", :integer, :limit => 20
+    t.column "groupname", :string, :limit => 80
+    t.column "user_id", :integer, :limit => 20
+    t.column "username", :string, :limit => 80
+  end
+
+  add_index "xmb_group_memberships", ["groupname", "user_id", "username"], :name => "name"
+  add_index "xmb_group_memberships", ["group_id"], :name => "group_id"
+
+  create_table "xmb_groups", :force => true do |t|
+    t.column "name", :string, :limit => 80
+  end
+
+  add_index "xmb_groups", ["name"], :name => "name"
+
   create_table "xmb_members", :id => false, :force => true do |t|
     t.column "uid", :integer, :limit => 6, :null => false
     t.column "username", :string, :limit => 25, :default => "", :null => false
@@ -152,6 +255,7 @@ ActiveRecord::Schema.define() do
     t.column "edituser", :integer, :limit => 10, :default => 0, :null => false
     t.column "editdate", :integer, :limit => 10, :default => 0, :null => false
     t.column "deleted", :string, :limit => 80
+    t.column "format", :string, :limit => 16, :default => "bb"
   end
 
   add_index "xmb_posts", ["pid"], :name => "pid"
@@ -287,6 +391,9 @@ ActiveRecord::Schema.define() do
   add_index "xmb_threads", ["tid"], :name => "tid_2"
   add_index "xmb_threads", ["fid"], :name => "fid_2"
   add_index "xmb_threads", ["deleted"], :name => "deleted"
+  add_index "xmb_threads", ["tid", "fid"], :name => "tid_3"
+  add_index "xmb_threads", ["tid", "fid", "dateline"], :name => "tid_4"
+  add_index "xmb_threads", ["tid", "fid", "subject", "deleted", "author", "dateline", "lastpost"], :name => "tid_5"
 
   create_table "xmb_u2u", :id => false, :force => true do |t|
     t.column "u2uid", :integer, :limit => 9, :null => false
@@ -297,6 +404,7 @@ ActiveRecord::Schema.define() do
     t.column "message", :text, :default => "", :null => false
     t.column "folder", :string, :limit => 40, :default => "", :null => false
     t.column "status", :string, :default => "", :null => false
+    t.column "format", :string, :limit => 16, :default => "bb"
   end
 
   create_table "xmb_uid2jid", :id => false, :force => true do |t|
