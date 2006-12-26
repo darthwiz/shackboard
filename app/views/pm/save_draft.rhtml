@@ -1,0 +1,5 @@
+<% if @draft.errors.empty? %>
+Bozza salvata alle <%=timestamp_to_time(@draft.timestamp, :seconds => true)%>
+<% else %>
+<span class="alert">Bozza non salvata!</span>
+<% end %>

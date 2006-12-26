@@ -1,9 +1,15 @@
 <% bw = 1 %>
 <% ts = 6 %>
 <% flip = 0 unless flip %>
+<% @page_title = "Messaggi Privati per #{@user.username}" %>
 <%= javascript_include_tag :defaults %>
 <div id="navbar_top">
-  <div class="page_links"><%=page_seq @pageseq_opts%></div>
+  <div class="page_links">
+    <%=link_to 'bozze', {:controller => 'draft', :action => 'list'},
+      {:class => 'drafts'} %>
+    <%=link_to 'nuovo messaggio', {:action => 'new'}, {:class => 'new_pm'} %>
+    <%=page_seq @pageseq_opts%>
+  </div>
 </div>
 <div id="pms">
   <ul id="pm_list">
@@ -14,5 +20,10 @@
   </ul>
 </div>
 <div id="navbar_bottom">
-  <div class="page_links"><%=page_seq @pageseq_opts%></div>
+  <div class="page_links">
+    <%=link_to 'bozze', {:controller => 'draft', :action => 'list'},
+      {:class => 'drafts'} %>
+    <%=link_to 'nuovo messaggio', {:action => 'new'}, {:class => 'new_pm'} %>
+    <%=page_seq @pageseq_opts%>
+  </div>
 </div>

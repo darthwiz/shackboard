@@ -3,6 +3,15 @@ class Pm < ActiveRecord::Base
   include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "u2u"
   set_primary_key "u2uid"
+  # validations {{{
+  validates_numericality_of :dateline
+  validates_presence_of :message
+  validates_each :msgfrom, :msgto do |record, attribute, value|
+    record.errors.add(attribute, "user not found") \
+      unless User.find_by_username(value)
+  end
+  validates_inclusion_of :folder, :in => ['inbox', 'outbox', 'trash']
+  # }}}
   def Pm.unread_for(user) # {{{
     return nil unless user.is_a? User
     Pm.count(:conditions => ['msgto = ? AND status = ?', user.username, 'new'])

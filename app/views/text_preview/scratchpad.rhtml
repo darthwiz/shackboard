@@ -1,0 +1,10 @@
+<%=javascript_include_tag :defaults%>
+<div id="rendered_text"></div>
+<%=start_form_tag({}, {:method => 'post', :id => 'preview_form'})%>
+  <%=text_area('post', 'message', {:rows => 15, :cols => 60, :id => 'text'})%>
+  <br/>
+  <%=select('post', 'format', [['BB', 'bb'], ['Textile', 'textile']],
+    {:id => 'format'})%>
+<%=end_form_tag%>
+<%=observe_form 'preview_form', :frequency => 2, :update => 'rendered_text',
+  :url => {:controller => 'text_preview', :action => 'text_to_html' }%>

@@ -158,6 +158,17 @@ module ApplicationHelper
     return '' if (cur && cur == first && cur == last)
     return s
   end # }}}
+  def text_to_html(text, format=:bb) # {{{
+    text   = String.new(text)
+    format = format.to_sym
+    case format
+    when :bb
+      return bb_to_html(text)
+    when :textile
+      return textilize(text)
+    else
+    end
+  end # }}}
   def bb_to_html(s) # {{{
     s.gsub!(/&([^#]+)/, "&amp;\\1")
     s.gsub!(/>/, "&gt;")
@@ -174,7 +185,7 @@ module ApplicationHelper
     s.gsub!(/\[\/b\]/i, "</b>")
     s.gsub!(/\[u\]/i, "<u>")
     s.gsub!(/\[\/u\]/i, "</u>")
-    s.gsub!(/\[quote\]/i, "<div class=\"post_quote\">")
+    s.gsub!(/\[quote\]/i, "<div class=\"quote\">")
     s.gsub!(/\[\/quote\]/i, "</div>")
     Smiley.all.each do |sm|
       s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\"> ")
@@ -185,6 +196,11 @@ module ApplicationHelper
     date = Time.at(ts).strftime("%d/%m/%Y")
     time = Time.at(ts).strftime("%H.%M")
     "#{date}, #{time}"
+  end # }}}
+  def timestamp_to_time(ts, opts={}) # {{{
+    string  = "%H.%M"
+    string += ":%S" if opts[:seconds]
+    Time.at(ts).strftime(string)
   end # }}}
   def collection_select_with_selected(object, method, collection, value_method, text_method, current_value=nil) # {{{
     result = "<select name='#{object}[#{method}]'>\n" 

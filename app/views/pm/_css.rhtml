@@ -7,11 +7,19 @@ body {<%#{{{%>
 div#pms {<%#{{{%>
   margin-left: 20px;
   margin-right: 20px;
-  margin-top: 6px;
-  margin-bottom: 6px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  border-left: 1px solid <%=t.bordercolor%>;
+  border-right: 1px solid <%=t.bordercolor%>;
+  border-bottom: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div#new_pm {<%#{{{%>
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: .5em;
 }<%#}}}%>
 div#navbar_top {<%#{{{%>
   margin-left: 20px;
@@ -28,6 +36,12 @@ div#navbar_bottom {<%#{{{%>
 div.page_links {<%#{{{%>
   text-align: right;
 }<%#}}}%>
+div.quote {<%#{{{%>
+  font-size: .9em;
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.bgcolor%>;
+  padding: .5em;
+}<%#}}}%>
 ul {<%#{{{%>
   margin: 0;
   padding: 0;
@@ -38,7 +52,7 @@ div.info_line, div.content {<%#{{{%>
   padding: 0;
 }<%#}}}%>
 div.info_line, div.message {<%#{{{%>
-  border-top: 1px solid black;
+  border-top: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
 div.sender, div.avatar {<%#{{{%>
   width: 150px;
@@ -46,15 +60,15 @@ div.sender, div.avatar {<%#{{{%>
   overflow: hidden;
 }<%#}}}%>
 div.avatar {<%#{{{%>
-  border-right: 1px solid black;
+  border-right: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
 div.subject, div.message {<%#{{{%>
   margin-left: 150px;
-  border-left: 1px solid black;
+  border-left: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
 div.date {<%#{{{%>
   float: right;
-  border-left: 1px solid black;
+  border-left: 1px solid <%=t.bordercolor%>;
   text-align: right;
 }<%#}}}%>
 div.content {<%#{{{%>
@@ -73,11 +87,6 @@ div.sender span {<%#{{{%>
 div.signature {<%#{{{%>
   margin-top: 3em;
 }<%#}}}%>
-a.delete:hover {<%#{{{%>
-  background-color: red;
-  color: white;
-  font-weight: bold;
-}<%#}}}%>
 div.spacer {<%#{{{%>
   clear: both;
 }<%#}}}%>
@@ -92,9 +101,38 @@ a.delete {<%#{{{%>
   color: red;
   font-weight: bold;
 }<%#}}}%>
+a.delete:hover {<%#{{{%>
+  background-color: red;
+  color: white;
+  text-decoration: none;
+}<%#}}}%>
+a.new_pm, a.drafts {<%#{{{%>
+  padding-left: .5em;
+  padding-right: .5em;
+  font-weight: bold;
+  background-color: <%=t.altbg1%>;
+  border: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+a.new_pm:hover, a.drafts:hover {<%#{{{%>
+  background-color: <%=t.altbg2%>;
+  text-decoration: none;
+}<%#}}}%>
 li.bg0 {<%#{{{%>
   background-color: <%=t.altbg1%>;
 }<%#}}}%>
 li.bg1 {<%#{{{%>
   background-color: <%=t.altbg2%>;
+}<%#}}}%>
+div.label {<%#{{{%>
+  width: 6.5em;
+  float: left;
+}<%#}}}%>
+div.field {<%#{{{%>
+  float: left;
+}<%#}}}%>
+div#pm_preview {<%#{{{%>
+  height: 8em;
+  max-width: 50em;
+  overflow: auto;
+  padding: .5em;
 }<%#}}}%>

@@ -1,0 +1,13 @@
+    <% Pm.new; Post.new; Topic.new %>
+    <li id="draft_<%=draft.id%>" class="bg<%=flip%>">
+      <div class="draft">
+        <% if draft.object_type == 'Pm' %>
+        <% l = "Messagggio privato per #{draft.object.to.username}" %>
+        <%=link_to l, :controller => 'pm', :action => 'new',
+          :draft => draft.id%>
+        (<%=timestamp_to_date(draft.timestamp)%>)
+        <% elsif draft.object_type == 'Post' %>
+        <% elsif draft.object_type == 'Topic' %>
+        <% end %>
+      </div>
+    </li>

@@ -4,7 +4,7 @@
         </div>
         <div class="message">
           <div class="text">
-            <%=bb_to_html(pm.message)%>
+            <%=text_to_html(pm.message, pm.format)%>
           </div>
           <% unless pm.from.sig.to_s.empty? %>
           <div class="signature">
@@ -12,4 +12,6 @@
             <%=h(strip_tags(pm.from.sig)).gsub(/\n/, '<br/>')%>
           </div>
           <% end %>
+          <%=link_to 'rispondi', { :action => 'new', :reply => pm.id },
+            { :class => 'reply' }%>
         </div>
