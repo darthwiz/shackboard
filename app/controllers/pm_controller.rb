@@ -6,8 +6,6 @@ class PmController < ApplicationController
     ppp = @opts[:ppp]
     start = params[:start].to_i
     start = 1 if (start == 0)
-    # TODO filter by username or keyword? {{{
-    # }}}
     offset = ((start - 1)/ppp)*ppp
     limit  = ppp
     conds  = ["msgto = ? AND folder = 'inbox'", @user.username]
@@ -112,6 +110,24 @@ class PmController < ApplicationController
     if @pm.save
       Draft.destroy(params[:draft_id])
       redirect_to :controller => 'pm', :action => 'list'
+    end
+  end # }}}
+  def search # {{{
+    unless @user
+      render :nothing => true and return
+    end
+    if @request.xml_http_request?
+      ppp    = @opts[:ppp]
+      start  = params[:start].to_i
+      start  = 1 if (start == 0)
+      offset = ((start - 1)/ppp)*ppp
+      limit  = ppp
+      @pms   = Pm.find_all_by_words @user,
+        params[:search].scan_words,
+        :order      => 'dateline DESC',
+        :limit      => limit,
+        :offset     => offset
+      render :partial => 'pm_list'
     end
   end # }}}
 end

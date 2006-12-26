@@ -32,4 +32,23 @@ class Pm < ActiveRecord::Base
       from.username, to.username ]
     Pm.count(:conditions => conds)
   end # }}}
+  def Pm.find_all_by_words(user, words, opts={}) # {{{
+    username          = ActiveRecord::Base.send(:sanitize_sql, user.username)
+    words2c           = Pm.new.send(:words_to_conds, words)
+    conds             = ["msgto = ? AND folder = 'inbox'", user.username]
+    conds[0]         += " AND " + words2c unless words2c.empty?
+    opts[:conditions] = conds
+    Pm.find(:all, opts)
+  end # }}}
+  private
+  def words_to_conds(words) # {{{
+    conds = ""
+    words.each do |i|
+      word   = ActiveRecord::Base.send(:sanitize_sql, i)
+      conds << " AND (subject LIKE '%#{word}%'"
+      conds << " OR msgfrom LIKE '%#{word}%'"
+      conds << " OR message LIKE '%#{word}%')"
+    end
+    conds.sub(/^ AND /, '')
+  end # }}}
 end

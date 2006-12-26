@@ -1,10 +1,10 @@
 <% bw = 1 %>
 <% ts = 6 %>
-<% flip = 0 unless flip %>
 <% @page_title = "Messaggi Privati per #{@user.username}" %>
 <%= javascript_include_tag :defaults %>
 <div id="navbar_top">
   <div class="page_links">
+    <%=text_field_tag 'search', nil, :id => 'pm_search'%>
     <%=link_to 'bozze', {:controller => 'draft', :action => 'list'},
       {:class => 'drafts'} %>
     <%=link_to 'nuovo messaggio', {:action => 'new'}, {:class => 'new_pm'} %>
@@ -12,12 +12,7 @@
   </div>
 </div>
 <div id="pms">
-  <ul id="pm_list">
-    <% @pms.each do |pm| %>
-    <%=render :partial => 'pm', :locals => { :pm => pm, :flip => flip }%>
-    <% flip = 1 - flip %>
-    <% end %>
-  </ul>
+  <%=render :partial => 'pm_list'%>
 </div>
 <div id="navbar_bottom">
   <div class="page_links">
@@ -26,4 +21,7 @@
     <%=link_to 'nuovo messaggio', {:action => 'new'}, {:class => 'new_pm'} %>
     <%=page_seq @pageseq_opts%>
   </div>
+  <%=observe_field 'pm_search', :frequency => 2, :update => 'pms',
+    :with => 'search',
+    :url => { :controller => 'pm', :action => 'search' }%>
 </div>
