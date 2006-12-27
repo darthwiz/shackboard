@@ -120,7 +120,7 @@ ul.latest_topics li a {<%#{{{%>
   display: block;
 }<%#}}}%>
 ul.latest_topics div.topic {<%#{{{%>
-  width: 78%;
+  width: 77%;
   height: 1.3em;
   overflow: hidden;
 }<%#}}}%>
@@ -131,7 +131,6 @@ ul.latest_topics div.lastposter {<%#{{{%>
   overflow: hidden;
   position: relative;
   top: -1.3em;
-  float: right;
   text-align: right;
 }<%#}}}%>
 div.lastposter a, div.lastposter a:visited {<%#{{{%>
@@ -171,6 +170,46 @@ h2 a:hover, h3 a:hover {<%#{{{%>
   color: yellow;
   background-color: blue;
 }<%#}}}%>
+li#files a {<%#{{{%>
+  height: 1.3em;
+  overflow: hidden;
+}<%#}}}%>
+li#files a:hover {<%#{{{%>
+  height: auto;
+}<%#}}}%>
+div#login_box {<%#{{{%>
+  width: 20em;
+  background-color: <%=t.altbg2%>;
+  margin: 1em;
+  padding: .5em;
+  border: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div#login_box div.login {<%#{{{%>
+  text-align: right;
+  padding: .5em;
+}<%#}}}%>
+div#login_box, div#login_box input {<%#{{{%>
+  font-size: .9em;
+}<%#}}}%>
+div#login_box div.label {<%#{{{%>
+  float: left;
+  text-align: right;
+  width: 6em;
+  padding-right: .5em;
+}<%#}}}%>
+div.logout {
+  text-align: right;
+}
+div.logout a {
+  background-color: <%=t.altbg1%>;
+  padding-left: .5em;
+  padding-right: .5em;
+  border: 1px solid <%=t.bordercolor%>;
+  color: <%=t.text%>;
+}
+div.logout a:hover {
+  background-color: <%=t.altbg2%>;
+}
 <% if t.name == "studentibicocca" %><%#{{{%>
 div#title {
   background: url(http://www.studentibicocca.it/portale/immagini-nh/titolo.jpg);

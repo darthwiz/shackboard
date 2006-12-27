@@ -3,29 +3,31 @@
   <div id="header"><%#Header {{{%>
     <div id="title">
       <h1>StudentiBicocca.it</h1>
-      <span id="subtitle">Il portale degli Studenti dell'Università di Milano-Bicocca</span>
+      <span id="subtitle">
+        Il portale degli Studenti dell'Università di Milano-Bicocca
+      </span>
     </div>
     <div id="asb_icon">
       <img src="http://www.studentibicocca.it/portale/immagini-nh/asb_small.png" alt=""/>
     </div>
     <div id="login_box">
-      <%=render :partial => '/login/user_pass_old'%>
-    </div>
-    <div class="spacer"></div>
-    <% if @user %>
-    <div id="unread_messages">
-      Benvenuto <strong><%=h @user.username%></strong><%=
-        render :partial => '/pm/unread_old' %>!
-      <% if is_file_adm? %>
-      <br/>
-      <%=render :partial => '/file/need_approval_link'%>
+      <% if @user %>
+        Benvenuto <strong><%=h @user.username%></strong><%=
+          render :partial => '/pm/unread_old' %>!
+        <% if is_file_adm? %>
+          <br/>
+          <%=render :partial => '/file/need_approval_link'%>
+        <% end %>
+        <%=logout_link%>
+      <% else %>
+        <%=login_box%>
       <% end %>
     </div>
-    <% end %>
+    <div class="spacer"></div>
   </div><%#}}}%>
   <div id="portal_left"><%#{{{%>
     <ul class="column">
-      <li><%#Materiali {{{%>
+      <li id="files"><%#Materiali {{{%>
         <h2>
           <%= link_to 'Materiali ◂', 'http://materiali.studentibicocca.it'%>
         </h2>
@@ -33,7 +35,7 @@
         <%= render :partial => '/welcome/files' %>
         <% end %>
       </li><%#}}}%>
-      <li><%#Bacheche {{{%>
+      <li id="boards"><%#Bacheche {{{%>
         <h2><%=link_to 'Bacheche ◂', '/portale/forum/index.php?gid=51'%></h2>
         <% cache(:controller => 'forum', :action => 'boards') do %>
         <%= render :partial => '/welcome/boards' %>

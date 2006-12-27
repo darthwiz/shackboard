@@ -1,5 +1,6 @@
 class LoginController < ApplicationController
   # skip_before_filter :authenticate
+  @@domain = '.studentibicocca.it'
   def index # {{{
   end # }}}
   def login # {{{
@@ -11,6 +12,8 @@ class LoginController < ApplicationController
         session[:userid]          = user.id
         intended_action           = session[:intended_action]
         session[:intended_action] = nil
+        cookies[:thisuser]        = { :value => username, :domain => @@domain, :expires => Time.now + 10.days }
+        cookies[:thispw]          = { :value => password, :domain => @@domain, :expires => Time.now + 10.days }
         if intended_action
           redirect_to intended_action 
         else
@@ -24,8 +27,13 @@ class LoginController < ApplicationController
     end
   end # }}}
   def logout # {{{
+    cookies[:thisuser] = { :domain => @@domain, :expires => Time.at(0) }
+    cookies[:thispw]   = { :domain => @@domain, :expires => Time.at(0) }
     reset_session
-    redirect_to :back if @request.env["HTTP_REFERER"]
-    render :nothing => true
+    if @request.env["HTTP_REFERER"]
+      redirect_to :back 
+    else
+      render :nothing => true
+    end
   end # }}}
 end

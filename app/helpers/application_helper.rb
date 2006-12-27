@@ -19,6 +19,44 @@ module ApplicationHelper
     end
     return sprintf("#%02x%02x%02x", r.to_i, g.to_i, b.to_i)
   end # }}}
+  def logout_link # {{{
+    s = link_to 'logout', :controller => 'login', :action => 'logout'
+    content_tag('div', s, :class => 'logout')
+  end # }}}
+  def login_box # {{{
+    s = start_form_tag({ :controller => 'login', :action => 'login' },
+      { :method => 'post' })
+    usn  = content_tag('div', "Username", :class => 'label')
+    usn += text_field 'user', 'username', :size => 16
+    pwd  = content_tag('div', "Password", :class => 'label')
+    pwd += password_field_tag 'user[password]', nil, :size => 16
+    btn  = submit_tag 'login'
+    s   += content_tag('div', usn, :class => 'username')
+    s   += content_tag('div', pwd, :class => 'password')
+    s   += btn
+    s   += end_form_tag
+    content_tag('div', s, :class => 'login')
+  end # }}}
+  def page_trail(loc=nil, opts={}) # {{{
+    trail = [ ['Home', '/'] ]
+    s     = ""
+    if loc == :pm_list
+      trail << [ 'Messaggi privati', {} ]
+    elsif (loc.is_a?(Topic) || loc.is_a?(Forum))
+    else
+    end
+    puts trail.inspect
+    (0...trail.length).each do |i|
+      el = trail[i]
+      if el[1].empty?
+        s += content_tag('span', el[0], :class => 'current_page')
+      else
+        s += link_to(el[0], el[1])
+      end
+      s += " &gt; " if i < trail.length - 1
+    end
+    content_tag('span', s, :class => 'page_trail')
+  end # }}}
   def page_seq(opts = {}) # {{{
     # shortcut variables {{{
     first  = opts[:first] || 1
@@ -31,8 +69,7 @@ module ApplicationHelper
     ctrl   = opts[:controller]  || params[:controller]
     actn   = opts[:action]      || params[:action]
     id     = opts[:id]          || params[:id]
-    hclass = opts[:classes]  || { :normal => nil, :current => 'current_page' }
-    adj    = opts[:adjacent] || 1
+    adj    = opts[:adjacent]    || 1
     label  = { :first   => '<< inizio', :back => '< indietro',
                :forward => 'avanti >',  :last => 'fine >>' }
     pages  = []
@@ -104,7 +141,7 @@ module ApplicationHelper
       end
       if (cur) then
         if (p == cur) then
-          s << p.to_s + "\n"
+          s << content_tag('span', p, :class => 'current') + "\n"
         else
           if (ipp) then
             ctrl_opts[:start] = (p - 1) * ipp + 1
@@ -156,7 +193,7 @@ module ApplicationHelper
     end
     # }}}
     return '' if (cur && cur == first && cur == last)
-    return s
+    content_tag('span', s, :class => 'page_seq')
   end # }}}
   def text_to_html(text, format=:bb) # {{{
     text   = String.new(text)

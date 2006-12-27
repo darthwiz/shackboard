@@ -27,7 +27,7 @@ class Topic < ActiveRecord::Base
     user
   end # }}}
 def fix_counters # {{{
-  self[:replies] = Topic.find(self.id).posts_count
+  self[:replies] = self.posts_count
   self.save
 end # }}}
   def move_to(forum) # {{{
@@ -36,6 +36,10 @@ end # }}}
       "fid = #{self.fid} AND tid = #{self.id}")
     self.forum = forum
     self.save
+  end # }}}
+  def posts_count # {{{
+    conds = [ "fid = ? AND tid = ? AND DELETED IS NULL", self.fid, self.id ]
+    Post.count(:conditions => conds)
   end # }}}
   def posts_each(limit=50) # {{{
     total  = self.posts_count

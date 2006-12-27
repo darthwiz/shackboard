@@ -7,9 +7,9 @@
     <li>
       <% url  = "/portale/forum/viewthread.php?tid=#{t.actual.id}" %>
       <% last = url + "&page=last" %>
-      <div class="topic"><%=link_to h(strip_tags(t.subject)), url%></div>
+      <div class="topic"><%=link_to h(strip_tags(t.subject)).gsub(/ +/, '&nbsp;'), url%></div>
       <div class="lastposter">
-        <%=link_to t.lastpost(:username), last%>
+        <%=link_to h(t.lastpost(:username)).gsub(/ +/, '&nbsp;'), last%>
       </div>
     </li>
   <% end %>
