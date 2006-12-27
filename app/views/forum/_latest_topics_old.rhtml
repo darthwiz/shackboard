@@ -5,9 +5,12 @@
   <ul class="latest_topics">
   <% topics.each do |t| %>
     <li>
-      <div class="lastposter"><%=h t.lastpost(:username)%></div>
-      <%=link_to h(truncate(strip_tags(t.subject), 40)),
-        "/portale/forum/viewthread.php?tid=#{t.actual.id}"%>
+      <% url  = "/portale/forum/viewthread.php?tid=#{t.actual.id}" %>
+      <% last = url + "&page=last" %>
+      <div class="topic"><%=link_to h(strip_tags(t.subject)), url%></div>
+      <div class="lastposter">
+        <%=link_to t.lastpost(:username), last%>
+      </div>
     </li>
   <% end %>
   </ul>
