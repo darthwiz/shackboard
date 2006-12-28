@@ -19,11 +19,23 @@ module ApplicationHelper
     end
     return sprintf("#%02x%02x%02x", r.to_i, g.to_i, b.to_i)
   end # }}}
-  def logout_link # {{{
+  def link_logout # {{{
     s = link_to 'logout', :controller => 'login', :action => 'logout'
     content_tag('div', s, :class => 'logout')
   end # }}}
-  def login_box # {{{
+  def link_draft_list # {{{
+    link_to 'bozze', {:controller => 'draft', :action => 'list'},
+      {:class => 'draft_list'}
+  end # }}}
+  def link_pm_new # {{{
+    link_to 'nuovo messaggio', {:controller => 'pm', :action => 'new'},
+      {:class => 'pm_new'}
+  end # }}}
+  def link_pm_trash # {{{
+    link_to 'cestino', {:controller => 'pm', :action => 'list',
+      :folder => 'trash'}, {:class => 'pm_trash'}
+  end # }}}
+  def form_login # {{{
     s = start_form_tag({ :controller => 'login', :action => 'login' },
       { :method => 'post' })
     usn  = content_tag('div', "Username", :class => 'label')
@@ -37,15 +49,19 @@ module ApplicationHelper
     s   += end_form_tag
     content_tag('div', s, :class => 'login')
   end # }}}
-  def page_trail(loc=nil, opts={}) # {{{
+  def page_trail(loc=@location, opts={}) # {{{
+    return unless (loc.is_a?(Array) && loc.length == 2)
     trail = [ ['Home', '/'] ]
     s     = ""
-    if loc == :pm_list
-      trail << [ 'Messaggi privati', {} ]
-    elsif (loc.is_a?(Topic) || loc.is_a?(Forum))
+    case loc[0]
+    when 'Pm'
+      trail += page_trail_Pm(loc[1])
+    when 'Draft'
+    when 'Forum'
+    when 'Topic'
     else
+      return
     end
-    puts trail.inspect
     (0...trail.length).each do |i|
       el = trail[i]
       if el[1].empty?
@@ -57,7 +73,7 @@ module ApplicationHelper
     end
     content_tag('span', s, :class => 'page_trail')
   end # }}}
-  def page_seq(opts = {}) # {{{
+  def page_seq(opts=@page_seq_opts) # {{{
     # shortcut variables {{{
     first  = opts[:first] || 1
     last   = opts[:last]  || first

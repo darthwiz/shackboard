@@ -3,7 +3,7 @@
         <div class="sender"><span><%=pm.from.username%></span></div>
         <div class="date">
           <%=timestamp_to_date(pm.dateline.to_i)%>
-          <%=link_to_remote('elimina',
+          <%=button_to_remote('elimina',
             { :url => { :controller => 'pm', :action => 'delete',
               :id => pm.id } },
             { :class => 'delete' })%>

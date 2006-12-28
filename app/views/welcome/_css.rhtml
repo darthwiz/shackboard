@@ -103,11 +103,6 @@ a, a:visited {<%#{{{%>
   text-decoration: none;
   color: <%=t.link%>;
 }<%#}}}%>
-a:hover {<%#{{{%>
-  background-color: blue;
-  color: yellow;
-  text-decoration: none;
-}<%#}}}%>
 ul.latest_topics li {<%#{{{%>
   margin: 0;
   padding: 0;
@@ -165,11 +160,6 @@ ul.announcement li a {<%#{{{%>
 img {<%#{{{%>
   border: 0;
 }<%#}}}%>
-h2 a:hover, h3 a:hover {<%#{{{%>
-  font-weight: bold;
-  color: yellow;
-  background-color: blue;
-}<%#}}}%>
 li#files a {<%#{{{%>
   height: 1.3em;
   overflow: hidden;
@@ -197,19 +187,24 @@ div#login_box div.label {<%#{{{%>
   width: 6em;
   padding-right: .5em;
 }<%#}}}%>
-div.logout {
+div.logout {<%#{{{%>
   text-align: right;
-}
-div.logout a {
+}<%#}}}%>
+div.logout a {<%#{{{%>
   background-color: <%=t.altbg1%>;
   padding-left: .5em;
   padding-right: .5em;
   border: 1px solid <%=t.bordercolor%>;
   color: <%=t.text%>;
-}
-div.logout a:hover {
+}<%#}}}%>
+div.logout a:hover {<%#{{{%>
   background-color: <%=t.altbg2%>;
-}
+}<%#}}}%>
+a:hover {<%#{{{%>
+  background-color: blue;
+  color: yellow;
+  text-decoration: none;
+}<%#}}}%>
 <% if t.name == "studentibicocca" %><%#{{{%>
 div#title {
   background: url(http://www.studentibicocca.it/portale/immagini-nh/titolo.jpg);
@@ -225,3 +220,8 @@ h3 a {
   background-color: #ffd000;
 }
 <% end %><%#}}}%>
+h2 a:hover, h3 a:hover {<%#{{{%>
+  font-weight: bold;
+  color: yellow;
+  background-color: blue;
+}<%#}}}%>

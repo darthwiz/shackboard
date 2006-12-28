@@ -1,25 +1,25 @@
 class PmController < ApplicationController
+  before_filter :authenticate
   def list # {{{
-    unless (@user.is_a? User) then
-      redirect_to :controller => 'welcome', :action => 'index' and return
-    end
-    ppp = @opts[:ppp]
-    start = params[:start].to_i
-    start = 1 if (start == 0)
+    ppp    = @opts[:ppp]
+    start  = params[:start].to_i
+    folder = params[:folder] || 'inbox'
+    start  = 1 if (start == 0)
     offset = ((start - 1)/ppp)*ppp
     limit  = ppp
-    conds  = ["msgto = ? AND folder = 'inbox'", @user.username]
+    conds  = ["msgto = ? AND folder = ?", @user.username, folder]
     @pms   = Pm.find :all,
                      :conditions => conds,
                      :order      => 'dateline DESC',
                      :limit      => limit,
                      :offset     => offset
-    @pageseq_opts = { :controller  => 'pm',
-                      :action      => 'list',
-                      :last        => Pm.count(conds),
-                      :current     => start,
-                      :ipp         => ppp,
-                      :extra_links => [ :first, :forward, :back, :last ] }
+    @page_seq_opts = { :controller  => 'pm',
+                       :action      => 'list',
+                       :last        => Pm.count(conds),
+                       :current     => start,
+                       :ipp         => ppp,
+                       :extra_links => [ :first, :forward, :back, :last ] }
+    @location = [ 'Pm', folder ]
   end # }}}
   def css # {{{
     @headers["Content-Type"] = 'text/css; charset = utf-8'
@@ -41,13 +41,15 @@ class PmController < ApplicationController
     end
   end # }}}
   def delete # {{{
-    unless @user
-      render :nothing => true and return
-    end
     if @request.xml_http_request?
       @pm = Pm.find(params[:id])
       if @pm.to == @user
-        #@pm.destroy
+        if @pm.folder == 'trash'
+          @pm.destroy
+        else
+          @pm.folder = 'trash'
+          @pm.save
+        end
       end
     else
       render :nothing => true and return
@@ -106,6 +108,7 @@ class PmController < ApplicationController
     @pm = Pm.new(params[:pm])
     @pm.dateline = Time.now.to_i
     @pm.folder   = 'inbox'
+    @pm.status   = 'new'
     @pm.msgfrom  = @user.username
     if @pm.save
       Draft.destroy(params[:draft_id])
