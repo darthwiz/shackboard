@@ -41,7 +41,8 @@ module ApplicationHelper
     usn  = content_tag('div', "Username", :class => 'label')
     usn += text_field 'user', 'username', :size => 16
     pwd  = content_tag('div', "Password", :class => 'label')
-    pwd += password_field_tag 'user[password]', nil, :size => 16
+    pwd += password_field_tag 'user[password]', nil, :size => 16,
+      :id => 'user_password'
     btn  = submit_tag 'login'
     s   += content_tag('div', usn, :class => 'username')
     s   += content_tag('div', pwd, :class => 'password')

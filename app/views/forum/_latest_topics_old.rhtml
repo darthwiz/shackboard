@@ -6,7 +6,7 @@
   <% topics.each do |t| %>
     <li>
       <% url  = "/portale/forum/viewthread.php?tid=#{t.actual.id}" %>
-      <% last = url + "&page=last" %>
+      <% last = url + "&amp;page=last#bottom" %>
       <div class="topic"><%=link_to h(strip_tags(t.subject)).gsub(/ +/, '&nbsp;'), url%></div>
       <div class="lastposter">
         <%=link_to h(t.lastpost(:username)).gsub(/ +/, '&nbsp;'), last%>
