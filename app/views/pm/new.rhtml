@@ -1,42 +1,50 @@
 <%=javascript_include_tag :defaults%>
+<div id="navbar_top"><%#{{{%>
+  <div class="trail_pages">
+    <%=page_trail%><br/>
+    <%=page_seq%>
+  </div>
+  <div class="util">
+    <%=link_draft_list%>
+  </div>
+</div><%#}}}%>
 <div id="new_pm">
-  <%=start_form_tag({:controller => 'pm', :action => 'create'},
-    {:method => 'post', :id => 'new_pm_form'})%>
-  <div class="label">Invia a:</div><%#{{{%>
-  <div class="field">
-    <%=text_field 'pm', 'msgto'%>
-  </div>
-  <div class="spacer"/><%#}}}%>
-  <div class="label">Oggetto:</div><%#{{{%>
-  <div class="field">
-    <%=text_field 'pm', 'subject'%>
-  </div>
-  <div class="spacer"/><%#}}}%>
-  <div class="label">Anteprima:</div><%#{{{%>
-  <div class="field">
-    <div id="pm_preview">
-      <%=text_to_html(@pm.message, @pm.format)%>
-    </div>
-  </div>
-  <div class="spacer"/><%#}}}%>
-  <div class="label">Testo:</div><%#{{{%>
-  <div class="field">
-    <%=text_area 'pm', 'message', :rows => 15, :cols => 55%>
-    <%=hidden_field_tag 'draft_id', @draft.id%>
-  </div>
-  <div class="spacer"/><%#}}}%>
-  <div class="label">&nbsp;</div><%#{{{%>
-  <div class="field">
-    Formato:
-    <%=select('pm', 'format', [['BB', 'bb'], ['Textile', 'textile']],
-      {:id => 'format'})%>
-  </div>
-  <div id="draft_saved"></div>
-  <div class="spacer"/><%#}}}%>
-  <%=submit_tag 'Invia'%>
-  <%=end_form_tag%>
-  <%=observe_form 'new_pm_form', :frequency => 2, :update => 'pm_preview',
-    :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
-  <%=observe_form 'new_pm_form', :frequency => 10, :update => 'draft_saved',
-    :url => {:controller => 'pm', :action => 'save_draft' }%>
+  <div id="message"><%#{{{%>
+    <%=start_form_tag({:controller => 'pm', :action => 'create'},
+      {:method => 'post', :id => 'new_pm_form'})%>
+    <div class="label">Invia a:</div><%#{{{%>
+    <div class="field">
+      <%=text_field 'pm', 'msgto'%>
+    </div><%#}}}%>
+    <div class="label">Oggetto:</div><%#{{{%>
+    <div class="field">
+      <%=text_field 'pm', 'subject'%>
+    </div><%#}}}%>
+    <div class="label">Anteprima:</div><%#{{{%>
+    <div class="field">
+      <div id="pm_preview">
+        <%=text_to_html(@pm.message, @pm.format)%>
+      </div>
+    </div><%#}}}%>
+    <div class="label">Testo:
+      <%=select('pm', 'format', [['BB', 'bb'],
+        ['Textile', 'textile']], {:id => 'format'})%>
+    </div><%#{{{%>
+    <div class="field">
+      <%=text_area 'pm', 'message', :rows => 15, :cols => 55%><br/>
+      <%=hidden_field_tag 'draft_id', @draft.id%>
+      <span id="draft_saved" style="display: none;"></span><br/>
+    </div><%#}}}%>
+    <%=submit_tag 'Invia'%>
+    <%=end_form_tag%>
+    <%#observe_form 'new_pm_form', :frequency => 5,
+      :url => {:controller => 'pm', :action => 'validate' }%>
+    <%=observe_form 'new_pm_form', :frequency => 5, :update => 'pm_preview',
+      :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
+    <%=observe_form 'new_pm_form', :frequency => 10, :update => 'draft_saved',
+      :url => {:controller => 'pm', :action => 'save_draft' }%>
+  </div><%#}}}%>
+  <div id="smileys"><%#{{{%>
+    <%=render :partial => '/smiley/list'%>
+  </div><%#}}}%>
 </div>

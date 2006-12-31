@@ -81,11 +81,9 @@ class PmController < ApplicationController
       @draft.object    = @pm
       @draft.save
     end
+    @location = [ 'Pm', :new ]
   end # }}}
   def save_draft # {{{
-    unless @user
-      render :nothing => true and return
-    end
     if @request.xml_http_request?
       Pm.new # this is needed to load the Pm class, otherwise d.object won't be
              # an instance of Pm, but of YAML::Object instead
@@ -102,6 +100,9 @@ class PmController < ApplicationController
         d.save
       end
       @draft = d
+      render :partial => 'save_draft'
+    else
+      render :nothing => true and return
     end
   end # }}}
   def create # {{{
@@ -113,6 +114,13 @@ class PmController < ApplicationController
     if @pm.save
       Draft.destroy(params[:draft_id])
       redirect_to :controller => 'pm', :action => 'list'
+    else
+      draft = Draft.find(params[:draft_id])
+      @pm.attribute_names.each do |a|
+        draft.object.send(a + '=', @pm.send(a)) if draft.object.respond_to? a
+      end
+      draft.save
+      redirect_to :back
     end
   end # }}}
   def search # {{{

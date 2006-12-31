@@ -2,28 +2,30 @@
 <% ts = 6 %>
 <% @page_title = "Messaggi Privati per #{@user.username}" %>
 <%= javascript_include_tag :defaults %>
-<div id="navbar_top">
-  <div class="page_links">
+<div id="navbar_top"><%#{{{%>
+  <div class="trail_pages">
     <%=page_trail%><br/>
-    <%=text_field_tag 'search', nil, :id => 'pm_search'%>
+    <%=page_seq%>
+  </div>
+  <div class="util">
+    Cerca: <%=text_field_tag 'search', nil, :id => 'pm_search'%><br/>
     <%=link_pm_new%>
     <%=link_pm_trash%>
     <%=link_draft_list%>
-    <%=page_seq%>
   </div>
-</div>
+</div><%#}}}%>
 <div id="pms">
   <%=render :partial => 'pm_list'%>
 </div>
-<div id="navbar_bottom">
-  <div class="page_links">
+<div id="navbar_top"><%#{{{%>
+  <div class="trail_pages">
+    <%=page_trail%><br/>
+    <%=page_seq%>
+  </div>
+  <div class="util">
     <%=link_pm_new%>
     <%=link_pm_trash%>
     <%=link_draft_list%>
-    <%=page_seq%><br/>
-    <%=page_trail%>
   </div>
-  <%=observe_field 'pm_search', :frequency => 2, :update => 'pms',
-    :with => 'search',
-    :url => { :controller => 'pm', :action => 'search' }%>
-</div>
+  <div class="spacer"></div>
+</div><%#}}}%>

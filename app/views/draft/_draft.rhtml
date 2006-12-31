@@ -1,13 +1,34 @@
     <% Pm.new; Post.new; Topic.new %>
     <li id="draft_<%=draft.id%>" class="bg<%=flip%>">
-      <div class="draft">
-        <% if draft.object_type == 'Pm' %>
-        <% l = "Messagggio privato per #{draft.object.to.username}" %>
+      <% if draft.object_type == 'Pm' %>
+      <div class="type"><%#{{{%>
+        MP
+      </div><%#}}}%>
+      <div class="time"><%#{{{%>
+        <%=timestamp_to_date(draft.timestamp)%>
+        <%=button_to_remote('elimina',
+          { :url => { :controller => 'draft', :action => 'delete',
+            :id => draft.id } },
+          { :class => 'delete' })%>
+      </div><%#}}}%>
+      <div class="title"><%#{{{%>
+        <% draft.object.subject = nil if draft.object.subject.empty? %>
+        <% l = draft.object.subject || content_tag('em', "(nessun oggetto)") %>
         <%=link_to l, :controller => 'pm', :action => 'new',
           :draft => draft.id%>
-        (<%=timestamp_to_date(draft.timestamp)%>)
+      <!--
+      </div>
+      <div class="destination">
+      -->
+        <% u = draft.object.to %>
+        <% if !u.new_record? %>
+          <%= link_to h(u.username), :controller => 'user', :action => 'view',
+            :id => u %>
+        <% else %>
+          <em>(utente sconosciuto)</em>
+        <% end %>
+      </div><%#}}}%>
         <% elsif draft.object_type == 'Post' %>
         <% elsif draft.object_type == 'Topic' %>
-        <% end %>
-      </div>
+      <% end %>
     </li>

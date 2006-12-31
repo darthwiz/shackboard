@@ -1,4 +1,5 @@
 class DraftController < ApplicationController
+  before_filter :authenticate
   def list # {{{
     unless (@user.is_a? User) then
       redirect_to :controller => 'welcome', :action => 'index' and return
@@ -24,6 +25,17 @@ class DraftController < ApplicationController
       :ipp         => ppp,
       :extra_links => [ :first, :forward, :back, :last ]
     }
+    @location = [ 'Draft', :list ]
+  end # }}}
+  def delete # {{{
+    if @request.xml_http_request?
+      @draft = Draft.find(params[:id])
+      if @draft.user == @user
+        @draft.destroy
+      end
+    else
+      render :nothing => true and return
+    end
   end # }}}
   def css # {{{
     @headers["Content-Type"] = 'text/css; charset = utf-8'

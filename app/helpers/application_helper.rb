@@ -24,12 +24,12 @@ module ApplicationHelper
     content_tag('div', s, :class => 'logout')
   end # }}}
   def link_draft_list # {{{
-    link_to 'bozze', {:controller => 'draft', :action => 'list'},
+    link_to_unless_current 'bozze', {:controller => 'draft', :action => 'list'},
       {:class => 'draft_list'}
   end # }}}
   def link_pm_new # {{{
-    link_to 'nuovo messaggio', {:controller => 'pm', :action => 'new'},
-      {:class => 'pm_new'}
+    link_to_unless_current 'nuovo messaggio privato',
+      {:controller => 'pm', :action => 'new'}, {:class => 'pm_new'}
   end # }}}
   def link_pm_trash # {{{
     link_to 'cestino', {:controller => 'pm', :action => 'list',
@@ -58,6 +58,7 @@ module ApplicationHelper
     when 'Pm'
       trail += page_trail_Pm(loc[1])
     when 'Draft'
+      trail += page_trail_Draft(loc[1])
     when 'Forum'
     when 'Topic'
     else
@@ -75,6 +76,7 @@ module ApplicationHelper
     content_tag('span', s, :class => 'page_trail')
   end # }}}
   def page_seq(opts=@page_seq_opts) # {{{
+    return unless opts.is_a? Hash
     # shortcut variables {{{
     first  = opts[:first] || 1
     last   = opts[:last]  || first

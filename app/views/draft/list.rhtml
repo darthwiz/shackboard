@@ -1,8 +1,9 @@
 <% flip = 0 unless flip %>
-<% @page_title = "Bozze di #{@user.username}" %>
+<% @page_title = "Bozze di #{h(@user.username)}" %>
 <%= javascript_include_tag :defaults %>
 <div id="navbar_top">
-  <div class="page_links"><%=page_seq @pageseq_opts%></div>
+  <%=page_trail%><br/>
+  <%=page_seq%>
 </div>
 <div id="drafts">
   <ul id="draft_list">
@@ -13,5 +14,6 @@
   </ul>
 </div>
 <div id="navbar_bottom">
-  <div class="page_links"><%=page_seq @pageseq_opts%></div>
+  <%=page_trail%><br/>
+  <%=page_seq%>
 </div>

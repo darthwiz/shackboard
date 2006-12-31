@@ -7,6 +7,9 @@ module PmHelper
     when 'trash'
       trail << [ 'Messaggi privati', {:controller => 'pm', :action => 'list'} ]
       trail << [ 'Cestino', {} ]
+    when :new
+      trail << [ 'Messaggi privati', {:controller => 'pm', :action => 'list'} ]
+      trail << [ 'Nuovo', {} ]
     end
     trail
   end # }}}

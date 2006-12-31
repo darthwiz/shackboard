@@ -1,0 +1,78 @@
+<% t = Theme.find_by_name(@theme_name) || Theme.new %>
+/* Theme: <%=t.name.inspect if t%> */
+body {<%#{{{%>
+  color: <%=t.text%>;
+  background-color: <%=t.bgcolor%>;
+  font-family: Verdana, sans-serif;
+  /* font-size: 11px; */
+}<%#}}}%>
+div#drafts {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  border-top: 1px solid <%=t.bordercolor%>;
+  border-left: 1px solid <%=t.bordercolor%>;
+  border-right: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+}<%#}}}%>
+div#navbar_top {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  text-align: right;
+}<%#}}}%>
+div#navbar_bottom {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  text-align: right;
+}<%#}}}%>
+ul {<%#{{{%>
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}<%#}}}%>
+a, a:visited {<%#{{{%>
+  text-decoration: none;
+  color: <%=t.link%>;
+}<%#}}}%>
+a:hover {<%#{{{%>
+  text-decoration: underline;
+}<%#}}}%>
+ul#draft_list li {<%#{{{%>
+  clear: both;
+  display: block;
+  height: 2.8em;
+  overflow: hidden;
+  border-bottom: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div.type {<%#{{{%>
+  float: left;
+  width: 8em;
+  text-align: center;
+}<%#}}}%>
+div.title {<%#{{{%>
+  overflow: hidden;
+  margin-right: 16em;
+  margin-left: 8.1em;
+  border-left: 1px solid <%=t.bordercolor%>;
+  border-right: 1px solid <%=t.bordercolor%>;
+  position: relative;
+  top: -1.8em;
+  height: 4em;
+  background-color: <%=t.altbg2%>;
+}<%#}}}%>
+div.time {<%#{{{%>
+  text-align: right;
+}<%#}}}%>
+div.title a {<%#{{{%>
+  display: block;
+  width: 100%;
+}<%#}}}%>
+div.title a:hover {<%#{{{%>
+  background-color: <%=t.altbg1%>;
+  text-decoration: none;
+}<%#}}}%>
