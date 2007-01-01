@@ -14,10 +14,16 @@
     <%=link_draft_list%>
   </div>
 </div><%#}}}%>
-<div id="pms">
-  <%=render :partial => 'pm_list'%>
-</div>
-<div id="navbar_top"><%#{{{%>
+<div id="pms"><%#{{{%>
+  <ul id="pm_list">
+    <% flip = 0 unless flip %>
+    <% @pms.each do |pm| %>
+    <%=render :partial => 'pm', :locals => { :pm => pm, :flip => flip }%>
+    <% flip = 1 - flip %>
+    <% end %>
+  </ul>
+</div><%#}}}%>
+<div id="navbar_bottom"><%#{{{%>
   <div class="trail_pages">
     <%=page_trail%><br/>
     <%=page_seq%>

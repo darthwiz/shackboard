@@ -1,0 +1,116 @@
+<% t = Theme.find_by_name(@theme_name) || Theme.new %>
+/* Theme: <%=t.name.inspect if t%> */
+body {<%#{{{%>
+  color: <%=t.text%>;
+  background-color: <%=t.bgcolor%>;
+  /* font-size: .9em; */
+  font-size: 12px;
+  font-family: sans-serif;
+}<%#}}}%>
+div#posts {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+div#navbar_top {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+div#navbar_bottom {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+ul {<%#{{{%>
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border-bottom: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+ul#post_list li {<%#{{{%>
+  border-left: 1px solid <%=t.bordercolor%>;
+  border-right: 1px solid <%=t.bordercolor%>;
+  border-top: 1px solid <%=t.bordercolor%>;
+  clear: both;
+}<%#}}}%>
+li.bg0 {<%#{{{%>
+  background-color: <%=t.altbg1%>;
+}<%#}}}%>
+li.bg1 {<%#{{{%>
+  background-color: <%=t.altbg2%>;
+}<%#}}}%>
+li.title_bar {<%#{{{%>
+  padding: .5em;
+  font-weight: bold;
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+}<%#}}}%>
+div.spacer {<%#{{{%>
+  clear: both;
+}<%#}}}%>
+div.avatar {<%#{{{%>
+  float: left;
+  width: 150px;
+  border-right: 1px solid <%=t.bordercolor%>;
+  overflow: hidden;
+}<%#}}}%>
+div.content {<%#{{{%>
+  margin-left: 150px;
+  border-left: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div.avatar div {<%#{{{%>
+  padding: .3em;
+}<%#}}}%>
+div.info_line {<%#{{{%>
+  padding: .3em;
+  border-bottom: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div.message {<%#{{{%>
+  padding: .3em;
+  max-width: 55em;
+  margin-bottom: 2em;
+}<%#}}}%>
+div.signature {<%#{{{%>
+  margin-bottom: 1em;
+  padding: .3em;
+  max-width: 55em;
+}<%#}}}%>
+div.commands {<%#{{{%>
+  border-top: 1px solid <%=t.bordercolor%>;
+  padding: .3em;
+}<%#}}}%>
+div.quote {<%#{{{%>
+  background-color: <%=t.bgcolor%>;
+  font-size: .9em;
+  padding: .5em;
+  border: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+a {<%#{{{%>
+  text-decoration: none;
+}<%#}}}%>
+a:hover {<%#{{{%>
+  text-decoration: underline;
+}<%#}}}%>
+a, a:visited {<%#{{{%>
+  color: <%=t.link%>;
+}<%#}}}%>
+span.author {<%#{{{%>
+  font-weight: bold;
+}<%#}}}%>
+span.page_trail {<%#{{{%>
+  text-align: right;
+  display: block;
+}<%#}}}%>
+span.page_seq {<%#{{{%>
+  text-align: right;
+  display: block;
+}<%#}}}%>
+div#navbar_top span.post_new, div#navbar_bottom span.post_new {<%#{{{%>
+  text-align: right;
+  display: block;
+  font-weight: bold;
+}<%#}}}%>

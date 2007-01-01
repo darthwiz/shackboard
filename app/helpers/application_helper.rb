@@ -27,13 +27,58 @@ module ApplicationHelper
     link_to_unless_current 'bozze', {:controller => 'draft', :action => 'list'},
       {:class => 'draft_list'}
   end # }}}
-  def link_pm_new # {{{
-    link_to_unless_current 'nuovo messaggio privato',
-      {:controller => 'pm', :action => 'new'}, {:class => 'pm_new'}
+  def link_post_new(ctx=@topic) # {{{
+    ctx = ctx.actual if ctx.respond_to?(:actual)
+    case ctx.class.to_s
+    when 'Topic'
+      l = link_to 'nuova risposta',
+        { :controller => 'post', :action => 'new', :class => 'topic', 
+          :reply => ctx.id }
+    when 'Post'
+      l = link_to 'nuova risposta',
+        { :controller => 'post', :action => 'new', :class => 'post', 
+          :reply => ctx.id }
+    end
+    content_tag('span', l, :class => 'post_new')
+  end # }}}
+  def link_pm_new(ctx=nil) # {{{
+    ctx = ctx.actual if ctx.respond_to?(:actual)
+    case ctx.class.to_s
+    when 'Post'
+      l = link_to 'rispondi in privato',
+        { :controller => 'pm', :action => 'new', :class => 'post',
+          :reply => ctx.id }
+    when 'Topic'
+      l = link_to 'rispondi in privato',
+        { :controller => 'pm', :action => 'new', :class => 'topic',
+          :reply => ctx.id }
+    when 'Pm'
+      l = link_to 'rispondi',
+        { :controller => 'pm', :action => 'new', :class => 'pm',
+          :reply => ctx.id }
+    else
+      l = link_to 'nuovo messaggio privato',
+        {:controller => 'pm', :action => 'new'}
+    end
+    content_tag('span', l, :class => 'pm_new')
   end # }}}
   def link_pm_trash # {{{
     link_to 'cestino', {:controller => 'pm', :action => 'list',
       :folder => 'trash'}, {:class => 'pm_trash'}
+  end # }}}
+  def link_pm_unread(user=@user) # {{{
+    count = Pm.unread_for(user)
+    msg   = "Hai 1 messaggio privato non letto."         if count == 1
+    msg   = "Hai #{count} messaggi privati non letti."   if count > 1
+    msg ? link_to(msg, :controller => 'pm', :action => 'list') : nil
+  end # }}}
+  def link_file_unapproved(user=@user) # {{{
+    return nil unless is_file_adm?(user)
+    n    = FiledbFile.count_unapproved
+    msg  = "C'è 1 nuovo file in attesa di approvazione."        if n == 1
+    msg  = "Ci sono #{n} nuovi file in attesa di approvazione." if n > 1
+    link = { :controller => 'file', :action => 'review' }
+    msg ? link_to(msg, link) : nil
   end # }}}
   def form_login # {{{
     s = start_form_tag({ :controller => 'login', :action => 'login' },
@@ -61,6 +106,7 @@ module ApplicationHelper
       trail += page_trail_Draft(loc[1])
     when 'Forum'
     when 'Topic'
+      trail += page_trail_Topic(loc[1])
     else
       return
     end

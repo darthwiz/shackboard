@@ -4,7 +4,7 @@ body {<%#{{{%>
   color: <%=t.text%>;
   background-color: <%=t.bgcolor%>;
   font-family: Verdana, sans-serif;
-  /* font-size: 11px; */
+  font-size: 11px;
 }<%#}}}%>
 div#pms {<%#{{{%>
   margin-left: 2em;
@@ -26,10 +26,7 @@ div#new_pm {<%#{{{%>
   background-color: <%=t.altbg1%>;
 }<%#}}}%>
 div#smileys {<%#{{{%>
-  float: left;
-  margin-left: 41em;
-  position: relative;
-  top: -24em;
+  float: right;
   border: 1px solid black;
 }<%#}}}%>
 div#navbar_top {<%#{{{%>
@@ -78,7 +75,6 @@ div.info_line, div.content {<%#{{{%>
 }<%#}}}%>
 div.info_line, div.message {<%#{{{%>
   border-top: 1px solid <%=t.bordercolor%>;
-  overflow: hidden;
 }<%#}}}%>
 div.sender, div.avatar {<%#{{{%>
   width: 150px;
@@ -86,6 +82,7 @@ div.sender, div.avatar {<%#{{{%>
   overflow: hidden;
   background-color: <%=t.altbg1%>;
   padding-left: .2em;
+  position: relative;
 }<%#}}}%>
 div.subject a, div.message {<%#{{{%>
   padding-left: .5em;
@@ -106,6 +103,8 @@ div.subject a:hover {<%#{{{%>
 }<%#}}}%>
 div.message {<%#{{{%>
   padding-top: .5em;
+  position: relative;
+  margin-left: 152px;
 }<%#}}}%>
 div.date {<%#{{{%>
   float: right;
@@ -118,6 +117,7 @@ div.date {<%#{{{%>
 }<%#}}}%>
 div.content {<%#{{{%>
   margin-top: -1px;
+  position: relative;
 }<%#}}}%>
 div.info_line {<%#{{{%>
   height: 1.7em;
@@ -188,6 +188,8 @@ ul#smiley_list {<%#{{{%>
   height: 20em;
   overflow: auto;
   padding: .5em;
+  float: left;
+  width: 45%;
 }<%#}}}%>
 ul#smiley_list li {<%#{{{%>
   text-align: center;
@@ -204,4 +206,9 @@ ul#smiley_list li div.image {<%#{{{%>
 ul#smiley_list li div.caption {<%#{{{%>
   background-color: <%=t.altbg2%>;
   padding: .3em;
+}<%#}}}%>
+textarea#pm_message {<%#{{{%>
+  float: left;
+  width: 50%;
+  height: 20em;
 }<%#}}}%>

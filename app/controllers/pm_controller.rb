@@ -55,6 +55,18 @@ class PmController < ApplicationController
       render :nothing => true and return
     end
   end # }}}
+  def undelete # {{{
+    if @request.xml_http_request?
+      @pm = Pm.find(params[:id])
+      if (@pm.to == @user && @pm.folder == 'trash')
+        @pm.folder = 'inbox'
+        if @pm.save
+          render :action => 'delete' and return
+        end
+      end
+    end
+    render :nothing => true and return
+  end # }}}
   def new # {{{
     reply_id = params[:reply].to_i
     draft_id = params[:draft].to_i

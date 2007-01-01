@@ -1,8 +1,11 @@
 class TopicController < ApplicationController
   def view # {{{
     ppp   = @opts[:ppp]
-    start = params[:start].to_i
-    start = 1 if (start == 0)
+    start = params[:start].to_i - 1
+    start = 0 if (start <= 0)
+    rst   = (start/ppp)*ppp
+    rend  = rst + ppp - 1
+    range = rst..rend
     # convert textual topic ids to numeric {{{
     tid = params[:id].to_i
     if (tid <= 0) then
@@ -29,40 +32,17 @@ class TopicController < ApplicationController
       render :partial => "not_authorized" and return
     end
     # }}}
-    # XXX ugly workaround to bad legacy data model {{{
-    firstpost = Post.new
-    @topic.attribute_names.each do |a|
-      firstpost.send(a + '=', @topic.send(a)) if firstpost.respond_to?(a + '=')
-    end
-    if (start <= ppp) then
-      offset = 0
-      limit  = ppp - 1
-    else
-      offset = ((start - 1)/ppp)*ppp - 1
-      limit  = ppp
-    end
-    # }}}
-    conds  = ["tid = ? AND fid = ? AND deleted IS NULL", tid, fid]
-    @posts = Post.find :all,
-                       :conditions => conds,
-                       :order      => 'dateline',
-                       :limit      => limit,
-                       :offset     => offset
-    # XXX hack again {{{
-    @posts.unshift(firstpost) if (offset == 0)
-    # }}}
-    if (offset == 0) then
-      seq = 1
-    else
-      seq = offset + 2
-    end
-    @posts.each { |p| p.seq = seq; seq += 1 }
-    @pageseq_opts = { :first      => 1,
-                      :last       => @topic.replies + 1,
-                      :ipp        => ppp,
-                      :current    => start,
-                      :controller => 'topic',
-                      :action     => 'view',
-                      :id         => tid }
+    @posts         = @topic.posts(range)
+    @page_seq_opts = { :last        => @topic.replies + 1,
+                       :ipp         => ppp,
+                       :current     => start + 1,
+                       :id          => tid,
+                       :extra_links => [ :first, :forward, :back, :last ] }
+    @location      = [ 'Topic', @topic ]
+  end # }}}
+  def css # {{{
+    @headers["Content-Type"] = 'text/css; charset = utf-8'
+    @theme_name              = params[:id].sub(/\.css$/, "")
+    render :partial => 'css'
   end # }}}
 end

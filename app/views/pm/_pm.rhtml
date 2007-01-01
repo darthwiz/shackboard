@@ -3,6 +3,10 @@
         <div class="sender"><span><%=pm.from.username%></span></div>
         <div class="date">
           <%=timestamp_to_date(pm.dateline.to_i)%>
+          <%=button_to_remote('ripristina',
+            { :url => { :controller => 'pm', :action => 'undelete',
+              :id => pm.id } },
+            { :class => 'delete' }) if pm.folder == 'trash'%>
           <%=button_to_remote('elimina',
             { :url => { :controller => 'pm', :action => 'delete',
               :id => pm.id } },

@@ -12,12 +12,9 @@
     </div>
     <div id="login_box">
       <% if @user %>
-        Benvenuto <strong><%=h @user.username%></strong><%=
-          render :partial => '/pm/unread_old' %>!
-        <% if is_file_adm? %>
-          <br/>
-          <%=render :partial => '/file/need_approval_link'%>
-        <% end %>
+        Benvenuto <strong><%=h @user.username%></strong>!<br/>
+        <%=content_tag('div', link_pm_unread)%>
+        <%=content_tag('div', link_file_unapproved)%>
         <%=link_logout%>
       <% else %>
         <%=form_login%>

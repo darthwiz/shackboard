@@ -26,16 +26,22 @@
         <%=text_to_html(@pm.message, @pm.format)%>
       </div>
     </div><%#}}}%>
-    <div class="label">Testo:
+    <div class="label">Testo:<%#{{{%>
       <%=select('pm', 'format', [['BB', 'bb'],
         ['Textile', 'textile']], {:id => 'format'})%>
-    </div><%#{{{%>
+    </div>
     <div class="field">
-      <%=text_area 'pm', 'message', :rows => 15, :cols => 55%><br/>
+      <%=text_area 'pm', 'message'%>
+      <%=render :partial => '/smiley/list'%>
       <%=hidden_field_tag 'draft_id', @draft.id%>
-      <span id="draft_saved" style="display: none;"></span><br/>
     </div><%#}}}%>
-    <%=submit_tag 'Invia'%>
+    <div class="spacer"/>
+    <div class="label">
+      <%=submit_tag 'Invia'%>
+    </div>
+    <div class="field">
+      <span id="draft_saved" style="display: none;"></span><br/>
+    </div>
     <%=end_form_tag%>
     <%#observe_form 'new_pm_form', :frequency => 5,
       :url => {:controller => 'pm', :action => 'validate' }%>
@@ -43,8 +49,5 @@
       :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
     <%=observe_form 'new_pm_form', :frequency => 10, :update => 'draft_saved',
       :url => {:controller => 'pm', :action => 'save_draft' }%>
-  </div><%#}}}%>
-  <div id="smileys"><%#{{{%>
-    <%=render :partial => '/smiley/list'%>
   </div><%#}}}%>
 </div>

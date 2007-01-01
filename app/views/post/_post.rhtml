@@ -1,43 +1,25 @@
-<%
-  @flip   = 0 unless @flip
-  bg = "bg" + (1 + @flip).to_s
-  @author = User.find_by_username(iso(post.author))
-  pid     = post.id
-  seq     = post.seq
-  date    = Time.at(post.dateline.to_i).strftime("%d/%m/%Y")
-  time    = Time.at(post.dateline.to_i).strftime("%H.%M")
-  sig     = @author.sig.gsub(/</, "&lt;").
-                        gsub(/>/, "&gt;").
-                        gsub(/&/, "&amp;").
-                        gsub(/\n/, "<br/>\n") if @author
-  text    = bb_to_html(post.message)
-  @post   = post
-%>
-<div class="post">
-  <%= render :partial => "/user/icon", :locals => { :bg => bg } %>
-  <div class="post_content">
-    <div class="post_date post_<%=bg%>">
-      postato il <%=date%> alle <%=time%>
+<% flip = 0 unless flip %>
+<li class="bg<%=flip%>" id="post_<%=post.id%>">
+  <div class="avatar">
+    <%=render :partial => '/user/icon', :locals => { :user => post.user } %>
+  </div>
+  <div class="content">
+    <div class="info_line">
+      postato il <%=timestamp_to_date(post.dateline)%>
     </div>
-    <!--
-    <div class="post_seqnr post_<%=bg%>">
-      <%=seq%>
+    <div class="message">
+      <%=text_to_html(post.message, post.format.to_sym)%>
     </div>
-    -->
-    <div class="post_textbox post_<%=bg%>">
-      <div class="post_text">
-        <%= text %>
-        <% if (post.usesig =~ /yes/ && sig) %>
-        <br/><br/>____________________<br/>
-        <%=sig%><br/>
-        <% end %>
-      </div>
+    <% unless post.user.sig.empty? %>
+    <div class="signature">
+      ____________________<br/>
+      <%=h(strip_tags(post.user.sig))%>
     </div>
-    <div class="post_menu post_<%=bg%>">
-      <%= render :partial => "/post/menu" %>
+    <% end %>
+    <div class="commands">
+      <%=link_post_new(post)%>
+      <%=link_pm_new(post)%>
     </div>
-    <div class="spacer"></div>
   </div>
   <div class="spacer"></div>
-</div>
-<% @flip = 1 - @flip %>
+</li>

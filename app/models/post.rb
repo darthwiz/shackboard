@@ -14,9 +14,13 @@ class Post < ActiveRecord::Base
     acl = AclMapping.map(self) || self.container.acl
   end # }}}
   def user # {{{
-    user = User.find_by_username(self.author)
+    user = User.find_by_username(iso(self.author))
     user = User.new unless user
     user
+  end # }}}
+  def actual # {{{
+    return self unless self.new_record?
+    self.topic
   end # }}}
   def Post.find(*args) # {{{
     opts = extract_options_from_args!(args)

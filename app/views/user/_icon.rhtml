@@ -1,4 +1,5 @@
 <%
+  context  = :post unless context
   maxwidth = 120
   starURL  = "http://www.studentibicocca.it/portale/forum/images/star.gif"
   if user
@@ -26,7 +27,7 @@
   <span class="stars">
     <% rank.stars.times do %><img src="<%=starURL%>" alt="*"><% end %>
   </span><br/>
-  <img class="avatar" src="<%=avURL%>" alt="" width="<%=avW%>" height="<%=avH%>">
+  <img class="avatar" src="<%=avURL%>" alt="" width="<%=avW%>" height="<%=avH%>"/>
   <% if context == :post %>
   <br/><span class="postnum"><%=h postnum%> posts</span>
   <% elsif context == :pm %>

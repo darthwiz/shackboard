@@ -12,6 +12,5 @@
             <%=h(strip_tags(pm.from.sig)).gsub(/\n/, '<br/>')%>
           </div>
           <% end %>
-          <%=link_to 'rispondi', { :action => 'new', :reply => pm.id },
-            { :class => 'reply' }%>
+          <%=link_pm_new(pm)%>
         </div>

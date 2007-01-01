@@ -13,8 +13,9 @@ class Pm < ActiveRecord::Base
   validates_inclusion_of :folder, :in => ['inbox', 'outbox', 'trash']
   # }}}
   def Pm.unread_for(user) # {{{
-    return nil unless user.is_a? User
-    Pm.count(:conditions => ['msgto = ? AND status = ?', user.username, 'new'])
+    raise TypeError unless user.is_a? User
+    Pm.count(:conditions => ['msgto = ? AND status = ? AND folder = ?',
+      user.username, 'new', 'inbox'])
   end # }}}
   def from # {{{
     User.find_by_username(self.msgfrom) || User.new

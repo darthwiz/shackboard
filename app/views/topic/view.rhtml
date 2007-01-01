@@ -1,14 +1,24 @@
-<% bw    = 1 %>
-<% ts    = 6 %>
+<% @page_title = @topic.subject %>
 <div id="navbar_top">
-  <%= render :partial => '/layouts/navbar' %>
+  <%=page_trail%>
+  <%=page_seq%>
+  <%=link_post_new%>
 </div>
 <div id="posts">
-  <div class="post_header">
-    <%= h @topic.title %>
-  </div>
-  <%= render :partial => "/post/post", :collection => @posts %>
+  <ul id="post_list">
+    <li class="title_bar">
+      <%=h(strip_tags(@topic.subject))%>
+    </li>
+    <% flip = 0 %>
+    <% @posts.each do |p| %>
+    <%=render :partial => '/post/post',
+      :locals => { :post => p, :flip => flip }%>
+    <% flip = 1 - flip %>
+    <% end %>
+  </ul>
 </div>
 <div id="navbar_bottom">
-  <%= render :partial => '/layouts/navbar' %>
+  <%=page_trail%>
+  <%=page_seq%>
+  <%=link_post_new%>
 </div>
