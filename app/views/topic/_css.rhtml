@@ -29,13 +29,15 @@ ul {<%#{{{%>
   padding: 0;
   margin: 0;
   list-style: none;
-  border-bottom: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
 ul#post_list li {<%#{{{%>
   border-left: 1px solid <%=t.bordercolor%>;
   border-right: 1px solid <%=t.bordercolor%>;
   border-top: 1px solid <%=t.bordercolor%>;
   clear: both;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  border-bottom: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
 li.bg0 {<%#{{{%>
   background-color: <%=t.altbg1%>;
@@ -66,7 +68,6 @@ div.avatar div {<%#{{{%>
   padding: .3em;
 }<%#}}}%>
 div.info_line {<%#{{{%>
-  padding: .3em;
   border-bottom: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
 div.message {<%#{{{%>
@@ -89,6 +90,16 @@ div.quote {<%#{{{%>
   padding: .5em;
   border: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
+div.seq {<%#{{{%>
+  padding: .3em;
+  float: right;
+  border-left: 1px solid <%=t.bordercolor%>;
+  width: 3em;
+  text-align: center;
+}<%#}}}%>
+div.date {<%#{{{%>
+  padding: .3em;
+}<%#}}}%>
 a {<%#{{{%>
   text-decoration: none;
 }<%#}}}%>
@@ -108,6 +119,22 @@ span.page_trail {<%#{{{%>
 span.page_seq {<%#{{{%>
   text-align: right;
   display: block;
+}<%#}}}%>
+span.extra_cmds_link {<%#{{{%>
+  display: block;
+  float: right;
+}<%#}}}%>
+span.extra_cmds_link a {<%#{{{%>
+  padding-left: .4em;
+  padding-right: .4em;
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+}<%#}}}%>
+span.extra_cmds_link a:hover {<%#{{{%>
+  text-decoration: none;
+}<%#}}}%>
+div.extra_cmds {<%#{{{%>
+  padding: .3em;
 }<%#}}}%>
 div#navbar_top span.post_new, div#navbar_bottom span.post_new {<%#{{{%>
   text-align: right;

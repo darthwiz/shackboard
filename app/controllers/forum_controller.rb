@@ -28,21 +28,15 @@ class ForumController < ApplicationController
       render :partial => "not_found" and return
     end
     # }}}
-    offset  = ((start - 1)/tpp)*tpp
-    limit   = tpp
-    conds   = ["fid = ? AND deleted IS NULL", fid]
-    @topics = Topic.find( :all,
-                           :conditions => conds,
-                           :order      => 'topped DESC, lastpost DESC',
-                           :limit      => limit,
-                           :offset     => offset )
-    @pageseq_opts = { :first      => 1,
-                      :last       => @forum.threads,
-                      :ipp        => tpp,
-                      :current    => start,
-                      :controller => 'forum',
-                      :action     => 'view',
-                      :id         => fid }
+    offset         = ((start - 1)/tpp)*tpp
+    limit          = tpp
+    conds          = ["fid = ?", fid]
+    @topics        = @forum.topics(offset...(offset + limit))
+    @page_seq_opts = { :last       => @forum.topics_count_cached,
+                       :ipp        => tpp,
+                       :current    => start,
+                       :id         => fid }
+    @location      = [ 'Forum', @forum ]
   end # }}}
   def tree # {{{
     @tree = Forum.tree

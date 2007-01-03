@@ -19,7 +19,11 @@ class Topic < ActiveRecord::Base
     self.replies + 1
   end # }}}
   def acl # {{{
-    AclMapping.map(self) || self.container.acl
+    acl = AclMapping.map(self)
+    return acl if acl
+    acl             = Acl.new
+    acl.permissions = self.container.acl.permissions
+    acl
   end # }}}
   def user # {{{
     user = User.find_by_username(self.author)
@@ -40,6 +44,12 @@ end # }}}
   def posts_count # {{{
     conds = [ "fid = ? AND tid = ? AND DELETED IS NULL", self.fid, self.id ]
     Post.count(:conditions => conds)
+  end # }}}
+  def posts_count_cached # {{{
+    self[:replies].to_i + 1
+  end # }}}
+  def views_count_cached # {{{
+    self[:views].to_i
   end # }}}
   def posts_each(limit=50) # {{{
     total  = self.posts_count
@@ -82,6 +92,7 @@ end # }}}
   def posts(range) # {{{
     raise TypeError, 'argument must be a Range' unless range.is_a? Range
     posts = []
+    seq   = range.begin
     if range.begin == 0
       p = Post.new
       self.attribute_names.each do |a|
@@ -99,6 +110,34 @@ end # }}}
                          :offset     => range.begin - 1,
                          :limit      => range.entries.length
     end
+    posts.each { |p| p.seq = seq; seq += 1 }
     posts
+  end # }}}
+  def format # {{{
+    'bb'
+  end # }}}
+  def Topic.find(*args) # {{{
+    opts  = extract_options_from_args!(args)
+    conds = opts[:conditions] ? opts[:conditions] : ''
+    unless (opts[:with_deleted] || opts[:only_deleted])
+      conds    += ' AND deleted IS NULL' if conds.is_a? String
+      conds[0] += ' AND deleted IS NULL' if conds.is_a? Array
+    end
+    if (opts[:only_deleted])
+      conds    += ' AND deleted IS NOT NULL' if conds.is_a? String
+      conds[0] += ' AND deleted IS NOT NULL' if conds.is_a? Array
+    end
+    conds.sub!(/^ AND /, '') if conds.is_a? String
+    conds = nil if conds.empty?
+    opts.delete(:with_deleted)
+    opts.delete(:only_deleted)
+    opts[:conditions] = conds
+    validate_find_options(opts)
+    set_readonly_option!(opts)
+    case args.first
+      when :first then find_initial(opts)
+      when :all   then find_every(opts)
+      else             find_from_ids(args, opts)
+    end
   end # }}}
 end

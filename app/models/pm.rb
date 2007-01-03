@@ -18,10 +18,21 @@ class Pm < ActiveRecord::Base
       user.username, 'new', 'inbox'])
   end # }}}
   def from # {{{
-    User.find_by_username(self.msgfrom) || User.new
+    User.find_by_username(iso(self.msgfrom)) || User.new
   end # }}}
   def to # {{{
-    User.find_by_username(self.msgto) || User.new
+    User.find_by_username(iso(self.msgto)) || User.new
+  end # }}}
+  def user # {{{
+    self.from
+  end # }}}
+  def acl # {{{
+    acl = AclMapping.map(self)
+    return acl if acl
+    acl = Acl.new
+    acl.can_read(['User', self.from.id])
+    acl.can_read(['User', self.to.id])
+    acl
   end # }}}
   def read? # {{{
     self.status == 'read'

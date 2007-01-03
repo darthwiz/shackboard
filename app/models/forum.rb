@@ -17,7 +17,9 @@ class Forum < ActiveRecord::Base
     acl = Acl.new
     acl.can_read(['User', :any]) if (allowed.empty? && self.private == '')
     (allowed + moderator_ids + User.supermods).each do |uid|
+      uid = uid.id if uid.is_a? User
       acl.can_read(['User', uid])
+      acl.can_moderate(['User', uid])
     end
     acl.save
     am = AclMapping.new
@@ -49,6 +51,40 @@ class Forum < ActiveRecord::Base
   def children # {{{
     Forum.find(:all, :conditions => ['fup = ?', self.id],
                      :order      => 'displayorder')
+  end # }}}
+  def topics(range) # {{{
+    raise TypeError, 'argument must be a Range' unless range.is_a? Range
+    topics  = []
+    seq     = range.begin
+    conds   = ["fid = ?", self.fid]
+    topics += Topic.find :all,
+                         :conditions => conds,
+                         :order      => 'topped DESC, lastpost DESC',
+                         :offset     => range.begin,
+                         :limit      => range.entries.length
+    topics
+  end # }}}
+  def topics_count_cached # {{{
+    self[:threads]
+  end # }}}
+  def posts_count_cached # {{{
+    self[:posts]
+  end # }}}
+  def lastpost(what=nil) # {{{
+    (time, username) = self[:lastpost].split(/\|/, 2)
+    time             = Time.at(time.to_i)
+    case what
+    when nil
+      return self[:lastpost]
+    when :username
+      return username
+    when :user
+      return User.find_by_username(username)
+    when :time
+      return time
+    else
+      return nil
+    end
   end # }}}
   def Forum.tree(root=nil) # {{{
     return @@tree if (@@tree && root == nil)

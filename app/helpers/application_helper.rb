@@ -19,6 +19,13 @@ module ApplicationHelper
     end
     return sprintf("#%02x%02x%02x", r.to_i, g.to_i, b.to_i)
   end # }}}
+  def domid(obj) # {{{
+    obj = obj.actual if obj.respond_to?(:actual)
+    obj.class.to_s.downcase + "_" + obj.id.to_s
+  end # }}}
+  def cleanup(str) # {{{
+    h(strip_tags(str))
+  end # }}}
   def link_logout # {{{
     s = link_to 'logout', :controller => 'login', :action => 'logout'
     content_tag('div', s, :class => 'logout')
@@ -40,6 +47,12 @@ module ApplicationHelper
           :reply => ctx.id }
     end
     content_tag('span', l, :class => 'post_new')
+  end # }}}
+  def link_topic_new(ctx=@forum) # {{{
+    raise TypeError unless ctx.is_a? Forum
+    l = link_to 'nuova discussione',
+      { :controller => 'topic', :action => 'new', :id => ctx }
+    content_tag('span', l, :class => 'topic_new')
   end # }}}
   def link_pm_new(ctx=nil) # {{{
     ctx = ctx.actual if ctx.respond_to?(:actual)
@@ -71,6 +84,13 @@ module ApplicationHelper
     msg   = "Hai 1 messaggio privato non letto."         if count == 1
     msg   = "Hai #{count} messaggi privati non letti."   if count > 1
     msg ? link_to(msg, :controller => 'pm', :action => 'list') : nil
+  end # }}}
+  def link_post_extra_cmds(post) # {{{
+    raise TypeError unless post.is_a? Post
+    l = link_to_remote('▼', :update => 'extra_cmds_' + domid(post),
+      :url => {:controller => 'post', :action => 'extra_cmds',
+        :id => domid(post)})
+    content_tag('span', l, :class => 'extra_cmds_link')
   end # }}}
   def link_file_unapproved(user=@user) # {{{
     return nil unless is_file_adm?(user)
@@ -105,6 +125,7 @@ module ApplicationHelper
     when 'Draft'
       trail += page_trail_Draft(loc[1])
     when 'Forum'
+      trail += page_trail_Forum(loc[1])
     when 'Topic'
       trail += page_trail_Topic(loc[1])
     else

@@ -1,25 +1,36 @@
 <% flip = 0 unless flip %>
 <li class="bg<%=flip%>" id="post_<%=post.id%>">
-  <div class="avatar">
+  <div class="avatar"><%#{{{%>
+    <%=content_tag('a', nil, :name => domid(post))%>
     <%=render :partial => '/user/icon', :locals => { :user => post.user } %>
-  </div>
-  <div class="content">
-    <div class="info_line">
-      postato il <%=timestamp_to_date(post.dateline)%>
-    </div>
-    <div class="message">
+  </div><%#}}}%>
+  <div class="content"><%#{{{%>
+    <div class="info_line"><%#{{{%>
+      <div class="seq">
+	<%=link_to post.seq + 1, :start => post.seq + 1, 
+	  :anchor => domid(post)%>
+      </div>
+      <div class="date">
+	postato il <%=timestamp_to_date(post.dateline)%>
+      </div>
+    </div><%#}}}%>
+    <div class="message"><%#{{{%>
       <%=text_to_html(post.message, post.format.to_sym)%>
-    </div>
-    <% unless post.user.sig.empty? %>
+    </div><%#}}}%>
+    <% unless post.user.sig.empty? %><%#{{{%>
     <div class="signature">
       ____________________<br/>
-      <%=h(strip_tags(post.user.sig))%>
+      <%=h(strip_tags(post.user.sig)).gsub(/\n/, '<br/>')%>
     </div>
-    <% end %>
-    <div class="commands">
+    <% end %><%#}}}%>
+    <div class="commands"><%#{{{%>
+      <%=link_post_extra_cmds(post)%>
       <%=link_post_new(post)%>
       <%=link_pm_new(post)%>
-    </div>
-  </div>
+    </div><%#}}}%>
+    <div class="extra_cmds" id="extra_cmds_<%=domid(post)%>" style="display: none;"><%#{{{%>
+      extra_commands
+    </div><%#}}}%>
+  </div><%#}}}%>
   <div class="spacer"></div>
 </li>

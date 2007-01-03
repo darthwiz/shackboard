@@ -1,0 +1,55 @@
+<ul id="forum_list">
+  <li id="forum_list_labels">
+    <div class="forum_name"><%#{{{%>
+      <span>Forum</span>
+    </div><%#}}}%>
+    <div class="forum_topics"><%#{{{%>
+      <span>Thread</span>
+    </div><%#}}}%>
+    <div class="forum_posts"><%#{{{%>
+      <span>Post</span>
+    </div><%#}}}%>
+    <div class="forum_lastpost"><%#{{{%>
+      <span>Ultimo post</span>
+    </div><%#}}}%>
+    <div class="forum_mods"><%#{{{%>
+      <span>Moderatori</span>
+    </div><%#}}}%>
+  </li>
+  <% flip = 0 unless flip %>
+  <% @forum.children.each do |f| %>
+  <li id="<%=domid(f)%>">
+    <div class="forum_name" style="display: table;"><%#{{{%>
+      <span>
+        <%=link_to cleanup(f.name), :action => 'view', :id => f%><br/>
+        <%=cleanup(f.description)%>
+      </span>
+    </div><%#}}}%>
+    <div class="forum_topics" style="display: table;"><%#{{{%>
+      <span><%=f.topics_count_cached%></span>
+    </div><%#}}}%>
+    <div class="forum_posts" style="display: table;"><%#{{{%>
+      <span><%=f.posts_count_cached%></span>
+    </div><%#}}}%>
+    <div class="forum_lastpost" style="display: table;"><%#{{{%>
+      <span>
+        <%=cleanup(f.lastpost(:username))%><br/>
+        <%=timestamp_to_date(f.lastpost(:time).to_i)%>
+      </span>
+    </div><%#}}}%>
+    <div class="forum_mods" style="display: table;"><%#{{{%>
+      <span>
+        <%
+        s = ""
+        f.moderators.each do |mod|
+          s += link_to(cleanup(mod.username), :controller => 'user',
+            :action => 'view', :id => mod)
+          s += ", "
+        end 
+        %><%=s.sub(/, $/, '')%>
+      </span>
+    </div><%#}}}%>
+  </li>
+  <% flip = 1 - flip %>
+  <% end %>
+</ul>

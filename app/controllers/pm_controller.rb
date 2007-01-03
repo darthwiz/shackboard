@@ -27,11 +27,9 @@ class PmController < ApplicationController
     render :partial => 'css'
   end # }}}
   def show # {{{
-    unless @user
-      render :nothing => true and return
-    end
     if @request.xml_http_request?
       @pm = Pm.find(params[:id])
+      render :nothing => true and return unless @pm.acl.can_read?(@user)
       if @pm.to == @user && !@pm.read?
         @pm.status = 'read'
         @pm.save
@@ -70,12 +68,21 @@ class PmController < ApplicationController
   def new # {{{
     reply_id = params[:reply].to_i
     draft_id = params[:draft].to_i
+    repclass = params[:class]
     @pm      = Pm.new
-    if reply_id > 0
-      conds = [ 'u2uid = ? AND msgto = ? AND folder = ?', reply_id,
+    case repclass
+    when 'pm'
+      conds    = [ 'u2uid = ? AND msgto = ? AND folder = ?', reply_id,
         @user.username, 'inbox' ]
-      reply_to    = Pm.find(:first, :conditions => conds)
-      @pm.msgto   = reply_to.msgfrom
+      reply_to = Pm.find(:first, :conditions => conds)
+    when 'post'
+      reply_to = Post.find(reply_id)
+    when 'topic'
+      reply_to = Topic.find(reply_id)
+    end
+    if repclass
+      reply_to    = Pm.new unless reply_to.acl.can_read?(@user)
+      @pm.msgto   = reply_to.user.username
       @pm.subject = reply_to.subject
       @pm.format  = reply_to.format
       @pm.message = (reply_to.format == 'bb') ? 
@@ -136,9 +143,6 @@ class PmController < ApplicationController
     end
   end # }}}
   def search # {{{
-    unless @user
-      render :nothing => true and return
-    end
     if @request.xml_http_request?
       ppp    = @opts[:ppp]
       start  = params[:start].to_i

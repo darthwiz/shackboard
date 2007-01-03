@@ -10,8 +10,15 @@ class Post < ActiveRecord::Base
   def container # {{{
     Topic.find(self.tid)
   end # }}}
+  def subject # {{{
+    self.topic.subject
+  end # }}}
   def acl # {{{
-    acl = AclMapping.map(self) || self.container.acl
+    acl = AclMapping.map(self)
+    return acl if acl
+    acl             = Acl.new
+    acl.permissions = self.container.acl.permissions
+    acl.can_edit      self.user
   end # }}}
   def user # {{{
     user = User.find_by_username(iso(self.author))

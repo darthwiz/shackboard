@@ -1,89 +1,117 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
-body {
+body {<%#{{{%>
   color: <%=t.text%>;
   background-color: <%=t.bgcolor%>;
-}
-.pad {
-  padding-left: .5em;
-  padding-right: .5em;
-}
-.vmid {
+  /* font-size: .9em; */
+  font-size: 12px;
+  font-family: sans-serif;
+}<%#}}}%>
+div#forums, div#topics {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+div#navbar_top {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+div#navbar_bottom {<%#{{{%>
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+ul {<%#{{{%>
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}<%#}}}%>
+ul#forum_list {<%#{{{%>
+  border-bottom: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+ul#forum_list li#forum_list_labels div {<%#{{{%>
+  height: 2em;
+  overflow: hidden;
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+  font-weight: bold;
+}<%#}}}%>
+ul#forum_list li {<%#{{{%>
+  border-left: 1px solid <%=t.bordercolor%>;
+  border-right: 1px solid <%=t.bordercolor%>;
+  border-top: 1px solid <%=t.bordercolor%>;
+  clear: both;
+  height: 4.6em;
+  overflow: hidden;
+}<%#}}}%>
+ul#forum_list li#forum_list_labels {<%#{{{%>
+  border-left: 1px solid <%=t.bordercolor%>;
+  border-right: 1px solid <%=t.bordercolor%>;
+  border-top: 1px solid <%=t.bordercolor%>;
+  clear: both;
+  height: 1.8em;
+  overflow: hidden;
+}<%#}}}%>
+ul#forum_list li div {<%#{{{%>
+  height: 4.6em;
+  vertical-align: middle;
+  background-color: <%=t.altbg1%>;
+}<%#}}}%>
+ul#forum_list li div span {<%#{{{%>
   display: table-cell;
   vertical-align: middle;
-}
-li.folder, li.title, li.posts, li.lastpost {
-  background-color: <%=t.altbg2%>;
-}
-li.icon, li.author, li.views {
-  background-color: <%=t.altbg1%>;
-}
-a, a:visited {
-  color: <%=t.link%>
-}
-ul#topics, ul#topics ul {
-  list-style: none;
-  padding-left: 0;
-}
-div.topic_title {
-  display: inline;
+  padding: .3em;
+}<%#}}}%>
+div.forum_name {<%#{{{%>
   float: left;
-}
-div.pageseq {
-  float: right;
-}
-span.snippet {
+  width: 43.3%;
+  border-right: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div.forum_topics {<%#{{{%>
+  float: left;
+  width: 8%;
+  text-align: center;
+  border-right: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div.forum_posts {<%#{{{%>
+  float: left;
+  width: 8%;
+  text-align: center;
+  border-right: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div.forum_lastpost {<%#{{{%>
+  float: left;
+  width: 20%;
+  border-right: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div.forum_mods {<%#{{{%>
+  float: left;
+  width: 20%;
+}<%#}}}%>
+div.spacer {<%#{{{%>
+  clear: both;
+}<%#}}}%>
+span.page_trail {<%#{{{%>
+  text-align: right;
   display: block;
-  clear: both;
-  color: gray;
-}
-div.row {
-  border-top: 1px solid black;
-  clear: both;
-  height: 5em;
-  background-color: <%=t.altbg2%>;
-  overflow: hidden;
-}
-ul#topics li {
-  padding-left: 0;
-}
-ul#topics h3 {
-  display: inline;
-  margin: 0;
-  padding: 0;
-  font-weight: normal;
-}
-li.folder, li.icon, li.title, li.views, li.posts, li.author, li.lastpost {
-  display: table;
-  height: 5em;
-}
-li.folder, li.icon, li.title, li.views, li.posts, li.author {
-  border-left: 1px solid black;
-}
-li.views, li.lastpost {
-  border-right: 1px solid black;
-}
-li.folder, li.icon, li.title, li.author, li.posts, li.views {
-  float: left;
-}
-li.lastpost {
-  float: right;
-}
-li.folder, li.icon {
-  width: 3%;
-  text-align: center;
-}
-li.lastpost {
-  width: 16%;
-}
-li.views, li.posts {
-  width: 6%;
-  text-align: center;
-}
-li.title {
-  width: 48%;
-}
-li.author {
-  width: 16%;
-  text-align: center;
-}
+}<%#}}}%>
+span.page_seq {<%#{{{%>
+  text-align: right;
+  display: block;
+}<%#}}}%>
+div#navbar_top span.topic_new, div#navbar_bottom span.topic_new {<%#{{{%>
+  text-align: right;
+  display: block;
+  font-weight: bold;
+}<%#}}}%>
+a, a:visited {<%#{{{%>
+  color: <%=t.link%>;
+  text-decoration: none;
+}<%#}}}%>
+a:hover {<%#{{{%>
+  text-decoration: underline;
+}<%#}}}%>

@@ -1,5 +1,3 @@
-<% bw = 1 %>
-<% ts = 6 %>
 <% @page_title = "Messaggi Privati per #{@user.username}" %>
 <%= javascript_include_tag :defaults %>
 <div id="navbar_top"><%#{{{%>
@@ -15,13 +13,7 @@
   </div>
 </div><%#}}}%>
 <div id="pms"><%#{{{%>
-  <ul id="pm_list">
-    <% flip = 0 unless flip %>
-    <% @pms.each do |pm| %>
-    <%=render :partial => 'pm', :locals => { :pm => pm, :flip => flip }%>
-    <% flip = 1 - flip %>
-    <% end %>
-  </ul>
+  <%=render :partial => 'pm_list'%>
 </div><%#}}}%>
 <div id="navbar_bottom"><%#{{{%>
   <div class="trail_pages">

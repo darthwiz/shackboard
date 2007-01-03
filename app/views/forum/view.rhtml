@@ -1,28 +1,18 @@
-<% bw = 1 %>
-<% ts = 6 %>
-<div id="navbar_top">
-  <%= render :partial => '/layouts/navbar' %>
-</div>
-<div id="forum_map">
-  <div class="navbar">
-    <table>
-      <tr>
-        <td colspan="2"><%=
-          link_to @forum.name, :action => 'view',
-                               :id     => @forum.id %></td>
-      </tr>
-      <%# render :partial => '/forum/map', 
-                 :locals  => { :tree     => Forum.tree(@forum),
-                               :depth    => 0,
-                               :maxdepth => 10 } %>
-    </table>
-  </div>
-</div>
-<% unless @topics.empty? %>
-<ul id="topics">
-  <%= render :partial => "/topic/topic", :collection => @topics %>
-</ul>
-<% end %>
-<div id="navbar_bottom">
-  <%= render :partial => '/layouts/navbar' %>
-</div>
+<% @page_title = cleanup(@forum.name) %>
+<%=javascript_include_tag :defaults%>
+<div id="navbar_top"><%#{{{%>
+  <%=page_trail%>
+  <%=page_seq%>
+  <%=link_topic_new%>
+</div><%#}}}%>
+<div id="forums"><%#{{{%>
+  <%=render :partial => 'forum_list' unless @forum.children.empty?%>
+</div><%#}}}%>
+<div id="topics"><%#{{{%>
+  <%=render :partial => 'topic_list' unless @topics.empty?%>
+</div><%#}}}%>
+<div id="navbar_bottom"><%#{{{%>
+  <%=page_trail%>
+  <%=page_seq%>
+  <%=link_topic_new%>
+</div><%#}}}%>

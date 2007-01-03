@@ -1,0 +1,7 @@
+  <ul id="pm_list">
+    <% flip = 0 unless flip %>
+    <% @pms.each do |pm| %>
+    <%=render :partial => 'pm', :locals => { :pm => pm, :flip => flip }%>
+    <% flip = 1 - flip %>
+    <% end %>
+  </ul>

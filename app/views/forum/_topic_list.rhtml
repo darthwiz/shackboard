@@ -1,0 +1,54 @@
+<ul id="topic_list">
+  <li id="topic_list_labels">
+    <div class="topic_folder"><%#{{{%>
+    </div><%#}}}%>
+    <div class="topic_icon"><%#{{{%>
+    </div><%#}}}%>
+    <div class="topic_title"><%#{{{%>
+      <span>Titolo</span>
+    </div><%#}}}%>
+    <div class="topic_author"><%#{{{%>
+      <span>Autore</span>
+    </div><%#}}}%>
+    <div class="topic_posts"><%#{{{%>
+      <span>Post</span>
+    </div><%#}}}%>
+    <div class="topic_views"><%#{{{%>
+      <span>Visite</span>
+    </div><%#}}}%>
+    <div class="topic_lastpost"><%#{{{%>
+      <span>Ultimo post</span>
+    </div><%#}}}%>
+  </li>
+  <% flip = 0 unless flip %>
+  <% @topics.each do |t| %>
+  <li id="<%=domid(t)%>">
+    <div class="topic_folder"><%#{{{%>
+    </div><%#}}}%>
+    <div class="topic_icon"><%#{{{%>
+    </div><%#}}}%>
+    <div class="topic_title"><%#{{{%>
+      <span>
+        <%=link_to cleanup(t.subject), :controller => 'topic', 
+        :action => 'view', :id => t%>
+      </span>
+    </div><%#}}}%>
+    <div class="topic_author"><%#{{{%>
+      <span><%=cleanup(t.user.username)%></span>
+    </div><%#}}}%>
+    <div class="topic_posts"><%#{{{%>
+      <span><%=t.posts_count_cached%></span>
+    </div><%#}}}%>
+    <div class="topic_views"><%#{{{%>
+      <span><%=t.views_count_cached%></span>
+    </div><%#}}}%>
+    <div class="topic_lastpost"><%#{{{%>
+      <span>
+        <%=cleanup(t.lastpost(:username))%><br/>
+        <%=timestamp_to_date(t.lastpost(:time).to_i)%>
+      </span>
+    </div><%#}}}%>
+  </li>
+  <% flip = 1 - flip %>
+  <% end %>
+</ul>
