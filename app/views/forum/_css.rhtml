@@ -30,6 +30,7 @@ ul {<%#{{{%>
   margin: 0;
   list-style: none;
 }<%#}}}%>
+/* Forum list {{{ */
 ul#forum_list {<%#{{{%>
   border-bottom: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
@@ -45,7 +46,7 @@ ul#forum_list li {<%#{{{%>
   border-right: 1px solid <%=t.bordercolor%>;
   border-top: 1px solid <%=t.bordercolor%>;
   clear: both;
-  height: 4.6em;
+  height: 4.5em;
   overflow: hidden;
 }<%#}}}%>
 ul#forum_list li#forum_list_labels {<%#{{{%>
@@ -61,37 +62,78 @@ ul#forum_list li div {<%#{{{%>
   vertical-align: middle;
   background-color: <%=t.altbg1%>;
 }<%#}}}%>
-ul#forum_list li div span {<%#{{{%>
-  display: table-cell;
+ul#forum_list li div span span {<%#{{{%>
+  height: 4em;
   vertical-align: middle;
   padding: .3em;
 }<%#}}}%>
 div.forum_name {<%#{{{%>
   float: left;
-  width: 43.3%;
-  border-right: 1px solid <%=t.bordercolor%>;
+  width: 44%;
 }<%#}}}%>
-div.forum_topics {<%#{{{%>
+div.forum_topics div span, div.forum_posts div span {<%#{{{%>
+  margin-left: auto;
+  margin-right: auto;
+}<%#}}}%>
+div.forum_posts, div.forum_topics {<%#{{{%>
   float: left;
   width: 8%;
+  overflow: hidden;
   text-align: center;
-  border-right: 1px solid <%=t.bordercolor%>;
-}<%#}}}%>
-div.forum_posts {<%#{{{%>
-  float: left;
-  width: 8%;
-  text-align: center;
-  border-right: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
 div.forum_lastpost {<%#{{{%>
   float: left;
   width: 20%;
-  border-right: 1px solid <%=t.bordercolor%>;
 }<%#}}}%>
 div.forum_mods {<%#{{{%>
   float: left;
   width: 20%;
 }<%#}}}%>
+div.forum_name div, div.forum_topics div, div.forum_posts div, div.lastpost div {<%#{{{%>
+  border-right: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+div.forum_mods div {<%#{{{%>
+  border-left: 1px solid <%=t.bordercolor%>;
+}<%#}}}%>
+/* }}} */
+/* Topic list {{{ */
+ul#topic_list li {<%#{{{%>
+  border-left: 1px solid <%=t.bordercolor%>;
+  border-right: 1px solid <%=t.bordercolor%>;
+  border-top: 1px solid <%=t.bordercolor%>;
+  clear: both;
+  height: 4.5em;
+  overflow: hidden;
+}<%#}}}%>
+div.topic_folder {<%#{{{%>
+  float: left;
+  width: 5%;
+}<%#}}}%>
+div.topic_icon {<%#{{{%>
+  float: left;
+  width: 5%;
+}<%#}}}%>
+div.topic_title {<%#{{{%>
+  float: left;
+  width: 50%;
+}<%#}}}%>
+div.topic_author {<%#{{{%>
+  float: left;
+  width: 15%;
+}<%#}}}%>
+div.topic_posts {<%#{{{%>
+  float: left;
+  width: 5%;
+}<%#}}}%>
+div.topic_views {<%#{{{%>
+  float: left;
+  width: 5%;
+}<%#}}}%>
+div.topic_lastpost {<%#{{{%>
+  float: left;
+  width: 10%;
+}<%#}}}%>
+/* }}} */
 div.spacer {<%#{{{%>
   clear: both;
 }<%#}}}%>

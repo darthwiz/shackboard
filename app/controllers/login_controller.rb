@@ -4,8 +4,8 @@ class LoginController < ApplicationController
   def index # {{{
   end # }}}
   def login # {{{
-    username = params[:user][:username]
-    password = params[:user][:password]
+    username = params[:user][:username] if params[:user]
+    password = params[:user][:password] if params[:user]
     user     = User.find_by_username(username)
     if (user) then
       if user.auth(password)

@@ -19,35 +19,59 @@
   <% flip = 0 unless flip %>
   <% @forum.children.each do |f| %>
   <li id="<%=domid(f)%>">
-    <div class="forum_name" style="display: table;"><%#{{{%>
-      <span>
-        <%=link_to cleanup(f.name), :action => 'view', :id => f%><br/>
-        <%=cleanup(f.description)%>
-      </span>
+    <div class="forum_name"><%#{{{%>
+      <div>
+        <span style="display: table;">
+          <span style="display: table-cell;">
+          <%=link_to cleanup(f.name), :action => 'view', :id => f%><br/>
+          <%=cleanup(f.description)%>
+          </span>
+        </span>
+      </div>
     </div><%#}}}%>
-    <div class="forum_topics" style="display: table;"><%#{{{%>
-      <span><%=f.topics_count_cached%></span>
+    <div class="forum_topics"><%#{{{%>
+      <div>
+        <span style="display: table;">
+          <span style="display: table-cell;">
+            <%=f.topics_count_cached%>
+          </span>
+        </span>
+      </div>
     </div><%#}}}%>
-    <div class="forum_posts" style="display: table;"><%#{{{%>
-      <span><%=f.posts_count_cached%></span>
+    <div class="forum_posts"><%#{{{%>
+      <div>
+        <span style="display: table;">
+          <span style="display: table-cell;">
+            <%=f.posts_count_cached%>
+          </span>
+        </span>
+      </div>
     </div><%#}}}%>
-    <div class="forum_lastpost" style="display: table;"><%#{{{%>
-      <span>
-        <%=cleanup(f.lastpost(:username))%><br/>
-        <%=timestamp_to_date(f.lastpost(:time).to_i)%>
-      </span>
+    <div class="forum_lastpost"><%#{{{%>
+      <div>
+        <span style="display: table;">
+          <span style="display: table-cell;">
+            <%=cleanup(f.lastpost(:username))%><br/>
+            <%=timestamp_to_date(f.lastpost(:time).to_i)%>
+          </span>
+        </span>
+      </div>
     </div><%#}}}%>
-    <div class="forum_mods" style="display: table;"><%#{{{%>
-      <span>
-        <%
-        s = ""
-        f.moderators.each do |mod|
-          s += link_to(cleanup(mod.username), :controller => 'user',
-            :action => 'view', :id => mod)
-          s += ", "
-        end 
-        %><%=s.sub(/, $/, '')%>
-      </span>
+    <div class="forum_mods"><%#{{{%>
+      <div>
+        <span style="display: table;">
+          <span style="display: table-cell;">
+            <%
+            s = ""
+            f.moderators.each do |mod|
+              s += link_to(cleanup(mod.username), :controller => 'user',
+                :action => 'view', :id => mod)
+              s += ", "
+            end 
+            %><%=s.sub(/, $/, '')%>
+          </span>
+        </span>
+      </div>
     </div><%#}}}%>
   </li>
   <% flip = 1 - flip %>
