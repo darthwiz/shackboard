@@ -20,11 +20,23 @@ module ApplicationHelper
     return sprintf("#%02x%02x%02x", r.to_i, g.to_i, b.to_i)
   end # }}}
   def domid(obj) # {{{
-    obj = obj.actual if obj.respond_to?(:actual)
-    obj.class.to_s.downcase + "_" + obj.id.to_s
+    begin
+      obj = obj.actual if obj.respond_to?(:actual)
+      obj.class.to_s.downcase + "_" + obj.id.to_s
+    rescue
+      # do nothing XXX ugly hack to prevent errors in case of a dangling link
+    end
   end # }}}
   def cleanup(str) # {{{
     h(strip_tags(str))
+  end # }}}
+  def icon(t) # {{{
+    icon = ""
+    case t
+    when :folder
+      icon = image_tag("http://www.studentibicocca.it/portale/forum/images/folder.gif")
+    end
+    icon
   end # }}}
   def link_logout # {{{
     s = link_to 'logout', :controller => 'login', :action => 'logout'

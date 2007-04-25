@@ -1,79 +1,54 @@
-<ul id="forum_list">
-  <li id="forum_list_labels">
-    <div class="forum_name"><%#{{{%>
-      <span>Forum</span>
-    </div><%#}}}%>
-    <div class="forum_topics"><%#{{{%>
-      <span>Thread</span>
-    </div><%#}}}%>
-    <div class="forum_posts"><%#{{{%>
-      <span>Post</span>
-    </div><%#}}}%>
-    <div class="forum_lastpost"><%#{{{%>
-      <span>Ultimo post</span>
-    </div><%#}}}%>
-    <div class="forum_mods"><%#{{{%>
-      <span>Moderatori</span>
-    </div><%#}}}%>
-  </li>
+<table id="forum_list">
+  <tr id="forum_list_labels">
+    <td class="forum_folder"><%#{{{%>
+    </td><%#}}}%>
+    <td class="forum_name"><%#{{{%>
+      Forum
+    </td><%#}}}%>
+    <td class="forum_topics"><%#{{{%>
+      Discussioni
+    </td><%#}}}%>
+    <td class="forum_posts"><%#{{{%>
+      Messaggi
+    </td><%#}}}%>
+    <td class="forum_lastpost"><%#{{{%>
+      Ultimo messaggio
+    </td><%#}}}%>
+    <td class="forum_mods"><%#{{{%>
+      Moderatori
+    </td><%#}}}%>
+  </tr>
   <% flip = 0 unless flip %>
   <% @forum.children.each do |f| %>
-  <li id="<%=domid(f)%>">
-    <div class="forum_name"><%#{{{%>
-      <div>
-        <span style="display: table;">
-          <span style="display: table-cell;">
-          <%=link_to cleanup(f.name), :action => 'view', :id => f%><br/>
-          <%=cleanup(f.description)%>
-          </span>
-        </span>
-      </div>
-    </div><%#}}}%>
-    <div class="forum_topics"><%#{{{%>
-      <div>
-        <span style="display: table;">
-          <span style="display: table-cell;">
-            <%=f.topics_count_cached%>
-          </span>
-        </span>
-      </div>
-    </div><%#}}}%>
-    <div class="forum_posts"><%#{{{%>
-      <div>
-        <span style="display: table;">
-          <span style="display: table-cell;">
-            <%=f.posts_count_cached%>
-          </span>
-        </span>
-      </div>
-    </div><%#}}}%>
-    <div class="forum_lastpost"><%#{{{%>
-      <div>
-        <span style="display: table;">
-          <span style="display: table-cell;">
-            <%=cleanup(f.lastpost(:username))%><br/>
-            <%=timestamp_to_date(f.lastpost(:time).to_i)%>
-          </span>
-        </span>
-      </div>
-    </div><%#}}}%>
-    <div class="forum_mods"><%#{{{%>
-      <div>
-        <span style="display: table;">
-          <span style="display: table-cell;">
-            <%
-            s = ""
-            f.moderators.each do |mod|
-              s += link_to(cleanup(mod.username), :controller => 'user',
-                :action => 'view', :id => mod)
-              s += ", "
-            end 
-            %><%=s.sub(/, $/, '')%>
-          </span>
-        </span>
-      </div>
-    </div><%#}}}%>
-  </li>
+  <tr id="<%=domid(f)%>">
+    <td class="forum_folder"><%#{{{%>
+      <%=icon(:folder)%>
+    </td><%#}}}%>
+    <td class="forum_name"><%#{{{%>
+        <%=link_to cleanup(f.name), :action => 'view', :id => f%><br/>
+        <%=cleanup(f.description)%>
+    </td><%#}}}%>
+    <td class="forum_topics"><%#{{{%>
+      <%=f.topics_count_cached%>
+    </td><%#}}}%>
+    <td class="forum_posts"><%#{{{%>
+      <%=f.posts_count_cached%>
+    </td><%#}}}%>
+    <td class="forum_lastpost"><%#{{{%>
+        <%=cleanup(f.lastpost(:username))%><br/>
+        <%=timestamp_to_date(f.lastpost(:time).to_i)%>
+    </td><%#}}}%>
+    <td class="forum_mods"><%#{{{%>
+        <%
+        s = ""
+        f.moderators.each do |mod|
+          s += link_to(cleanup(mod.username), :controller => 'user',
+            :action => 'view', :id => mod)
+          s += ", "
+        end 
+        %><%=s.sub(/, $/, '')%>
+    </td><%#}}}%>
+  </tr>
   <% flip = 1 - flip %>
   <% end %>
-</ul>
+</table>

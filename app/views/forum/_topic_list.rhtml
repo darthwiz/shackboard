@@ -1,79 +1,59 @@
-<% icon_url = 'http://localhost/~wiz/forum/images' %> 
-<ul id="topic_list">
-  <li id="topic_list_labels">
-    <div class="topic_folder"><%#{{{%>
-      <div>
-        <span style="display: table;">
-          <span style="display: table-cell; vertical-align: middle">
-            &nbsp;
-          </span>
-        </span>
-      </div>
-    </div><%#}}}%>
-    <div class="topic_icon"><%#{{{%>
-      <div>
-        <span style="display: table;">
-          <span style="display: table-cell; vertical-align: middle">
-            &nbsp;
-          </span>
-        </span>
-      </div>
-    </div><%#}}}%>
-    <div class="topic_title"><%#{{{%>
-      <div>
-        <span style="display: table;">
-          <span style="display: table-cell; vertical-align: middle">
-            Titolo
-          </span>
-        </span>
-      </div>
-    </div><%#}}}%>
-    <div class="topic_author"><%#{{{%>
-      <span>Autore</span>
-    </div><%#}}}%>
-    <div class="topic_posts"><%#{{{%>
-      <span>Post</span>
-    </div><%#}}}%>
-    <div class="topic_views"><%#{{{%>
-      <span>Visite</span>
-    </div><%#}}}%>
-    <div class="topic_lastpost"><%#{{{%>
-      <span>Ultimo post</span>
-    </div><%#}}}%>
-  </li>
-  <% flip = 0 unless flip %>
-  <% @topics.each do |t| %>
-  <li id="<%=domid(t)%>">
-    <div class="topic_folder"><%#{{{%>
-      f
-    </div><%#}}}%>
-    <div class="topic_icon"><%#{{{%>
-      <!-- <img src="<%=icon_url + t.icon.to_s%>" alt=""/> -->
-      i
-    </div><%#}}}%>
-    <div class="topic_title"><%#{{{%>
-      <span>
+<% icon_base     = 'http://www.studentibicocca.it/portale/forum/images/' %>
+<% hot_threshold = 25 %>
+<table id="topic_list">
+  <tr id="topic_list_labels">
+    <td class="topic_folder"><%#{{{%>
+    </td><%#}}}%>
+    <td class="topic_icon"><%#{{{%>
+    </td><%#}}}%>
+    <td class="topic_title"><%#{{{%>
+      Titolo
+    </td><%#}}}%>
+    <td class="topic_author"><%#{{{%>
+      Autore
+    </td><%#}}}%>
+    <td class="topic_posts"><%#{{{%>
+      Messaggi
+    </td><%#}}}%>
+    <td class="topic_views"><%#{{{%>
+      Visite
+    </td><%#}}}%>
+    <td class="topic_lastpost"><%#{{{%>
+      Ultimo messaggio
+    </td><%#}}}%>
+  </tr>
+  <% flip = 0 unless flip 
+     @topics.each do |t|
+     folder = icon_base + 'folder.gif'
+     folder = icon_base + 'hot_folder.gif'  if t.replies >= hot_threshold
+     folder = icon_base + 'lock_folder.gif' if t.closed == "yes"
+     folder = icon_base + 'moved.gif'       if t.closed == "moved"
+  %>
+  <tr id="<%=domid(t)%>">
+    <td class="topic_folder"><%#{{{%>
+      <%=image_tag(folder) %>
+    </td><%#}}}%>
+    <td class="topic_icon"><%#{{{%>
+      <%=image_tag(icon_base + t.icon) unless t.icon.to_s.empty? %>
+    </td><%#}}}%>
+    <td class="topic_title"><%#{{{%>
         <%=link_to cleanup(t.subject), :controller => 'topic', 
         :action => 'view', :id => t%>
-      </span>
-    </div><%#}}}%>
-    <div class="topic_author"><%#{{{%>
-      <% usn = cleanup(t.user.username) %>
-      <span><%= !usn.empty? ? usn : '(?)'%></span>
-    </div><%#}}}%>
-    <div class="topic_posts"><%#{{{%>
-      <span><%=t.posts_count_cached%></span>
-    </div><%#}}}%>
-    <div class="topic_views"><%#{{{%>
-      <span><%=t.views_count_cached%></span>
-    </div><%#}}}%>
-    <div class="topic_lastpost"><%#{{{%>
-      <span>
+    </td><%#}}}%>
+    <td class="topic_author"><%#{{{%>
+      <%=cleanup(t.user.username)%>
+    </td><%#}}}%>
+    <td class="topic_posts"><%#{{{%>
+      <%=t.posts_count_cached%>
+    </td><%#}}}%>
+    <td class="topic_views"><%#{{{%>
+      <%=t.views_count_cached%>
+    </td><%#}}}%>
+    <td class="topic_lastpost"><%#{{{%>
         <%=cleanup(t.lastpost(:username))%><br/>
         <%=timestamp_to_date(t.lastpost(:time).to_i)%>
-      </span>
-    </div><%#}}}%>
-  </li>
+    </td><%#}}}%>
+  </tr>
   <% flip = 1 - flip %>
   <% end %>
-</ul>
+</table>

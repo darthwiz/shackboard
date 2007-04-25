@@ -9,6 +9,10 @@
   <%=render :partial => 'forum_list' unless @forum.children.empty?%>
 </div><%#}}}%>
 <div id="topics"><%#{{{%>
+  <%#page_seq :last        => @forum.topics_count_cached,
+              :current     => params[:start].to_i || 1,
+              :ipp         => @opts[:tpp],
+              :extra_links => [:forward, :back] %>
   <%=render :partial => 'topic_list' unless @topics.empty?%>
 </div><%#}}}%>
 <div id="navbar_bottom"><%#{{{%>

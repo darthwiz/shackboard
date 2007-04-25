@@ -5,7 +5,7 @@ body {<%#{{{%>
   background-color: <%=t.bgcolor%>;
   /* font-size: .9em; */
   font-size: 12px;
-  font-family: sans-serif;
+  font-family: Verdana, sans-serif;
 }<%#}}}%>
 div#forums, div#topics {<%#{{{%>
   margin-left: 2em;
@@ -25,117 +25,45 @@ div#navbar_bottom {<%#{{{%>
   margin-top: .5em;
   margin-bottom: .5em;
 }<%#}}}%>
-ul {<%#{{{%>
-  padding: 0;
-  margin: 0;
-  list-style: none;
+table#topic_list, table#forum_list {<%#{{{%>
+  width: 100%;
+  background-color: <%=t.bordercolor%>;
+  border-collapse: separate;
+  border-spacing: 1px 1px;
 }<%#}}}%>
-/* Forum list {{{ */
-ul#forum_list {<%#{{{%>
-  border-bottom: 1px solid <%=t.bordercolor%>;
+td {<%#{{{%>
+  padding: .3em;
 }<%#}}}%>
-ul#forum_list li#forum_list_labels div {<%#{{{%>
-  height: 2em;
-  overflow: hidden;
+tr#topic_list_labels td, tr#forum_list_labels td {<%#{{{%>
   background-color: <%=t.header%>;
   color: <%=t.headertext%>;
   font-weight: bold;
 }<%#}}}%>
-ul#forum_list li {<%#{{{%>
-  border-left: 1px solid <%=t.bordercolor%>;
-  border-right: 1px solid <%=t.bordercolor%>;
-  border-top: 1px solid <%=t.bordercolor%>;
-  clear: both;
-  height: 4.5em;
-  overflow: hidden;
+td.topic_folder, td.topic_title, td.topic_posts, td.topic_lastpost, <%#{{{%>
+td.forum_name, td.forum_posts, td.forum_mods
+{
+  background-color: <%=t.altbg2%>;
+  color: <%=t.text%>;
 }<%#}}}%>
-ul#forum_list li#forum_list_labels {<%#{{{%>
-  border-left: 1px solid <%=t.bordercolor%>;
-  border-right: 1px solid <%=t.bordercolor%>;
-  border-top: 1px solid <%=t.bordercolor%>;
-  clear: both;
-  height: 1.8em;
-  overflow: hidden;
-}<%#}}}%>
-ul#forum_list li div {<%#{{{%>
-  height: 4.6em;
-  vertical-align: middle;
+td.topic_icon, td.topic_author, td.topic_views, <%#{{{%>
+td.forum_folder, td.forum_topics, td.forum_lastpost
+{
   background-color: <%=t.altbg1%>;
+  color: <%=t.text%>;
 }<%#}}}%>
-ul#forum_list li div span span {<%#{{{%>
-  height: 4em;
+td.topic_posts, td.topic_views, <%#{{{%>
+td.forum_topics, td.forum_posts, td.forum_mods
+{
   vertical-align: middle;
-  padding: .3em;
-}<%#}}}%>
-div.forum_name {<%#{{{%>
-  float: left;
-  width: 44%;
-}<%#}}}%>
-div.forum_topics div span, div.forum_posts div span {<%#{{{%>
-  margin-left: auto;
-  margin-right: auto;
-}<%#}}}%>
-div.forum_posts, div.forum_topics {<%#{{{%>
-  float: left;
-  width: 8%;
-  overflow: hidden;
   text-align: center;
 }<%#}}}%>
-div.forum_lastpost {<%#{{{%>
-  float: left;
-  width: 20%;
+td.topic_lastpost, td.forum_lastpost {<%#{{{%>
+  font-size: 11px;
+  text-align: right;
+  padding-right: 1.2em;
 }<%#}}}%>
-div.forum_mods {<%#{{{%>
-  float: left;
-  width: 20%;
-}<%#}}}%>
-div.forum_name div, div.forum_topics div, div.forum_posts div, div.lastpost div {<%#{{{%>
-  border-right: 1px solid <%=t.bordercolor%>;
-}<%#}}}%>
-div.forum_mods div {<%#{{{%>
-  border-left: 1px solid <%=t.bordercolor%>;
-}<%#}}}%>
-/* }}} */
-/* Topic list {{{ */
-ul#topic_list li {<%#{{{%>
-  border-left: 1px solid <%=t.bordercolor%>;
-  border-right: 1px solid <%=t.bordercolor%>;
-  border-top: 1px solid <%=t.bordercolor%>;
-  clear: both;
-  height: 4.5em;
-  overflow: hidden;
-}<%#}}}%>
-div.topic_folder {<%#{{{%>
-  float: left;
-  width: 5%;
-}<%#}}}%>
-div.topic_icon {<%#{{{%>
-  float: left;
-  width: 5%;
-}<%#}}}%>
-div.topic_title {<%#{{{%>
-  float: left;
-  width: 50%;
-}<%#}}}%>
-div.topic_author {<%#{{{%>
-  float: left;
-  width: 15%;
-}<%#}}}%>
-div.topic_posts {<%#{{{%>
-  float: left;
-  width: 5%;
-}<%#}}}%>
-div.topic_views {<%#{{{%>
-  float: left;
-  width: 5%;
-}<%#}}}%>
-div.topic_lastpost {<%#{{{%>
-  float: left;
-  width: 10%;
-}<%#}}}%>
-/* }}} */
-div.spacer {<%#{{{%>
-  clear: both;
+td.topic_icon {<%#{{{%>
+  text-align: center;
 }<%#}}}%>
 span.page_trail {<%#{{{%>
   text-align: right;
