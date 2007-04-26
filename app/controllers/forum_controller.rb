@@ -28,6 +28,9 @@ class ForumController < ApplicationController
       render :partial => "not_found" and return
     end
     # }}}
+    unless @forum.acl.can_read?(@user)
+      render :partial => "not_authorized" and return
+    end
     offset         = ((start - 1)/tpp)*tpp
     limit          = tpp
     conds          = ["fid = ?", fid]

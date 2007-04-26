@@ -29,9 +29,10 @@
   </span><br/>
   <img class="avatar" src="<%=avURL%>" alt="" width="<%=avW%>" height="<%=avH%>"/>
   <% if context == :post %>
-  <br/><span class="postnum"><%=h postnum%> posts</span>
+  <br/><span class="postnum"><%=h postnum%> messaggi</span>
   <% elsif context == :pm %>
-  <br/><span class="msgnum"><%=Pm.count_from_to(user, @user)%> messaggi</span>
+  <br/><span class="msgnum"><%=Pm.count_from_to(user, @user)%> messaggi
+  privati</span>
   <% end %>
   <br/><span class="regdate">Registrato: <%=regdate%></span>
 </div>

@@ -1,5 +1,6 @@
 <% icon_base     = 'http://www.studentibicocca.it/portale/forum/images/' %>
 <% hot_threshold = 25 %>
+<% ppp           = @opts[:ppp] %>
 <table id="topic_list">
   <tr id="topic_list_labels">
     <td class="topic_folder"><%#{{{%>
@@ -25,7 +26,7 @@
   <% flip = 0 unless flip 
      @topics.each do |t|
      folder = icon_base + 'folder.gif'
-     folder = icon_base + 'hot_folder.gif'  if t.replies >= hot_threshold
+     folder = icon_base + 'hot_folder.gif'  if t.total_posts >= hot_threshold
      folder = icon_base + 'lock_folder.gif' if t.closed == "yes"
      folder = icon_base + 'moved.gif'       if t.closed == "moved"
   %>
@@ -37,8 +38,30 @@
       <%=image_tag(icon_base + t.icon) unless t.icon.to_s.empty? %>
     </td><%#}}}%>
     <td class="topic_title"><%#{{{%>
-        <%=link_to cleanup(t.subject), :controller => 'topic', 
-        :action => 'view', :id => t%>
+      <% if (t.total_posts > ppp) %>
+      <div class="pageseq">
+        <%= page_seq( :controller  => 'topic',
+                      :action      => 'view',
+                      :id          => t.id,
+                      :first       => 1,
+                      :last        => t.total_posts,
+                      :ipp         => ppp,
+                      :extra_links => [:last] ) %>
+      </div>
+      <% end %>
+      <div class="topic_title">
+        <h3>
+          <%= link_to cleanup(t.subject), :controller => 'topic',
+                                          :action     => 'view',
+                                          :id         => t.id %>
+        </h3>
+        <% if (t.topped == 1) %>
+        <span class="topped_caption">(in evidenza)</span>
+        <% end %>
+      </div>
+      <div class="snippet">
+        <%= h truncate(strip_tags(bb_to_html(t.message)), 80) %>
+      </div>
     </td><%#}}}%>
     <td class="topic_author"><%#{{{%>
       <%=cleanup(t.user.username)%>

@@ -34,6 +34,13 @@ table#topic_list, table#forum_list {<%#{{{%>
 td {<%#{{{%>
   padding: .3em;
 }<%#}}}%>
+td h2, td h3 {<%#{{{%>
+  margin: 0;
+  font-size: 12px;
+}<%#}}}%>
+td h3 {<%#{{{%>
+  display: inline;
+}<%#}}}%>
 tr#topic_list_labels td, tr#forum_list_labels td {<%#{{{%>
   background-color: <%=t.header%>;
   color: <%=t.headertext%>;
@@ -62,8 +69,22 @@ td.topic_lastpost, td.forum_lastpost {<%#{{{%>
   text-align: right;
   padding-right: 1.2em;
 }<%#}}}%>
-td.topic_icon {<%#{{{%>
+td.forum_folder, td.topic_icon, td.topic_folder {<%#{{{%>
+  vertical-align: middle;
   text-align: center;
+  padding-left: .5em;
+  padding-right: .5em;
+}<%#}}}%>
+td.topic_title {<%#{{{%>
+  width: 60%;
+}<%#}}}%>
+div.pageseq {<%#{{{%>
+  float: right;
+  font-size: 10px;
+}<%#}}}%>
+div.snippet {<%#{{{%>
+  font-size: 10px;
+  overflow: hidden;
 }<%#}}}%>
 span.page_trail {<%#{{{%>
   text-align: right;

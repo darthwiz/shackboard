@@ -11,13 +11,13 @@
 	  :anchor => domid(post)%>
       </div>
       <div class="date">
-	postato il <%=timestamp_to_date(post.dateline)%>
+	inviato il <%=timestamp_to_date(post.dateline)%>
       </div>
     </div><%#}}}%>
     <div class="message"><%#{{{%>
       <%=text_to_html(post.message, post.format.to_sym)%>
     </div><%#}}}%>
-    <% unless post.user.sig.empty? %><%#{{{%>
+    <% unless post.user.sig.to_s.empty? %><%#{{{%>
     <div class="signature">
       ____________________<br/>
       <%=h(strip_tags(post.user.sig)).gsub(/\n/, '<br/>')%>
