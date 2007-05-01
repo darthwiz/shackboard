@@ -75,8 +75,8 @@ end # }}}
     nil
   end # }}}
   def lastpost(what=nil) # {{{
-    (time, username) = self[:lastpost].split(/\|/, 2)
-    time             = Time.at(time.to_i)
+    (timestamp, username) = self[:lastpost].split(/\|/, 2)
+    time                  = Time.at(timestamp.to_i)
     case what
     when nil
       return self[:lastpost]
@@ -89,6 +89,12 @@ end # }}}
     else
       return nil
     end
+  end # }}}
+  def lastpost=(params) # {{{
+    user            = params[:user]
+    return false unless user.is_a? User
+    timestamp       = params[:timestamp]
+    self[:lastpost] = "#{timestamp}|#{user.username}"
   end # }}}
   def actual # {{{
     begin

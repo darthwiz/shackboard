@@ -57,8 +57,8 @@ class PostController < ApplicationController
     if @post.save
       Draft.destroy(params[:draft_id]) # FIXME need better security here
       redirect_to :controller => 'topic', :action => 'view', 
-                  :id => @post.topic.id, :page => 'last',
-                  :anchor => "post_#{@post.id}"
+                  :id => @post.topic.id, :anchor => "post_#{@post.id}",
+                  :start => @post.topic.posts_count_cached + 1
     else
     end
   end # }}}

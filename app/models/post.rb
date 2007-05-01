@@ -61,7 +61,8 @@ class Post < ActiveRecord::Base
       u.save
     rescue
     end
-    super
+    self.topic.lastpost = { :user => u, :timestamp => self.dateline } if u
+    self.topic.save if super
   end # }}}
   def destroy # {{{
     begin
