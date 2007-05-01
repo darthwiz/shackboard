@@ -94,9 +94,15 @@ module ApplicationHelper
   end # }}}
   def link_pm_unread(user=@user) # {{{
     count = Pm.unread_for(user)
-    msg   = "Hai 1 messaggio privato non letto."         if count == 1
+    msg   = "Hai un messaggio privato non letto."        if count == 1
     msg   = "Hai #{count} messaggi privati non letti."   if count > 1
     msg ? link_to(msg, :controller => 'pm', :action => 'list') : nil
+  end # }}}
+  def link_draft_unsent(user=@user) # {{{
+    count = Draft.unsent_for(user)
+    msg   = "Hai una bozza non inviata."      if count == 1
+    msg   = "Hai #{count} bozze non inviate." if count > 1
+    msg ? link_to(msg, :controller => 'draft', :action => 'list') : nil
   end # }}}
   def link_post_extra_cmds(post) # {{{
     raise TypeError unless post.is_a? Post
@@ -108,7 +114,7 @@ module ApplicationHelper
   def link_file_unapproved(user=@user) # {{{
     return nil unless is_file_adm?(user)
     n    = FiledbFile.count_unapproved
-    msg  = "C'è 1 nuovo file in attesa di approvazione."        if n == 1
+    msg  = "C'è un nuovo file in attesa di approvazione."       if n == 1
     msg  = "Ci sono #{n} nuovi file in attesa di approvazione." if n > 1
     link = { :controller => 'file', :action => 'review' }
     msg ? link_to(msg, link) : nil

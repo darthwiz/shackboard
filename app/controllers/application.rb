@@ -3,6 +3,17 @@
 class ApplicationController < ActionController::Base
   before_filter :load_defaults, :set_stylesheet
   private
+  def cache_expire(params) # {{{
+    case params[:object]
+    when :topic
+      tid = params[:id].to_i
+      obj = Topic.find(tid)
+      while (obj = obj.container)
+        f = obj if obj.is_a? Forum
+      end
+      expire_fragment("portal/#{f.id}")
+    end
+  end # }}}
   def load_defaults # {{{
     @settings = Settings.find_all[0]
     begin

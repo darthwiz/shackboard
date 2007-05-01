@@ -14,6 +14,7 @@
       <% if @user %>
         Benvenuto <strong><%=h @user.username%></strong>!<br/>
         <%=content_tag('div', link_pm_unread)%>
+        <%=content_tag('div', link_draft_unsent)%>
         <%=content_tag('div', link_file_unapproved)%>
         <%=link_logout%>
       <% else %>
@@ -28,13 +29,13 @@
         <h2>
           <%= link_to 'Materiali ◂', 'http://materiali.studentibicocca.it'%>
         </h2>
-        <% cache({ :controller => 'file', :action => 'latest' }) do %>
+        <% cache('portal/latest_files') do %>
         <%= render :partial => '/welcome/files' %>
         <% end %>
       </li><%#}}}%>
       <li id="boards"><%#Bacheche {{{%>
         <h2><%=link_to 'Bacheche ◂', '/portale/forum/index.php?gid=51'%></h2>
-        <% cache(:controller => 'forum', :action => 'boards') do %>
+        <% cache('portal/51') do %>
         <%= render :partial => '/welcome/boards' %>
         <% end %>
       </li><%#}}}%>
@@ -44,19 +45,19 @@
     <ul class="column">
       <li><%#Forum {{{%>
         <h2><%=link_to 'Forum ◂', '/portale/forum/' %></h2>
-        <% cache(:controller => 'forum', :action => 'forums') do %>
+        <% cache('portal/25') do %>
         <%=render :partial => '/welcome/forums_old'%>
         <% end %>
       </li><%#}}}%>
       <li><%#Canali tematici {{{%>
         <h2><%=link_to 'Canali tematici ◂', '/portale/forum/index.php?gid=24'%></h2>
-        <% cache(:controller => 'forum', :action => 'channels') do %>
+        <% cache('portal/24') do %>
         <%=render :partial => '/welcome/channels_old'%>
         <% end %>
       </li><%#}}}%>
       <li><%#Cerco/Offro {{{%>
         <h2><%=link_to 'Cerco/Offro ◂', '/portale/forum/index.php?gid=108'%></h2>
-        <% cache(:controller => 'forum', :action => 'market') do %>
+        <% cache('portal/108') do %>
         <%=render :partial => '/welcome/market_old'%>
         <% end %>
       </li><%#}}}%>
@@ -67,8 +68,8 @@
       <li><%#Avvisi {{{%>
         <h2><%=link_to 'Avvisi ◂',
             'http://asb.studentibicocca.it/avvisi/'%></h2>
-        <% cache(:controller => 'announcement', :action => 'latest') do %>
-        <%= render :partial => '/announcement/latest_old' %>
+        <% cache('portal/latest_announcements') do %>
+        <%=render :partial => '/announcement/latest_old' %>
         <% end %>
       </li><%#}}}%>
       <li><%#Servizi {{{%>

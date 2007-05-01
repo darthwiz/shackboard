@@ -54,11 +54,12 @@ class PostController < ApplicationController
     @post.useip    = @request.env['REMOTE_ADDR']
     @post.forum    = Forum.find(params[:forum_id])
     @post.topic    = Topic.find(params[:topic_id])
+    cache_expire({:object => :topic, :id => @post.topic.id})
     if @post.save
       Draft.destroy(params[:draft_id]) # FIXME need better security here
       redirect_to :controller => 'topic', :action => 'view', 
                   :id => @post.topic.id, :anchor => "post_#{@post.id}",
-                  :start => @post.topic.posts_count_cached + 1
+                  :start => @post.topic.posts_count_cached
     else
     end
   end # }}}

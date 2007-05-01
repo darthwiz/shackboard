@@ -9,7 +9,8 @@
       <% last = url + "&amp;page=last#bottom" %>
       <div class="topic"><%=link_to h(strip_tags(t.subject)).gsub(/ +/, '&nbsp;'), url%></div>
       <div class="lastposter">
-        <%=link_to h(t.lastpost(:username)).gsub(/ +/, '&nbsp;'), last%>
+        <%#link_to h(t.lastpost(:username)).gsub(/ +/, '&nbsp;'), last%>
+        <%=link_to h(t.lastpost(:username)), last%>
       </div>
     </li>
   <% end %>
