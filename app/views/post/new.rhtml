@@ -1,0 +1,50 @@
+<%=javascript_include_tag :defaults%>
+<div id="navbar_top"><%#{{{%>
+  <div class="trail_pages">
+    <%#page_trail%><br/>
+    <%=page_seq%>
+  </div>
+  <div class="util">
+    <%=link_draft_list%>
+  </div>
+</div><%#}}}%>
+<div id="topic_title"><%#{{{%>
+  Risposta nella discussione
+  <%=link_to cleanup(@post.topic.title), :controller => 'topic',
+    :action => 'view', :id => @post.topic %>
+</div><%#}}}%>
+<div id="new_post">
+  <div id="message"><%#{{{%>
+    <%=start_form_tag({:controller => 'post', :action => 'create'},
+      {:method => 'post', :id => 'new_post_form'})%>
+    <div class="label">Anteprima:</div><%#{{{%>
+    <div class="field">
+      <div id="post_preview">
+        <%=text_to_html(@post.message, @post.format)%>
+      </div>
+    </div><%#}}}%>
+    <div class="label">Testo:<%#{{{%>
+      <%=select('post', 'format', [['BB', 'bb'],
+        ['Textile', 'textile']], {:id => 'format'})%>
+    </div>
+    <div class="field">
+      <%=text_area 'post', 'message'%>
+      <%=render :partial => '/smiley/list'%>
+      <%=hidden_field_tag 'draft_id', @draft.id%>
+      <%=hidden_field_tag 'forum_id', @post.fid%>
+      <%=hidden_field_tag 'topic_id', @post.tid%>
+    </div><%#}}}%>
+    <div class="spacer"/>
+    <div class="label">
+      <%=submit_tag 'Invia'%>
+    </div>
+    <div class="field">
+      <span id="draft_saved" style="display: none;"></span><br/>
+    </div>
+    <%=end_form_tag%>
+    <%=observe_form 'new_post_form', :frequency => 5, :update => 'post_preview',
+      :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
+    <%=observe_form 'new_post_form', :frequency => 10, :update => 'draft_saved',
+      :url => {:controller => 'post', :action => 'save_draft' }%>
+  </div><%#}}}%>
+</div>

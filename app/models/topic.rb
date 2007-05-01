@@ -3,9 +3,8 @@ class Topic < ActiveRecord::Base
   include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "threads"
   set_primary_key "tid"
-  belongs_to :forum, :foreign_key   => "fid", :dependent => :destroy,
-                     :counter_cache => :threads
-  has_many   :posts, :foreign_key   => "tid", :dependent => :destroy
+  belongs_to :forum, :foreign_key => "fid", :counter_cache => :threads
+  has_many   :posts, :foreign_key => "tid" #, :dependent     => :destroy
   def container # {{{
     Forum.find(self.fid)
   end # }}}
@@ -24,6 +23,12 @@ class Topic < ActiveRecord::Base
     acl             = Acl.new
     acl.permissions = self.container.acl.permissions
     acl
+  end # }}}
+  def can_post?(user) # {{{
+    self.forum.can_post?(user)
+  end # }}}
+  def can_read?(user) # {{{
+    self.acl.can_read?(user)
   end # }}}
   def user # {{{
     user = User.find_by_username(self.author)
@@ -86,7 +91,12 @@ end # }}}
     end
   end # }}}
   def actual # {{{
-    return Topic.find(self.message.strip.to_i).actual if self.closed == "moved"
+    begin
+      return Topic.find(self.message.strip.to_i).actual \
+        if self.closed == "moved"
+      rescue
+        return nil
+      end
     return self
   end # }}}
   def posts(range) # {{{
@@ -139,5 +149,17 @@ end # }}}
       when :all   then find_every(opts)
       else             find_from_ids(args, opts)
     end
+  end # }}}
+  def destroy # {{{
+    self.posts_each do |p|
+      p.destroy
+    end
+    begin
+      u = User.find_by_username(self.author)
+      u.postnum -= 1
+      u.save
+    rescue
+    end
+    super
   end # }}}
 end

@@ -30,6 +30,13 @@ class AclTest < Test::Unit::TestCase
                                                            # fail from now on
     assert !acl.can_edit?(wiz)    # single user should fail
     assert !acl.can_edit?(runner) # user in a group should fail
+
+    # test with authenticated users
+    assert !acl.can_read?(wiz)
+    assert !acl.can_read?(nil)
+    assert acl.can_read(['User', :authenticated])
+    assert acl.can_read?(wiz)
+    assert !acl.can_read?(nil)
   end # }}}
   def test_permission_removal # {{{
     wiz = User.find_by_username('wiz')

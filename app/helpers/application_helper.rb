@@ -46,17 +46,18 @@ module ApplicationHelper
     link_to_unless_current 'bozze', {:controller => 'draft', :action => 'list'},
       {:class => 'draft_list'}
   end # }}}
-  def link_post_new(ctx=@topic) # {{{
-    ctx = ctx.actual if ctx.respond_to?(:actual)
+  def link_post_new(ctx=@topic, params={}) # {{{
+    quote = params[:quote] ? true : false
+    ctx   = ctx.actual if ctx.respond_to?(:actual)
     case ctx.class.to_s
     when 'Topic'
       l = link_to 'nuova risposta',
         { :controller => 'post', :action => 'new', :class => 'topic', 
-          :reply => ctx.id }
+          :reply => ctx.id, :quote => quote }
     when 'Post'
       l = link_to 'nuova risposta',
         { :controller => 'post', :action => 'new', :class => 'post', 
-          :reply => ctx.id }
+          :reply => ctx.id, :quote => true }
     end
     content_tag('span', l, :class => 'post_new')
   end # }}}
@@ -129,7 +130,7 @@ module ApplicationHelper
   end # }}}
   def page_trail(loc=@location, opts={}) # {{{
     return unless (loc.is_a?(Array) && loc.length == 2)
-    trail = [ ['Home', '/'] ]
+    trail = [ ['Portale', '/'] ]
     s     = ""
     case loc[0]
     when 'Pm'

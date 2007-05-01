@@ -2,10 +2,8 @@ class Post < ActiveRecord::Base
   require 'magic_fixes.rb'
   include ActiveRecord::MagicFixes
   set_primary_key "pid"
-  belongs_to :topic, :foreign_key   => "tid", :dependent => :destroy,
-                     :counter_cache => :replies
-  belongs_to :forum, :foreign_key   => "fid", :dependent => :destroy,
-                     :counter_cache => :posts
+  belongs_to :topic, :foreign_key => "tid", :counter_cache => :replies
+  belongs_to :forum, :foreign_key => "fid", :counter_cache => :posts
   attr_accessor :seq
   def container # {{{
     Topic.find(self.tid)
@@ -52,5 +50,26 @@ class Post < ActiveRecord::Base
       when :all   then find_every(opts)
       else             find_from_ids(args, opts)
     end
+  end # }}}
+  def can_post?(user) # {{{
+    self.container.can_post?(user)
+  end # }}}
+  def save # {{{
+    begin
+      u = User.find_by_username(self.author)
+      u.postnum += 1
+      u.save
+    rescue
+    end
+    super
+  end # }}}
+  def destroy # {{{
+    begin
+      u = User.find_by_username(self.author)
+      u.postnum -= 1
+      u.save
+    rescue
+    end
+    super
   end # }}}
 end

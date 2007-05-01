@@ -9,6 +9,7 @@
       <div class="seq">
 	<%=link_to post.seq + 1, :start => post.seq + 1, 
 	  :anchor => domid(post)%>
+        <%=content_tag(:a, nil, :name => "seq_#{post.seq + 1}")%>
       </div>
       <div class="date">
 	inviato il <%=timestamp_to_date(post.dateline)%>
@@ -25,7 +26,7 @@
     <% end %><%#}}}%>
     <div class="commands"><%#{{{%>
       <%=link_post_extra_cmds(post)%>
-      <%=link_post_new(post)%>
+      <%=link_post_new(post, :quote => true)%>
       <%=link_pm_new(post)%>
     </div><%#}}}%>
     <div class="extra_cmds" id="extra_cmds_<%=domid(post)%>" style="display: none;"><%#{{{%>

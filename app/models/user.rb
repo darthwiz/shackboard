@@ -14,6 +14,12 @@ class User < ActiveRecord::Base
   def auth(password) # {{{
     password == self.password
   end # }}}
+  def fix_counters # {{{
+    posts  = Post.count(:conditions => ['author = ?', self.username])
+    topics = Topic.count(:conditions => ['author = ?', self.username])
+    self.postnum = posts + topics
+    self.save
+  end # }}}
   def User.authenticate(username, password) # {{{
     u = User.find_by_username(username)
     if (u) then

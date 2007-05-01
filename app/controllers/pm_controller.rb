@@ -131,7 +131,7 @@ class PmController < ApplicationController
     @pm.status   = 'new'
     @pm.msgfrom  = @user.username
     if @pm.save
-      Draft.destroy(params[:draft_id])
+      Draft.destroy(params[:draft_id]) # FIXME need better security here
       redirect_to :controller => 'pm', :action => 'list'
     else
       draft = Draft.find(params[:draft_id])

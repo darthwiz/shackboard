@@ -3,9 +3,6 @@ class TopicController < ApplicationController
     ppp   = @opts[:ppp]
     start = params[:start].to_i - 1
     start = 0 if (start <= 0)
-    rst   = (start/ppp)*ppp
-    rend  = rst + ppp - 1
-    range = rst..rend
     # convert textual topic ids to numeric {{{
     tid = params[:id].to_i
     if (tid <= 0) then
@@ -27,11 +24,21 @@ class TopicController < ApplicationController
       render :partial => "not_found" and return
     end
     # }}}
+    # redirect if needed {{{
+    if (@topic.actual && @topic.id != @topic.actual.id)
+      redirect_to :action => 'view', :id => @topic.actual.id
+      # FIXME manage start and anchors too
+    end
+    # }}}
     # check access control once we have found the topic {{{
-    unless @topic.acl.can_read?(@user)
+    unless @topic.can_read?(@user)
       render :partial => "not_authorized" and return
     end
     # }}}
+    start = @topic.total_posts if params[:page] == 'last'
+    rst   = (start/ppp)*ppp
+    rend  = rst + ppp - 1
+    range = rst..rend
     @posts         = @topic.posts(range)
     @page_seq_opts = { :last        => @topic.replies + 1,
                        :ipp         => ppp,
@@ -39,6 +46,8 @@ class TopicController < ApplicationController
                        :id          => tid,
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location      = [ 'Topic', @topic ]
+    @topic.views += 1
+    @topic.save
   end # }}}
   def css # {{{
     @headers["Content-Type"] = 'text/css; charset = utf-8'

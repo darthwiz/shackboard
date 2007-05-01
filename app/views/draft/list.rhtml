@@ -6,12 +6,12 @@
   <%=page_seq%>
 </div>
 <div id="drafts">
-  <ul id="draft_list">
+  <table id="draft_list">
     <% @drafts.each do |dr| %>
     <%=render :partial => 'draft', :locals => { :draft => dr, :flip => flip }%>
     <% flip = 1 - flip %>
     <% end %>
-  </ul>
+  </table>
 </div>
 <div id="navbar_bottom">
   <%=page_trail%><br/>

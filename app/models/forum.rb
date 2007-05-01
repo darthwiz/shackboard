@@ -16,6 +16,7 @@ class Forum < ActiveRecord::Base
     return acl if acl
     acl = Acl.new
     acl.can_read(['User', :any]) if (allowed.empty? && self.private == '')
+    acl.can_read(['User', :any]) if self[:type] == 'group' # XXX caution here
     (allowed + moderator_ids + User.supermods).each do |uid|
       uid = uid.id if uid.is_a? User
       acl.can_read(['User', uid])
@@ -26,6 +27,22 @@ class Forum < ActiveRecord::Base
     am.associate(self, acl)
     am.save
     acl
+  end # }}}
+  def can_post?(user) # {{{
+    # FIXME This is a very basic implementation, only meant to pass the basic
+    # tests.
+    if user.is_a? Array
+      begin
+        user = User.find(user[1]) if user[0] == 'User'
+      rescue
+        return false
+      end
+    end
+    perms = self[:postperm].split('|')
+    perms.each_with_index { |i, j| perms[j] = i.to_i }
+    return true if (perms[0] == 1 && user.is_a?(User))
+    return true if (perms[0] == 2 && self.acl.can_moderate?(user))
+    return false
   end # }}}
   def moderators # {{{
     mods = []

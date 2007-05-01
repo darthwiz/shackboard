@@ -1,5 +1,6 @@
 class Acl < ActiveRecord::Base
   serialize 'permissions'
+  has_many :acl_mapping, :dependent => :destroy
   def save # {{{
     previously_new = self.new_record?
     super
@@ -35,6 +36,17 @@ private
     begin
       if self.permissions[type][action].include?(['User', :any])
         return true
+      end
+      if self.permissions[type][action].include?(['User', :authenticated])
+        begin
+          if (arr[0] == 'User' && User.find(arr[1]))
+            return true
+          else
+            return false
+          end
+        rescue
+          return false
+        end
       end
       if self.permissions[type][action].include?(arr)
         return true

@@ -1,34 +1,52 @@
-    <% Pm.new; Post.new; Topic.new %>
-    <li id="draft_<%=draft.id%>" class="bg<%=flip%>">
-      <% if draft.object_type == 'Pm' %>
-      <div class="type"><%#{{{%>
-        MP
-      </div><%#}}}%>
-      <div class="time"><%#{{{%>
-        <%=timestamp_to_date(draft.timestamp)%>
-        <%=button_to_remote('elimina',
-          { :url => { :controller => 'draft', :action => 'delete',
-            :id => draft.id } },
-          { :class => 'delete' })%>
-      </div><%#}}}%>
-      <div class="title"><%#{{{%>
-        <% draft.object.subject = nil if draft.object.subject.empty? %>
-        <% l = draft.object.subject || content_tag('em', "(nessun oggetto)") %>
-        <%=link_to l, :controller => 'pm', :action => 'new',
-          :draft => draft.id%>
-      <!--
-      </div>
-      <div class="destination">
-      -->
-        <% u = draft.object.to %>
-        <% if !u.new_record? %>
-          <%= link_to h(u.username), :controller => 'user', :action => 'view',
-            :id => u %>
-        <% else %>
-          <em>(utente sconosciuto)</em>
-        <% end %>
-      </div><%#}}}%>
-        <% elsif draft.object_type == 'Post' %>
-        <% elsif draft.object_type == 'Topic' %>
-      <% end %>
-    </li>
+<%Pm.new; Post.new; Topic.new 
+  item = {}
+  case draft.object_type
+    when 'Pm' # {{{
+      draft.object.subject = nil if draft.object.subject.empty?
+      item[:type]          = 'Messaggio privato'
+      l                    = draft.object.subject || content_tag('em',
+        "(nessun oggetto)")
+      item[:link]          = link_to l, :controller => 'pm', :action => 'new',
+        :draft => draft.id
+      u                    = draft.object.to
+      if !u.new_record?
+        dst = link_to h(u.username), :controller => 'user', :action => 'view',
+          :id => u
+      else
+        dst = content_tag('em', 'utente sconosciuto')
+      end
+      item[:link] += " (per #{dst})"
+    # }}}
+    when 'Post' # {{{
+      post         = draft.object
+      dst          = link_to cleanup(post.forum.name), :controller => 'forum',
+        :action => 'view', :id => post.forum
+      item[:type]  = 'Risposta forum'
+      item[:link]  = link_to post.topic.title, :controller => 'post',
+        :action => 'new', :draft => draft.id
+      item[:link] += " (in #{dst})"
+    # }}}
+    when 'Topic' # {{{
+      item[:type] = 'Nuova discussione'
+    # }}}
+  end
+  item[:time]   = timestamp_to_date(draft.timestamp)
+  item[:delete] = button_to_remote('elimina',
+    { :url => { :controller => 'draft', :action => 'delete',
+                :id => draft.id } },
+    { :class => 'delete' })
+%>
+  <tr id="draft_<%=draft.id%>" class="bg<%=flip%>">
+    <td class="type"><%#{{{%>
+      <%=item[:type]%>
+    </td><%#}}}%>
+    <td class="time"><%#{{{%>
+      <%=item[:time]%>
+    </td><%#}}}%>
+    <td class="title"><%#{{{%>
+      <%=item[:link]%>
+    </td><%#}}}%>
+    <td class="delete"><%#{{{%>
+      <%=item[:delete]%>
+    </td><%#}}}%>
+  </tr>
