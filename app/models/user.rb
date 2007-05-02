@@ -54,4 +54,12 @@ class User < ActiveRecord::Base
     User.admins.each { |u| ids << u.id }
     ids
   end # }}}
+  def User.find_by_username(s) # {{{
+    # XXX a method of untold laziness
+    begin
+      s = Iconv.new('iso-8859-1', 'utf-8').iconv(s)
+    rescue
+    end
+    super(s)
+  end # }}}
 end

@@ -5,7 +5,8 @@ module ActiveRecord::IsoHelper
       begin
         if value.is_a? String
           newval = iso(value)
-          self.send(key + '=', newval)
+          #self.send(key + '=', newval)
+          self[key.to_sym] = newval
         end
       rescue Iconv::IllegalSequence
       end
@@ -16,7 +17,8 @@ module ActiveRecord::IsoHelper
       begin
         if value.is_a? String
           newval = utf8(value)
-          self.send(key + '=', newval)
+          #self.send(key + '=', newval)
+          self[key.to_sym] = newval
         end
       rescue Iconv::IllegalSequence
       end
