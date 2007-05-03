@@ -88,6 +88,15 @@ class PostController < ApplicationController
       render :nothing => true and return
     end
   end # }}}
+  def nonsense # {{{
+    username  = params[:id]
+    u         = User.find_by_username(username) if username
+    u         = u ? u : @user
+    d         = Dadadodo.new 
+    d.user    = u
+    d.posts   = 50
+    @nonsense = d.nonsense
+  end # }}}
   private
   def id_to_object(id) # {{{
     arr = id.split(/_/)
