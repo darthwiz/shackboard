@@ -29,9 +29,9 @@
         <h2>
           <%= link_to 'Materiali ◂', 'http://materiali.studentibicocca.it'%>
         </h2>
-        <% cache('portal/latest_files') do %>
-        <%= render :partial => '/welcome/files' %>
-        <% end %>
+        <%#cache('portal/latest_files') do %>
+        <%=render :partial => '/welcome/files' %>
+        <%#end %>
       </li><%#}}}%>
       <li id="boards"><%#Bacheche {{{%>
         <h2><%=link_to 'Bacheche ◂', '/portale/forum/index.php?gid=51'%></h2>
@@ -68,9 +68,9 @@
       <li><%#Avvisi {{{%>
         <h2><%=link_to 'Avvisi ◂',
             'http://asb.studentibicocca.it/avvisi/'%></h2>
-        <% cache('portal/latest_announcements') do %>
+        <%#cache('portal/latest_announcements') do %>
         <%=render :partial => '/announcement/latest_old' %>
-        <% end %>
+        <%#end %>
       </li><%#}}}%>
       <li><%#Servizi {{{%>
         <h2><%=link_to 'Servizi ◂', 'http://www.servizi-uni.studentibicocca.it/' %></h2>
