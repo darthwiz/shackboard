@@ -1,12 +1,20 @@
 <ul>
   <% forums.each do |i| %>
   <li class="forum_name">
-    <% name = h(strip_tags(i[:name])) %>
+    <%
+      name = h(strip_tags(i[:name]))
+      if @app_context == :old
+        url = base_url + i[:forum].to_s
+      else
+        url = url_for(:controller => 'forum', :action => 'view',
+          :id => i[:forum])
+      end
+    %>
     <%=link_image_to i[:image], base_url + i[:forum].to_s if i[:image]%>
-    <h3><%=link_to name, base_url + i[:forum].to_s%></h3>
+    <h3><%=link_to name, url%></h3>
   </li>
   <li style="padding-top: 0;">
-    <%= render :partial => '/forum/latest_topics_old',
+    <%= render :partial => '/forum/latest_topics',
                :locals  => { :id          => i[:forum],
                              :n           => i[:ntopics],
                              :include_sub => i[:include_sub] } %>

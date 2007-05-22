@@ -1,4 +1,7 @@
-<%@page_title = "StudentiBicocca.it - il portale degli studenti della Bicocca"%>
+<%
+  @legacy_mode = LEGACY_MODE
+  @page_title  = "StudentiBicocca.it - il portale degli studenti della Bicocca"
+%>
 <div id="portal_main"><%#{{{%>
   <div id="header"><%#Header {{{%>
     <div id="title">
@@ -10,17 +13,7 @@
     <div id="asb_icon">
       <img src="http://www.studentibicocca.it/portale/immagini-nh/asb_small.png" alt=""/>
     </div>
-    <div id="login_box">
-      <% if @user %>
-        Benvenuto <strong><%=h @user.username%></strong>!<br/>
-        <%=content_tag('div', link_pm_unread)%>
-        <%=content_tag('div', link_draft_unsent)%>
-        <%=content_tag('div', link_file_unapproved)%>
-        <%=link_logout%>
-      <% else %>
-        <%=form_login%>
-      <% end %>
-    </div>
+    <%=render :partial => '/login/login_box'%>
     <div class="spacer"></div>
   </div><%#}}}%>
   <div id="portal_left"><%#{{{%>
@@ -46,19 +39,19 @@
       <li><%#Forum {{{%>
         <h2><%=link_to 'Forum ◂', '/portale/forum/' %></h2>
         <% cache('portal/25') do %>
-        <%=render :partial => '/welcome/forums_old'%>
+        <%=render :partial => '/welcome/forums'%>
         <% end %>
       </li><%#}}}%>
       <li><%#Canali tematici {{{%>
         <h2><%=link_to 'Canali tematici ◂', '/portale/forum/index.php?gid=24'%></h2>
         <% cache('portal/24') do %>
-        <%=render :partial => '/welcome/channels_old'%>
+        <%=render :partial => '/welcome/channels'%>
         <% end %>
       </li><%#}}}%>
       <li><%#Cerco/Offro {{{%>
         <h2><%=link_to 'Cerco/Offro ◂', '/portale/forum/index.php?gid=108'%></h2>
         <% cache('portal/108') do %>
-        <%=render :partial => '/welcome/market_old'%>
+        <%=render :partial => '/welcome/market'%>
         <% end %>
       </li><%#}}}%>
     </ul>
@@ -69,7 +62,7 @@
         <h2><%=link_to 'Avvisi ◂',
             'http://asb.studentibicocca.it/avvisi/'%></h2>
         <%#cache('portal/latest_announcements') do %>
-        <%=render :partial => '/announcement/latest_old' %>
+        <%=render :partial => '/announcement/latest' %>
         <%#end %>
       </li><%#}}}%>
       <li><%#Servizi {{{%>

@@ -73,7 +73,7 @@
           { :style => 'display: block;' } %>
     <% end %>
     <div class="spacer"></div>
-    <%= render :partial => '/forum/latest_topics_old',
+    <%= render :partial => '/forum/latest_topics',
                :locals  => { :id => i[:forum], :n => i[:ntopics],
                              :include_sub => true } %>
     <% if i[:books] %>

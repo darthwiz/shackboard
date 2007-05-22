@@ -1,6 +1,6 @@
 <%
   base_url = '/portale/forum/forumdisplay.php?fid='
-  forums = []
+  forums   = []
   Forum.find(25).children.each do |f|
     forums << {
       :name        => strip_tags(f.name),
@@ -21,6 +21,6 @@
   end
   # }}}
 %><%=
-  render :partial => '/welcome/forums_content_old',
+  render :partial => '/welcome/forums_content',
          :locals  => { :forums => forums, :base_url => base_url }
 %>

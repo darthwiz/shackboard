@@ -1,12 +1,6 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
-body {<%#{{{%>
-  color: <%=t.text%>;
-  background-color: <%=t.bgcolor%>;
-  /* font-size: .9em; */
-  font-size: 11px;
-  font-family: Verdana, sans-serif;
-}<%#}}}%>
+<%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
 div#portal_main {<%#{{{%>
   margin-left: 20px;
   margin-right: 20px;
@@ -44,6 +38,7 @@ div#asb_icon {<%#{{{%>
 }<%#}}}%>
 div#login_box {<%#{{{%>
   float: right;
+  margin-right: .5em;
 }<%#}}}%>
 div#icons, div#login_box, div#asb_icon, div#title {<%#{{{%>
   margin-top: .5em;
@@ -162,39 +157,6 @@ ul.announcement li a {<%#{{{%>
 img {<%#{{{%>
   border: 0;
 }<%#}}}%>
-div#login_box {<%#{{{%>
-  width: 20em;
-  background-color: <%=t.altbg2%>;
-  margin: 1em;
-  padding: .5em;
-  border: 1px solid <%=t.bordercolor%>;
-}<%#}}}%>
-div#login_box div.login {<%#{{{%>
-  text-align: right;
-  padding: .5em;
-}<%#}}}%>
-div#login_box, div#login_box input {<%#{{{%>
-  font-size: .9em;
-}<%#}}}%>
-div#login_box div.label {<%#{{{%>
-  float: left;
-  text-align: right;
-  width: 6em;
-  padding-right: .5em;
-}<%#}}}%>
-div.logout {<%#{{{%>
-  text-align: right;
-}<%#}}}%>
-div.logout a {<%#{{{%>
-  background-color: <%=t.altbg1%>;
-  padding-left: .5em;
-  padding-right: .5em;
-  border: 1px solid <%=t.bordercolor%>;
-  color: <%=t.text%>;
-}<%#}}}%>
-div.logout a:hover {<%#{{{%>
-  background-color: <%=t.altbg2%>;
-}<%#}}}%>
 a:hover {<%#{{{%>
   background-color: blue;
   color: yellow;
@@ -220,3 +182,4 @@ h2 a:hover, h3 a:hover {<%#{{{%>
   color: yellow;
   background-color: blue;
 }<%#}}}%>
+<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>

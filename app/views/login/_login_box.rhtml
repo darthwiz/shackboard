@@ -1,0 +1,17 @@
+<div id="login_box">
+  <%if @user%>
+    Benvenuto <strong><%=h @user.username%></strong>!<br/>
+    <ul>
+      <%=content_tag('li', link_pm_unread)       if link_pm_unread%>
+      <%=content_tag('li', link_draft_unsent)    if link_draft_unsent%>
+      <%=content_tag('li', link_file_unapproved) if link_file_unapproved%>
+    </ul>
+    <div class="buttons">
+      <%=link_profile%>
+      <%=link_logout%>
+    </div>
+    <div class="spacer"></div>
+  <%else%>
+    <%=form_login%>
+  <%end%>
+</div>

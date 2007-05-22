@@ -38,9 +38,17 @@ module ApplicationHelper
     end
     icon
   end # }}}
+  def link_profile # {{{
+    if @legacy_mode == :old
+      s = link_to 'impostazioni', '/portale/forum/usercp.php'
+    else
+      s = link_to 'impostazioni', :controller => 'user', :action => 'edit'
+    end
+    content_tag('span', s, :class => 'profile')
+  end # }}}
   def link_logout # {{{
     s = link_to 'logout', :controller => 'login', :action => 'logout'
-    content_tag('div', s, :class => 'logout')
+    content_tag('span', s, :class => 'logout')
   end # }}}
   def link_draft_list # {{{
     link_to_unless_current 'bozze', {:controller => 'draft', :action => 'list'},
@@ -151,7 +159,8 @@ module ApplicationHelper
       return
     end
     (0...trail.length).each do |i|
-      el = trail[i]
+      el    = trail[i]
+      el[0] = cleanup(el[0])
       if el[1].empty?
         s += content_tag('span', el[0], :class => 'current_page')
       else
@@ -238,9 +247,9 @@ module ApplicationHelper
     pages.sort.uniq.each do |p|
       if (p > prev + 1) then
         if (ipp) then
-          ctrl_opts[:start] = (prev + p) / 2 * ipp + 1
+          ctrl_opts[:start] = ((prev + p) / 2 - 1) * ipp + 1
         else
-          ctrl_opts[:page] = (prev + p) / 2 + 1
+          ctrl_opts[:page] = ((prev + p) / 2 -1 ) + 1
         end
         s << link_to('...', ctrl_opts) + "\n"
       end

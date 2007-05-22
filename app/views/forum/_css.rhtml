@@ -1,12 +1,6 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
-body {<%#{{{%>
-  color: <%=t.text%>;
-  background-color: <%=t.bgcolor%>;
-  /* font-size: .9em; */
-  font-size: 12px;
-  font-family: Verdana, sans-serif;
-}<%#}}}%>
+<%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
 div#forums, div#topics {<%#{{{%>
   margin-left: 2em;
   margin-right: 2em;
@@ -18,12 +12,42 @@ div#navbar_top {<%#{{{%>
   margin-right: 2em;
   margin-top: .5em;
   margin-bottom: .5em;
+  font-size: .9em;
+}<%#}}}%>
+span.page_trail {<%#{{{%>
+  border: 1px solid <%=t.bordercolor%>;
+  padding: .4em;
+  text-align: right;
+  display: block;
+  margin-bottom: .5em;
 }<%#}}}%>
 div#navbar_bottom {<%#{{{%>
   margin-left: 2em;
   margin-right: 2em;
   margin-top: .5em;
   margin-bottom: .5em;
+}<%#}}}%>
+div#forum_name {<%#{{{%>
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+  padding: .5em;
+  border: 1px solid <%=t.bordercolor%>;
+  margin-top: .9em;
+  margin-bottom: .5em;
+}<%#}}}%>
+div#forum_name a {<%#{{{%>
+  color: <%=t.headertext%>;
+}<%#}}}%>
+div#forum_name span.forum_name {<%#{{{%>
+  font-weight: bold;
+  float: left;
+}<%#}}}%>
+span.pages {<%#{{{%>
+  float: left;
+  margin-left: 1em;
+}<%#}}}%>
+span.topic_new {<%#{{{%>
+  float: right;
 }<%#}}}%>
 table#topic_list, table#forum_list {<%#{{{%>
   width: 100%;
@@ -86,14 +110,6 @@ div.snippet {<%#{{{%>
   font-size: 10px;
   overflow: hidden;
 }<%#}}}%>
-span.page_trail {<%#{{{%>
-  text-align: right;
-  display: block;
-}<%#}}}%>
-span.page_seq {<%#{{{%>
-  text-align: right;
-  display: block;
-}<%#}}}%>
 div#navbar_top span.topic_new, div#navbar_bottom span.topic_new {<%#{{{%>
   text-align: right;
   display: block;
@@ -106,3 +122,7 @@ a, a:visited {<%#{{{%>
 a:hover {<%#{{{%>
   text-decoration: underline;
 }<%#}}}%>
+div.spacer {<%#{{{%>
+  clear: both;
+}<%#}}}%>
+<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>

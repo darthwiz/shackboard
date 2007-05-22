@@ -17,3 +17,4 @@ config.action_controller.perform_caching             = false
 # The :test delivery method accumulates sent emails in the
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
+#config.active_record.table_name_prefix = "" # XXX hack
