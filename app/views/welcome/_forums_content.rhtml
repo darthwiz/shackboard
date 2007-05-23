@@ -3,7 +3,7 @@
   <li class="forum_name">
     <%
       name = h(strip_tags(i[:name]))
-      if @app_context == :old
+      if @legacy_mode == :old
         url = base_url + i[:forum].to_s
       else
         url = url_for(:controller => 'forum', :action => 'view',
