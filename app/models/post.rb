@@ -76,5 +76,3 @@ class Post < ActiveRecord::Base
     super
   end # }}}
 end
-
-class InvalidFieldError < StandardError; end

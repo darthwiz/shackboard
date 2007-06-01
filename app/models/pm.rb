@@ -1,6 +1,9 @@
 class Pm < ActiveRecord::Base
   require 'magic_fixes.rb'
+  require 'each_by.rb'
   include ActiveRecord::MagicFixes
+  include ActiveRecord::EachBy
+  extend  ActiveRecord::EachBy
   set_table_name table_name_prefix + "u2u"
   set_primary_key "u2uid"
   # validations {{{
@@ -37,12 +40,6 @@ class Pm < ActiveRecord::Base
   def read? # {{{
     self.status == 'read'
   end # }}}
-  def Pm.each_by_from(username, &block) # {{{
-    Pm.each_by_field(:from, username, &block)
-  end # }}}
-  def Pm.each_by_to(username, &block) # {{{
-    Pm.each_by_field(:to, username, &block)
-  end # }}}
   def Pm.count_from_to(from, to) # {{{
     raise TypeError unless from.is_a? User
     raise TypeError unless to.is_a? User
@@ -68,26 +65,5 @@ class Pm < ActiveRecord::Base
       conds << " OR message LIKE '%#{word}%')"
     end
     conds.sub(/^ AND /, '')
-  end # }}}
-  def Pm.each_by_field(field, username) # {{{
-    case field
-      when :from then field = 'msgfrom'
-      when :to   then field = 'msgto'
-      else raise
-    end
-    conds  = [ "#{field} = ?", username ]
-    count  = Pm.count(:conditions => conds)
-    offset = 0
-    limit  = 50
-    while offset <= count
-      Pm.find(
-        :all,
-        :conditions => conds,
-        :offset     => offset,
-        :limit      => limit
-      ).each { |pm| yield pm }
-      offset += limit
-    end
-    nil
   end # }}}
 end

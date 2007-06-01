@@ -28,13 +28,21 @@ class User < ActiveRecord::Base
       self.username = new_username
       self.save!
     end
-    Pm.each_by_from(old_username) do |pm|
+    Pm.each_by_msgfrom(old_username) do |pm|
       pm.msgfrom = new_username
       pm.save_with_validation(false)
     end
-    Pm.each_by_to(old_username) do |pm|
+    Pm.each_by_msgto(old_username) do |pm|
       pm.msgto = new_username
       pm.save_with_validation(false)
+    end
+    Post.each_by_author(old_username) do |p|
+      p.author = new_username
+      p.save_with_validation(false)
+    end
+    Topic.each_by_author(old_username) do |t|
+      t.author = new_username
+      t.save_with_validation(false)
     end
     true
   end # }}}

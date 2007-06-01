@@ -28,6 +28,7 @@ module ActiveRecord::EachBy
         :limit      => limit
       ).each { |p| yield p }
       offset += limit
+      puts "#{self.new.class}: #{offset}"
     end
     nil
   end # }}}
