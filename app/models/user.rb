@@ -20,6 +20,24 @@ class User < ActiveRecord::Base
     self.postnum = posts + topics
     self.save
   end # }}}
+  def rename!(new_username) # {{{
+    if User.find_by_username(new_username)
+      raise DuplicateUserError, "user #{new_username.inspect} already exists"
+    else
+      old_username  = self.username
+      self.username = new_username
+      self.save!
+    end
+    Pm.each_by_from(old_username) do |pm|
+      pm.msgfrom = new_username
+      pm.save_with_validation(false)
+    end
+    Pm.each_by_to(old_username) do |pm|
+      pm.msgto = new_username
+      pm.save_with_validation(false)
+    end
+    true
+  end # }}}
   def User.authenticate(username, password) # {{{
     u = User.find_by_username(username)
     if (u) then
@@ -63,3 +81,6 @@ class User < ActiveRecord::Base
     super(s)
   end # }}}
 end
+
+class UserError < StandardError; end
+class DuplicateUserError < UserError; end
