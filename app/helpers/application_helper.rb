@@ -38,13 +38,22 @@ module ApplicationHelper
     end
     icon
   end # }}}
-  def link_profile # {{{
+  def link_user_edit # {{{
     if @legacy_mode == :old
       s = link_to 'impostazioni', '/portale/forum/usercp.php'
     else
       s = link_to 'impostazioni', :controller => 'user', :action => 'edit'
     end
     content_tag('span', s, :class => 'profile')
+  end # }}}
+  def link_user_register # {{{
+    msg = 'nuovo utente'
+    if @legacy_mode == :old
+      s = link_to msg, '/portale/forum/member.php?action=reg'
+    else
+      s = link_to msg, :controller => 'user', :action => 'register'
+    end
+    content_tag('div', s, :class => 'user_register')
   end # }}}
   def link_logout # {{{
     s = link_to 'logout', :controller => 'login', :action => 'logout'
@@ -96,6 +105,16 @@ module ApplicationHelper
     end
     content_tag('span', l, :class => 'pm_new')
   end # }}}
+  def link_pm_list # {{{
+    return nil unless @user.is_a? User
+    msg = 'messaggi privati'
+    if @legacy_mode == :old
+      s = link_to msg, '/portale/forum/usercp.php?action=u2u'
+    else
+      s = link_to msg, :controller => 'pm', :action => 'list'
+    end
+    content_tag('span', s, :class => 'pm_list')
+  end # }}}
   def link_pm_trash # {{{
     link_to 'cestino', {:controller => 'pm', :action => 'list',
       :folder => 'trash'}, {:class => 'pm_trash'}
@@ -138,6 +157,7 @@ module ApplicationHelper
     btn  = submit_tag 'login'
     s   += content_tag('div', usn, :class => 'username')
     s   += content_tag('div', pwd, :class => 'password')
+    s   += link_user_register
     s   += btn
     s   += end_form_tag
     content_tag('div', s, :class => 'login')
