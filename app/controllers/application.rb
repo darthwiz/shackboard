@@ -5,17 +5,21 @@ class ApplicationController < ActionController::Base
   private
   def cache_expire(params) # {{{
     case params[:object]
-    when :topic
+    when :topic # {{{
       tid = params[:id].to_i
       obj = Topic.find(tid)
+      blk = (obj.total_posts / @post_block_size) * @post_block_size
+      expire_fragment("topic/#{obj.id}/#{blk}")
       while (obj = obj.container)
         f = obj if obj.is_a? Forum
       end
       expire_fragment("portal/#{f.id}")
+      # }}}
     end
   end # }}}
   def load_defaults # {{{
-    @settings = Settings.find_all[0]
+    @settings        = Settings.find_all[0]
+    @post_block_size = 25
     begin
       @user = User.find(session[:userid])
     rescue
@@ -32,8 +36,8 @@ class ApplicationController < ActionController::Base
     @opts = {}
     if (@user) then
       ###### Custom user settings
-      @opts[:ppp]   = @user.ppp.to_i || 30
-      @opts[:tpp]   = @user.tpp.to_i || 30
+      @opts[:ppp]   = @user.ppp.to_i || @post_block_size
+      @opts[:tpp]   = @user.tpp.to_i || @post_block_size
       if @user.theme =~ /^http/
         @opts[:theme] = Theme.find_by_name(@settings.theme)
         @opts[:theme].css = @user.theme

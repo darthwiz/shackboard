@@ -1,7 +1,7 @@
 <%
   @page_title = @topic.subject
   # cache calculations {{{
-  cache_bsize  = 25
+  cache_bsize  = @post_block_size
   cache_start  = @range.begin / cache_bsize
   cache_end    = @range.end / cache_bsize
   cache_blocks = (cache_start..cache_end)
