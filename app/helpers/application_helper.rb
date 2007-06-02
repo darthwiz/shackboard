@@ -131,13 +131,6 @@ module ApplicationHelper
     msg   = "Hai #{count} bozze non inviate." if count > 1
     msg ? link_to(msg, :controller => 'draft', :action => 'list') : nil
   end # }}}
-  def link_post_extra_cmds(post) # {{{
-    raise TypeError unless post.is_a? Post
-    l = link_to_remote('▼', :update => 'extra_cmds_' + domid(post),
-      :url => {:controller => 'post', :action => 'extra_cmds',
-        :id => domid(post)})
-    content_tag('span', l, :class => 'extra_cmds_link')
-  end # }}}
   def link_file_unapproved(user=@user) # {{{
     return nil unless is_file_adm?(user)
     n    = FiledbFile.count_unapproved

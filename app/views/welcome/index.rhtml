@@ -1,6 +1,16 @@
 <%
-  @legacy_mode = LEGACY_MODE
-  @page_title  = "StudentiBicocca.it - il portale degli studenti della Bicocca"
+  @legacy_mode  = LEGACY_MODE
+  @page_title   = "StudentiBicocca.it - il portale degli studenti della Bicocca"
+  # links {{{
+  link_forum    = @legacy_mode == :old ? '/portale/forum' :
+    url_for(:controller => 'forum', :action => 'list')
+  link_channels = @legacy_mode == :old ? '/portale/forum/index.php?gid=24' :
+    url_for(:controller => 'forum', :action => 'view', :id => 24)
+  link_boards   = @legacy_mode == :old ? '/portale/forum/index.php?gid=51' :
+    url_for(:controller => 'forum', :action => 'view', :id => 51)
+  link_market   = @legacy_mode == :old ? '/portale/forum/index.php?gid=108' :
+    url_for(:controller => 'forum', :action => 'view', :id => 108)
+  # }}}
 %>
 <div id="portal_main"><%#{{{%>
   <div id="header"><%#Header {{{%>
@@ -20,16 +30,16 @@
     <ul class="column">
       <li id="files"><%#Materiali {{{%>
         <h2>
-          <%= link_to 'Materiali ◂', 'http://materiali.studentibicocca.it'%>
+          <%=link_to 'Materiali ◂', 'http://materiali.studentibicocca.it'%>
         </h2>
         <%#cache('portal/latest_files') do %>
         <%=render :partial => '/welcome/files' %>
         <%#end %>
       </li><%#}}}%>
       <li id="boards"><%#Bacheche {{{%>
-        <h2><%=link_to 'Bacheche ◂', '/portale/forum/index.php?gid=51'%></h2>
+        <h2><%=link_to 'Bacheche ◂', link_boards%></h2>
         <% cache('portal/51') do %>
-        <%= render :partial => '/welcome/boards' %>
+        <%=render :partial => '/welcome/boards' %>
         <% end %>
       </li><%#}}}%>
     </ul>
@@ -37,19 +47,19 @@
   <div id="portal_center"><%#{{{%>
     <ul class="column">
       <li><%#Forum {{{%>
-        <h2><%=link_to 'Forum ◂', '/portale/forum/' %></h2>
+        <h2><%=link_to 'Forum ◂', link_forum %></h2>
         <% cache('portal/25') do %>
         <%=render :partial => '/welcome/forums'%>
         <% end %>
       </li><%#}}}%>
       <li><%#Canali tematici {{{%>
-        <h2><%=link_to 'Canali tematici ◂', '/portale/forum/index.php?gid=24'%></h2>
+        <h2><%=link_to 'Canali tematici ◂', link_channels%></h2>
         <% cache('portal/24') do %>
         <%=render :partial => '/welcome/channels'%>
         <% end %>
       </li><%#}}}%>
       <li><%#Cerco/Offro {{{%>
-        <h2><%=link_to 'Cerco/Offro ◂', '/portale/forum/index.php?gid=108'%></h2>
+        <h2><%=link_to 'Cerco/Offro ◂', link_market%></h2>
         <% cache('portal/108') do %>
         <%=render :partial => '/welcome/market'%>
         <% end %>

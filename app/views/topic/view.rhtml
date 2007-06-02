@@ -1,27 +1,51 @@
-<% @page_title = @topic.subject %>
+<%
+  @page_title = @topic.subject
+  # cache calculations {{{
+  cache_bsize  = 25
+  cache_start  = @range.begin / cache_bsize
+  cache_end    = @range.end / cache_bsize
+  cache_blocks = (cache_start..cache_end)
+  # }}}
+%>
 <%=javascript_include_tag :defaults%>
 <div id="navbar_top">
   <%=render :partial => '/login/login_box'%>
   <div class="spacer"></div>
 </div>
 <div id="posts">
-  <%=page_trail%>
-  <%=link_post_new%>
-  <%=page_seq%>
   <ul id="post_list">
-    <li class="title_bar">
-      <%=h(strip_tags(@topic.subject))%>
-    </li>
-    <% flip = 0 %>
-    <% @posts.each do |p| %>
-    <%=render :partial => '/post/post',
-      :locals => { :post => p, :flip => flip }%>
-    <% flip = 1 - flip %>
+    <li class="title_bar"><%#{{{%>
+      <%=page_trail%>
+      <div class="topic_title">
+        <span class="topic_title"><%=cleanup(@topic.subject)%></span>
+        <%="(pagine: #{page_seq})" unless page_seq.to_s.empty?%>
+      </div>
+      <%=link_post_new%>
+      <div class="spacer"></div>
+    </li><%#}}}%>
+    <%#cached blocks {{{%>
+    <% cache_blocks.each do |b| %>
+      <% range = (b * cache_bsize)...((b + 1) * cache_bsize) %>
+      <%#cache "topic/#{@topic.id}/#{range.begin + 1}-#{range.end}" do %>
+      <% cache "topic/#{@topic.id}/#{b}" do %>
+        <% flip  = 0 %>
+        <% @topic.posts(range).each do |p| %>
+          <%#puts "rendering post #{p.id}" %>
+          <%=render :partial => '/post/post',
+            :locals => { :post => p, :flip => flip }%>
+        <% flip = 1 - flip %>
+        <% end %>
+      <% end %>
     <% end %>
+    <%#end cached blocks }}}%>
+    <li class="title_bar"><%#{{{%>
+      <%=page_trail%>
+      <div class="topic_title">
+        <span class="topic_title"><%=cleanup(@topic.subject)%></span>
+        <%="(pagine: #{page_seq})" unless page_seq.to_s.empty?%>
+      </div>
+      <%=link_post_new%>
+      <div class="spacer"></div>
+    </li><%#}}}%>
   </ul>
-</div>
-<div id="navbar_bottom">
-  <%=page_seq%>
-  <%=link_post_new%>
-  <%=page_trail%>
 </div>

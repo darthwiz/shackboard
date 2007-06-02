@@ -39,12 +39,6 @@ li.bg0 {<%#{{{%>
 li.bg1 {<%#{{{%>
   background-color: <%=t.altbg2%>;
 }<%#}}}%>
-li.title_bar {<%#{{{%>
-  padding: .5em;
-  font-weight: bold;
-  background-color: <%=t.header%>;
-  color: <%=t.headertext%>;
-}<%#}}}%>
 div.spacer {<%#{{{%>
   clear: both;
 }<%#}}}%>
@@ -110,14 +104,28 @@ span.author {<%#{{{%>
   font-weight: bold;
 }<%#}}}%>
 span.page_trail {<%#{{{%>
-  text-align: right;
   display: block;
   font-size: .8em;
 }<%#}}}%>
-span.page_seq {<%#{{{%>
-  float: left;
+li.title_bar {<%#{{{%>
+  padding: .5em;
+  background-color: <%=t.header%>;
+}<%#}}}%>
+li.title_bar span.page_trail span.current_page {<%#{{{%>
+  display: none;
+}<%#}}}%>
+li.title_bar div.topic_title {<%#{{{%>
   display: block;
-  font-size: .9em;
+  float: left;
+}<%#}}}%>
+li.title_bar div.topic_title span.topic_title {<%#{{{%>
+  color: <%=t.headertext%>;
+  font-weight: bold;
+  font-size: 1em;
+}<%#}}}%>
+li.title_bar span.post_new {<%#{{{%>
+  display: block;
+  float: right;
 }<%#}}}%>
 span.extra_cmds_link {<%#{{{%>
   display: block;

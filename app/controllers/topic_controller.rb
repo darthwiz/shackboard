@@ -35,18 +35,17 @@ class TopicController < ApplicationController
       render :partial => "not_authorized" and return
     end
     # }}}
-    start = @topic.total_posts if params[:page] == 'last'
-    rst   = (start/ppp)*ppp
-    rend  = rst + ppp - 1
-    range = rst..rend
-    @posts         = @topic.posts(range)
+    start  = @topic.total_posts if params[:page] == 'last'
+    rstart = (start/ppp)*ppp
+    rend   = rstart + ppp - 1
+    @range = rstart..rend
     @page_seq_opts = { :last        => @topic.replies + 1,
                        :ipp         => ppp,
                        :current     => start + 1,
                        :id          => tid,
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location      = [ 'Topic', @topic ]
-    @topic.views += 1
+    @topic.views  += 1
     @topic.save
   end # }}}
   def css # {{{
