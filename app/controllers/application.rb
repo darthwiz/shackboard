@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     when :topic # {{{
       tid = params[:id].to_i
       obj = Topic.find(tid)
-      blk = (obj.total_posts / @post_block_size) * @post_block_size
+      blk = obj.total_posts / @post_block_size
       expire_fragment("topic/#{obj.id}/#{blk}")
       while (obj = obj.container)
         f = obj if obj.is_a? Forum
