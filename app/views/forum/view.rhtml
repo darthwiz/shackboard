@@ -1,7 +1,7 @@
 <%
   @page_title  = cleanup(@forum.name)
   has_children = !@forum.children.empty?
-  has_topics   = !@topics.empty?
+  has_topics   = !@forum.topics_count_cached.zero?
 %>
 <%=javascript_include_tag :defaults%>
 <div id="navbar_top"><%#{{{%>
@@ -27,7 +27,9 @@
     <div class="forum_name">
       <span class="forum_name"><%=@page_title%></span>
     </div>
-    <div class="pages">(pagine: <%=page_seq%>)</div>
+    <% unless page_seq.to_s.empty? %>
+      <div class="pages">(pagine: <%=page_seq%>)</div>
+    <% end %>
     <%=link_topic_new%>
     <div class="spacer"></div>
   </div><%#}}}%>
@@ -37,7 +39,9 @@
     <div class="forum_name">
       <span class="forum_name"><%=@page_title%></span>
     </div>
-    <div class="pages">(pagine: <%=page_seq%>)</div>
+    <% unless page_seq.to_s.empty? %>
+      <div class="pages">(pagine: <%=page_seq%>)</div>
+    <% end %>
     <%=link_topic_new%>
     <div class="spacer"></div>
   </div><%#}}}%>

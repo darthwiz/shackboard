@@ -18,8 +18,9 @@ class ApplicationController < ActionController::Base
     end
   end # }}}
   def load_defaults # {{{
-    @settings        = Settings.find_all[0]
-    @post_block_size = 25
+    @settings         = Settings.find_all[0]
+    @post_block_size  = 25
+    @topic_block_size = 25
     begin
       @user = User.find(session[:userid])
     rescue

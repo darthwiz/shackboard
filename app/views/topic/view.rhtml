@@ -1,5 +1,5 @@
 <%
-  @page_title = @topic.subject
+  @page_title = cleanup(@topic.subject)
   # cache calculations {{{
   cache_bsize  = @post_block_size
   cache_start  = @range.begin / cache_bsize
@@ -17,31 +17,32 @@
     <li class="title_bar"><%#{{{%>
       <%=page_trail%>
       <div class="topic_title">
-        <span class="topic_title"><%=cleanup(@topic.subject)%></span>
+        <span class="topic_title"><%=@page_title%></span>
         <%="(pagine: #{page_seq})" unless page_seq.to_s.empty?%>
       </div>
       <%=link_post_new%>
       <div class="spacer"></div>
     </li><%#}}}%>
-    <%#cached blocks {{{%>
-    <% cache_blocks.each do |b| %>
-      <% range = (b * cache_bsize)...((b + 1) * cache_bsize) %>
-      <%#cache "topic/#{@topic.id}/#{range.begin + 1}-#{range.end}" do %>
-      <% cache "topic/#{@topic.id}/#{b}" do %>
-        <% flip  = 0 %>
-        <% @topic.posts(range).each do |p| %>
-          <%#puts "rendering post #{p.id}" %>
-          <%=render :partial => '/post/post',
-            :locals => { :post => p, :flip => flip }%>
-        <% flip = 1 - flip %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <%#end cached blocks }}}%>
+<%#cached blocks {{{%>
+<%
+  cache_blocks.each do |b|
+    range = (b * cache_bsize)...((b + 1) * cache_bsize)
+    cache "topic/#{@topic.id}/#{b}" do
+      flip = 0 unless flip
+      @topic.posts(range).each do |p| 
+      puts "rendering post #{p.id}"
+      %><%=render :partial => '/post/post',
+        :locals => { :post => p, :flip => flip }%><%
+      flip = 1 - flip
+      end 
+    end
+  end
+%>
+<%#}}}%>
     <li class="title_bar"><%#{{{%>
       <%=page_trail%>
       <div class="topic_title">
-        <span class="topic_title"><%=cleanup(@topic.subject)%></span>
+        <span class="topic_title"><%=@page_title%></span>
         <%="(pagine: #{page_seq})" unless page_seq.to_s.empty?%>
       </div>
       <%=link_post_new%>

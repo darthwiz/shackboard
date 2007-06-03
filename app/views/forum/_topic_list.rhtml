@@ -1,7 +1,16 @@
-<% icon_base     = 'http://www.studentibicocca.it/portale/forum/images/' %>
-<% hot_threshold = 25 %>
-<% ppp           = @opts[:ppp] %>
+<%
+  icon_base    = 'http://www.studentibicocca.it/portale/forum/images/'
+  hot_thresh   = 25
+  ppp          = @opts[:ppp]
+  # cache calculations {{{
+  cache_bsize  = @topic_block_size
+  cache_start  = @range.begin / cache_bsize
+  cache_end    = @range.end / cache_bsize
+  cache_blocks = (cache_start..cache_end)
+  # }}}
+%>
 <table id="topic_list">
+<%#titles {{{%>
   <tr id="topic_list_labels">
     <td class="topic_folder"><%#{{{%>
     </td><%#}}}%>
@@ -23,13 +32,19 @@
       Ultimo messaggio
     </td><%#}}}%>
   </tr>
-  <% flip = 0 unless flip 
-     @topics.each do |t|
-     folder = icon_base + 'folder.gif'
-     folder = icon_base + 'hot_folder.gif'  if t.total_posts >= hot_threshold
-     folder = icon_base + 'lock_folder.gif' if t.closed == "yes"
-     folder = icon_base + 'moved.gif'       if t.closed == "moved"
-  %>
+<%#}}}%>
+<%#cached blocks {{{%>
+<%
+  cache_blocks.each do |b|
+    range = (b * cache_bsize)...((b + 1) * cache_bsize)
+    cache "forum/#{@forum.id}/topics/#{b}" do
+      flip = 0 unless flip 
+      @forum.topics(range).each do |t|
+        folder = icon_base + 'folder.gif'
+        folder = icon_base + 'hot_folder.gif'  if t.total_posts >= hot_thresh
+        folder = icon_base + 'lock_folder.gif' if t.closed == "yes"
+        folder = icon_base + 'moved.gif'       if t.closed == "moved"
+%>
   <tr id="<%=domid(t)%>">
     <td class="topic_folder"><%#{{{%>
       <%=image_tag(folder) %>
@@ -81,6 +96,11 @@
         <%=timestamp_to_date(t.lastpost(:time).to_i)%>
     </td><%#}}}%>
   </tr>
-  <% flip = 1 - flip %>
-  <% end %>
+<%
+        flip = 1 - flip
+      end
+    end
+  end
+%>
+<%#}}}%>
 </table>

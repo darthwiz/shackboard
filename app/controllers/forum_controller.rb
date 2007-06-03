@@ -5,9 +5,12 @@ class ForumController < ApplicationController
                                :order      => 'displayorder')
   end # }}}
   def view # {{{
-    tpp   = @opts[:tpp]
-    start = params[:start].to_i
-    start = 1 if (start < tpp + 1)
+    tpp    = ((@opts[:tpp] - 1) / @topic_block_size + 1) * @topic_block_size
+    start  = params[:start].to_i
+    start  = 0 if (start <= 0)
+    rstart = (start/tpp)*tpp
+    rend   = rstart + tpp - 1
+    @range = rstart..rend
     # convert textual forum ids to numeric {{{
     fid = params[:id].to_i
     if (fid <= 0) then
@@ -31,13 +34,10 @@ class ForumController < ApplicationController
     unless @forum.acl.can_read?(@user)
       render :partial => "not_authorized" and return
     end
-    offset         = ((start - 1)/tpp)*tpp
-    limit          = tpp
     conds          = ["fid = ?", fid]
-    @topics        = @forum.topics(offset...(offset + limit))
     @page_seq_opts = { :last       => @forum.topics_count_cached,
                        :ipp        => tpp,
-                       :current    => start,
+                       :current    => start + 1,
                        :id         => fid }
     @location      = [ 'Forum', @forum ]
   end # }}}
