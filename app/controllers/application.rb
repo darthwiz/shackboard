@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
       obj = Topic.find(tid)
       blk = obj.total_posts / @post_block_size
       expire_fragment("topic/#{obj.id}/#{blk}")
+      expire_fragment("forum/#{obj.forum.id}/topics/0")
       while (obj = obj.container)
         f = obj if obj.is_a? Forum
       end
