@@ -1,28 +1,45 @@
-<% @page_title = cleanup(@forum.name) %>
+<%
+  @page_title  = cleanup(@forum.name)
+  has_children = !@forum.children.empty?
+  has_topics   = !@topics.empty?
+%>
 <%=javascript_include_tag :defaults%>
 <div id="navbar_top"><%#{{{%>
   <%=render :partial => '/login/login_box'%>
   <div class="spacer"></div>
 </div><%#}}}%>
-<div id="forums"><%#{{{%>
-  <%=page_trail%>
-  <%=render :partial => 'forum_list' unless @forum.children.empty?%>
-</div><%#}}}%>
-<div id="topics"><%#{{{%>
-  <div id="forum_name">
-    <span class='forum_name'>
-      <%=@page_title%>
-    </span>
-    <span class="pages">
-      (pagine: <%=page_seq%>)
-    </span>
+<% if has_children %><%#{{{%>
+<div id="forums">
+  <div class="title_bar"><%#{{{%>
+    <%=page_trail%>
+    <div class="forum_name">
+      <span class="forum_name"><%=@page_title%></span>
+    </div>
+    <div class="spacer"></div>
+  </div><%#}}}%>
+  <%=render :partial => 'forum_list'%>
+</div>
+<% end %><%#}}}%>
+<% if has_topics %><%#{{{%>
+<div id="topics">
+  <div class="title_bar"><%#{{{%>
+    <%=page_trail unless has_children%>
+    <div class="forum_name">
+      <span class="forum_name"><%=@page_title%></span>
+    </div>
+    <div class="pages">(pagine: <%=page_seq%>)</div>
     <%=link_topic_new%>
     <div class="spacer"></div>
-  </div>
-  <%=render :partial => 'topic_list' unless @topics.empty?%>
-</div><%#}}}%>
-<div id="navbar_bottom"><%#{{{%>
-  <%=page_seq%>
-  <%=page_trail%>
-  <%=link_topic_new%>
-</div><%#}}}%>
+  </div><%#}}}%>
+  <%=render :partial => 'topic_list' if has_topics%>
+  <div class="title_bar"><%#{{{%>
+    <%=page_trail%>
+    <div class="forum_name">
+      <span class="forum_name"><%=@page_title%></span>
+    </div>
+    <div class="pages">(pagine: <%=page_seq%>)</div>
+    <%=link_topic_new%>
+    <div class="spacer"></div>
+  </div><%#}}}%>
+</div>
+<% end %><%#}}}%>

@@ -5,7 +5,7 @@ div#forums, div#topics {<%#{{{%>
   margin-left: 2em;
   margin-right: 2em;
   margin-top: .5em;
-  margin-bottom: .5em;
+  margin-bottom: 2em;
 }<%#}}}%>
 div#navbar_top {<%#{{{%>
   margin-left: 2em;
@@ -15,11 +15,8 @@ div#navbar_top {<%#{{{%>
   font-size: .9em;
 }<%#}}}%>
 span.page_trail {<%#{{{%>
-  border: 1px solid <%=t.bordercolor%>;
-  padding: .4em;
-  text-align: right;
   display: block;
-  margin-bottom: .5em;
+  font-size: .8em;
 }<%#}}}%>
 div#navbar_bottom {<%#{{{%>
   margin-left: 2em;
@@ -42,12 +39,30 @@ div#forum_name span.forum_name {<%#{{{%>
   font-weight: bold;
   float: left;
 }<%#}}}%>
-span.pages {<%#{{{%>
+div.title_bar {<%#{{{%>
+  padding: .5em;
+  background-color: <%=t.header%>;
+  border: 1px solid <%=t.bordercolor%>;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
+div.title_bar div.forum_name {<%#{{{%>
+  float: left;
+}<%#}}}%>
+div.title_bar div.pages {<%#{{{%>
   float: left;
   margin-left: 1em;
 }<%#}}}%>
 span.topic_new {<%#{{{%>
   float: right;
+}<%#}}}%>
+div.title_bar span.page_trail span.current_page {<%#{{{%>
+  display: none;
+}<%#}}}%>
+div.title_bar div.forum_name span.forum_name {<%#{{{%>
+  color: <%=t.headertext%>;
+  font-weight: bold;
+  font-size: 1em;
 }<%#}}}%>
 table#topic_list, table#forum_list {<%#{{{%>
   width: 100%;
