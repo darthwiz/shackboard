@@ -60,7 +60,6 @@ class Post < ActiveRecord::Base
   def save # {{{
     begin
       u = User.find_by_username(self.author)
-      u.increment!(:postnum)
     rescue
     end
     self.topic.lastpost = { :user => u, :timestamp => self.dateline } if u

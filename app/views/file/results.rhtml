@@ -1,11 +1,17 @@
-<% bw = 1 %>
-<% ts = 6 %>
+<%
+  bw = 1 
+  ts = 6
+%>
 <%= javascript_include_tag :defaults %>
-<%= render :partial => 'header' %>
+<div id="navbar_top">
+  <%=render :partial => '/login/login_box'%>
+  <div class="spacer"></div>
+  <%=render :partial => '/file/navbar'%>
+</div>
 <div id="file_search_results">
   <div id="results">
     <% if @results_count > @opts[:ppp] %>
-    <div style="float: right;">
+    <div>
       Pagine: <%= page_seq(
         :ipp         => @opts[:ppp],
         :last        => @results_count,
@@ -19,8 +25,6 @@
     <%='risultati.' if @results_count != 1%>
     <%='risultato.' if @results_count == 1%>
     <br/>
-    <%= link_to "Torna all'indice", :action => :categories %> |
-    <%= link_to "Nuova ricerca", :action => :search %>
   </div>
   <% unless @results_count == 0 %>
   <table class="file_list" cellspacing="<%=bw%>" cellpadding="<%=ts%>">

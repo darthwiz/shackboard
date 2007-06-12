@@ -1,9 +1,11 @@
-<% bw = 1 %>
-<% ts = 6 %>
-<%= render :partial => 'header' %>
+<%
+  bw = 1 
+  ts = 6
+%>
 <div id="navbar_top">
-  <%= link_to "Ricerca", :action => :search %> |
-  <%= link_to 'Caricamento nuovo file', :action => :upload %>
+  <%=render :partial => '/login/login_box'%>
+  <div class="spacer"></div>
+  <%=render :partial => '/file/navbar'%>
 </div>
 <div id="file_categories">
   <table class="file_categories" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
@@ -15,11 +17,11 @@
     <tr>
       <td class="cat_name">
         <%= link_to h(c.cat_name), :action => 'list',
-                                         :id     => c.id %>
+                                   :id     => c.id %>
       </td>
       <td class="cat_count"><%=@numfiles[c.id]%></td>
     </tr>
     <% end %>
   </table>
 </div>
-<%= render :partial => 'footer' %>
+<%=render :partial => 'footer' %>

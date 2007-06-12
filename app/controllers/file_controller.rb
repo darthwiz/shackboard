@@ -7,6 +7,7 @@ class FileController < ApplicationController
       @numfiles[c.id] = FiledbFile.count(
         :conditions => ['file_catid = ? AND approved_by IS NOT NULL', c.id] )
     }
+    @location = [ 'File', :categories ]
   end # }}}
   def list # {{{
     ppp    = @opts[:ppp]
@@ -38,12 +39,13 @@ class FileController < ApplicationController
                              :offset     => offset,
                              :limit      => limit,
                              :order      => order_clause(order)
-    @pageseq_opts = {
+    @page_seq_opts = {
       :last       => FiledbFile.count(:conditions => conds),
       :current    => start,
       :ipp        => ppp,
       :get_parms  => [:order]
     }
+    @location = [ 'File', FiledbCategory.find(cid) ]
   end # }}}
   def download # {{{
     confirmed = params[:license_confirmed] || is_adm?
@@ -61,12 +63,15 @@ class FileController < ApplicationController
         @file.save
       end
     else
+      @location = [ 'File', :confirm_license ]
       render :action => 'confirm_license', :id => id
     end
   end # }}}
   def upload # {{{
     @categories = FiledbCategory.find(:all, :order => 'cat_order')
-    unless is_authenticated?
+    if is_authenticated?
+      @location = [ 'File', :upload ]
+    else
       session[:intended_action] = { :controller => controller_name, 
                                     :action     => action_name }
       render :action => 'need_auth'
@@ -154,6 +159,7 @@ class FileController < ApplicationController
         :limit           => @opts[:ppp],
         :order           => order_clause(order)
       )
+      @location = [ 'File', :search_results ]
       render :action => 'results'
     end
   end # }}}

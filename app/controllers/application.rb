@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
     @settings         = Settings.find_all[0]
     @post_block_size  = 25
     @topic_block_size = 25
+    @host_forum       = 'www.studentibicocca.it'
     begin
       @user = User.find(session[:userid])
     rescue

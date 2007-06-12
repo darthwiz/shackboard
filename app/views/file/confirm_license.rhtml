@@ -1,7 +1,9 @@
+<div id="navbar_top">
+  <%=render :partial => '/login/login_box'%>
+  <div class="spacer"></div>
+  <%=render :partial => '/file/navbar'%>
+</div>
 <div id="file_license">
-  <div class="file_license_filename">
-    Download: <%= @file.file_name %> (da <%= @file.category.name %>)
-  </div>
   <div class="file_license_name">
     <%= @file.license.name %>
   </div>

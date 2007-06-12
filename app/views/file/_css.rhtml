@@ -1,17 +1,14 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
-body {
-  color: <%=t.text%>;
-  background-color: <%=t.bgcolor%>;
-  font-size: <%=t.fontsize%>;
-}
-a, a:visited {
+<%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
+<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>
+a, a:visited {<%#{{{%>
   color: <%=t.link%>;
-}
-.vmid {
+}<%#}}}%>
+.vmid {<%#{{{%>
   display: table-cell;
   vertical-align: middle;
-}
+}<%#}}}%>
 /* header {{{ */
 h1 {
   margin-left: auto;
@@ -30,26 +27,35 @@ div#notification_bar {
 /* }}} */
 /* navbars {{{ */
 div#navbar_top, div#navbar_bottom {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+div.navbar {
+  padding: .5em;
+  background-color: <%=t.header%>;
   border: 1px solid <%=t.bordercolor%>;
-  background-color: <%=t.altbg1%>;
-  padding: .6em;
-}
-div#navbar_top {
-  margin-top: 3em;
-  margin-bottom: .5em;
-}
-div#navbar_bottom {
   margin-top: .5em;
-  margin-bottom: 1em;
+}
+div.page_trail {
+  float: left;
+}
+div.upload {
+  float: right;
+}
+div.search {
+  float: right;
+  margin-left: 1em;
+}
+span.current_page {
+  color: <%=t.headertext%>;
+  font-weight: bold;
 }
 /* }}} */
 /* file list page {{{ */
 div#files {
   margin-top: .5em;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 2em;
+  margin-right: 2em;
   margin-bottom: .5em;
 }
 table.file_list {
@@ -87,11 +93,10 @@ div.filesize {
 /* }}} */
 /* category page {{{ */
 div#file_categories {
-  margin-top: 2em;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: .5em;
+  margin-left: 2em;
+  margin-right: 2em;
   margin-bottom: .5em;
-  max-width: 60em;
 }
 table.file_categories {
   background-color: <%=t.bordercolor%>;
@@ -119,8 +124,8 @@ td.cat_count {
 /* license confirmation page {{{ */
 div#file_license {
   margin-top: .5em;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 2em;
+  margin-right: 2em;
   margin-bottom: .5em;
 }
 div.file_license_filename, div.file_license_name, div.file_license_text,
@@ -183,8 +188,8 @@ h2 {
 /* file upload page {{{ */
 div#file_upload {
   margin-top: .5em;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 2em;
+  margin-right: 2em;
   margin-bottom: .5em;
   background-color: <%=t.altbg1%>;
   border: 1px solid <%=t.bordercolor%>;
@@ -208,8 +213,8 @@ div#auth_required {
 /* search results page {{{ */
 div#file_search_results {
   margin-top: .5em;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 2em;
+  margin-right: 2em;
   margin-bottom: .5em;
 }
 div#results {

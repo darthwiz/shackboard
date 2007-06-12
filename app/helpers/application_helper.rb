@@ -39,10 +39,15 @@ module ApplicationHelper
     icon
   end # }}}
   def link_user_edit # {{{
+    return nil unless @user.is_a? User
+    msg = 'impostazioni'
     if @legacy_mode == :old
-      s = link_to 'impostazioni', '/portale/forum/usercp.php'
+      s = link_to msg, '/portale/forum/usercp.php'
     else
-      s = link_to 'impostazioni', :controller => 'user', :action => 'edit'
+      link             = { :controller => 'user', :action => 'edit' }
+      link[:host]      = @host_forum if @host_forum
+      link[:only_path] = false if @host_forum
+      s                = link_to msg, link
     end
     content_tag('span', s, :class => 'profile')
   end # }}}
@@ -56,7 +61,11 @@ module ApplicationHelper
     content_tag('div', s, :class => 'user_register')
   end # }}}
   def link_logout # {{{
-    s = link_to 'logout', :controller => 'login', :action => 'logout'
+    msg              = 'logout'
+    link             = { :controller => 'login', :action => 'logout' }
+    link[:host]      = @host_forum if @host_forum
+    link[:only_path] = false if @host_forum
+    s                = link_to msg, link
     content_tag('span', s, :class => 'logout')
   end # }}}
   def link_draft_list # {{{
@@ -109,9 +118,12 @@ module ApplicationHelper
     return nil unless @user.is_a? User
     msg = 'messaggi privati'
     if @legacy_mode == :old
-      s = link_to msg, '/portale/forum/usercp.php?action=u2u'
+      s                = link_to msg, '/portale/forum/usercp.php?action=u2u'
     else
-      s = link_to msg, :controller => 'pm', :action => 'list'
+      link             = { :controller => 'pm', :action => 'list' }
+      link[:host]      = @host_forum if @host_forum
+      link[:only_path] = false if @host_forum
+      s                = link_to msg, link
     end
     content_tag('span', s, :class => 'pm_list')
   end # }}}
@@ -123,13 +135,19 @@ module ApplicationHelper
     count = Pm.unread_for(user)
     msg   = "Hai un messaggio privato non letto."        if count == 1
     msg   = "Hai #{count} messaggi privati non letti."   if count > 1
-    msg ? link_to(msg, :controller => 'pm', :action => 'list') : nil
+    link  = { :controller => 'pm', :action => 'list' }
+    link[:host]      = @host_forum if @host_forum
+    link[:only_path] = false if @host_forum
+    msg ? link_to(msg, link) : nil
   end # }}}
   def link_draft_unsent(user=@user) # {{{
     count = Draft.unsent_for(user)
     msg   = "Hai una bozza non inviata."      if count == 1
     msg   = "Hai #{count} bozze non inviate." if count > 1
-    msg ? link_to(msg, :controller => 'draft', :action => 'list') : nil
+    link  = { :controller => 'draft', :action => 'list' }
+    link[:host]      = @host_forum if @host_forum
+    link[:only_path] = false if @host_forum
+    msg ? link_to(msg, link) : nil
   end # }}}
   def link_file_unapproved(user=@user) # {{{
     return nil unless is_file_adm?(user)
@@ -137,7 +155,13 @@ module ApplicationHelper
     msg  = "C'è un nuovo file in attesa di approvazione."       if n == 1
     msg  = "Ci sono #{n} nuovi file in attesa di approvazione." if n > 1
     link = { :controller => 'file', :action => 'review' }
+    link[:host]      = @host_filedb if @host_filedb
+    link[:only_path] = false if @host_filedb
     msg ? link_to(msg, link) : nil
+  end # }}}
+  def link_file_upload # {{{
+    link_to 'carica un nuovo file', :action => 'upload' \
+      unless @location == [ 'File', :upload ]
   end # }}}
   def form_login # {{{
     s = start_form_tag({ :controller => 'login', :action => 'login' },
@@ -168,6 +192,8 @@ module ApplicationHelper
       trail += page_trail_Forum(loc[1])
     when 'Topic'
       trail += page_trail_Topic(loc[1])
+    when 'File'
+      trail += page_trail_File(loc[1])
     else
       return
     end

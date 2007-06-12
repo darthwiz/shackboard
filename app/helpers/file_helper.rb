@@ -29,4 +29,21 @@ module FileHelper
                     :start      => params[:start],
                     :order      => order } )
   end # }}}
+  def page_trail_File(loc) # {{{
+    trail  = []
+    if loc == :categories
+      trail << [ 'Area file', {} ]
+    else
+      trail << [ 'Area file', {:controller => 'file', :action => 'categories'} ]
+    end
+    if loc == :confirm_license
+      trail << [ @file.category.name, {:controller => 'file', :action => 'list',
+        :id => @file.category.id} ]
+      trail << [ "download di \"#{@file.file_name}\"", {} ] 
+    end
+    trail << [ 'caricamento nuovo file', {} ] if loc == :upload
+    trail << [ 'risultati ricerca', {} ]      if loc == :search_results
+    trail << [ loc.cat_name, {} ]             if loc.is_a? FiledbCategory
+    trail
+  end # }}}
 end

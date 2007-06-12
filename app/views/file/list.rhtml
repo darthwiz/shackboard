@@ -1,13 +1,12 @@
-<% bw = 1 %>
-<% ts = 6 %>
-<%= javascript_include_tag :defaults %>
-<%= render :partial => 'header' %>
+<%
+  bw = 1
+  ts = 6
+%>
+<%=javascript_include_tag :defaults %>
 <div id="navbar_top">
-  <div style="float: left">
-    <%= link_to "Torna all'indice", :action => :categories %> |
-    <%= link_to "Ricerca", :action => :search %>
-  </div>
-  <div align="right">Pagine: <%=page_seq @pageseq_opts%></div>
+  <%=render :partial => '/login/login_box'%>
+  <div class="spacer"></div>
+  <%=render :partial => '/file/navbar'%>
 </div>
 <div id="files">
   <table class="file_list" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
@@ -18,9 +17,6 @@
   </table>
 </div>
 <div id="navbar_bottom">
-  <div style="float: left">
-    <%= link_to "Torna all'indice", :action => :categories %>
-  </div>
-  <div align="right">Pagine: <%=page_seq @pageseq_opts%></div>
+  <%#render :partial => '/file/navbar'%>
 </div>
 <%= render :partial => 'footer' %>

@@ -1,0 +1,16 @@
+<div class="navbar">
+  <%=start_form_tag({:action => 'search'}, {:method => 'get'}) %>
+    <div class="page_trail">
+      <%=page_trail%>
+      <%="(pagine: #{page_seq})" unless page_seq.to_s.empty? %>
+    </div>
+    <div class="search">
+      <%=submit_tag 'Cerca'%>
+      <%=text_field_tag 'file'%>
+    </div>
+    <div class="upload">
+      <%=link_file_upload%>
+    </div>
+    <div class="spacer"></div>
+  <%=end_form_tag %>
+</div>
