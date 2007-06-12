@@ -181,21 +181,20 @@ module ApplicationHelper
   end # }}}
   def page_trail(loc=@location, opts={}) # {{{
     return unless (loc.is_a?(Array) && loc.length == 2)
-    trail = [ ['Portale', '/'] ]
-    s     = ""
-    case loc[0]
-    when 'Pm'
-      trail += page_trail_Pm(loc[1])
-    when 'Draft'
-      trail += page_trail_Draft(loc[1])
-    when 'Forum'
-      trail += page_trail_Forum(loc[1])
-    when 'Topic'
-      trail += page_trail_Topic(loc[1])
-    when 'File'
-      trail += page_trail_File(loc[1])
+    if @host_forum
+      trail = [ ['Portale', { :controller => '/', :host => @host_forum,
+        :only_path => false } ] ]
     else
-      return
+      trail = [ ['Portale', '/' ] ]
+    end
+    s = ""
+    case loc[0]
+    when 'Pm'    then trail += page_trail_Pm(loc[1])
+    when 'Draft' then trail += page_trail_Draft(loc[1])
+    when 'Forum' then trail += page_trail_Forum(loc[1])
+    when 'Topic' then trail += page_trail_Topic(loc[1])
+    when 'File'  then trail += page_trail_File(loc[1])
+    else return
     end
     (0...trail.length).each do |i|
       el    = trail[i]
