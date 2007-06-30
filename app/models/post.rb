@@ -74,4 +74,10 @@ class Post < ActiveRecord::Base
     end
     super
   end # }}}
+  def timestamp # {{{
+    self[:dateline]
+  end # }}}
+  def timestamp=(ts) # {{{
+    self[:dateline] = ts
+  end # }}}
 end

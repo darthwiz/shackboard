@@ -51,10 +51,13 @@ end # }}}
   end # }}}
   def posts_count # {{{
     conds = [ "fid = ? AND tid = ? AND DELETED IS NULL", self.fid, self.id ]
-    Post.count(:conditions => conds)
+    Post.count(:conditions => conds) + 1
   end # }}}
   def posts_count_cached # {{{
     self[:replies].to_i + 1
+  end # }}}
+  def posts_count_cached=(n) # {{{
+    self[:replies] = n - 1
   end # }}}
   def views_count_cached # {{{
     self[:views].to_i
@@ -118,10 +121,10 @@ end # }}}
         p.send(a + '=', self.send(a)) if p.respond_to?(a + '=')
       end
       posts << p
-      range = (range.begin.succ..range.end)  if !range.exclude_end?
-      range = (range.begin.succ...range.end) if range.exclude_end?
+      range = (range.begin.succ..range.end)     if !range.exclude_end?
+      range = (range.begin.succ..range.end - 1) if range.exclude_end?
     end
-    if range.end > range.begin
+    if range.end >= range.begin
       conds  = ["tid = ? AND fid = ?", self.tid, self.fid]
       posts += Post.find :all,
                          :conditions => conds,
@@ -170,5 +173,24 @@ end # }}}
     rescue
     end
     super
+  end # }}}
+  def move_posts(start_seq, dest_topic) # {{{
+    raise TypeError, 'argument 1 must be a sequence number' unless
+      start_seq.is_a? Integer
+    dest_topic = Topic.find(dest_topic) if dest_topic.is_a? Integer
+    raise TypeError, 'argument 2 must be a topic or a valid topic id' unless
+      dest_topic.is_a? Topic
+    range = (start_seq...self.posts_count)
+    posts = self.posts(range)
+    posts.each { |p| p.topic = dest_topic; p.save }
+    [self, dest_topic].each do |t|
+      t.posts_count_cached = t.posts_count
+      lastseq              = t.posts_count_cached - 1
+      range                = lastseq..lastseq
+      last                 = t.posts(range)[0]
+      t.lastpost           = { :user      => last.user,
+                               :timestamp => last.timestamp }
+      t.save
+    end
   end # }}}
 end
