@@ -92,7 +92,6 @@
       <%=t.views_count_cached%>
     </td><%#}}}%>
     <td class="topic_lastpost"><%#{{{%>
-        <% puts t.id %>
         <%=cleanup(t.lastpost(:username))%><br/>
         <%=timestamp_to_date(t.lastpost(:time).to_i)%>
     </td><%#}}}%>

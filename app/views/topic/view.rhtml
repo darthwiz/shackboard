@@ -30,7 +30,6 @@
     cache "topic/#{@topic.id}/#{b}" do
       flip = 0 unless flip
       @topic.posts(range).each do |p| 
-      puts "rendering post #{p.id}"
       %><%=render :partial => '/post/post',
         :locals => { :post => p, :flip => flip }%><%
       flip = 1 - flip
