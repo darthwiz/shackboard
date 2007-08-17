@@ -31,6 +31,7 @@ module FileHelper
   end # }}}
   def page_trail_File(loc) # {{{
     trail  = []
+    loc    = loc[1]
     if loc == :categories
       trail << [ 'Area file', {} ]
     else

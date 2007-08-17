@@ -22,7 +22,7 @@ class PostController < ApplicationController
       @post.tid     = reply_to.tid
       @post.message = (reply_to.format == 'bb') ? 
         "[quote][b]Originariamente inviato da #{reply_to.user.username}[/b]\n" +
-        reply_to.message + "\n[/quote]" : reply_to.message if quote
+        reply_to.message + "[/quote]" : reply_to.message if quote
     end
     if draft_id > 0
       conds  = [ 'id = ? AND object_type = ? AND user_id = ?', draft_id, 'Post',
@@ -36,7 +36,8 @@ class PostController < ApplicationController
       @draft.object    = @post
       @draft.save
     end
-    @location = [ 'Topic', @post.topic ]
+    @location = [ 'Forum', @post.forum, :new ]
+    @location = [ 'Topic', @post.topic, :reply ] if @post.topic
   end # }}}
   def extra_cmds # {{{
     if @request.xml_http_request?
@@ -47,20 +48,42 @@ class PostController < ApplicationController
     end
   end # }}}
   def create # {{{
-    @post = Post.new(params[:post])
-    @post.dateline = Time.now.to_i
-    @post.usesig   = "yes"
-    @post.author   = @user.username
-    @post.useip    = @request.env['REMOTE_ADDR']
-    @post.forum    = Forum.find(params[:forum_id])
-    @post.topic    = Topic.find(params[:topic_id])
-    cache_expire({:object => :topic, :id => @post.topic.id})
-    if @post.save
-      Draft.destroy(params[:draft_id]) # FIXME need better security here
-      redirect_to :controller => 'topic', :action => 'view', 
-                  :id => @post.topic.id, :anchor => "post_#{@post.id}",
-                  :start => @post.topic.posts_count_cached
+    forum_id        = params[:forum_id].to_i
+    topic_id        = params[:topic_id].to_i
+    @post           = Post.new(params[:post])
+    @post[:subject] = params[:post][:subject]
+    @post.dateline  = Time.now.to_i
+    @post.usesig    = "yes"
+    @post.author    = @user.username
+    @post.useip     = @request.env['REMOTE_ADDR']
+    @post.forum     = Forum.find(forum_id)
+    @post.topic     = topic_id > 0 ? Topic.find(topic_id) : nil
+    if @post.topic.is_a? Topic
+      cache_expire({:object => :topic, :id => @post.topic.id})
+      if @post.save
+        Draft.destroy(params[:draft_id]) # FIXME need better security here
+        redirect_to :controller => 'topic', :action => 'view', 
+                    :id => @post.topic.id, :anchor => "post_#{@post.id}",
+                    :start => @post.topic.posts_count_cached
+      else
+      end
     else
+      new_topic = Topic.new
+      attr_list = (Topic.new.attribute_names & Post.new.attribute_names).
+        collect { |n| n.to_sym } << :subject
+      attr_list.each { |a| new_topic[a] = @post[a] }
+      new_topic.lastpost = {
+        :user      => @user,
+        :timestamp => new_topic.dateline,
+      }
+      if new_topic.save
+        cache_expire({:object => :forum, :id => new_topic.forum.id})
+        Draft.destroy(params[:draft_id]) # FIXME need better security here
+        redirect_to :controller => 'topic', :action => 'view', 
+                    :id => new_topic.id, :anchor => "post_#{@post.id}",
+                    :start => new_topic.posts_count_cached
+      else
+      end
     end
   end # }}}
   def delete # {{{
@@ -77,8 +100,9 @@ class PostController < ApplicationController
       conds = ['user_id = ?', @user.id]
       d     = Draft.find(id, :conditions => conds ) || Draft.new
       if (d.user == @user)
-        d.object.message = params[:post][:message]
-        d.timestamp      = Time.now.to_i
+        d.object.message   = params[:post][:message]
+        d.object[:subject] = params[:post][:subject]
+        d.timestamp        = Time.now.to_i
         # NOTE: everything else should already be defined at this point.
         d.save
       end

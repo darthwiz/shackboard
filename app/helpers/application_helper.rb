@@ -1,6 +1,8 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include ActionView::Helpers::UrlHelper
+  include TopicHelper
+  include ForumHelper
   def utf8(string) # {{{
     Iconv.new('utf-8', 'iso-8859-1').iconv(string)
   end # }}}
@@ -180,7 +182,7 @@ module ApplicationHelper
     content_tag('div', s, :class => 'login')
   end # }}}
   def page_trail(loc=@location, opts={}) # {{{
-    return unless (loc.is_a?(Array) && loc.length == 2)
+    return unless (loc.is_a?(Array) && loc.length >= 2)
     if @host_forum
       trail = [ ['Portale', { :controller => '/', :host => @host_forum,
         :only_path => false } ] ]
@@ -189,11 +191,11 @@ module ApplicationHelper
     end
     s = ""
     case loc[0]
-    when 'Pm'    then trail += page_trail_Pm(loc[1])
-    when 'Draft' then trail += page_trail_Draft(loc[1])
-    when 'Forum' then trail += page_trail_Forum(loc[1])
-    when 'Topic' then trail += page_trail_Topic(loc[1])
-    when 'File'  then trail += page_trail_File(loc[1])
+    when 'Pm'    then trail += page_trail_Pm(loc)
+    when 'Draft' then trail += page_trail_Draft(loc)
+    when 'Forum' then trail += page_trail_Forum(loc)
+    when 'Topic' then trail += page_trail_Topic(loc)
+    when 'File'  then trail += page_trail_File(loc)
     else return
     end
     (0...trail.length).each do |i|

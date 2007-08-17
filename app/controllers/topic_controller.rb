@@ -1,4 +1,28 @@
 class TopicController < ApplicationController
+  def new # {{{
+    @forum = Forum.find(params[:id])
+    unless @forum.can_post?(@user)
+      redirect_to :action => 'view', :id => @forum.id and return
+    end
+    draft_id        = params[:draft].to_i
+    @post           = Post.new
+    @post[:subject] = ''
+    @post.forum     = @forum
+    if draft_id > 0
+      conds  = [ 'id = ? AND object_type = ? AND user_id = ?', draft_id,
+        'Post', @user.id ]
+      @draft = Draft.find(:first, :conditions => conds) || Draft.new
+      @post  = @draft.object if @draft.object
+    else
+      @draft           = Draft.new
+      @draft.user      = @user
+      @draft.timestamp = Time.now.to_i
+      @draft.object    = @post
+      @draft.save
+    end
+    @location = [ 'Forum', @forum, :new ]
+    render '/post/new'
+  end # }}}
   def view # {{{
     ppp    = ((@opts[:ppp] - 1) / @post_block_size + 1) * @post_block_size
     start  = params[:start].to_i - 1
@@ -58,7 +82,6 @@ class TopicController < ApplicationController
                        :id          => tid,
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location      = [ 'Topic', @topic ]
-    @topic.views  += 1
     @topic.save
   end # }}}
   def css # {{{

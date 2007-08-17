@@ -3,31 +3,39 @@
   case draft.object_type
     when 'Pm' # {{{
       draft.object.subject = nil if draft.object.subject.empty?
-      item[:type]          = 'Messaggio privato'
-      l                    = draft.object.subject || content_tag('em',
-        "(nessun oggetto)")
-      item[:link]          = link_to l, :controller => 'pm', :action => 'new',
+      subj = draft.object.subject || content_tag('em', "senza oggetto")
+      subj = content_tag('strong', subj)
+      link = link_to "Messaggio privato", :controller => 'pm', :action => 'new',
         :draft => draft.id
-      u                    = draft.object.to
+      u    = draft.object.to
       if !u.new_record?
         dst = link_to h(u.username), :controller => 'user', :action => 'view',
           :id => u
       else
         dst = content_tag('em', 'utente sconosciuto')
       end
-      item[:link] += " (per #{dst})"
+      item[:title] = "#{link} #{subj} per #{dst}"
     # }}}
     when 'Post' # {{{
-      post         = draft.object
-      dst          = link_to cleanup(post.forum.name), :controller => 'forum',
-        :action => 'view', :id => post.forum
-      item[:type]  = 'Risposta forum'
-      item[:link]  = link_to post.topic.title, :controller => 'post',
-        :action => 'new', :draft => draft.id
-      item[:link] += " (in #{dst})"
-    # }}}
-    when 'Topic' # {{{
-      item[:type] = 'Nuova discussione'
+      post  = draft.object
+      topic = post.topic
+      if topic.nil?
+        linktext = "Nuova discussione"
+        subj     = post[:subject] || content_tag('em', "senza oggetto")
+        subj     = content_tag('strong', subj)
+        link     = link_to(linktext, :controller => 'post', :action => 'new',
+          :draft => draft)
+        title    = "#{link} #{subj} nel forum "
+        title   += link_to cleanup(post.forum.name), :controller => 'forum',
+          :action => 'view', :id => post.forum
+      else
+        link   = link_to("Nuovo messaggio", :controller => 'post',
+          :action => 'new', :draft => draft)
+        title  = "#{link} nella discussione "
+        title += link_to(topic.subject, :controller => 'topic',
+          :action => 'view' , :id => topic)
+      end
+      item[:title] = title
     # }}}
   end
   item[:time]   = timestamp_to_date(draft.timestamp)
@@ -37,14 +45,11 @@
     { :class => 'delete' })
 %>
   <tr id="draft_<%=draft.id%>" class="bg<%=flip%>">
-    <td class="type"><%#{{{%>
-      <%=item[:type]%>
-    </td><%#}}}%>
     <td class="time"><%#{{{%>
       <%=item[:time]%>
     </td><%#}}}%>
     <td class="title"><%#{{{%>
-      <%=item[:link]%>
+      <%=item[:title]%>
     </td><%#}}}%>
     <td class="delete"><%#{{{%>
       <%=item[:delete]%>

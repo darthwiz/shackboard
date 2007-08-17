@@ -28,7 +28,7 @@ class Topic < ActiveRecord::Base
     acl
   end # }}}
   def can_post?(user) # {{{
-    self.forum.can_post?(user)
+    self.forum.can_post?(user) && self.closed.empty?
   end # }}}
   def can_read?(user) # {{{
     self.acl.can_read?(user)
@@ -182,7 +182,11 @@ end # }}}
       dest_topic.is_a? Topic
     range = (start_seq...self.posts_count)
     posts = self.posts(range)
-    posts.each { |p| p.topic = dest_topic; p.save }
+    posts.each do |p|
+      p.topic = dest_topic
+      p.fid   = dest_topic.fid
+      p.save
+    end
     [self, dest_topic].each do |t|
       t.posts_count_cached = t.posts_count
       lastseq              = t.posts_count_cached - 1

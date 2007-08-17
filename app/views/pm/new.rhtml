@@ -1,14 +1,12 @@
 <%=javascript_include_tag :defaults%>
-<div id="navbar_top"><%#{{{%>
-  <div class="trail_pages">
-    <%=page_trail%><br/>
-    <%=page_seq%>
-  </div>
-  <div class="util">
-    <%=link_draft_list%>
-  </div>
-</div><%#}}}%>
+<div id="navbar_top">
+  <%=render :partial => '/login/login_box'%>
+  <div class="spacer"></div>
+</div>
 <div id="new_pm">
+  <div class="title_bar"><%#{{{%>
+    <%=page_trail%> <%=page_seq%>
+  </div><%#}}}%>
   <div id="message"><%#{{{%>
     <%=start_form_tag({:controller => 'pm', :action => 'create'},
       {:method => 'post', :id => 'new_pm_form'})%>
@@ -49,5 +47,8 @@
       :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
     <%=observe_form 'new_pm_form', :frequency => 10, :update => 'draft_saved',
       :url => {:controller => 'pm', :action => 'save_draft' }%>
+  </div><%#}}}%>
+  <div class="title_bar"><%#{{{%>
+    <%=page_trail%> <%=page_seq%>
   </div><%#}}}%>
 </div>

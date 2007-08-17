@@ -1,8 +1,8 @@
 module ForumHelper
   def page_trail_Forum(loc) # {{{
     trail  = []
-    trail << [ cleanup(loc.name), {} ]
-    obj    = loc
+    obj    = loc[1]
+    trail << [ cleanup(obj.name), {} ]
     while(obj = obj.container)
       link = {}
       case obj.class.to_s

@@ -1,8 +1,8 @@
 module TopicHelper
   def page_trail_Topic(loc) # {{{
     trail  = []
-    trail << [ loc.subject, {} ]
-    obj    = loc
+    obj    = loc[1]
+    trail << [ obj.subject, {} ]
     while(obj = obj.container)
       link = {}
       case obj.class.to_s

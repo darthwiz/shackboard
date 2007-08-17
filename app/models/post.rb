@@ -7,12 +7,9 @@ class Post < ActiveRecord::Base
   set_primary_key "pid"
   belongs_to :topic, :foreign_key => "tid", :counter_cache => :replies
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :posts
-  attr_accessor :seq
+  attr_accessor :seq, :subject
   def container # {{{
     Topic.find(self.tid)
-  end # }}}
-  def subject # {{{
-    self.topic.subject
   end # }}}
   def acl # {{{
     acl = AclMapping.map(self)

@@ -16,6 +16,15 @@ class ApplicationController < ActionController::Base
       end
       expire_fragment("portal/#{f.id}")
       # }}}
+    when :forum # {{{
+      fid = params[:id].to_i
+      obj = Forum.find(fid)
+      expire_fragment("forum/#{obj.id}/topics/0")
+      while (obj = obj.container)
+        f = obj if obj.is_a? Forum
+      end
+      expire_fragment("portal/#{f.id}")
+      # }}}
     end
   end # }}}
   def load_defaults # {{{

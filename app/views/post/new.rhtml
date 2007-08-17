@@ -1,22 +1,38 @@
+<%
+if @post.topic.is_a? Topic
+  caption  = "Nuovo messaggio in "
+  caption +=  link_to cleanup(@post.topic.subject), :controller => 'topic',
+    :action => 'view', :id => @post.topic.id 
+elsif @post.topic.nil?
+  caption  = "Nuova discussione in "
+  caption += link_to cleanup(@post.forum.name), :controller => 'forum',
+    :action => 'view', :id => @post.forum.id 
+end
+%>
 <%=javascript_include_tag :defaults%>
-<div id="navbar_top"><%#{{{%>
-  <div class="trail_pages">
-    <%#page_trail%><br/>
-    <%=page_seq%>
-  </div>
-  <div class="util">
-    <%=link_draft_list%>
-  </div>
-</div><%#}}}%>
-<div id="topic_title"><%#{{{%>
-  Risposta nella discussione
-  <%=link_to cleanup(@post.topic.title), :controller => 'topic',
-    :action => 'view', :id => @post.topic %>
-</div><%#}}}%>
+<%=stylesheet_link_tag url_for(
+      :controller => 'post',
+      :action     => 'css',
+      :id         => @opts[:theme].name
+    ) %>
+<div id="navbar_top">
+  <%=render :partial => '/login/login_box'%>
+  <div class="spacer"></div>
+</div>
 <div id="new_post">
+  <div class="title_bar"><%#{{{%>
+    <%=page_trail%>
+    <div class="new_post_caption"><%=caption%></div>
+  </div><%#}}}%>
   <div id="message"><%#{{{%>
     <%=start_form_tag({:controller => 'post', :action => 'create'},
       {:method => 'post', :id => 'new_post_form'})%>
+    <% if @post.topic.nil? %><%#{{{%>
+    <div class="label">Oggetto:</div>
+    <div class="field">
+      <%=text_field 'post', 'subject'%>
+    </div>
+    <% end %><%#}}}%>
     <div class="label">Anteprima:</div><%#{{{%>
     <div class="field">
       <div id="post_preview">
@@ -46,5 +62,9 @@
       :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
     <%=observe_form 'new_post_form', :frequency => 10, :update => 'draft_saved',
       :url => {:controller => 'post', :action => 'save_draft' }%>
+  </div><%#}}}%>
+  <div class="title_bar"><%#{{{%>
+    <%#page_trail%>
+    <div class="new_post_caption"><%=caption%></div>
   </div><%#}}}%>
 </div>

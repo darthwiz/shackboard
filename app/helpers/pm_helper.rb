@@ -1,7 +1,7 @@
 module PmHelper
   def page_trail_Pm(loc) # {{{
     trail = []
-    case loc
+    case loc[1]
     when 'inbox'
       trail << [ 'Messaggi privati', {} ]
     when 'trash'
