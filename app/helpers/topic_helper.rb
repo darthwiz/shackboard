@@ -11,7 +11,7 @@ module TopicHelper
 	link[:action]     = 'view'
 	link[:id]         = obj.id
       end
-      trail << [ h(strip_tags(obj.name)), link ]
+      trail << [ obj.name, link ]
     end
     trail.reverse
   end # }}}

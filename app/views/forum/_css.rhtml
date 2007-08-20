@@ -1,6 +1,13 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
 <%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
+<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>
+div.online_users {<%#{{{%>
+  margin-top: .5em;
+  margin-bottom: .5em;
+  margin-left: 2em;
+  margin-right: 2em;
+}<%#}}}%>
 div#forums, div#topics {<%#{{{%>
   margin-left: 2em;
   margin-right: 2em;
@@ -140,4 +147,3 @@ a:hover {<%#{{{%>
 div.spacer {<%#{{{%>
   clear: both;
 }<%#}}}%>
-<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>

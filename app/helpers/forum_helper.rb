@@ -11,7 +11,7 @@ module ForumHelper
 	link[:action]     = 'view'
 	link[:id]         = obj.id
       end
-      trail << [ cleanup(obj.name), link ]
+      trail << [ obj.name, link ]
     end
     trail.reverse
   end # }}}

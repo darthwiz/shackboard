@@ -2,6 +2,10 @@
 /* Theme: <%=t.name.inspect if t%> */
 <%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
 <%=render :partial => '/login/login_box_css', :locals => { :t => t } %>
+div.online_users {<%#{{{%>
+  margin-top: .5em;
+  margin-bottom: .5em;
+}<%#}}}%>
 div#posts {<%#{{{%>
   margin-left: 2em;
   margin-right: 2em;

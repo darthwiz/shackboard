@@ -1,6 +1,10 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
 <%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
+<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>
+div.online_users {<%#{{{%>
+  margin: .5em;
+}<%#}}}%>
 div#portal_main {<%#{{{%>
   margin-left: 20px;
   margin-right: 20px;
@@ -183,4 +187,3 @@ h2 a:hover, h3 a:hover {<%#{{{%>
   color: yellow;
   background-color: blue;
 }<%#}}}%>
-<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>
