@@ -1,7 +1,7 @@
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
-  before_filter :load_defaults, :set_stylesheet
+  before_filter :load_defaults, :update_online, :set_stylesheet
   private
   def cache_expire(params) # {{{
     case params[:object]
@@ -88,5 +88,10 @@ class ApplicationController < ActionController::Base
     else
       session[:forum_tree] = Forum.tree
     end
+  end # }}}
+  def update_online # {{{
+    @current_user_ip = @request.env['REMOTE_ADDR']
+    OnlineUser.touch(@user, @current_user_ip)
+    OnlineUser.cleanup(5.minutes)
   end # }}}
 end

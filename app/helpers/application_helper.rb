@@ -411,6 +411,21 @@ module ApplicationHelper
   def is_file_adm?(user=@user) # {{{
     FileController.new.send(:is_adm?, user)
   end # }}}
+  def link_legacy(params={}) # {{{
+    msg        = params[:caption]
+    old_url    = params[:old]
+    new_url    = params[:new]
+    html_class = params[:class]
+    if @legacy_mode == :old
+      s                = link_to msg, old_url
+    else
+      link             = new_url
+      link[:host]      = @host_forum if @host_forum
+      link[:only_path] = false if @host_forum
+      s                = link_to msg, link
+    end
+    content_tag('span', s, :class => html_class)
+  end # }}}
 end
 class String # {{{
   def scan_words # {{{
