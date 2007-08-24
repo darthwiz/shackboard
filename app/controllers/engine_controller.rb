@@ -1,5 +1,5 @@
 class EngineController < ApplicationController
-  @@domain = '.studentibicocca.it' # XXX move to configuration file
+  @@domain = COOKIE_DOMAIN
   def switch # {{{
     topic = params[:topic]
     forum = params[:forum]

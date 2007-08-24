@@ -31,9 +31,8 @@ class ApplicationController < ActionController::Base
     @settings         = Settings.find_all[0]
     @post_block_size  = 25
     @topic_block_size = 25
-    @host_forum       = 'www.studentibicocca.it'
-    @legacy_forum_uri = 'http://dev.studentibicocca.it/~wiz/forum'
-    @legacy_forum_uri = 'http://www.studentibicocca.it/portale/forum'
+    @legacy_forum_uri = LEGACY_FORUM_URI
+    @host_forum       = @legacy_forum_uri.sub(/http:\/\/([^\/]+)\/.*/, "\\1")
     @preferred_engine = cookies[:forum_engine_version].to_i
     begin
       @user = User.find(session[:userid])
