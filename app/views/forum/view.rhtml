@@ -27,7 +27,6 @@
 <div id="topics">
   <div class="title_bar"><%#{{{%>
     <%=page_trail unless has_children%>
-    <%=switch_link unless has_children%>
     <div class="forum_name">
       <span class="forum_name"><%=@page_title%></span>
     </div>
@@ -35,6 +34,7 @@
       <div class="pages">(pagine: <%=page_seq%>)</div>
     <% end %>
     <%=link_topic_new%>
+    <%=switch_link unless has_children%>
     <div class="spacer"></div>
   </div><%#}}}%>
   <%=render :partial => 'topic_list' if has_topics%>
