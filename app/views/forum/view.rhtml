@@ -2,6 +2,8 @@
   @page_title  = cleanup(@forum.name)
   has_children = !@forum.children.empty?
   has_topics   = !@forum.topics_count_cached.zero?
+  switch_link  = '<br/>' + link_to('usa motore originale',
+    :controller => 'engine', :action => 'switch', :forum => @forum.id)
 %>
 <%=javascript_include_tag :defaults%>
 <div id="navbar_top"><%#{{{%>
@@ -15,6 +17,7 @@
     <div class="forum_name">
       <span class="forum_name"><%=@page_title%></span>
     </div>
+    <%=switch_link%>
     <div class="spacer"></div>
   </div><%#}}}%>
   <%=render :partial => 'forum_list'%>
@@ -24,6 +27,7 @@
 <div id="topics">
   <div class="title_bar"><%#{{{%>
     <%=page_trail unless has_children%>
+    <%=switch_link unless has_children%>
     <div class="forum_name">
       <span class="forum_name"><%=@page_title%></span>
     </div>

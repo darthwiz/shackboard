@@ -32,6 +32,9 @@ class ApplicationController < ActionController::Base
     @post_block_size  = 25
     @topic_block_size = 25
     @host_forum       = 'www.studentibicocca.it'
+    @legacy_forum_uri = 'http://dev.studentibicocca.it/~wiz/forum'
+    @legacy_forum_uri = 'http://www.studentibicocca.it/portale/forum'
+    @preferred_engine = cookies[:forum_engine_version].to_i
     begin
       @user = User.find(session[:userid])
     rescue

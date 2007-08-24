@@ -69,6 +69,12 @@ class TopicController < ApplicationController
         and return
     end
     # }}}
+    # use the user's preferred engine {{{
+    if @preferred_engine == 1
+      redirect_to @legacy_forum_uri + "/viewthread.php?tid=#{@topic.id}" \
+        and return
+    end
+    # }}}
     # }}}
     # check access control once we have found the topic {{{
     unless @topic.can_read?(@user)

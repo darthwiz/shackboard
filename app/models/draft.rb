@@ -6,7 +6,8 @@ class Draft < ActiveRecord::Base
     self.object_type = self.object.class.to_s
     case self.object_type
     when 'Post'
-      raise unless self.object.forum.is_a? Forum # XXX rough validity check
+      return false unless self.object.forum.is_a? Forum # XXX rough validity
+                                                        # check
     end
     super
   end # }}}

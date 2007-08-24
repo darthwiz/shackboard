@@ -1,6 +1,6 @@
 class LoginController < ApplicationController
   # skip_before_filter :authenticate
-  @@domain = '.studentibicocca.it'
+  @@domain = '.studentibicocca.it' # XXX move to configuration file
   def index # {{{
   end # }}}
   def login # {{{

@@ -1,5 +1,7 @@
 <%
   @page_title = cleanup(@topic.subject)
+  switch_link = '<br/>' + link_to('usa motore originale',
+    :controller => 'engine', :action => 'switch', :topic => @topic.id)
   # cache calculations {{{
   cache_bsize  = @post_block_size
   cache_start  = @range.begin / cache_bsize
@@ -21,6 +23,7 @@
         <%="(pagine: #{page_seq})" unless page_seq.to_s.empty?%>
       </div>
       <%=link_post_new%>
+      <%=switch_link%>
       <div class="spacer"></div>
     </li><%#}}}%>
 <%#cached blocks {{{%>

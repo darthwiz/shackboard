@@ -1,5 +1,4 @@
 class ForumController < ApplicationController
-  before_filter :forum_cache
   def index # {{{
     @forums = Forum.find(:all, :conditions => 'fup = 0',
                                :order      => 'displayorder')
@@ -29,6 +28,12 @@ class ForumController < ApplicationController
       @forum = Forum.find(fid)
     rescue
       render :partial => "not_found" and return
+    end
+    # }}}
+    # use the user's preferred engine {{{
+    if @preferred_engine == 1
+      redirect_to @legacy_forum_uri + "/forumdisplay.php?fid=#{@forum.id}" \
+        and return
     end
     # }}}
     unless @forum.acl.can_read?(@user)
