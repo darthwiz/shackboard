@@ -7,28 +7,24 @@ class Post < ActiveRecord::Base
   set_primary_key "pid"
   belongs_to :topic, :foreign_key => "tid", :counter_cache => :replies
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :posts
+  belongs_to :user,  :foreign_key => "uid"
   attr_accessor :seq, :subject
-  def container # {{{
+  def container
     Topic.find(self.tid)
-  end # }}}
-  def acl # {{{
+  end
+  def acl
     acl = AclMapping.map(self)
     return acl if acl
     acl             = Acl.new
     acl.permissions = self.container.acl.permissions
     acl.can_edit      self.user
-  end # }}}
-  def user # {{{
-    user = User.find_by_username(iso(self.author))
-    user = User.new unless user
-    user
-  end # }}}
-  def actual # {{{
+  end
+  def actual
     return self unless self.new_record?
     self.topic
-  end # }}}
-  def Post.find(*args) # {{{
-    opts = extract_options_from_args!(args)
+  end
+  def Post.find(*args)
+    opts  = extract_options_from_args!(args)
     conds = opts[:conditions] ? opts[:conditions] : ''
     unless (opts[:with_deleted] || opts[:only_deleted])
       conds    += ' AND deleted IS NULL' if conds.is_a? String
@@ -50,19 +46,19 @@ class Post < ActiveRecord::Base
       when :all   then find_every(opts)
       else             find_from_ids(args, opts)
     end
-  end # }}}
-  def can_post?(user) # {{{
+  end
+  def can_post?(user)
     self.container.can_post?(user)
-  end # }}}
-  def save # {{{
+  end
+  def save
     begin
       u = User.find_by_username(self.author)
     rescue
     end
     self.topic.lastpost = { :user => u, :timestamp => self.dateline } if u
     self.topic.save if super
-  end # }}}
-  def destroy # {{{
+  end
+  def destroy
     begin
       u = User.find_by_username(self.author)
       u.postnum -= 1
@@ -70,11 +66,11 @@ class Post < ActiveRecord::Base
     rescue
     end
     super
-  end # }}}
-  def timestamp # {{{
+  end
+  def timestamp
     self[:dateline]
-  end # }}}
-  def timestamp=(ts) # {{{
+  end
+  def timestamp=(ts)
     self[:dateline] = ts
-  end # }}}
+  end
 end

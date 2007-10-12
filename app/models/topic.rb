@@ -7,62 +7,58 @@ class Topic < ActiveRecord::Base
   set_table_name table_name_prefix + "threads"
   set_primary_key "tid"
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :threads
-  has_many   :posts, :foreign_key => "tid" #, :dependent     => :destroy
-  def container # {{{
+  belongs_to :user,  :foreign_key => "uid"
+  has_many   :posts, :foreign_key => "tid"
+  def container
     Forum.find(self.fid)
-  end # }}}
-  def name # {{{
+  end
+  def name
     self.subject
-  end # }}}
-  def title # {{{
+  end
+  def title
     self.subject
-  end # }}}
-  def total_posts # {{{
+  end
+  def total_posts
     self.replies + 1
-  end # }}}
-  def acl # {{{
+  end
+  def acl
     acl = AclMapping.map(self)
     return acl if acl
     acl             = Acl.new
     acl.permissions = self.container.acl.permissions
     acl
-  end # }}}
-  def can_post?(user) # {{{
+  end
+  def can_post?(user)
     self.forum.can_post?(user) && self.closed.empty?
-  end # }}}
-  def can_read?(user) # {{{
+  end
+  def can_read?(user)
     self.acl.can_read?(user)
-  end # }}}
-  def user # {{{
-    user = User.find_by_username(self.author)
-    user = User.new unless user
-    user
-  end # }}}
-def fix_counters # {{{
-  self[:replies] = self.posts_count
-  self.save
-end # }}}
-  def move_to(forum) # {{{
+  end
+  def fix_counters
+    self[:replies] = self.posts_count
+    self.save
+  end
+  def move_to(forum)
     raise ArgumentError, "argument is not a Forum" unless forum.is_a? Forum
     Post.update_all("fid = #{forum.fid}",
       "fid = #{self.fid} AND tid = #{self.id}")
     self.forum = forum
     self.save
-  end # }}}
-  def posts_count # {{{
+  end
+  def posts_count
     conds = [ "fid = ? AND tid = ? AND DELETED IS NULL", self.fid, self.id ]
     Post.count(:conditions => conds) + 1
-  end # }}}
-  def posts_count_cached # {{{
+  end
+  def posts_count_cached
     self[:replies].to_i + 1
-  end # }}}
-  def posts_count_cached=(n) # {{{
+  end
+  def posts_count_cached=(n)
     self[:replies] = n - 1
-  end # }}}
-  def views_count_cached # {{{
+  end
+  def views_count_cached
     self[:views].to_i
-  end # }}}
-  def posts_each(limit=50) # {{{
+  end
+  def posts_each(limit=50)
     total  = self.posts_count
     offset = 0
     prog   = Progress.new
@@ -79,8 +75,8 @@ end # }}}
       prog.measure(total, offset)
     end
     nil
-  end # }}}
-  def lastpost(what=nil) # {{{
+  end
+  def lastpost(what=nil)
     (timestamp, username) = self[:lastpost].split(/\|/, 2)
     time                  = Time.at(timestamp.to_i)
     case what
@@ -95,23 +91,24 @@ end # }}}
     else
       return nil
     end
-  end # }}}
-  def lastpost=(params) # {{{
+  end
+  def lastpost=(params)
     user            = params[:user]
     return false unless user.is_a? User
     timestamp       = params[:timestamp]
     self[:lastpost] = "#{timestamp}|#{user.username}"
-  end # }}}
-  def actual # {{{
+  end
+  def actual
     begin
-      return Topic.find(self.message.strip.to_i).actual \
-        if self.closed == "moved"
-      rescue
-        return nil
+      if self.closed == "moved"
+        return Topic.find(self.message.strip.to_i).actual 
       end
+    rescue
+      return nil
+    end
     return self
-  end # }}}
-  def posts(range) # {{{
+  end
+  def posts(range)
     raise TypeError, 'argument must be a Range' unless range.is_a? Range
     posts = []
     seq   = range.begin
@@ -120,6 +117,7 @@ end # }}}
       self.attribute_names.each do |a|
         p.send(a + '=', self.send(a)) if p.respond_to?(a + '=')
       end
+      p.user = self.user
       posts << p
       range = (range.begin.succ..range.end)     if !range.exclude_end?
       range = (range.begin.succ..range.end - 1) if range.exclude_end?
@@ -130,15 +128,16 @@ end # }}}
                          :conditions => conds,
                          :order      => 'dateline',
                          :offset     => range.begin - 1,
-                         :limit      => range.entries.length
+                         :limit      => range.entries.length,
+                         :include    => :user
     end
     posts.each { |p| p.seq = seq; seq += 1 }
     posts
-  end # }}}
-  def format # {{{
+  end
+  def format
     'bb'
-  end # }}}
-  def Topic.find(*args) # {{{
+  end
+  def Topic.find(*args)
     opts  = extract_options_from_args!(args)
     conds = opts[:conditions] ? opts[:conditions] : ''
     unless (opts[:with_deleted] || opts[:only_deleted])
@@ -161,8 +160,8 @@ end # }}}
       when :all   then find_every(opts)
       else             find_from_ids(args, opts)
     end
-  end # }}}
-  def destroy # {{{
+  end
+  def destroy
     self.posts_each do |p|
       p.destroy
     end
@@ -173,8 +172,8 @@ end # }}}
     rescue
     end
     super
-  end # }}}
-  def move_posts(start_seq, dest_topic) # {{{
+  end
+  def move_posts(start_seq, dest_topic)
     raise TypeError, 'argument 1 must be a sequence number' unless
       start_seq.is_a? Integer
     dest_topic = Topic.find(dest_topic) if dest_topic.is_a? Integer
@@ -196,5 +195,5 @@ end # }}}
                                :timestamp => last.timestamp }
       t.save
     end
-  end # }}}
+  end
 end
