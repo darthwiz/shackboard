@@ -3,9 +3,9 @@
 class ApplicationController < ActionController::Base
   before_filter :load_defaults, :update_online, :set_stylesheet
   private
-  def cache_expire(params) # {{{
+  def cache_expire(params) 
     case params[:object]
-    when :topic # {{{
+    when :topic 
       tid = params[:id].to_i
       obj = Topic.find(tid)
       blk = obj.total_posts / @post_block_size
@@ -15,8 +15,8 @@ class ApplicationController < ActionController::Base
         f = obj if obj.is_a? Forum
       end
       expire_fragment("portal/#{f.id}")
-      # }}}
-    when :forum # {{{
+      
+    when :forum 
       fid = params[:id].to_i
       obj = Forum.find(fid)
       expire_fragment("forum/#{obj.id}/topics/0")
@@ -24,10 +24,10 @@ class ApplicationController < ActionController::Base
         f = obj if obj.is_a? Forum
       end
       expire_fragment("portal/#{f.id}")
-      # }}}
+      
     end
-  end # }}}
-  def load_defaults # {{{
+  end 
+  def load_defaults 
     @settings         = Settings.find_all[0]
     @post_block_size  = 25
     @topic_block_size = 25
@@ -39,14 +39,14 @@ class ApplicationController < ActionController::Base
     rescue
       @user = nil
     end
-    # legacy authentication {{{
+    # legacy authentication 
     unless @user
       username         = cookies[:thisuser]
       password         = cookies[:thispw]
       @user            = User.authenticate(username, password)
       session[:userid] = @user.id if @user
     end
-    # }}}
+    
     @opts = {}
     if (@user) then
       ###### Custom user settings
@@ -64,15 +64,15 @@ class ApplicationController < ActionController::Base
       @opts[:tpp]   = @settings.topicperpage.to_i
       @opts[:theme] = Theme.find_by_name(@settings.theme)
     end
-  end # }}}
-  def set_stylesheet # {{{
+  end 
+  def set_stylesheet 
     @stylesheet = url_for(
       :controller => controller_name,
       :action     => 'css',
       :id         => @opts[:theme].name
     )
-  end # }}}
-  def authenticate # {{{
+  end 
+  def authenticate 
     if (session[:userid])
       @user = User.find(session[:userid])
     else
@@ -80,20 +80,20 @@ class ApplicationController < ActionController::Base
                                     :action     => action_name }
       redirect_to :controller => "login", :action => "index"
     end
-  end # }}}
-  def is_authenticated? # {{{
+  end 
+  def is_authenticated? 
     session[:userid] && User.find(session[:userid]).is_a?(User)
-  end # }}}
-  def forum_cache # {{{
+  end 
+  def forum_cache 
     if (session[:forum_tree])
       Forum.set_tree(session[:forum_tree])
     else
       session[:forum_tree] = Forum.tree
     end
-  end # }}}
-  def update_online # {{{
+  end 
+  def update_online 
     @current_user_ip = @request.env['REMOTE_ADDR']
     OnlineUser.touch(@user, @current_user_ip)
     OnlineUser.cleanup(5.minutes)
-  end # }}}
+  end 
 end

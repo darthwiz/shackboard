@@ -1,11 +1,11 @@
 class PostController < ApplicationController
   before_filter :authenticate
-  def css # {{{
+  def css 
     @headers["Content-Type"] = 'text/css; charset = utf-8'
     @theme_name              = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
-  end # }}}
-  def new # {{{
+  end 
+  def new 
     reply_id = params[:reply].to_i
     draft_id = params[:draft].to_i
     repclass = params[:class]
@@ -38,29 +38,30 @@ class PostController < ApplicationController
     end
     @location = [ 'Forum', @post.forum, :new ]
     @location = [ 'Topic', @post.topic, :reply ] if @post.topic
-  end # }}}
-  def extra_cmds # {{{
+  end 
+  def extra_cmds 
     if @request.xml_http_request?
       obj = id_to_object(params[:id])
       render :partial => 'extra_cmds', :locals => { :obj => obj } and return
     else
       render :nothing => true and return
     end
-  end # }}}
-  def create # {{{
+  end 
+  def create 
     forum_id        = params[:forum_id].to_i
     topic_id        = params[:topic_id].to_i
     @post           = Post.new(params[:post])
     @post[:subject] = params[:post][:subject]
     @post.dateline  = Time.now.to_i
     @post.usesig    = "yes"
-    @post.author    = @user.username
+    @post.uid       = @user.id
     @post.useip     = @request.env['REMOTE_ADDR']
     @post.forum     = Forum.find(forum_id)
     @post.topic     = topic_id > 0 ? Topic.find(topic_id) : nil
     if @post.topic.is_a? Topic
-      cache_expire({:object => :topic, :id => @post.topic.id})
       if @post.save
+        cache_expire({:object => :topic, :id => @post.topic.id})
+        @post.user.increment! :postnum
         Draft.destroy(params[:draft_id]) # FIXME need better security here
         redirect_to :controller => 'topic', :action => 'view', 
                     :id => @post.topic.id, :anchor => "post_#{@post.id}",
@@ -78,6 +79,7 @@ class PostController < ApplicationController
       }
       if new_topic.save
         cache_expire({:object => :forum, :id => new_topic.forum.id})
+        @post.user.increment! :postnum
         Draft.destroy(params[:draft_id]) # FIXME need better security here
         redirect_to :controller => 'topic', :action => 'view', 
                     :id => new_topic.id, :anchor => "post_#{@post.id}",
@@ -85,14 +87,14 @@ class PostController < ApplicationController
       else
       end
     end
-  end # }}}
-  def delete # {{{
+  end 
+  def delete 
     if @request.xml_http_request?
     else
       render :nothing => true and return
     end
-  end # }}}
-  def save_draft # {{{
+  end 
+  def save_draft 
     if @request.xml_http_request?
       Post.new # this is needed to load the Post class, otherwise d.object won't
                # be an instance of Post, but of YAML::Object instead
@@ -111,8 +113,8 @@ class PostController < ApplicationController
     else
       render :nothing => true and return
     end
-  end # }}}
-  def nonsense # {{{
+  end 
+  def nonsense 
     username  = params[:id]
     u         = User.find_by_username(username) if username
     u         = u ? u : @user
@@ -120,9 +122,9 @@ class PostController < ApplicationController
     d.user    = u
     d.posts   = 50
     @nonsense = d.nonsense
-  end # }}}
+  end 
   private
-  def id_to_object(id) # {{{
+  def id_to_object(id) 
     arr = id.split(/_/)
     return nil unless ['post', 'topic'].include? arr[0]
     begin
@@ -130,5 +132,5 @@ class PostController < ApplicationController
     rescue
       obj = nil
     end
-  end # }}}
+  end 
 end

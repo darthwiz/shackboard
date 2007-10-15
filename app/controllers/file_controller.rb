@@ -1,6 +1,8 @@
 class FileController < ApplicationController
   before_filter :init
-  def categories # {{{
+  skip_before_filter :load_defaults, :authenticate, :update_online,
+    :set_stylesheet, :only => [ :css ]
+  def categories 
     @numfiles   = {}
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     @categories.each { |c|
@@ -8,15 +10,15 @@ class FileController < ApplicationController
         :conditions => ['file_catid = ? AND approved_by IS NOT NULL', c.id] )
     }
     @location = [ 'File', :categories ]
-  end # }}}
-  def list # {{{
+  end 
+  def list 
     ppp    = @opts[:ppp]
     start  = params[:start].to_i
     order  = params[:order].to_sym if params[:order]
     start  = 1 if (start == 0)
     offset = start - 1
     limit  = ppp
-    # convert textual category ids to numeric {{{
+    # convert textual category ids to numeric 
     cid = params[:id]
     if (cid.nil?)
       conds = "TRUE"
@@ -30,7 +32,7 @@ class FileController < ApplicationController
         cid = cat.id
       end
     end
-    # }}}
+    
     if (cid.to_i > 0)
       conds = "file_catid = #{cid}"
     end
@@ -46,8 +48,8 @@ class FileController < ApplicationController
       :get_parms  => [:order]
     }
     @location = [ 'File', FiledbCategory.find(cid) ]
-  end # }}}
-  def download # {{{
+  end 
+  def download 
     confirmed = params[:license_confirmed] || is_adm?
     id        = params[:id]
     @file     = FiledbFile.find(id, :with_unapproved => is_adm?)
@@ -66,8 +68,8 @@ class FileController < ApplicationController
       @location = [ 'File', :confirm_license ]
       render :action => 'confirm_license', :id => id
     end
-  end # }}}
-  def upload # {{{
+  end 
+  def upload 
     @categories = FiledbCategory.find(:all, :order => 'cat_order')
     if is_authenticated?
       @location = [ 'File', :upload ]
@@ -76,11 +78,11 @@ class FileController < ApplicationController
                                     :action     => action_name }
       render :action => 'need_auth'
     end
-  end # }}}
-  def index # {{{
+  end 
+  def index 
     redirect_to :action => 'categories'
-  end # }}}
-  def create # {{{
+  end 
+  def create 
     @new_file = FiledbFile.new { |f|
       f.user_id       = session[:userid]
       f.file_name     = params[:file][:name]
@@ -102,13 +104,13 @@ class FileController < ApplicationController
     }
     @new_file_data.save
     redirect_to :action => :index
-  end # }}}
-  def review # {{{
+  end 
+  def review 
     redirect_to :action => :categories unless is_adm?
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     @unapproved = FiledbFile.find(:all, :only_unapproved => true)
-  end # }}}
-  def approve # {{{
+  end 
+  def approve 
     render :nothing unless is_adm?
     @categories   = FiledbCategory.find :all, :order => 'cat_order'
     id            = params[:id]
@@ -123,23 +125,23 @@ class FileController < ApplicationController
     end
     f.approve(@user, param_hash)
     expire_fragment(:controller => 'file', :action => 'latest')
-  end # }}}
-  def unapprove # {{{
+  end 
+  def unapprove 
     render :nothing unless is_adm?
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     FiledbFile.unapprove(params[:id].to_i)
     expire_fragment(:controller => 'file', :action => 'latest')
-  end # }}}
-  def delete # {{{
+  end 
+  def delete 
     render :nothing unless is_adm?
     id = params[:id].to_i
     @file = FiledbFile.find(id, :with_unapproved => true)
     @file.destroy
-  end # }}}
-  def show_icon # {{{
+  end 
+  def show_icon 
     render :partial => 'icon', :locals => { :icon => params[:icon] }
-  end # }}}
-  def search # {{{
+  end 
+  def search 
     words = params[:file].to_s.scan_words
     start = params[:start].to_i
     order = params[:order].to_sym if params[:order]
@@ -162,21 +164,21 @@ class FileController < ApplicationController
       @location = [ 'File', :search_results ]
       render :action => 'results'
     end
-  end # }}}
-  def css # {{{
+  end 
+  def css 
     @headers["Content-Type"] = 'text/css; charset = utf-8'
     @theme_name              = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
-  end # }}}
+  end 
   private
-  def is_adm?(user=@user) # {{{
+  def is_adm?(user=@user) 
     begin
       Group.include?(['Group', FILEDB_ADM_GROUP], user)
     rescue
       return false
     end
-  end # }}}
-  def order_clause(order) # {{{
+  end 
+  def order_clause(order) 
     case order
     when :name
       order_clause = 'file_name'
@@ -191,8 +193,8 @@ class FileController < ApplicationController
     else
       order_clause = 'file_name'
     end
-  end # }}}
-  def init # {{{
+  end 
+  def init 
     @page_title = "Area Materiali studentibicocca.it"
-  end # }}}
+  end 
 end
