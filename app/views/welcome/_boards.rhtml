@@ -6,14 +6,14 @@
       :name  => 'Economia',
       :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/economia.gif',
       :forum => 70,
-      :site  => 'http://www.studentibicocca.it/economia',
+      #:site  => 'http://www.studentibicocca.it/economia',
       :books => 101,
     }, # }}}
     { # Giurisprudenza {{{
       :name  => 'Giurisprudenza',
       :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/giurisprudenza.gif',
       :forum => 69,
-      :site  => 'http://www.studentibicocca.it/giurisprudenza/',
+      #:site  => 'http://www.studentibicocca.it/giurisprudenza/',
       :books => 100,
     }, # }}}
     { # Medicina e Chirurgia {{{
@@ -26,21 +26,21 @@
       :name  => 'Psicologia',
       :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/psicologia.gif',
       :forum => 67,
-      :site  => 'http://www.studentibicocca.it/psicologia/',
+      #:site  => 'http://www.studentibicocca.it/psicologia/',
       :books => 103,
     }, # }}}
     { # Scienze della Formazione {{{
       :name  => 'Scienze della Formazione',
       :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/formazione.jpg',
       :forum => 52,
-      :site  => 'http://www.studentibicocca.it/sde/',
+      #:site  => 'http://www.studentibicocca.it/sde/',
       :books => 104,
     }, # }}}
     { # Scienze MM.FF.NN. {{{
       :name  => 'Scienze MM.FF.NN.',
       :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/mmffnn.gif',
       :forum => 57,
-      :site  => 'http://www.studentibicocca.it/mmffnn/',
+      #:site  => 'http://www.studentibicocca.it/mmffnn/',
       :books => 105,
     }, # }}}
     { # Scienze Statistiche {{{
@@ -53,7 +53,7 @@
       :name  => 'Sociologia',
       :icon  => 'http://www.studentibicocca.it/portale/immagini/facolta/sociologia.gif',
       :forum => 55,
-      :site  => 'http://www.studentibicocca.it/pompelmorosa/',
+      #:site  => 'http://www.studentibicocca.it/pompelmorosa/',
       :books => 107,
     }, # }}}
   ]
@@ -72,15 +72,15 @@
         <%= link_to 'Sito degli Studenti', i[:site],
           { :style => 'display: block;' } %>
     <% end %>
-    <div class="spacer"></div>
-    <%= render :partial => '/forum/latest_topics',
-               :locals  => { :id => i[:forum], :n => i[:ntopics],
-                             :include_sub => true } %>
     <% if i[:books] %>
         <%= link_image_to book_icon, fdisplay + i[:books].to_s,
           { :style => 'float: left; margin-left: 1em; margin-right: .5em' } %>
         <strong><%= link_to 'Libri', fdisplay + i[:books].to_s %></strong>
     <% end %>
+    <div class="spacer"></div>
+    <%= render :partial => '/forum/latest_topics',
+               :locals  => { :id => i[:forum], :n => i[:ntopics],
+                             :include_sub => true } %>
     <div class="spacer">
       <hr style="margin-top: 1em;"/>
     </div>
