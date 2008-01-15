@@ -1,0 +1,9 @@
+<%=
+  Tidy.open(
+    :char_encoding => 'utf8',
+    :doctype => 'transitional',
+    :indent => true
+  ) do |t|
+    t.clean(render :partial => '/layouts/application')
+  end
+%>
