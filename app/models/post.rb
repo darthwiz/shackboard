@@ -24,7 +24,7 @@ class Post < ActiveRecord::Base
     self.topic
   end
   def Post.find(*args)
-    opts  = extract_options_from_args!(args)
+    opts  = args.extract_options!
     conds = opts[:conditions] ? opts[:conditions] : ''
     unless (opts[:with_deleted] || opts[:only_deleted])
       conds    += ' AND deleted IS NULL' if conds.is_a? String

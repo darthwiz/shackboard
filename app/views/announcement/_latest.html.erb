@@ -3,6 +3,9 @@
 %>
 <ul class="announcement">
   <% Announcement.latest(5).each do |i| %>
-  <li><%=link_to strip_tags(i.title), url + i.id.to_s %></li>
+  <li><!-- XXX -->
+    <%#link_to strip_tags(i.title), url + i.id.to_s %>
+    <%=link_to i.title, url + i.id.to_s %>
+  </li>
   <% end %>
 </ul>

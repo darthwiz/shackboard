@@ -113,7 +113,7 @@ class FiledbFile < ActiveRecord::Base
     FiledbFile.find(:all, :order => 'file_time DESC', :limit => n)
   end # }}}
   def FiledbFile.find(*args) # {{{
-    opts = extract_options_from_args!(args)
+    opts = args.extract_options!
     opts[:conditions] = '' unless opts[:conditions]
     unless (opts[:with_unapproved] || opts[:only_unapproved])
       opts[:conditions] += ' AND approved_by IS NOT NULL'

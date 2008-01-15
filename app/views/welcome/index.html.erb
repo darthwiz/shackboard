@@ -83,7 +83,8 @@
         <h2><%=link_to 'Iniziative', 'http://asb.studentibicocca.it'%></h2>
         <ul>
           <li><%url = 'http://asb.studentibicocca.it'%>
-            <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/asb.gif', url%>
+            <%image = image_tag 'http://www.studentibicocca.it/portale/forum/menu/img-menu/asb.gif'%>
+            <%=link_to image, url%>
             Da tempo l'<%=link_to 'Associazione Studenti Bicocca', url%> è
             attiva in università proponendo in collaborazione con altri gruppi
             del nostro ateneo e delle altre università attività e servizi
@@ -95,24 +96,28 @@
             <div class="spacer"></div>
           </li>
           <li><%url = 'http://asb.studentibicocca.it/socializzazione'%>
-            <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/drink.gif', url%>
+            <%image = image_tag 'http://www.studentibicocca.it/portale/forum/menu/img-menu/drink.gif'%>
+            <%=link_to image, url%>
             Ogni mercoledì <%=link_to 'aperitivo', url%> 18.30/19.00 al bar
             Maga Furla.
             <div class="spacer"></div>
           </li>
           <li><%url = 'http://cineforum.studentibicocca.it/'%>
-            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini-nh/icone/cineforum.gif', url%>
+            <%image = image_tag 'http://www.studentibicocca.it/portale/immagini-nh/icone/cineforum.gif'%>
+            <%=link_to image, url%>
             Prossimamente avrà inizio il <%=link_to 'Cineforum', url%> degli
             studenti in lingua originale!
           </li>
           <li><%url = 'http://concorsofoto.studentibicocca.it/'%>
-            <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/foto.gif', url%>
+            <%image = image_tag 'http://www.studentibicocca.it/portale/forum/menu/img-menu/foto.gif'%>
+            <%=link_to image, url%>
             Tra poco la terza edizione del
             <%=link_to 'Concorso Fotografico della Bicocca', url%>.
             <div class="spacer"></div>
           </li>
           <li><%url = 'http://b-radio.studentibicocca.it/'%>
-            <%=link_image_to 'http://www.studentibicocca.it/portale/forum/menu/img-menu/radio.gif', url%>
+            <%image = image_tag 'http://www.studentibicocca.it/portale/forum/menu/img-menu/radio.gif'%>
+            <%=link_to image, url%>
             Ascolta <%=link_to 'B-Radio', url%>, la radio degli studenti della
             Bicocca. (<%=link_to 'banda larga', 'http://s3.mediastreaming.it/7550/listen.asx'%>,
             <%=link_to '56k', 'http://s3.mediastreaming.it/7320/listen.asx'%>)
@@ -125,7 +130,7 @@
             'http://rappresentanti.studentibicocca.it/'%></h2>
         <ul>
           <li>
-            <%=link_image_to 'http://www.studentibicocca.it/portale/immagini/monkeys.gif',
+            <%#link_image_to 'http://www.studentibicocca.it/portale/immagini/monkeys.gif',
               'http://rappresentanti.studentibicocca.it/',
               { :style => 'float: left; margin-right: .7em;',
                 :alt   => 'rappresentanti' }%>

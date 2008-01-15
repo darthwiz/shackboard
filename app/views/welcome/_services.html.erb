@@ -23,8 +23,9 @@
 <ul>
   <% services.each do |i| %>
   <li>
-    <%=link_image_to i[:icon], i[:url], 
+    <%#link_image_to i[:icon], i[:url], 
       { :style => 'float: left; margin-right: 15px' }%>
+    <%= image_tag i[:icon] %><!-- XXX -->
     <h3><%=link_to i[:title], i[:url]%></h3>
     <%=i[:caption]%>
     <div class="spacer"></div>

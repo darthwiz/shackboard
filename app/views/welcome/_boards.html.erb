@@ -63,9 +63,10 @@
   <% boards.each do |i| %>
   <li>
     <% if i[:icon] %>
-      <%= link_image_to i[:icon], fdisplay + i[:forum].to_s,
+      <%# link_image_to i[:icon], fdisplay + i[:forum].to_s,
         { :alt => i[:name],
           :style => 'float: left; margin-right: 10px; margin-left: .5em; border: thin solid black;' } %>
+      <%= image_tag i[:icon] %><!-- XXX -->
     <% end %>
     <h3><%= link_to i[:name], fdisplay + i[:forum].to_s %></h3>
     <% if i[:site] %>
@@ -73,8 +74,9 @@
           { :style => 'display: block;' } %>
     <% end %>
     <% if i[:books] %>
-        <%= link_image_to book_icon, fdisplay + i[:books].to_s,
+        <%# link_image_to book_icon, fdisplay + i[:books].to_s,
           { :style => 'float: left; margin-left: 1em; margin-right: .5em' } %>
+        <%= image_tag book_icon %><!-- XXX -->
         <strong><%= link_to 'Libri', fdisplay + i[:books].to_s %></strong>
     <% end %>
     <div class="spacer"></div>

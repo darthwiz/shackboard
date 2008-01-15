@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
   end 
   def load_defaults 
-    @settings         = Settings.find_all[0]
+    @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
     @topic_block_size = 25
     @legacy_forum_uri = LEGACY_FORUM_URI
@@ -92,7 +92,7 @@ class ApplicationController < ActionController::Base
     end
   end 
   def update_online 
-    @current_user_ip = @request.env['REMOTE_ADDR']
+    @current_user_ip = request.env['REMOTE_ADDR']
     OnlineUser.touch(@user, @current_user_ip)
     OnlineUser.cleanup(5.minutes)
   end 

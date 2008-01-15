@@ -166,7 +166,7 @@ module ApplicationHelper
       unless @location == [ 'File', :upload ]
   end # }}}
   def form_login # {{{
-    s = start_form_tag({ :controller => 'login', :action => 'login' },
+    s = form_tag({ :controller => 'login', :action => 'login' },
       { :method => 'post' })
     usn  = content_tag('div', "Username", :class => 'label')
     usn += text_field 'user', 'username', :size => 16
@@ -178,7 +178,7 @@ module ApplicationHelper
     s   += content_tag('div', pwd, :class => 'password')
     s   += link_user_register
     s   += btn
-    s   += end_form_tag
+    s   += '</form>' # XXX
     content_tag('div', s, :class => 'login')
   end # }}}
   def page_trail(loc=@location, opts={}) # {{{
