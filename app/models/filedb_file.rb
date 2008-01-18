@@ -17,34 +17,6 @@ class FiledbFile < ActiveRecord::Base
     'html' => 'text/html',
     'doc'  => 'application/msword',
   } # }}}
-  def sync_data # {{{
-    require 'net/http'
-    fd   = self.metadata
-    return true unless fd.nil?
-    fd   = FiledbFiledata.new
-    pfx  = 'http://www.studentibicocca.it/portale/materiali/'
-    url  = URI.escape(self.file_dlurl)
-    url  = pfx + url if url !~ /^http:/
-    puts "#{self.id} GET #{url}"
-    begin
-      data = Net::HTTP.get(URI.parse(url))
-      fd.id             = self.id
-      fd.filedb_file_id = self.id
-      fd.filesize       = data.length
-      fd.filename       = URI.unescape(File.basename(URI.split(url)[5]))
-      fd.data           = data
-      ext               = fd.filename.sub(/.*\.([^.]+)$/, "\\1").downcase
-      fd.mimetype       = MIMETYPES[ext]
-      if fd.save 
-        puts "#{self.id} SAVED #{fd.filename}"
-      else
-        puts "#{self.id} FAILED #{fd.filename}"
-      end
-    rescue URI::InvalidURIError
-      puts "#{self.id} FAILED (invalid URI)"
-    end
-    nil
-  end # }}}
   def license # {{{
     filedb_license
   end # }}}

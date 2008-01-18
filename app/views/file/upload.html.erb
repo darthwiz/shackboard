@@ -2,7 +2,7 @@
   bw = 1 
   ts = 6
 %>
-<%= javascript_include_tag :defaults %>
+<%=javascript_include_tag :defaults%>
 <div id="navbar_top">
   <%=render :partial => '/login/login_box'%>
   <div class="spacer"></div>
@@ -10,32 +10,32 @@
 </div>
 <div id="file_upload">
   <h2>Caricamento nuovo file</h2>
-  <%= start_form_tag({ :action => :create }, { :multipart => true }) %>
+  <%=form_tag({ :action => :create }, { :multipart => true })%>
   <table>
     <tr>
       <td>Nome del materiale</td>
-      <td><%= text_field 'file', 'name', :size => 40 %></td>
+      <td><%=text_field 'file', 'name', :size => 40%></td>
     </tr>
     <tr>
       <td>Autore</td>
-      <td><%= text_field 'file', 'author', :size => 40 %></td>
+      <td><%=text_field 'file', 'author', :size => 40%></td>
     </tr>
     <tr>
       <td>Descrizione</td>
-      <td><%= text_field 'file', 'description', :size => 40 %></td>
+      <td><%=text_field 'file', 'description', :size => 40%></td>
     </tr>
     <tr>
       <td>Categoria</td>
       <td>
-        <%= collection_select 'file', 'category', @categories,
-          :id, :name %>
-        <%= hidden_field 'file', 'license', :value => 1 %>
+        <%=collection_select 'file', 'category', @categories,
+          :id, :name%>
+        <%=hidden_field 'file', 'license', :value => 1%>
       </td>
     </tr>
     <tr>
       <td>File</td>
       <td>
-        <%= file_field 'file', 'data', :size => 40 %>
+        <%=file_field 'file', 'data', :size => 40%>
       </td>
     </tr>
     <tr>
@@ -44,11 +44,11 @@
         <table cellpadding="0" cellspacing="0">
           <tr>
             <td>
-              <%= icon_selector 'file', 'icon' %>
-              <%= observe_field 'file_icon',
+              <%=icon_selector 'file', 'icon'%>
+              <%=observe_field 'file_icon',
                 :url    => { :controller => 'file', :action => 'show_icon' },
                 :with   => 'icon',
-                :update => 'icon_box' %>
+                :update => 'icon_box'%>
             </td>
             <td>
               <div id="icon_box" style="margin-left: 1em;">
@@ -60,11 +60,11 @@
       </td>
     </tr>
   </table>
-  <%= submit_tag 'Invia' %>
+  <%=submit_tag 'Invia'%>
   <p>
     <strong>Avviso:</strong> il materiale sarà disponibile dopo l'approvazione
     da parte dello staff.
   </p>
-  <%= end_form_tag %>
+  </form>
 </div>
-<%= render :partial => 'footer' %>
+<%=render :partial => 'footer'%>

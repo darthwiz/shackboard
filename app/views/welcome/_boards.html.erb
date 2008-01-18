@@ -60,32 +60,31 @@
   boards.each { |b| b[:ntopics] = 3 unless b[:ntopics] }
 %>
 <ul>
-  <% boards.each do |i| %>
+  <%boards.each do |i|%>
   <li>
-    <% if i[:icon] %>
-      <%# link_image_to i[:icon], fdisplay + i[:forum].to_s,
-        { :alt => i[:name],
-          :style => 'float: left; margin-right: 10px; margin-left: .5em; border: thin solid black;' } %>
-      <%= image_tag i[:icon] %><!-- XXX -->
-    <% end %>
-    <h3><%= link_to i[:name], fdisplay + i[:forum].to_s %></h3>
-    <% if i[:site] %>
-        <%= link_to 'Sito degli Studenti', i[:site],
-          { :style => 'display: block;' } %>
-    <% end %>
-    <% if i[:books] %>
-        <%# link_image_to book_icon, fdisplay + i[:books].to_s,
-          { :style => 'float: left; margin-left: 1em; margin-right: .5em' } %>
-        <%= image_tag book_icon %><!-- XXX -->
-        <strong><%= link_to 'Libri', fdisplay + i[:books].to_s %></strong>
-    <% end %>
+    <%url = fdisplay + i[:forum].to_s%>
+    <%if i[:icon]%>
+      <%img = image_tag i[:icon], :alt => i[:name], :style => 'float: left; margin-right: 10px; margin-left: .5em; border: thin solid black;'%>
+      <%=link_to img, url%>
+    <%end%>
+    <h3><%=link_to i[:name], url%></h3>
+    <%if i[:site]%>
+        <%=link_to 'Sito degli Studenti', i[:site],
+          { :style => 'display: block;' }%>
+    <%end%>
+    <%if i[:books]%>
+        <%url = fdisplay + i[:books].to_s%>
+        <%img = image_tag book_icon%>
+        <%=link_to img, url, { :style => 'float: left; margin-left: 1em; margin-right: .5em' } %>
+        <strong><%=link_to 'Libri', url%></strong>
+    <%end%>
     <div class="spacer"></div>
-    <%= render :partial => '/forum/latest_topics',
-               :locals  => { :id => i[:forum], :n => i[:ntopics],
-                             :include_sub => true } %>
+    <%=render :partial => '/forum/latest_topics',
+              :locals  => { :id => i[:forum], :n => i[:ntopics],
+                            :include_sub => true }%>
     <div class="spacer">
       <hr style="margin-top: 1em;"/>
     </div>
   </li>
-  <% end %>
+  <%end%>
 </ul>

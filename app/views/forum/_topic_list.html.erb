@@ -2,38 +2,38 @@
   icon_base    = 'http://www.studentibicocca.it/portale/forum/images/'
   hot_thresh   = 25
   ppp          = @opts[:ppp]
-  # cache calculations {{{
+  # cache calculations 
   cache_bsize  = @topic_block_size
   cache_start  = @range.begin / cache_bsize
   cache_end    = @range.end / cache_bsize
   cache_blocks = (cache_start..cache_end)
-  # }}}
+  # 
 %>
 <table id="topic_list">
-<%#titles {{{%>
+<%#titles %>
   <tr id="topic_list_labels">
-    <td class="topic_folder"><%#{{{%>
-    </td><%#}}}%>
-    <td class="topic_icon"><%#{{{%>
-    </td><%#}}}%>
-    <td class="topic_title"><%#{{{%>
+    <td class="topic_folder">
+    </td>
+    <td class="topic_icon">
+    </td>
+    <td class="topic_title">
       Titolo
-    </td><%#}}}%>
-    <td class="topic_author"><%#{{{%>
+    </td>
+    <td class="topic_author">
       Autore
-    </td><%#}}}%>
-    <td class="topic_posts"><%#{{{%>
+    </td>
+    <td class="topic_posts">
       Messaggi
-    </td><%#}}}%>
-    <td class="topic_views"><%#{{{%>
+    </td>
+    <td class="topic_views">
       Visite
-    </td><%#}}}%>
-    <td class="topic_lastpost"><%#{{{%>
+    </td>
+    <td class="topic_lastpost">
       Ultimo messaggio
-    </td><%#}}}%>
+    </td>
   </tr>
-<%#}}}%>
-<%#cached blocks {{{%>
+
+<%#cached blocks %>
 <%
   cache_blocks.each do |b|
     range = (b * cache_bsize)...((b + 1) * cache_bsize)
@@ -46,15 +46,15 @@
         folder = icon_base + 'moved.gif'       if t.closed == "moved"
 %>
   <tr id="<%=domid(t)%>">
-    <td class="topic_folder"><%#{{{%>
+    <td class="topic_folder">
       <%=image_tag(folder) %>
-    </td><%#}}}%>
-    <td class="topic_icon"><%#{{{%>
+    </td>
+    <td class="topic_icon">
       <%=image_tag(icon_base + t.icon) unless t.icon.to_s.empty? %>
-    </td><%#}}}%>
-    <td class="topic_title"><%#{{{%>
+    </td>
+    <td class="topic_title">
       <% if t.actual %>
-        <% if (t.total_posts > ppp) %><%#{{{%>
+        <% if (t.total_posts > ppp) %>
         <div class="pageseq">
           <%= page_seq( :controller  => 'topic',
                         :action      => 'view',
@@ -64,8 +64,8 @@
                         :ipp         => ppp,
                         :extra_links => [:last] ) %>
         </div>
-        <% end %><%#}}}%>
-        <div class="topic_title"><%#{{{%>
+        <% end %>
+        <div class="topic_title">
           <h3>
             <%= link_to cleanup(t.subject), :controller => 'topic',
                                             :action     => 'view',
@@ -74,27 +74,27 @@
           <% if (t.topped == 1) %>
           <span class="topped_caption">(in evidenza)</span>
           <% end %>
-        </div><%#}}}%>
-        <div class="snippet"><%#{{{%>
+        </div>
+        <div class="snippet">
           <%= h truncate(strip_tags(bb_to_html(t.actual.message)), 80) %>
-        </div><%#}}}%>
+        </div>
       <% else %>
         <div class="error">Discussione non trovata</div>
       <% end %>
-    </td><%#}}}%>
-    <td class="topic_author"><%#{{{%>
-      <%=cleanup(t.user.username)%>
-    </td><%#}}}%>
-    <td class="topic_posts"><%#{{{%>
+    </td>
+    <td class="topic_author">
+      <%=cleanup(t.user.username) if t.user%>
+    </td>
+    <td class="topic_posts">
       <%=t.posts_count_cached%>
-    </td><%#}}}%>
-    <td class="topic_views"><%#{{{%>
+    </td>
+    <td class="topic_views">
       <%=t.views_count_cached%>
-    </td><%#}}}%>
-    <td class="topic_lastpost"><%#{{{%>
+    </td>
+    <td class="topic_lastpost">
         <%=cleanup(t.lastpost(:username))%><br/>
         <%=timestamp_to_date(t.lastpost(:time).to_i)%>
-    </td><%#}}}%>
+    </td>
   </tr>
 <%
         flip = 1 - flip
@@ -102,5 +102,5 @@
     end
   end
 %>
-<%#}}}%>
+
 </table>

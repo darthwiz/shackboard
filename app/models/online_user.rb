@@ -39,7 +39,7 @@ class OnlineUser < ActiveRecord::Base
       unless [@@guest, @@record, nil].include? ou.username
         u          = User.new
         u.username = ou.username
-        u.id       = ou.uid
+        u.id       = ou[:uid]
         users << u
       end
     end
