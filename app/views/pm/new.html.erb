@@ -4,27 +4,27 @@
   <div class="spacer"></div>
 </div>
 <div id="new_pm">
-  <div class="title_bar"><%#{{{%>
+  <div class="title_bar">
     <%=page_trail%> <%=page_seq%>
-  </div><%#}}}%>
-  <div id="message"><%#{{{%>
-    <%=start_form_tag({:controller => 'pm', :action => 'create'},
+  </div>
+  <div id="message">
+    <%=form_tag({:controller => 'pm', :action => 'create'},
       {:method => 'post', :id => 'new_pm_form'})%>
-    <div class="label">Invia a:</div><%#{{{%>
+    <div class="label">Invia a:</div>
     <div class="field">
       <%=text_field 'pm', 'msgto'%>
-    </div><%#}}}%>
-    <div class="label">Oggetto:</div><%#{{{%>
+    </div>
+    <div class="label">Oggetto:</div>
     <div class="field">
       <%=text_field 'pm', 'subject'%>
-    </div><%#}}}%>
-    <div class="label">Anteprima:</div><%#{{{%>
+    </div>
+    <div class="label">Anteprima:</div>
     <div class="field">
       <div id="pm_preview">
         <%=text_to_html(@pm.message, @pm.format)%>
       </div>
-    </div><%#}}}%>
-    <div class="label">Testo:<%#{{{%>
+    </div>
+    <div class="label">Testo:
       <%=select('pm', 'format', [['BB', 'bb'],
         ['Textile', 'textile']], {:id => 'format'})%>
     </div>
@@ -32,7 +32,7 @@
       <%=text_area 'pm', 'message'%>
       <%=render :partial => '/smiley/list'%>
       <%=hidden_field_tag 'draft_id', @draft.id%>
-    </div><%#}}}%>
+    </div>
     <div class="spacer"/>
     <div class="label">
       <%=submit_tag 'Invia'%>
@@ -40,15 +40,15 @@
     <div class="field">
       <span id="draft_saved" style="display: none;"></span><br/>
     </div>
-    <%=end_form_tag%>
+    </form>
     <%#observe_form 'new_pm_form', :frequency => 5,
       :url => {:controller => 'pm', :action => 'validate' }%>
     <%=observe_form 'new_pm_form', :frequency => 5, :update => 'pm_preview',
       :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
     <%=observe_form 'new_pm_form', :frequency => 10, :update => 'draft_saved',
       :url => {:controller => 'pm', :action => 'save_draft' }%>
-  </div><%#}}}%>
-  <div class="title_bar"><%#{{{%>
+  </div>
+  <div class="title_bar">
     <%=page_trail%> <%=page_seq%>
-  </div><%#}}}%>
+  </div>
 </div>

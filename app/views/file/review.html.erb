@@ -1,15 +1,15 @@
-<% bw = 1 %>
-<% ts = 6 %>
+<%bw = 1%>
+<%ts = 6%>
 <%=
       # stylesheet_link_tag 'scaffold'
       javascript_include_tag :defaults
 %>
-<%= render :partial => 'header' %>
+<%=render :partial => 'header'%>
 <div id="navbar_top">
-  <%= link_to "Torna all'indice", :action => :categories %>
+  <%=link_to "Torna all'indice", :action => :categories%>
 </div>
 <div id="file_review">
-  <%= form_remote_tag :url => { :action => :do_approve } %>
+  <%=form_remote_tag :url => { :action => :do_approve }%>
   <table class="file_review" cellspacing="<%=bw%>" cellpadding="<%=ts%>">
     <tr class="header">
       <td>file</td>
@@ -17,9 +17,9 @@
       <td>data</td>
       <td>approva</td>
     </tr>
-    <% @unapproved.each do |f| %>
-      <%= render :partial => "to_be_approved", :locals => { :f => f } %>
-    <% end %>
+    <%@unapproved.each do |f|%>
+      <%=render :partial => "to_be_approved", :locals => { :f => f }%>
+    <%end%>
   </table>
-  <%= end_form_tag %>
+  </form>
 </div>

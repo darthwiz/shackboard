@@ -1,9 +1,9 @@
 class LoginController < ApplicationController
   # skip_before_filter :authenticate
   @@domain = COOKIE_DOMAIN
-  def index # {{{
-  end # }}}
-  def login # {{{
+  def index 
+  end 
+  def login 
     username = params[:user][:username] if params[:user]
     password = params[:user][:password] if params[:user]
     user     = User.find_by_username(username)
@@ -25,15 +25,15 @@ class LoginController < ApplicationController
     else
       redirect_to :controller => "login", :action => "index"
     end
-  end # }}}
-  def logout # {{{
+  end 
+  def logout 
     cookies[:thisuser] = { :domain => @@domain, :expires => Time.at(0) }
     cookies[:thispw]   = { :domain => @@domain, :expires => Time.at(0) }
     reset_session
-    if @request.env["HTTP_REFERER"]
+    if request.env["HTTP_REFERER"]
       redirect_to :back 
     else
       render :nothing => true
     end
-  end # }}}
+  end 
 end

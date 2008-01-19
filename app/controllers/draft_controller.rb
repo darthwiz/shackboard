@@ -20,7 +20,7 @@ class DraftController < ApplicationController
     @pageseq_opts = { 
       :controller  => 'draft',
       :action      => 'list',
-      :last        => Draft.count(conds),
+      :last        => Draft.count(:conditions => conds),
       :current     => start,
       :ipp         => ppp,
       :extra_links => [ :first, :forward, :back, :last ]
@@ -28,7 +28,7 @@ class DraftController < ApplicationController
     @location = [ 'Draft', :list ]
   end
   def delete
-    if @request.xml_http_request?
+    if request.xml_http_request?
       @draft = Draft.find(params[:id])
       if @draft.user == @user
         @draft.destroy
@@ -38,8 +38,8 @@ class DraftController < ApplicationController
     end
   end
   def css
-    @headers["Content-Type"] = 'text/css; charset = utf-8'
-    @theme_name              = params[:id].sub(/\.css$/, "")
+    headers["Content-Type"] = 'text/css; charset = utf-8'
+    @theme_name             = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
   end
 end

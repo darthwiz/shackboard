@@ -1,13 +1,13 @@
 <%Pm.new; Post.new; Topic.new 
   item = {}
   case draft.object_type
-    when 'Pm' # {{{
-      draft.object.subject = nil if draft.object.subject.empty?
-      subj = draft.object.subject || content_tag('em', "senza oggetto")
+    when 'Pm'
+      draft.object[0].subject = nil if draft.object[0].subject.empty?
+      subj = draft.object[0].subject || content_tag('em', "senza oggetto")
       subj = content_tag('strong', subj)
       link = link_to "Messaggio privato", :controller => 'pm', :action => 'new',
         :draft => draft.id
-      u    = draft.object.to
+      u    = draft.object[0].to
       if !u.new_record?
         dst = link_to h(u.username), :controller => 'user', :action => 'view',
           :id => u
@@ -15,9 +15,8 @@
         dst = content_tag('em', 'utente sconosciuto')
       end
       item[:title] = "#{link} #{subj} per #{dst}"
-    # }}}
-    when 'Post' # {{{
-      post  = draft.object
+    when 'Post'
+      post  = draft.object[0]
       topic = post.topic
       if topic.nil?
         linktext = "Nuova discussione"
@@ -36,7 +35,6 @@
           :action => 'view' , :id => topic)
       end
       item[:title] = title
-    # }}}
   end
   item[:time]   = timestamp_to_date(draft.timestamp)
   item[:delete] = button_to_remote('elimina',
@@ -45,13 +43,13 @@
     { :class => 'delete' })
 %>
   <tr id="draft_<%=draft.id%>" class="bg<%=flip%>">
-    <td class="time"><%#{{{%>
+    <td class="time">
       <%=item[:time]%>
-    </td><%#}}}%>
-    <td class="title"><%#{{{%>
+    </td>
+    <td class="title">
       <%=item[:title]%>
-    </td><%#}}}%>
-    <td class="delete"><%#{{{%>
+    </td>
+    <td class="delete">
       <%=item[:delete]%>
-    </td><%#}}}%>
+    </td>
   </tr>

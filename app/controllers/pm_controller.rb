@@ -1,6 +1,6 @@
 class PmController < ApplicationController
   before_filter :authenticate
-  def list # {{{
+  def list 
     ppp    = @opts[:ppp]
     start  = params[:start].to_i
     folder = params[:folder] || 'inbox'
@@ -15,19 +15,19 @@ class PmController < ApplicationController
                      :offset     => offset
     @page_seq_opts = { :controller  => 'pm',
                        :action      => 'list',
-                       :last        => Pm.count(conds),
+                       :last        => Pm.count(:conditions => conds),
                        :current     => start,
                        :ipp         => ppp,
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location = [ 'Pm', folder ]
-  end # }}}
-  def css # {{{
-    @headers["Content-Type"] = 'text/css; charset = utf-8'
-    @theme_name              = params[:id].sub(/\.css$/, "")
+  end 
+  def css 
+    headers["Content-Type"] = 'text/css; charset = utf-8'
+    @theme_name             = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
-  end # }}}
-  def show # {{{
-    if @request.xml_http_request?
+  end 
+  def show 
+    if request.xml_http_request?
       @pm = Pm.find(params[:id])
       render :nothing => true and return unless @pm.acl.can_read?(@user)
       if @pm.to == @user && !@pm.read?
@@ -37,8 +37,8 @@ class PmController < ApplicationController
     else
       render :nothing => true and return
     end
-  end # }}}
-  def delete # {{{
+  end 
+  def delete 
     if @request.xml_http_request?
       @pm = Pm.find(params[:id])
       if @pm.to == @user
@@ -52,8 +52,8 @@ class PmController < ApplicationController
     else
       render :nothing => true and return
     end
-  end # }}}
-  def undelete # {{{
+  end 
+  def undelete 
     if @request.xml_http_request?
       @pm = Pm.find(params[:id])
       if (@pm.to == @user && @pm.folder == 'trash')
@@ -64,8 +64,8 @@ class PmController < ApplicationController
       end
     end
     render :nothing => true and return
-  end # }}}
-  def new # {{{
+  end 
+  def new 
     reply_id = params[:reply].to_i
     draft_id = params[:draft].to_i
     repclass = params[:class]
@@ -92,30 +92,29 @@ class PmController < ApplicationController
       conds  = [ 'id = ? AND object_type = ? AND user_id = ?', draft_id, 'Pm',
         @user.id ]
       @draft = Draft.find(:first, :conditions => conds) || Draft.new
-      @pm    = @draft.object if @draft.object
+      @pm    = @draft.object[0] if @draft.object && @draft.object[0]
     else
       @draft           = Draft.new
       @draft.user      = @user
       @draft.timestamp = Time.now.to_i
-      @draft.object    = @pm
+      @draft.object    = [ @pm ]
       @draft.save
     end
     @location = [ 'Pm', :new ]
-  end # }}}
-  def save_draft # {{{
-    if @request.xml_http_request?
-      Pm.new # this is needed to load the Pm class, otherwise d.object won't be
-             # an instance of Pm, but of YAML::Object instead
+  end 
+  def save_draft 
+    if request.xml_http_request?
       id    = params[:draft_id]
       conds = ['user_id = ?', @user.id]
       d     = Draft.find(id, :conditions => conds ) || Draft.new
       if (d.user == @user)
-        d.object.msgfrom  = @user.username
-        d.object.msgto    = params[:pm][:msgto]
-        d.object.message  = params[:pm][:message]
-        d.object.subject  = params[:pm][:subject]
-        d.object.format   = params[:pm][:format]
-        d.timestamp       = Time.now.to_i
+        d.object             = [ Pm.new ]
+        d.object[0].msgfrom  = @user.username
+        d.object[0].msgto    = params[:pm][:msgto]
+        d.object[0].message  = params[:pm][:message]
+        d.object[0].subject  = params[:pm][:subject]
+        d.object[0].format   = params[:pm][:format]
+        d.timestamp          = Time.now.to_i
         d.save
       end
       @draft = d
@@ -123,8 +122,8 @@ class PmController < ApplicationController
     else
       render :nothing => true and return
     end
-  end # }}}
-  def create # {{{
+  end 
+  def create 
     @pm = Pm.new(params[:pm])
     @pm.dateline = Time.now.to_i
     @pm.folder   = 'inbox'
@@ -136,13 +135,15 @@ class PmController < ApplicationController
     else
       draft = Draft.find(params[:draft_id])
       @pm.attribute_names.each do |a|
-        draft.object.send(a + '=', @pm.send(a)) if draft.object.respond_to? a
+        if (draft.object.is_a?(Array) && draft.object[0].respond_to?(a))
+          draft.object[0].send(a + '=', @pm.send(a)) 
+        end
       end
       draft.save
       redirect_to :back
     end
-  end # }}}
-  def search # {{{
+  end 
+  def search 
     if @request.xml_http_request?
       ppp    = @opts[:ppp]
       start  = params[:start].to_i
@@ -156,5 +157,5 @@ class PmController < ApplicationController
         :offset     => offset
       render :partial => 'pm_list'
     end
-  end # }}}
+  end 
 end

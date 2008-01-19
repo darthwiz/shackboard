@@ -1,10 +1,10 @@
-<% @page_title = "Messaggi Privati per #{@user.username}" %>
-<%= javascript_include_tag :defaults %>
+<%@page_title = "Messaggi Privati per #{@user.username}"%>
+<%=javascript_include_tag :defaults%>
 <div id="navbar_top">
   <%=render :partial => '/login/login_box'%>
   <div class="spacer"></div>
 </div>
-<div id="pms"><%#{{{%>
+<div id="pms">
   <div class="title_bar">
     <%=page_trail%> <%=page_seq%>
   </div>
@@ -12,11 +12,11 @@
   <div class="title_bar">
     <%=page_trail%> <%=page_seq%>
   </div>
-</div><%#}}}%>
-<div id="navbar_bottom"><%#{{{%>
+</div>
+<div id="navbar_bottom">
   <div class="util">
     <%=link_pm_new%>
     <%=link_pm_trash%>
   </div>
   <div class="spacer"></div>
-</div><%#}}}%>
+</div>

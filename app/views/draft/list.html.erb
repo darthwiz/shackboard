@@ -1,6 +1,6 @@
-<% flip = 0 unless flip %>
-<% @page_title = "Bozze di #{h(@user.username)}" %>
-<%= javascript_include_tag :defaults %>
+<%flip = 0 unless flip%>
+<%@page_title = "Bozze di #{h(@user.username)}"%>
+<%=javascript_include_tag :defaults%>
 <div id="navbar_top">
   <%=render :partial => '/login/login_box'%>
   <div class="spacer"></div>
@@ -10,10 +10,10 @@
     <%=page_trail%> <%=page_seq%>
   </div>
   <table id="draft_list">
-    <% @drafts.each do |dr| %>
+    <%@drafts.each do |dr|%>
     <%=render :partial => 'draft', :locals => { :draft => dr, :flip => flip }%>
-    <% flip = 1 - flip %>
-    <% end %>
+    <%flip = 1 - flip%>
+    <%end%>
   </table>
   <div class="title_bar">
     <%=page_trail%> <%=page_seq%>

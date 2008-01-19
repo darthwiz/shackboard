@@ -1,6 +1,6 @@
 class TextPreviewController < ApplicationController
-  def text_to_html # {{{
-    if @request.xml_http_request?
+  def text_to_html 
+    if request.xml_http_request?
       @text          = {}
       p              = params[:post] || params[:pm]
       @text[:text]   = p[:message]
@@ -9,12 +9,12 @@ class TextPreviewController < ApplicationController
     else
       render :nothing => true and return
     end
-  end # }}}
-  def scratchpad # {{{
-  end # }}}
-  def css # {{{
-    @headers["Content-Type"] = 'text/css; charset = utf-8'
-    @theme_name              = params[:id].sub(/\.css$/, "")
+  end 
+  def scratchpad 
+  end 
+  def css 
+    headers["Content-Type"] = 'text/css; charset = utf-8'
+    @theme_name             = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
-  end # }}}
+  end 
 end
