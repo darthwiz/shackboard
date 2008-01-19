@@ -94,11 +94,12 @@ class PmController < ApplicationController
       @draft = Draft.find(:first, :conditions => conds) || Draft.new
       @pm    = @draft.object[0] if @draft.object && @draft.object[0]
     else
-      @draft           = Draft.new
-      @draft.user      = @user
-      @draft.timestamp = Time.now.to_i
-      @draft.object    = [ @pm ]
-      @draft.save
+      @draft             = Draft.new
+      @draft.user        = @user
+      @draft.timestamp   = Time.now.to_i
+      @draft.object      = [ @pm ]
+      @draft.object_type = @pm.class.to_s
+      @draft.save!
     end
     @location = [ 'Pm', :new ]
   end 
