@@ -4,7 +4,7 @@ class DraftController < ApplicationController
     unless (@user.is_a? User) then
       redirect_to :controller => 'welcome', :action => 'index' and return
     end
-    ppp = @opts[:ppp]
+    ppp   = @opts[:ppp]
     start = params[:start].to_i
     start = 1 if (start == 0)
     # TODO filter by username or keyword? 

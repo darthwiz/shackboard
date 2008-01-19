@@ -1,8 +1,8 @@
 class PostController < ApplicationController
   before_filter :authenticate
   def css 
-    @headers["Content-Type"] = 'text/css; charset = utf-8'
-    @theme_name              = params[:id].sub(/\.css$/, "")
+    headers["Content-Type"] = 'text/css; charset = utf-8'
+    @theme_name             = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
   end 
   def new 
@@ -28,13 +28,14 @@ class PostController < ApplicationController
       conds  = [ 'id = ? AND object_type = ? AND user_id = ?', draft_id, 'Post',
         @user.id ]
       @draft = Draft.find(:first, :conditions => conds) || Draft.new
-      @post  = @draft.object if @draft.object
+      @post  = @draft.object[0] if @draft.object.is_a? Array
     else
-      @draft           = Draft.new
-      @draft.user      = @user
-      @draft.timestamp = Time.now.to_i
-      @draft.object    = @post
-      @draft.save
+      @draft             = Draft.new
+      @draft.user        = @user
+      @draft.timestamp   = Time.now.to_i
+      @draft.object      = [ @post ]
+      @draft.object_type = @post.class.to_s
+      @draft.save!
     end
     @location = [ 'Forum', @post.forum, :new ]
     @location = [ 'Topic', @post.topic, :reply ] if @post.topic
@@ -55,7 +56,7 @@ class PostController < ApplicationController
     @post.dateline  = Time.now.to_i
     @post.usesig    = "yes"
     @post.uid       = @user.id
-    @post.useip     = @request.env['REMOTE_ADDR']
+    @post.useip     = request.env['REMOTE_ADDR']
     @post.forum     = Forum.find(forum_id)
     @post.topic     = topic_id > 0 ? Topic.find(topic_id) : nil
     if @post.topic.is_a? Topic
@@ -95,16 +96,16 @@ class PostController < ApplicationController
     end
   end 
   def save_draft 
-    if @request.xml_http_request?
+    if request.xml_http_request?
       Post.new # this is needed to load the Post class, otherwise d.object won't
                # be an instance of Post, but of YAML::Object instead
       id    = params[:draft_id]
       conds = ['user_id = ?', @user.id]
       d     = Draft.find(id, :conditions => conds ) || Draft.new
       if (d.user == @user)
-        d.object.message   = params[:post][:message]
-        d.object[:subject] = params[:post][:subject]
-        d.timestamp        = Time.now.to_i
+        d.object[0].message   = params[:post][:message]
+        d.object[0][:subject] = params[:post][:subject]
+        d.timestamp           = Time.now.to_i
         # NOTE: everything else should already be defined at this point.
         d.save
       end

@@ -14,7 +14,7 @@ end
       :controller => 'post',
       :action     => 'css',
       :id         => @opts[:theme].name
-    ) %>
+    )%>
 <div id="navbar_top">
   <%=render :partial => '/login/login_box'%>
   <div class="spacer"></div>
@@ -25,14 +25,14 @@ end
     <div class="new_post_caption"><%=caption%></div>
   </div>
   <div id="message">
-    <%=start_form_tag({:controller => 'post', :action => 'create'},
+    <%=form_tag({:controller => 'post', :action => 'create'},
       {:method => 'post', :id => 'new_post_form'})%>
-    <% if @post.topic.nil? %>
+    <%if @post.topic.nil?%>
     <div class="label">Oggetto:</div>
     <div class="field">
       <%=text_field 'post', 'subject'%>
     </div>
-    <% end %>
+    <%end%>
     <div class="label">Anteprima:</div>
     <div class="field">
       <div id="post_preview">
@@ -57,7 +57,7 @@ end
     <div class="field">
       <span id="draft_saved" style="display: none;"></span><br/>
     </div>
-    <%=end_form_tag%>
+    </form>
     <%=observe_form 'new_post_form', :frequency => 5, :update => 'post_preview',
       :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
     <%=observe_form 'new_post_form', :frequency => 10, :update => 'draft_saved',

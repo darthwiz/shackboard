@@ -16,6 +16,7 @@
       end
       item[:title] = "#{link} #{subj} per #{dst}"
     when 'Post'
+      post  = Post.new
       post  = draft.object[0]
       topic = post.topic
       if topic.nil?
