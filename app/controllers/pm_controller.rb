@@ -39,7 +39,7 @@ class PmController < ApplicationController
     end
   end 
   def delete 
-    if @request.xml_http_request?
+    if request.xml_http_request?
       @pm = Pm.find(params[:id])
       if @pm.to == @user
         if @pm.folder == 'trash'
@@ -54,7 +54,7 @@ class PmController < ApplicationController
     end
   end 
   def undelete 
-    if @request.xml_http_request?
+    if request.xml_http_request?
       @pm = Pm.find(params[:id])
       if (@pm.to == @user && @pm.folder == 'trash')
         @pm.folder = 'inbox'
@@ -145,7 +145,7 @@ class PmController < ApplicationController
     end
   end 
   def search 
-    if @request.xml_http_request?
+    if request.xml_http_request?
       ppp    = @opts[:ppp]
       start  = params[:start].to_i
       start  = 1 if (start == 0)
