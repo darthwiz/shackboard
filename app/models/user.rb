@@ -5,22 +5,23 @@ class User < ActiveRecord::Base
   set_primary_key "uid"
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
+  has_many :smileys
   validates_uniqueness_of :username
   @@supermods = nil
   @@admins    = nil
-  def rank # {{{
+  def rank 
     Rank.evaluate(self.postnum)
-  end # }}}
-  def auth(password) # {{{
+  end 
+  def auth(password) 
     password == self.password
-  end # }}}
-  def fix_counters # {{{
+  end 
+  def fix_counters 
     posts  = Post.count(:conditions => ['author = ?', self.username])
     topics = Topic.count(:conditions => ['author = ?', self.username])
     self.postnum = posts + topics
     self.save
-  end # }}}
-  def rename!(new_username) # {{{
+  end 
+  def rename!(new_username) 
     if User.find_by_username(new_username)
       raise DuplicateUserError, "user #{new_username.inspect} already exists"
     else
@@ -45,8 +46,8 @@ class User < ActiveRecord::Base
       t.save_with_validation(false)
     end
     true
-  end # }}}
-  def User.authenticate(username, password) # {{{
+  end 
+  def User.authenticate(username, password) 
     u = User.find_by_username(username)
     if (u) then
       if (u.password == password) then
@@ -54,40 +55,40 @@ class User < ActiveRecord::Base
       end
     end
     return nil
-  end # }}}
-  def User.supermods # {{{
+  end 
+  def User.supermods 
     return @@supermods if @@supermods
     mods  = []
     conds = "status = 'Super Moderator' OR status = 'Administrator'"
     User.find(:all, :conditions => conds).each { |u| mods << u }
     @@supermods = mods
-  end # }}}
-  def User.supermod_ids # {{{
+  end 
+  def User.supermod_ids 
     ids = []
     User.supermods.each { |u| ids << u.id }
     ids
-  end # }}}
-  def User.admins # {{{
+  end 
+  def User.admins 
     return @@admins if @@admins
     adms = []
     User.find(:all, :conditions => "status = 'Administrator'").each do |u|
       adms << u
     end
     @@admins = adms
-  end # }}}
-  def User.admin_ids # {{{
+  end 
+  def User.admin_ids 
     ids = []
     User.admins.each { |u| ids << u.id }
     ids
-  end # }}}
-  def User.find_by_username(s) # {{{
+  end 
+  def User.find_by_username(s) 
     # XXX a method of untold laziness
     begin
       s = Iconv.new('iso-8859-1', 'utf-8').iconv(s)
     rescue
     end
     super(s)
-  end # }}}
+  end 
 end
 
 class UserError < StandardError; end

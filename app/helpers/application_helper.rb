@@ -3,13 +3,16 @@ module ApplicationHelper
   include ActionView::Helpers::UrlHelper
   include TopicHelper
   include ForumHelper
-  def utf8(string) # {{{
+
+  def utf8(string)
     Iconv.new('utf-8', 'iso-8859-1').iconv(string)
-  end # }}}
-  def iso(string) # {{{
+  end
+
+  def iso(string)
     Iconv.new('iso-8859-1', 'utf-8').iconv(string)
-  end # }}}
-  def dimmer(color, pct) # {{{
+  end
+
+  def dimmer(color, pct)
     if (color =~ /#[0-9a-fA-F]{6}/) then
       r = (color[1,2].hex) * pct / 100.0
       g = (color[3,2].hex) * pct / 100.0
@@ -20,27 +23,31 @@ module ApplicationHelper
       b = 128
     end
     return sprintf("#%02x%02x%02x", r.to_i, g.to_i, b.to_i)
-  end # }}}
-  def domid(obj) # {{{
+  end
+
+  def domid(obj)
     begin
       obj = obj.actual if obj.respond_to?(:actual)
       obj.class.to_s.downcase + "_" + obj.id.to_s
     rescue
       # do nothing XXX ugly hack to prevent errors in case of a dangling link
     end
-  end # }}}
-  def cleanup(str) # {{{
+  end
+
+  def cleanup(str)
     h(strip_tags(str))
-  end # }}}
-  def icon(t) # {{{
+  end
+
+  def icon(t)
     icon = ""
     case t
     when :folder
       icon = image_tag("http://www.studentibicocca.it/portale/forum/images/folder.gif")
     end
     icon
-  end # }}}
-  def link_user_edit # {{{
+  end
+
+  def link_user_edit
     return nil unless @user.is_a? User
     msg = 'impostazioni'
     if @legacy_mode == :old
@@ -52,8 +59,9 @@ module ApplicationHelper
       s                = link_to msg, link
     end
     content_tag('span', s, :class => 'profile')
-  end # }}}
-  def link_user_register # {{{
+  end
+
+  def link_user_register
     msg = 'nuovo utente'
     if @legacy_mode == :old
       s = link_to msg, '/portale/forum/member.php?action=reg'
@@ -61,41 +69,46 @@ module ApplicationHelper
       s = link_to msg, :controller => 'user', :action => 'register'
     end
     content_tag('div', s, :class => 'user_register')
-  end # }}}
-  def link_logout # {{{
+  end
+
+  def link_logout
     msg              = 'logout'
     link             = { :controller => 'login', :action => 'logout' }
     link[:host]      = @host_forum if @host_forum
     link[:only_path] = false if @host_forum
     s                = link_to msg, link
     content_tag('span', s, :class => 'logout')
-  end # }}}
-  def link_draft_list # {{{
+  end
+
+  def link_draft_list
     link_to_unless_current 'bozze', {:controller => 'draft', :action => 'list'},
       {:class => 'draft_list'}
-  end # }}}
-  def link_post_new(ctx=@topic, params={}) # {{{
+  end
+
+  def link_post_new(ctx=@topic, params={})
     quote = params[:quote] ? true : false
     ctx   = ctx.actual if ctx.respond_to?(:actual)
     case ctx.class.to_s
     when 'Topic'
       l = link_to 'nuova risposta',
-        { :controller => 'post', :action => 'new', :class => 'topic', 
+        { :controller => 'post', :action => 'new', :class => 'topic',
           :reply => ctx.id, :quote => quote }
     when 'Post'
       l = link_to 'nuova risposta',
-        { :controller => 'post', :action => 'new', :class => 'post', 
+        { :controller => 'post', :action => 'new', :class => 'post',
           :reply => ctx.id, :quote => true }
     end
     content_tag('span', l, :class => 'post_new')
-  end # }}}
-  def link_topic_new(ctx=@forum) # {{{
+  end
+
+  def link_topic_new(ctx=@forum)
     raise TypeError unless ctx.is_a? Forum
     l = link_to 'nuova discussione',
       { :controller => 'topic', :action => 'new', :id => ctx }
     content_tag('span', l, :class => 'topic_new')
-  end # }}}
-  def link_pm_new(ctx=nil) # {{{
+  end
+
+  def link_pm_new(ctx=nil)
     ctx = ctx.actual if ctx.respond_to?(:actual)
     case ctx.class.to_s
     when 'Post'
@@ -115,8 +128,9 @@ module ApplicationHelper
         {:controller => 'pm', :action => 'new'}
     end
     content_tag('span', l, :class => 'pm_new')
-  end # }}}
-  def link_pm_list # {{{
+  end
+
+  def link_pm_list
     return nil unless @user.is_a? User
     msg = 'messaggi privati'
     if @legacy_mode == :old
@@ -128,12 +142,14 @@ module ApplicationHelper
       s                = link_to msg, link
     end
     content_tag('span', s, :class => 'pm_list')
-  end # }}}
-  def link_pm_trash # {{{
+  end
+
+  def link_pm_trash
     link_to 'cestino', {:controller => 'pm', :action => 'list',
       :folder => 'trash'}, {:class => 'pm_trash'}
-  end # }}}
-  def link_pm_unread(user=@user) # {{{
+  end
+
+  def link_pm_unread(user=@user)
     count = Pm.unread_for(user)
     msg   = "Hai un messaggio privato non letto."        if count == 1
     msg   = "Hai #{count} messaggi privati non letti."   if count > 1
@@ -141,8 +157,9 @@ module ApplicationHelper
     link[:host]      = @host_forum if @host_forum
     link[:only_path] = false if @host_forum
     msg ? link_to(msg, link) : nil
-  end # }}}
-  def link_draft_unsent(user=@user) # {{{
+  end
+
+  def link_draft_unsent(user=@user)
     count = Draft.unsent_for(user)
     msg   = "Hai una bozza non inviata."      if count == 1
     msg   = "Hai #{count} bozze non inviate." if count > 1
@@ -150,8 +167,9 @@ module ApplicationHelper
     link[:host]      = @host_forum if @host_forum
     link[:only_path] = false if @host_forum
     msg ? link_to(msg, link) : nil
-  end # }}}
-  def link_file_unapproved(user=@user) # {{{
+  end
+
+  def link_file_unapproved(user=@user)
     return nil unless is_file_adm?(user)
     n    = FiledbFile.count_unapproved
     msg  = "C'è un nuovo file in attesa di approvazione."       if n == 1
@@ -160,12 +178,14 @@ module ApplicationHelper
     link[:host]      = @host_filedb if @host_filedb
     link[:only_path] = false if @host_filedb
     msg ? link_to(msg, link) : nil
-  end # }}}
-  def link_file_upload # {{{
+  end
+
+  def link_file_upload
     link_to 'carica un nuovo file', :action => 'upload' \
       unless @location == [ 'File', :upload ]
-  end # }}}
-  def form_login # {{{
+  end
+
+  def form_login
     s = form_tag({ :controller => 'login', :action => 'login' },
       { :method => 'post' })
     usn  = content_tag('div', "Username", :class => 'label')
@@ -180,8 +200,9 @@ module ApplicationHelper
     s   += btn
     s   += '</form>' # XXX
     content_tag('div', s, :class => 'login')
-  end # }}}
-  def page_trail(loc=@location, opts={}) # {{{
+  end
+
+  def page_trail(loc=@location, opts={})
     return unless (loc.is_a?(Array) && loc.length >= 2)
     if @host_forum
       trail = [ ['Portale', { :controller => '/', :host => @host_forum,
@@ -209,10 +230,11 @@ module ApplicationHelper
       s += " &gt; " if i < trail.length - 1
     end
     content_tag('span', s, :class => 'page_trail')
-  end # }}}
-  def page_seq(opts=@page_seq_opts) # {{{
+  end
+
+  def page_seq(opts=@page_seq_opts)
     return unless opts.is_a? Hash
-    # shortcut variables {{{
+    # shortcut variables
     first  = opts[:first] || 1
     last   = opts[:last]  || first
     cur    = opts[:current]
@@ -235,8 +257,8 @@ module ApplicationHelper
       last  = ((last - 1)/ ipp) + 1
       cur   = ((cur - 1)/ ipp) + 1 if cur
     end
-    # }}}
-    # adjacent pages {{{
+
+    # adjacent pages
     for i in 0..adj do
       p  = []
       p << first + i
@@ -247,11 +269,11 @@ module ApplicationHelper
         pages << j if (j > 0 && j <= last)
       end
     end
-    # }}}
+
     ctrl_opts = { :controller => ctrl, :action => actn, :id => id }
     getp.each { |pname| ctrl_opts[pname] = params[pname] }
     extrap.each_pair { |key, value| ctrl_opts[key] = value }
-    # first and back links {{{
+    # first and back links
     if (cur)
       if (cur > first) then
         if (extral.include? :first) then
@@ -281,8 +303,8 @@ module ApplicationHelper
         s << link_to(label[:first], ctrl_opts) + "\n"
       end
     end
-    # }}}
-    # numbered pages loop {{{
+
+    # numbered pages loop
     prev = first
     pages.sort.uniq.each do |p|
       if (p > prev + 1) then
@@ -314,8 +336,8 @@ module ApplicationHelper
       end
       prev = p
     end
-    # }}}
-    # forward and last links {{{
+
+    # forward and last links
     if (cur)
       if (cur < last) then
         if (extral.include? :forward) then
@@ -345,22 +367,24 @@ module ApplicationHelper
         s << link_to(label[:last], ctrl_opts) + "\n"
       end
     end
-    # }}}
+
     return '' if (cur && cur == first && cur == last)
     content_tag('span', s, :class => 'page_seq')
-  end # }}}
-  def text_to_html(text, format=:bb) # {{{
+  end
+
+  def text_to_html(text, format=:bb, user=nil)
     text   = String.new(text)
     format = format.to_sym
     case format
     when :bb
-      return bb_to_html(text)
+      return bb_to_html(text, user)
     when :textile
       return textilize(text)
     else
     end
-  end # }}}
-  def bb_to_html(s) # {{{
+  end
+
+  def bb_to_html(s, user=nil)
     s.gsub!(/&([^#]+)/, "&amp;\\1")
     s.gsub!(/>/, "&gt;")
     s.gsub!(/</, "&lt;")
@@ -381,37 +405,48 @@ module ApplicationHelper
     Smiley.all.each do |sm|
       s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\"> ")
     end
+    if user.is_a? User
+      Smiley.find_all_by_user_id(user.id).each do |sm|
+        s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\"> ")
+      end
+    end
     return s
-  end # }}}
-  def timestamp_to_date(ts) # {{{
+  end
+
+  def timestamp_to_date(ts)
     date = Time.at(ts).strftime("%d/%m/%Y")
     time = Time.at(ts).strftime("%H.%M")
     "#{date}, #{time}"
-  end # }}}
-  def timestamp_to_time(ts, opts={}) # {{{
+  end
+
+  def timestamp_to_time(ts, opts={})
     string  = "%H.%M"
     string += ":%S" if opts[:seconds]
     Time.at(ts).strftime(string)
-  end # }}}
-  def collection_select_with_selected(object, method, collection, value_method, text_method, current_value=nil) # {{{
-    result = "<select name='#{object}[#{method}]'>\n" 
+  end
+
+  def collection_select_with_selected(object, method, collection, value_method, text_method, current_value=nil)
+    result = "<select name='#{object}[#{method}]'>\n"
     for element in collection
       if current_value.to_s == element.send(value_method).to_s
-        result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n" 
+        result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n"
       else
-        result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n" 
+        result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n"
       end
     end
-    result << "</select>\n" 
+    result << "</select>\n"
     return result
-  end # }}}
-  def button_to_remote(name, options = {}, html_options = {})  # {{{
+  end
+
+  def button_to_remote(name, options = {}, html_options = {})
     button_to_function(name, remote_function(options), html_options)
-  end # }}}
-  def is_file_adm?(user=@user) # {{{
+  end
+
+  def is_file_adm?(user=@user)
     FileController.new.send(:is_adm?, user)
-  end # }}}
-  def link_legacy(params={}) # {{{
+  end
+
+  def link_legacy(params={})
     msg        = params[:caption]
     old_url    = params[:old]
     new_url    = params[:new]
@@ -425,10 +460,11 @@ module ApplicationHelper
       s                = link_to msg, link
     end
     content_tag('span', s, :class => html_class)
-  end # }}}
+  end
 end
-class String # {{{
-  def scan_words # {{{
+
+class String
+  def scan_words
     s = self.strip
     return [] if !s
     return [] if s == ""
@@ -437,5 +473,5 @@ class String # {{{
       s[0].gsub!(/^"(.*)"$/, "\\1")
     end
     a.flatten!
-  end # }}}
-end # }}}
+  end
+end
