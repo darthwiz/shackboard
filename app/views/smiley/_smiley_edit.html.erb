@@ -1,0 +1,25 @@
+<%
+base_url = 'http://www.studentibicocca.it/portale/forum/images'
+user_id  = @user ? @user.id : 0
+if sm.url =~ /^http/
+  url = sm.url
+else
+  url = URI.join(base_url, url)
+end
+img = image_tag(url, { :alt => sm.code })
+%>
+<td>
+  <%=submit_to_remote 'submit', 'modifica',
+       :url => { :action => 'edit', :id => sm.id },
+       :update => "smiley_#{sm.id}"%>
+</td>
+<td>
+  <%=text_field_tag "code", h(sm.code), { :size => 20 }%>
+</td>
+<td><%=img%></td>
+<td>
+  <%=text_field_tag "url", h(url), { :size => 60 }%>
+  <%=submit_to_remote 'submit', 'elimina',
+       :url => { :action => 'delete', :id => sm.id },
+       :update => "smiley_#{sm.id}"%>
+</td>

@@ -1,0 +1,20 @@
+<%
+base_url = 'http://www.studentibicocca.it/portale/forum/images'
+user_id  = @user ? @user.id : 0
+if sm.url =~ /^http/
+  url = sm.url
+else
+  url = URI.join(base_url, url)
+end
+img = image_tag(url, { :alt => sm.code })
+%>
+<td>
+  <%if sm.user_id == user_id && user_id != 0%>
+  <%=button_to_remote 'modifica', :update => "smiley_#{sm.id}",
+    :url => {:action => 'edit_in_place', :id => sm.id}%>
+  <%else%>
+  <%end%>
+</td>
+<td><%=h sm.code%></td>
+<td><%=img%></td>
+<td></td>

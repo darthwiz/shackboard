@@ -1,0 +1,15 @@
+<%=javascript_include_tag :defaults%>
+<%=
+  form_remote_tag :url => {
+    :action => url_for(:controller => 'smiley', :action => 'edit')
+  }
+%>
+  <table>
+    <%@smileys.each do |sm|%>
+    <tr id="smiley_<%=sm.id%>">
+      <%=render :partial => 'smiley', :locals => { :sm => sm }%>
+    </tr>
+    <%end%>
+  </table>
+  <%=render :partial => 'smiley_new'%>
+</form>

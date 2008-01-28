@@ -1,0 +1,7 @@
+<div id="smiley_new">
+  <%=submit_to_remote 'submit', 'aggiungi',
+      :url => { :action => 'edit', :id => 'new' },
+      :update => "smiley_new"%>
+  <%=text_field_tag "code", '', { :size => 20 }%>
+  <%=text_field_tag "url", '', { :size => 60 }%></td>
+</diV>
