@@ -1,7 +1,38 @@
-body {<%#{{{%>
+body {
   color: <%=t.text%>;
   background-color: <%=t.bgcolor%>;
   /* font-size: .9em; */
   font-size: 12px;
   font-family: Verdana, sans-serif;
-}<%#}}}%>
+}
+.bg0 {
+  background-color: <%=t.altbg1%>;
+}
+.bg1 {
+  background-color: <%=t.altbg2%>;
+}
+.header {
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+}
+.top {
+  background-color: <%=t.top%>;
+}
+table.themed {
+  width: 100%;
+  background-color: <%=t.bordercolor%>;
+  border-collapse: separate;
+  border-spacing: <%=t.borderwidth%>px <%=t.borderwidth%>px;
+}
+td.themed {
+  padding: <%=t.tablespace%>px;
+}
+div.spacer {
+  clear: both;
+}
+div#main {
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}

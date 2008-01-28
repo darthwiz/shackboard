@@ -1,7 +1,24 @@
-<div id="smiley_new">
-  <%=submit_to_remote 'submit', 'aggiungi',
-      :url => { :action => 'edit', :id => 'new' },
-      :update => "smiley_new"%>
-  <%=text_field_tag "code", '', { :size => 20 }%>
-  <%=text_field_tag "url", '', { :size => 60 }%></td>
-</diV>
+<%=form_tag({ :action => 'create' }, { :method => 'post' })%>
+  <strong>Nuovo smiley:</strong>
+  <%=submit_tag 'aggiungi'%>
+  <table>
+    <tr>
+      <td>
+        Codice:
+      </td>
+      <td>
+        <%=text_field_tag "code", '', { :size => 20 }%>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        URL:
+      </td>
+      <td>
+        <%=text_field_tag "url", '', { :size => 60 }%>
+      </td>
+    </tr>
+  </table>
+</form>
+<strong>Nota:</strong> il codice dello smiley deve essere nella forma 
+<em>:codice:</em>

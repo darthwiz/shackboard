@@ -15,27 +15,27 @@ class SmileyController < ApplicationController
     end
   end
 
+  def create
+    if @user.is_a? User
+      sm = Smiley.new
+      sm.user = @user
+      sm.type = 'smiley'
+      sm.code = params[:code]
+      sm.url  = params[:url]
+      sm.save
+      redirect_to(:action => 'list') and return
+    end
+  end
+
   def edit # for real
     if(request.xml_http_request? && @user.is_a?(User))
-      url    = params[:url]
-      code   = params[:code]
-      if params[:id] == 'new'
-        sm      = Smiley.new
-        sm.user = @user
-        sm.type = 'smiley'
-        sm.code = code
-        sm.url  = url
-        sm.save!
-        id = sm.id
-      else
-        id = params[:id].to_i
-        sm = Smiley.find(id)
-        if sm.user_id == @user.id
-          sm.code = code
-          sm.url  = url
-          sm.save!
-        end
-      end
+      url     = params[:url]
+      code    = params[:code]
+      id      = params[:id].to_i
+      sm      = Smiley.find_by_id_and_user_id(id, @user.id)
+      sm.code = code
+      sm.url  = url
+      sm.save!
       sm = Smiley.find(id)
       render :partial => 'smiley', :locals => { :sm => sm }
     end
@@ -53,6 +53,8 @@ class SmileyController < ApplicationController
   end
 
   def css
-    render :nothing => true
+    headers["Content-Type"] = 'text/css; charset = utf-8'
+    @theme_name             = params[:id].sub(/\.css$/, "")
+    render :partial => 'css'
   end
 end

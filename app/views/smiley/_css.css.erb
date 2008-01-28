@@ -1,0 +1,4 @@
+<% t = Theme.find_by_name(@theme_name) || Theme.new %>
+/* Theme: <%=t.name.inspect if t%> */
+<%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
+<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>

@@ -8,17 +8,17 @@ else
 end
 img = image_tag(url, { :alt => sm.code })
 %>
-<td>
-  <%=submit_to_remote 'submit', 'modifica',
-       :url => { :action => 'edit', :id => sm.id },
-       :update => "smiley_#{sm.id}"%>
-</td>
-<td>
+<td class="bg0" align="center">
   <%=text_field_tag "code", h(sm.code), { :size => 20 }%>
 </td>
-<td><%=img%></td>
-<td>
+<td class="bg0" align="center">
   <%=text_field_tag "url", h(url), { :size => 60 }%>
+</td>
+<td class="bg0" align="center"><%=img%></td>
+<td class="bg0" align="center">
+  <%=submit_to_remote 'submit', 'salva',
+       :url => { :action => 'edit', :id => sm.id },
+       :update => "smiley_#{sm.id}"%>
   <%=submit_to_remote 'submit', 'elimina',
        :url => { :action => 'delete', :id => sm.id },
        :update => "smiley_#{sm.id}"%>
