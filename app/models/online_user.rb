@@ -2,46 +2,37 @@ class OnlineUser < ActiveRecord::Base
   require 'magic_fixes.rb'
   include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "whosonline"
-  @@guest  = 'xguest123'
-  @@record = 'onlinerecord'
-  #belongs_to :user, :foreign_key => 'username'
+  belongs_to :user, :foreign_key => 'uid'
   #set_primary_key "username"
   #validates_uniqueness_of :username
   def OnlineUser.touch(user, ip)
     raise TypeError unless user.is_a?(User) || user.nil?
-    username = user.username unless user.nil?
-    raise if [@@guest, @@record].include? username
-    username = @@guest if user.nil?
-    conds    = sanitize_sql(["username = '%s' AND ip = '%s'", username, ip])
+    uid   = 0
+    uid   = user.id unless user.nil?
+    conds = sanitize_sql(["uid = %d AND ip = '%s'", uid, ip])
     OnlineUser.delete_all(conds)
-    ou          = OnlineUser.new
-    ou.username = username
-    ou.ip       = ip
-    ou.time     = Time.now.to_i
+    ou      = OnlineUser.new
+    ou.uid  = uid
+    ou.ip   = ip
+    ou.time = Time.now.to_i
     ou.save
   end
   def OnlineUser.cleanup(time=5.minutes)
-    conds = sanitize_sql(["username != '%s' AND time < %s", @@record,
-      Time.now.to_i - time])
+    conds = sanitize_sql(["time < %s", Time.now.to_i - time])
     OnlineUser.delete_all(conds)
   end
   def OnlineUser.guests_count
-    conds = sanitize_sql(["username LIKE '%s'", @@guest])
+    conds = sanitize_sql(["uid = 0"])
     OnlineUser.count(conds)
   end
   def OnlineUser.online
     users = []
     OnlineUser.find(
-      :all, :joins => 'LEFT JOIN xmb_members
-        ON xmb_members.username = xmb_whosonline.username',
+      :all, :joins => 'INNER JOIN xmb_members
+        ON xmb_members.uid = xmb_whosonline.uid',
       :order => 'xmb_members.username'
     ).each do |ou|
-      unless [@@guest, @@record, nil].include? ou.username
-        u          = User.new
-        u.username = ou.username
-        u.id       = ou[:uid]
-        users << u
-      end
+      users << ou.user
     end
     users
   end
