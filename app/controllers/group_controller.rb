@@ -51,7 +51,7 @@ class GroupController < ApplicationController
   def delete_group
     render :nothing => true and return unless is_adm?
     group = Group.find(params[:id])
-    if group.users_count == 0
+    if group.user_ids.length == 0
       group.destroy
       render :action => 'ajax_delete_group' and return
     end

@@ -2,7 +2,7 @@ class Group < ActiveRecord::Base
   has_many :group_memberships, :dependent => :destroy
   has_many :users, :through => :group_memberships
   validates_uniqueness_of :name
-  def associate!(user) # {{{
+  def associate!(user)
     arr = object_to_array(user)
     return false unless arr[0] == 'User'
     m = GroupMembership.find(:first,
@@ -13,8 +13,9 @@ class Group < ActiveRecord::Base
     m.associate(self, user)
     m.save
     m
-  end # }}}
-  def remove!(user) # {{{
+  end
+
+  def remove!(user)
     arr = object_to_array(user)
     return false unless arr[0] == 'User'
     m = GroupMembership.find(:first,
@@ -22,8 +23,9 @@ class Group < ActiveRecord::Base
     )
     return false unless m
     m.destroy
-  end # }}}
-  def include?(user) # {{{
+  end
+
+  def include?(user)
     arr = object_to_array(user)
     raise TypeError, "Argument is not a User or a ['User', user.id] array" \
       unless arr[0] == 'User'
@@ -40,40 +42,49 @@ class Group < ActiveRecord::Base
     m = GroupMembership.find_by_group_id_and_user_id(self.id, userid)
     return true if m.is_a? GroupMembership
     return false
-  end # }}}
-  def Group.include?(group, user) # {{{
+  end
+
+  def Group.include?(group, user)
     g = Group.new.send(:object_to_object, group)
     return false unless g.is_a? Group
     g.include?(user)
-  end # }}}
-  def Group.associate!(group, user) # {{{
+  end
+
+  def Group.associate!(group, user)
     g = Group.new.send(:object_to_object, group)
     g.associate!(user)
-  end # }}}
-  def Group.remove!(group, user) # {{{
+  end
+
+  def Group.remove!(group, user)
     g = Group.new.send(:object_to_object, group)
     g.remove!(user)
-  end # }}}
-  def can_edit?(user) # {{{
+  end
+
+  def can_edit?(user)
     acl.can_edit?(user)
-  end # }}}
-  def can_edit(user) # {{{
+  end
+  
+  def can_edit(user)
     acl.can_edit(user)
-  end # }}}
-  def remove_can_edit(user) # {{{
+  end
+  
+  def remove_can_edit(user)
     acl.remove_can_edit(user)
-  end # }}}
-  def acl_save # {{{
+  end
+  
+  def acl_save
     acl.save
-  end # }}}
+  end
+  
   private
-  def acl # {{{
+  def acl
     return @acl if @acl
     @acl = AclMapping.map(self)
     return @acl if @acl
     @acl = Acl.new.attach_to(self)
-  end # }}}
-  def object_to_array(obj) # {{{
+  end
+  
+  def object_to_array(obj)
     case obj.class.to_s
     when 'Array'
       arr = obj
@@ -82,8 +93,9 @@ class Group < ActiveRecord::Base
     else
       arr = [ obj.class.to_s, obj.id ]
     end
-  end # }}}
-  def object_to_object(obj) # {{{
+  end
+  
+  def object_to_object(obj)
     case obj.class.to_s
     when 'Array'
       case obj[1].class.to_s
@@ -98,8 +110,9 @@ class Group < ActiveRecord::Base
       return obj
     end
     nil
-  end # }}}
-  def arg_to_group(arg) # {{{
+  end
+  
+  def arg_to_group(arg)
     case arg.class.to_s
     when 'Fixnum'
       return Group.find(arg)
@@ -109,5 +122,5 @@ class Group < ActiveRecord::Base
       return arg
     end
     nil
-  end # }}}
+  end
 end
