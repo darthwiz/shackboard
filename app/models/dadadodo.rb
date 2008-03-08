@@ -11,7 +11,7 @@ class Dadadodo
     nposts = 20
     nposts = @posts if @posts
     text   = []
-    Post.find(:all, :conditions => ['author = ?', @user.username],
+    Post.find(:all, :conditions => ['uid = ?', @user.id],
       :order => 'dateline DESC', :limit => nposts).each do |p|
       text << bb_to_plaintext(p.message) + "\n"
     end
