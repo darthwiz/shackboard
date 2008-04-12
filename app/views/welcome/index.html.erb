@@ -75,88 +75,19 @@
         <%=render :partial => '/announcement/latest' %>
         <%#end %>
       </li><%#}}}%>
-      <li><%#Servizi {{{%>
-        <h2><%=link_to 'Servizi', 'http://www.servizi-uni.studentibicocca.it/' %></h2>
-        <%=render :partial => '/welcome/services'%>
-      </li><%#}}}%>
-      <li id="iniziative"><%#Iniziative {{{%>
-        <h2><%=link_to 'Iniziative', 'http://asb.studentibicocca.it'%></h2>
-        <ul>
-          <li><%url = 'http://asb.studentibicocca.it'%>
-            <%image = image_tag 'http://www.studentibicocca.it/portale/forum/menu/img-menu/asb.gif'%>
-            <%=link_to image, url%>
-            Da tempo l'<%=link_to 'Associazione Studenti Bicocca', url%> è
-            attiva in università proponendo in collaborazione con altri gruppi
-            del nostro ateneo e delle altre università attività e servizi
-            sempre nuovi.
-            <strong>
-              <%=mail_to 'asb@studentibicocca.it', 'Partecipa anche tu!',
-              :encode => 'javascript'%>
-            </strong>
-            <div class="spacer"></div>
-          </li>
-          <li><%url = 'http://asb.studentibicocca.it/socializzazione'%>
-            <%image = image_tag 'http://www.studentibicocca.it/portale/forum/menu/img-menu/drink.gif'%>
-            <%=link_to image, url%>
-            Ogni mercoledì <%=link_to 'aperitivo', url%> 18.30/19.00 al bar
-            Maga Furla.
-            <div class="spacer"></div>
-          </li>
-          <li><%url = 'http://cineforum.studentibicocca.it/'%>
-            <%image = image_tag 'http://www.studentibicocca.it/portale/immagini-nh/icone/cineforum.gif'%>
-            <%=link_to image, url%>
-            Prossimamente avrà inizio il <%=link_to 'Cineforum', url%> degli
-            studenti in lingua originale!
-          </li>
-          <li><%url = 'http://concorsofoto.studentibicocca.it/'%>
-            <%image = image_tag 'http://www.studentibicocca.it/portale/forum/menu/img-menu/foto.gif'%>
-            <%=link_to image, url%>
-            Tra poco la terza edizione del
-            <%=link_to 'Concorso Fotografico della Bicocca', url%>.
-            <div class="spacer"></div>
-          </li>
-          <li><%url = 'http://b-radio.studentibicocca.it/'%>
-            <%image = image_tag 'http://www.studentibicocca.it/portale/forum/menu/img-menu/radio.gif'%>
-            <%=link_to image, url%>
-            Ascolta <%=link_to 'B-Radio', url%>, la radio degli studenti della
-            Bicocca. (<%=link_to 'banda larga', 'http://s3.mediastreaming.it/7550/listen.asx'%>,
-            <%=link_to '56k', 'http://s3.mediastreaming.it/7320/listen.asx'%>)
-            <div class="spacer"></div>
-          </li>
-        </ul>
-      </li><%#}}}%>
-      <li><%#Rappresentanti {{{%>
-        <h2><%=link_to 'Rappresentanti',
-            'http://rappresentanti.studentibicocca.it/'%></h2>
-        <ul>
-          <li>
-            <%#link_image_to 'http://www.studentibicocca.it/portale/immagini/monkeys.gif',
-              'http://rappresentanti.studentibicocca.it/',
-              { :style => 'float: left; margin-right: .7em;',
-                :alt   => 'rappresentanti' }%>
-            Un filo diretto con i rappresentanti ed i gruppi politici del
-            nostro ateneo.
-            <div class="spacer"></div>
-          </li>
-        </ul>
-      </li><%#}}}%>
-      <li><%#Network {{{%>
-        <h2><%=link_to 'Network',
-            'http://asb.studentibicocca.it/network/'%></h2>
-        <ul>
-          <li>
-            Il portale dà gratuitamente spazio a molte realtà presenti nella
-            nostra università, prova a conoscerle cliccando
-            <a href="http://asb.studentibicocca.it/network/">qui</a>.
-            <br/><br/>
-            Oltre a queste altri gruppi, associazioni e iniziative continuano
-            a nascere puoi trovare informazioni su di loro sulla guida "Esami
-            E.." oppure cliccando
-            <a href="http://www.studentibicocca.it/iniziative/index.htm">qui</a>.
-            <div class="spacer"></div>
-          </li>
-        </ul>
-      </li><%#}}}%>
+      <% 
+      contents = []
+      ['servizi', 'iniziative', 'rappresentanti', 'network'].each do |i|
+        c = StaticContent.find_by_label(i)
+        contents << c unless c.nil?
+      end
+      %>
+      <%contents.each do |c|%>
+      <li>
+        <%=c.content%>
+        <div class="spacer"></div>
+      </li>
+      <%end%>
       <%#Free tech advertisements {{{%>
       <li style="text-align: center;">
         <a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
