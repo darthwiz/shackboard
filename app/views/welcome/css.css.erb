@@ -2,125 +2,125 @@
 /* Theme: <%=t.name.inspect if t%> */
 <%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
 <%=render :partial => '/login/login_box_css', :locals => { :t => t } %>
-div.online_users {<%#{{{%>
+div.online_users {
   margin: .5em;
-}<%#}}}%>
-div#portal_main {<%#{{{%>
+}
+div#portal_main {
   margin-left: 20px;
   margin-right: 20px;
   background-color: <%=t.altbg1%>;
   border: 1px solid <%=t.bordercolor%>;
   font-size: 11px;
-}<%#}}}%>
-div#title {<%#{{{%>
+}
+div#title {
   float: left;
   margin-left: .5em;
   margin-right: .5em;
   width: 375px;
   height: 100px;
   text-align: center;
-}<%#}}}%>
-div#portal_left {<%#{{{%>
+}
+div#portal_left {
   width: 30%;
   float: left;
   clear: left;
   overflow: hidden;
-}<%#}}}%>
-div#portal_center {<%#{{{%>
+}
+div#portal_center {
   width: 40%;
   float: left;
   overflow: hidden;
-}<%#}}}%>
-div#portal_right {<%#{{{%>
+}
+div#portal_right {
   width: 30%;
   float: left;
   clear: right;
   overflow: hidden;
-}<%#}}}%>
-div#asb_icon {<%#{{{%>
+}
+div#asb_icon {
   float: left;
   margin-right: 1em;
-}<%#}}}%>
-div#login_box {<%#{{{%>
+}
+div#login_box {
   float: right;
   margin-right: .5em;
-}<%#}}}%>
-div#icons, div#login_box, div#asb_icon, div#title {<%#{{{%>
+}
+div#icons, div#login_box, div#asb_icon, div#title {
   margin-top: .5em;
-}<%#}}}%>
-div.spacer {<%#{{{%>
+}
+div.spacer {
   clear: both;
-}<%#}}}%>
-h1 {<%#{{{%>
+}
+h1 {
   color: <%=t.header%>;
   font-size: 32px;
   margin-top: 0;
   margin-bottom: 0;
-}<%#}}}%>
-span#subtitle {<%#{{{%>
+}
+span#subtitle {
   color: <%=t.headertext%>;
   background-color: <%=t.header%>;
   padding-left: .5em;
   padding-right: .5em;
   padding-top: .1em;
   padding-bottom: .1em;
-}<%#}}}%>
-div#unread_messages {<%#{{{%>
+}
+div#unread_messages {
   margin-left: .5em;
-}<%#}}}%>
-ul {<%#{{{%>
+}
+ul {
   padding: 0;
   margin: 0;
   list-style: none;
-}<%#}}}%>
-ul.column h2 {<%#{{{%>
+}
+ul.column h2 {
   color: <%=t.altbg2%>;
   font-size: 20px;
   font-weight: bold;
   margin: 0;
-}<%#}}}%>
-ul.column h3 {<%#{{{%>
+}
+ul.column h3 {
   font-weight: bold;
   margin: 0;
-}<%#}}}%>
-ul.column li {<%#{{{%>
+}
+ul.column li {
   padding: .5em;
-}<%#}}}%>
-ul.column li ul li {<%#{{{%>
+}
+ul.column li ul li {
   color: <%=t.text%>;
   background-color: <%=t.altbg2%>;
-}<%#}}}%>
-li#iniziative ul li img {<%#{{{%>
+}
+li#iniziative ul li img {
   float: left;
   margin-right: .7em;
-}<%#}}}%>
-ul.column li ul li div {<%#{{{%>
+}
+ul.column li ul li div {
   clear: both;
-}<%#}}}%>
-li.forum_name {<%#{{{%>
+}
+li.forum_name {
   text-align: center;
-}<%#}}}%>
-a, a:visited {<%#{{{%>
+}
+a, a:visited {
   text-decoration: none;
   color: <%=t.link%>;
-}<%#}}}%>
-ul.latest_topics li {<%#{{{%>
+}
+ul.latest_topics li {
   margin: 0;
   padding: 0;
   padding-left: .5em;
   overflow: hidden;
   height: 1.3em;
-}<%#}}}%>
-ul.latest_topics li a {<%#{{{%>
+}
+ul.latest_topics li a {
   font-weight: normal;
   display: block;
-}<%#}}}%>
-ul.latest_topics div.topic {<%#{{{%>
+}
+ul.latest_topics div.topic {
   width: 77%;
   height: 1.3em;
   overflow: hidden;
-}<%#}}}%>
-ul.latest_topics div.lastposter {<%#{{{%>
+}
+ul.latest_topics div.lastposter {
   width: 20%;
   margin-left: 78%;
   height: 1.3em;
@@ -128,62 +128,68 @@ ul.latest_topics div.lastposter {<%#{{{%>
   position: relative;
   top: -1.3em;
   text-align: right;
-}<%#}}}%>
-div.lastposter a, div.lastposter a:visited {<%#{{{%>
+}
+div.lastposter a, div.lastposter a:visited {
   color: <%=t.text%>;
   display: block;
-}<%#}}}%>
-div.lastposter a:hover {<%#{{{%>
+}
+div.lastposter a:hover {
   color: yellow;
-}<%#}}}%>
-h2 a, h2 a:visited {<%#{{{%>
+}
+h2 a, h2 a:visited {
   color: <%=t.headertext%>;
-  background-color: <%=t.header%>;
+  <%unless t.name == 'studentibicocca'%>background-color: <%=t.header%>;<%end%>
   display: block;
-  /* border: thin dotted <%=t.altbg2%>; */
   padding-left: .5em;
   border-bottom: none;
-}<%#}}}%>
-h3 a {<%#{{{%>
+}
+h3 a {
   display: block;
   background-color: <%=t.catcolor%>;
   font-size: <%=t.fontsize%>;
-}<%#}}}%>
-ul.announcement li {<%#{{{%>
+}
+ul.announcement li {
   padding: 0;
   padding-top: .3em;
   padding-bottom: .2em;
   padding-left: .5em;
   padding-right: .5em;
-}<%#}}}%>
-ul.announcement li a {<%#{{{%>
+}
+ul.announcement li a {
   display: block;
-}<%#}}}%>
-img {<%#{{{%>
+}
+img {
   border: 0;
-}<%#}}}%>
-a:hover {<%#{{{%>
+}
+a:hover {
   background-color: blue;
   color: yellow;
   text-decoration: none;
-}<%#}}}%>
-<% if t.name == "studentibicocca" %><%#{{{%>
+}
+<% if t.name == "studentibicocca" %>
 div#title {
-  background: url(http://www.studentibicocca.it/portale/immagini-nh/titolo.jpg);
+  background: url(http://www.studentibicocca.it/portale/immagini/header_stubi.png);
+  width: 620px;
+  height: 108px;
+}
+div#portal_main {
+  background: url(http://www.studentibicocca.it/portale/immagini/stripes_orange.png);
+}
+div#asb_icon {
+  display: none;
 }
 div h1, span {
   display: none;
 }
 h2 a, h2 a:visited {
   color: yellow;
-  background-color: <%=t.altbg1%>;
 }
 h3 a {
   background-color: #ffd000;
 }
-<% end %><%#}}}%>
-h2 a:hover, h3 a:hover {<%#{{{%>
+<% end %>
+h2 a:hover, h3 a:hover {
   font-weight: bold;
   color: yellow;
   background-color: blue;
-}<%#}}}%>
+}
