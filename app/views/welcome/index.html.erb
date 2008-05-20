@@ -12,7 +12,10 @@
     url_for(:controller => 'forum', :action => 'view', :id => 108)
   # }}}
 %>
-<div id="portal_main"><%#{{{%>
+<div id="mayb">
+  <a href="javascript:switch_page();"><img src="http://img72.imageshack.us/img72/3423/mayb2008webde6.jpg"/></a>
+</div>
+<div id="portal_main" style="display: none;"><%#{{{%>
   <div id="header"><%#Header {{{%>
     <div id="title">
       <h1>StudentiBicocca.it</h1>
@@ -99,4 +102,12 @@
   </div><%#}}}%>
   <div class="spacer"></div>
   <%=render :partial => '/user/online'%>
+  <script type="text/javascript">
+  <!--
+    function switch_page() {
+      document.getElementById('mayb').style.display = 'none'
+      document.getElementById('portal_main').style.display = ''
+    }
+  // -->
+  </script>
 </div><%#}}}%>
