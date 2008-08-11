@@ -26,6 +26,16 @@ div#main { /* defines the page's margins globally */
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
+div#forum div.quote {
+  font-size: 90%;
+  background-color: <%=t.bgcolor%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 0.7em;
+  -moz-border-radius: 5px;
+}
+div#forum div.quote div.quote div.quote {
+  display: none;
+}
 
 /* legacy layout tables */
 .navtd {
