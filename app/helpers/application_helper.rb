@@ -373,7 +373,7 @@ module ApplicationHelper
   end
 
   def text_to_html(text, format=:bb, user=nil)
-    text   = text.to_s
+    text   = String.new(text.to_s)
     format = format.to_sym
     case format
     when :bb
@@ -403,11 +403,11 @@ module ApplicationHelper
     s.gsub!(/\[quote\]/i, "<div class=\"quote\">")
     s.gsub!(/\[\/quote\]/i, "</div>")
     Smiley.all.each do |sm|
-      s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\"> ")
+      s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\" /> ")
     end
     if user.is_a? User
       Smiley.find_all_by_user_id(user.id).each do |sm|
-        s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\"> ")
+        s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\" /> ")
       end
     end
     return s

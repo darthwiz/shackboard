@@ -12,7 +12,7 @@ begin
       link = link_to "Messaggio privato", :controller => 'pm', :action => 'new',
         :draft => draft.id
       u    = draft.object[0].to
-      if !u.new_record?
+      if u.is_a? User
         dst = link_to h(u.username), :controller => 'user', :action => 'view',
           :id => u
       else
