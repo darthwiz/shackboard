@@ -24,7 +24,8 @@ ANNOUNCEDB_CONN_PARAMS = {
   :host     => 'dbase',
   :username => 'ciao',
   :password => 'ciao123',
-  :database => 'news'
+  :database => 'news',
+  :encoding => 'utf8'
 }
 LEGACY_MODE      = :new
 LEGACY_FORUM_URI = 'http://dev.studentibicocca.it/~wiz/forum'

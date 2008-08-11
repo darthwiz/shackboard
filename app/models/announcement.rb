@@ -3,9 +3,11 @@ class Announcement < ActiveRecord::Base
   include ActiveRecord::MagicFixes
   set_table_name       ANNOUNCEDB_PREFIX + 'posts'
   establish_connection ANNOUNCEDB_CONN_PARAMS
-  def Announcement.latest(n=5)
+
+  def Announcement.find_latest(n=5)
     Announcement.find(:all,
                       :order => 'date DESC',
                       :limit => n)
   end
+
 end

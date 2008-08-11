@@ -2,7 +2,7 @@
   url = 'http://asb.studentibicocca.it/avvisi/avvisi.php?artc='
 %>
 <ul class="announcement">
-  <% Announcement.latest(5).each do |i| %>
+  <% Announcement.find_latest(5).each do |i| %>
   <li><!-- XXX -->
     <%#link_to strip_tags(i.title), url + i.id.to_s %>
     <%=link_to i.title, url + i.id.to_s %>

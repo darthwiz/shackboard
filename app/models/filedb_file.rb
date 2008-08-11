@@ -1,6 +1,4 @@
 class FiledbFile < ActiveRecord::Base
-  require 'iso_helper.rb'
-  include ActiveRecord::IsoHelper
   set_table_name  FILEDB_PREFIX + 'files'
   set_primary_key 'file_id'
   has_one         :filedb_filedata, :dependent   => :destroy
