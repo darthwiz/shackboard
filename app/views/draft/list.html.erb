@@ -1,21 +1,30 @@
 <%flip = 0 unless flip%>
 <%@page_title = "Bozze di #{h(@user.username)}"%>
-<%=javascript_include_tag :defaults%>
-<div id="navbar_top">
-  <%=render :partial => '/login/login_box'%>
-  <div class="spacer"></div>
-</div>
 <div id="drafts">
-  <div class="title_bar">
-    <%=page_trail%> <%=page_seq%>
-  </div>
-  <table id="draft_list">
+  <ul>
     <%@drafts.each do |dr|%>
-    <%=render :partial => 'draft', :locals => { :draft => dr, :flip => flip }%>
+    <li id="<%=domid(dr)%>" class="alt_<%=flip%>">
+      <%=render :partial => 'draft', :locals => { :draft => dr, :flip => flip }%>
+    </li>
     <%flip = 1 - flip%>
     <%end%>
-  </table>
-  <div class="title_bar">
-    <%=page_trail%> <%=page_seq%>
-  </div>
+    <%if @drafts.empty?%>
+    <li class="empty_list">
+      Non ci sono bozze non inviate.
+    </li>
+    <%end%>
+  </ul>
+  <script type="text/javascript">
+    function draft_delete(id) {
+      $('draft_' + id).hide()
+      <%url = url_for :controller => 'draft',
+                      :action     => 'delete',
+                      :id         => ''%>
+      new Ajax.Request("<%=url%>" + id)
+    }
+
+    <%@drafts.each do |dr|
+    %>$('draft_delete_<%=dr.id%>').onclick = function() { draft_delete(<%=dr.id%>) }
+    <%end%>
+  </script>
 </div>

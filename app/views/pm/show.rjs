@@ -1,7 +1,0 @@
-subj = h(@pm.subject.strip) unless @pm.subject.strip.to_s.empty?
-subj = "<em>(nessun oggetto)</em>" if @pm.subject.strip.to_s.empty?
-page.toggle "pm_content_#{@pm.id}"
-page.replace_html "subject_#{@pm.id}", link_to_remote(subj,
-  :url => { :controller => 'pm', :action => 'show', :id => @pm.id })
-page.replace_html "pm_content_#{@pm.id}", :partial => 'pm_content',
-  :locals => { :pm => @pm }

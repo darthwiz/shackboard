@@ -1,22 +1,64 @@
 <%@page_title = "Messaggi Privati per #{@user.username}"%>
-<%=javascript_include_tag :defaults%>
-<div id="navbar_top">
-  <%=render :partial => '/login/login_box'%>
-  <div class="spacer"></div>
-</div>
 <div id="pms">
-  <div class="title_bar">
-    <%=page_trail%> <%=page_seq%>
+  <script type="text/javascript">
+    $('pms').hide()
+  </script>
+  <%unless @location[1] == 'trash'%>
+  <div class="controls">
+    <%=link_to 'Bozze', { :controller => 'draft', :action => 'list' },
+                        { :class => 'drafts' }%>
+    <%=link_to 'Nuovo messaggio', { :action => 'new' },
+                                  { :class  => 'trashcan' }%>
+    <%=link_to 'Cestino', { :action => 'list', :folder => 'trash' },
+                          { :class  => 'trashcan' }%>
   </div>
-  <%=render :partial => 'pm_list'%>
-  <div class="title_bar">
-    <%=page_trail%> <%=page_seq%>
-  </div>
-</div>
-<div id="navbar_bottom">
-  <div class="util">
-    <%=link_pm_new%>
-    <%=link_pm_trash%>
-  </div>
-  <div class="spacer"></div>
+  <%end%>
+  <ul>
+    <%@pms.each do |pm|
+        flip = 0 unless flip
+        %><%=render :partial => '/post/post',
+        :locals => { :message => pm, :flip => flip }%><%
+        flip = 1 - flip
+      end 
+    %>
+  </ul>
+  <script type="text/javascript">
+    $$('div#pms li div.pm').invoke('hide')
+    $('pms').show()
+
+    function pm_reveal(id) {
+      $('pm_' + id + '_hidden_line').hide()
+      $('pm_' + id + '_pm').show()
+      <%url = url_for :controller => 'pm', :action => 'show'
+      %>new Ajax.Request('<%=url%>/' + id)
+    }
+
+    function pm_hide(id) {
+      $('pm_' + id + '_hidden_line').show()
+      $('pm_' + id + '_pm').hide()
+    }
+
+    function pm_delete(id) {
+      $('pm_' + id).hide()
+      <%url = url_for :controller => 'pm', :action => 'delete'
+      %>new Ajax.Request('<%=url%>/' + id)
+    }
+
+    function pm_undelete(id) {
+      $('pm_' + id).hide()
+      <%url = url_for :controller => 'pm', :action => 'undelete'
+      %>new Ajax.Request('<%=url%>/' + id)
+    }
+
+    <%@pms.each do |pm|%>
+    $('pm_<%=pm.id%>_hidden_line').onclick = function() { pm_reveal(<%=pm.id%>) }
+    $('pm_<%=pm.id%>_hidden_line').style.cursor = 'pointer'
+    $('pm_<%=pm.id%>_pm').style.cursor = 'pointer'
+    $('pm_<%=pm.id%>_pm').onclick = function() { pm_hide(<%=pm.id%>) }
+    $('pm_delete_<%=pm.id%>').onclick = function() { pm_delete(<%=pm.id%>) }
+    <%if pm.folder == 'trash'%>
+    $('pm_undelete_<%=pm.id%>').onclick = function() { pm_undelete(<%=pm.id%>) }
+    <%end%>
+    <%end%>
+  </script>
 </div>

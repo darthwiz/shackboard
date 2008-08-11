@@ -373,7 +373,7 @@ module ApplicationHelper
   end
 
   def text_to_html(text, format=:bb, user=nil)
-    text   = String.new(text)
+    text   = text.to_s
     format = format.to_sym
     case format
     when :bb

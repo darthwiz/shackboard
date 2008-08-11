@@ -1,6 +1,0 @@
-<%
-  count = Pm.unread_for(@user)
-  msg   = "hai 1 messaggio privato non letto" if count == 1
-  msg   = "hai #{count} messaggi privati non letti" if count > 1
-%><% if msg
-%>, <%=link_to msg, :controller => 'pm', :action => 'list'%><%end%>

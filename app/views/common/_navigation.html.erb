@@ -1,0 +1,26 @@
+<%
+nav_links = [
+  { :title  => 'Università',        :action => 'index' },
+  { :title  => 'Community',         :action => 'community' },
+  { :title  => 'Servizi',           :action => 'servizi' },
+  { :title  => 'In Bicocca',        :action => 'in_bicocca' },
+  { :title  => 'Studiare a Milano', :action => 'studiare_milano' },
+  { :title  => 'Chi siamo',         :action => 'chi_siamo' },
+  { :title  => 'Mappa del sito',    :action => 'sitemap' },
+]
+if @user.is_a? User
+  nav_links.push({ :title => 'Area personale', :action => 'personal' })
+end
+%>
+        <div id="navigation">
+          <h2>Navigazione</h2>
+          <ul>
+            <%nav_links.each do |i|%>
+            <li>
+              <%=link_to_unless_current(i[:title], :controller => 'welcome', :action => i[:action]) do
+                       link_to i[:title], { :controller => 'welcome', :action => i[:action] }, { :class => 'active' } 
+                 end%>
+            </li>
+            <%end%>
+          </ul>
+        </div>

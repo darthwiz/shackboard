@@ -1,5 +1,9 @@
 <%
-  item = {}
+item = {}
+tmp  = Pm.new
+tmp  = Post.new
+tmp  = nil
+begin
   case draft.object_type
     when 'Pm'
       draft.object[0].subject = nil if draft.object[0].subject.empty?
@@ -38,19 +42,21 @@
       item[:title] = title
   end
   item[:time]   = timestamp_to_date(draft.timestamp)
-  item[:delete] = button_to_remote('elimina',
-    { :url => { :controller => 'draft', :action => 'delete',
-                :id => draft.id } },
-    { :class => 'delete' })
+rescue
+  item[:title] = 'bozza non valida'
+  item[:time]  = ''
+end
+item[:delete] = link_to('elimina', '#',
+  { :class => 'delete', :id => "draft_delete_#{draft.id}" })
 %>
-  <tr id="draft_<%=draft.id%>" class="bg<%=flip%>">
-    <td class="time">
-      <%=item[:time]%>
-    </td>
-    <td class="title">
+  <dl>
+    <dt class="title">
       <%=item[:title]%>
-    </td>
-    <td class="delete">
+    </dt>
+    <dd class="time">
+      <%=item[:time]%>
+    </dd>
+    <dd class="delete">
       <%=item[:delete]%>
-    </td>
-  </tr>
+    </dd>
+  </dl>

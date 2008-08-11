@@ -1,0 +1,1025 @@
+/* <%t = @theme%> */
+/* -------------------- general -------------------- */
+body {
+  color: <%=t.text%>;
+  background-color: <%=t.bgcolor%>;
+  font-size: 13px;
+  font-family: Verdana, sans-serif;
+}
+dl, ul {
+  margin: 0px; /* needed for IE6 */
+}
+a {
+  text-decoration: none;
+}
+a:visited {
+  color: blue;
+}
+a:hover {
+  text-decoration: none;
+}
+div.spacer {
+  clear: both;
+}
+div#main { /* defines the page's margins globally */
+  margin-left: auto;
+  margin-right: auto;
+  width: 97%;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+div#main a {
+  text-decoration: none;
+}
+div#portal div#header {
+  background: url(http://img216.imageshack.us/img216/1609/logosbur4.png);
+  background-repeat: no-repeat;
+  height: 120px;
+  position: relative;
+}
+div#title h1, div#title span.tagline { /* these are replaced by images */
+  width: 0px;
+  height: 0px;
+  display: block;
+  overflow: hidden;
+}
+div#portal div#content_box { /* this is where the main content goes */
+  /* background: url(studentibicocca/stripes_orange.png); */
+  background-color: #ff9900;
+  border: 1px solid black;
+  -moz-border-radius: 10px;
+  padding-top: 2.5em;
+  margin-top: 3px;
+  overflow: auto;
+}
+
+/* -------------------- login box -------------------- */
+div#login_box h2 {
+  display: none;
+}
+div#login_box {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  font-size: 11px;
+  float: right;
+  background-color: yellow;
+  border: 1px solid #d05000;
+  z-index: 10;
+  overflow: hidden;
+  -moz-border-radius: 5px;
+}
+div#login_box input {
+  font-size: 11px;
+}
+div#login_box input.button {
+  border: 1px solid black;
+  width: 10ex;
+}
+div#not_logged_in {
+  text-align: center;
+}
+div#login_inputs {
+  margin-top: 0.3em;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+}
+div#login_inputs input.text,
+div#login_inputs input.password {
+  width: 7em;
+  border: 1px solid black;
+}
+div#personal div.welcome {
+  padding-top: 0.3em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  clear: both;
+}
+div#search {
+  text-align: right;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  padding-bottom: 0.3em;
+  clear: both;
+  white-space: nowrap;
+}
+div#search input.text {
+  width: 14.3em;
+  border: 1px solid black;
+}
+div#register_link {
+  line-height: 2em;
+}
+div.welcome {
+  float: left;
+  clear: left;
+}
+div.logout {
+  float: right;
+  clear: right;
+  margin-right: 1em;
+}
+div.logout button {
+  font-size: 8px;
+}
+
+/* -------------------- navigation menu -------------------- */
+div#navigation h2 {
+  display: none;
+}
+div#portal div#navigation ul {
+  padding: 0px;
+  margin: -1px;
+}
+div#portal div#navigation {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  margin-left: 2em;
+}
+div#portal div#navigation ul {
+  list-style: none;
+  padding: 0;
+}
+div#portal div#navigation li {
+  margin-right: 0.1em;
+}
+div#portal div#navigation ul li {
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline;
+}
+div#portal div#navigation a {
+  background-color: yellow;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.1em;
+  padding-bottom: 2px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-top: 1px solid black;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-bottom: 1px solid black;
+}
+div#portal div#navigation a.active {
+  color: black;
+  /* background: url(studentibicocca/stripes_orange.png); */
+  background-color: #ff9900;
+  border-bottom: 1px solid #ff9900;
+}
+div#portal div#navigation a:hover {
+  color: yellow;
+  text-decoration: none;
+  background: blue none;
+  border-bottom: 1px solid blue;
+}
+
+/* -------------------- section description box -------------------- */
+div#section_description {
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 2em;
+}
+
+
+/* -------------------- boards page -------------------- */
+div#portal div.primary {
+  overflow: auto;
+  float: left;
+  width: 60%;
+  margin-left: 1em;
+}
+div#portal div.secondary {
+  overflow: auto;
+  float: right;
+  width: 35%;
+  margin-right: 1em;
+}
+div.content_box {
+  background-color: white;
+  /* background-color: #e8f0ff; */
+  -moz-border-radius: 7px;
+  margin-bottom: 1em;
+  border: 1px solid black;
+  padding: 0.5em;
+}
+div.content_box div.section_header h3 {
+  margin-top: 0px;
+  margin-bottom: 1em;
+}
+
+/* -------------------- tabular list setup -------------------- */
+div#portal ul.forums {
+  overflow: auto;
+}
+div.section ul, ul.forums dd {
+  padding-left: 0px;
+  list-style: none;
+}
+ul.forums dt, ul.forums dd {
+  float: left;
+  height: 1.5em;
+  overflow: hidden;
+}
+ul.forums dt {
+  width: 75%;
+  margin-left: 0em;
+}
+ul.forums dd.lastpost_name {
+  width: 13%;
+  margin-left: 0.3em;
+}
+ul.forums dd.lastpost_date {
+  width: 9%;
+  margin-left: 0.3em;
+}
+
+/* -------------------- message boards -------------------- */
+ul.forums li {
+  clear: right;
+}
+ul.forums dd span.label {
+  display: none;
+}
+ul.forums ul.forums li {
+  clear: both;
+}
+ul.forums ul.forums>li {
+  padding-top: 1em;
+}
+div.content_box h3 {
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 18px;
+}
+div#boards div.icon {
+  width: 50px;
+  height: 50px;
+  display: block;
+  float: left;
+  clear: left;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+li.economia       div.icon { background: url(http://www.studentibicocca.it/portale/immagini/facolta/economia.png); }
+li.giurisprudenza div.icon { background: url(http://www.studentibicocca.it/portale/immagini/facolta/giurisprudenza.png); }
+li.medicina       div.icon { background: url(http://www.studentibicocca.it/portale/immagini/facolta/medicina.png); }
+li.psicologia     div.icon { background: url(http://www.studentibicocca.it/portale/immagini/facolta/psicologia.png); }
+li.formazione     div.icon { background: url(http://www.studentibicocca.it/portale/immagini/facolta/formazione.png); }
+li.mmffnn         div.icon { background: url(http://www.studentibicocca.it/portale/immagini/facolta/mmffnn.png); }
+li.statistica     div.icon { background: url(http://www.studentibicocca.it/portale/immagini/facolta/statistica.png); }
+li.sociologia     div.icon { background: url(http://www.studentibicocca.it/portale/immagini/facolta/sociologia.png); }
+
+ul.forums h4 {
+  float: left;
+  margin-top: 0px;
+  margin-bottom: 0.3em;
+  font-size: 13px;
+  clear: right;
+}
+ul.forums h4 a {
+  background-color: #ffff60;
+  width: 34em;
+  padding: 0.3em;
+  border: 1px solid orange;
+}
+ul.forums h4 a:hover {
+  border: 1px solid #000040;
+}
+ul.latest_topics {
+  margin-bottom: 1em;
+  float: left;
+  width: 35em;
+}
+ul.forums a {
+  display: block;
+}
+ul.forums a:hover {
+  background-color: blue;
+  color: white;
+  text-decoration: none;
+}
+
+div#main div#home_logo {
+  float: left;
+}
+div#main div#home_logo h1 {
+  font-size: 14px;
+  display: none;
+}
+div#main div#top_banner {
+  position: absolute;
+  left: 70px;
+  border: 1px solid black;
+  max-width: 440px;
+  overflow: hidden;
+  z-index: 5;
+  height: 64px;
+  background-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 11px;
+  -moz-border-radius: 7px;
+}
+
+/* -------------------- files section -------------------- */
+div#files span.category {
+  white-space: nowrap;
+  font-size: 80%;
+}
+
+
+
+/* -------------------- community page -------------------- */
+
+
+
+
+
+/* ======================================== */
+/* FORUM-SPECIFIC                           */
+/* ======================================== */
+div#forum div#title {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 8;
+  height: 64px;
+  width: 64px;
+  background-color: #ff9900;
+  background: url('images/logo_button.png');
+}
+
+div#forum div#header {
+  height: 70px;
+  position: relative;
+}
+
+div#forum div#navigation {
+  margin-top: 1em;
+  margin-bottom: 0;
+  clear: both;
+  overflow: auto;
+  margin-bottom: -1px;
+  position: relative;
+  height: 1.7em;
+}
+div#forum div#navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+div#forum h3 {
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 13px;
+  margin: 0;
+}
+div#forum div#content_box {
+  position: relative;
+}
+div#forum div#navigation ul li {
+  float: left;
+  margin-right: 3px;
+  background-color: yellow;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+}
+div#forum div#navigation ul li a {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: block;
+  float: left;
+  padding-bottom: 2px;
+  border-bottom: 1px solid black;
+}
+div#forum div#navigation ul li a:hover {
+  background-color: blue;
+  color: yellow;
+  text-decoration: none;
+}
+div#forum div#content_box { /* this is where the main content goes */
+  position: relative;
+  border: 1px solid black;
+  background-color: <%=t.altbg1%>;
+  padding-top: 0.6em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+div#forum_view {
+  position: relative;
+}
+
+div#forum div.breadcrumbs,
+div#forum div.breadcrumbs_bottom {
+  /* position: absolute; */
+  background-color: <%=t.altbg2%>;
+  border: 1px solid black;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  top: 0.4em;
+  -moz-border-radius: 5px;
+}
+div#forum div.breadcrumbs span.current_page {
+  font-weight: bold;
+}
+
+div#forum div#forum_list,
+div#forum div#topic_list {
+  background-color: white;
+  border: 1px solid black;
+  padding: 0.5em;
+  position: relative;
+  margin-top: 2em;
+  padding-top: 1.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  -moz-border-radius: 5px;
+}
+
+div#forum div div.description {
+  position: absolute;
+  background-color: #ffcc00;
+  border: 1px solid black;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0.5em;
+  top: -1em;
+  -moz-border-radius: 5px;
+}
+
+div#forum div#forum_list ul,
+div#forum div#topic_list ul {
+  list-style: none;
+  padding: 0px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+div#forum div#forum_list span.label,
+div#forum div#topic_list span.label {
+  display: none;
+}
+
+div#forum div#forum_list li,
+div#forum div#topic_list li {
+  overflow: hidden;
+  padding: 0.2em;
+  margin-bottom: -1px;
+  height: 2.8em;
+}
+div#forum div#topic_list dl {
+  position: relative;
+  padding: 0px;
+  /* padding-left: 40px; */ /* leave room for the icons */
+}
+
+div#forum div#forum_list dt,
+div#forum div#forum_list dd,
+div#forum div#topic_list dt,
+div#forum div#topic_list dd {
+  float: left;
+  margin: 0px;
+}
+/*
+div#forum div#forum_list li dd.moderators {
+  height: 2.8em;
+  overflow: auto;
+}
+*/
+div#forum div#topic_list dt.title {
+  /* position: relative; */ /* this has SCARY effects on IE6 */
+  overflow: hidden;
+}
+div#forum div#topic_list dt.title span.title {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+div#forum div#topic_list dt.title span.page_seq,
+div#forum div#topic_list dt.title span.pinned {
+  font-size: 9px;
+}
+
+/* ---------- forum list table ---------- */
+div#forum div#forum_list dt,
+div#forum div#forum_list dd {
+}
+div#forum dt.forum_name {
+  width: 46%;
+}
+div#forum dd.posts_count,
+div#forum dd.topics_count {
+  width: 8%;
+  text-align: center;
+  font-size: 11px;
+}
+div#forum dd.last_post {
+  width: 18%;
+  font-size: 11px;
+}
+div#forum dd.moderators {
+  width: 18%;
+  font-size: 11px;
+}
+
+/* ---------- topic list table ---------- */
+
+div#forum div#topic_list dt.title {
+  width: 50%;
+}
+div#forum div#topic_list dd.author {
+  width: 15%;
+  margin-left: 1%;
+  font-size: 11px;
+}
+div#forum div#topic_list dd.posts,
+div#forum div#topic_list dd.views {
+  width: 6%;
+  text-align: center;
+  font-size: 11px;
+}
+div#forum div#topic_list dd.lastpost {
+  width: 20%;
+  font-size: 11px;
+}
+
+/* ---------- forum list box coloring ---------- */
+div#forum div#forum_list li {
+  background-color: #ffff60;
+  border: 1px solid orange;
+}
+
+div#forum div#topic_list li {
+  background-color: #ffffc0;
+  border: 1px solid #e0d080;
+}
+
+div#forum div#topic_list li.labels,
+div#forum div#forum_list li.labels {
+  background-color: #ffcc00;
+  border-bottom: none;
+  padding-top: 0.4em;
+  height: 1.9em;
+  overflow: hidden;
+  font-size: 10px;
+  font-weight: bold;
+}
+div#forum div#topic_list li.labels {
+  border: 1px solid #e0d080;
+}
+div#forum div#forum_list li.labels {
+  border: 1px solid orange;
+}
+
+/* --------- reduce size for labels ----------- */
+div#forum div li.labels dt,
+div#forum div li.labels dd {
+  overflow: hidden;
+}
+div#forum div#forum_list li.labels dt.forum_name,
+div#forum div#forum_list li.labels dd.topics_count,
+div#forum div#forum_list li.labels dd.posts_count,
+div#forum div#forum_list li.labels dd.last_post,
+div#forum div#forum_list li.labels dd.moderators,
+div#forum div#topic_list li.labels dt.title,
+div#forum div#topic_list li.labels dd.author,
+div#forum div#topic_list li.labels dd.posts,
+div#forum div#topic_list li.labels dd.views,
+div#forum div#topic_list li.labels dd.lastpost {
+  font-size: 10px;
+}
+
+div#forum div#topic_list li.pinned {
+  background-color: #ffff80;
+}
+
+
+
+/* ======================================== */
+/* TOPIC-SPECIFIC                           */
+/* ======================================== */
+
+div#forum div#post_list div.hidden_line {
+  display: none;
+}
+div#forum div#post_list dl,
+div#forum div#post_list dt,
+div#forum div#post_list dd {
+  margin: 0px;
+  padding: 0px;
+}
+div#forum div#post_list ul {
+  list-style: none;
+  padding: 0px;
+}
+div#forum div#post_list div.post {
+  background-color: white;
+  border: 1px solid black;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  position: relative;
+  overflow: auto;
+  -moz-border-radius: 5px;
+}
+div#forum div#post_list div.post div.author {
+  float: left;
+  clear: left;
+  width: 130px;
+  border-right: 1px solid gray;
+  overflow: hidden;
+}
+div#forum div#post_list div.post div.message {
+  clear: right;
+  margin-left: 130px;
+  padding-left: 1em;
+  padding-bottom: 4em;
+  border-left: 1px solid gray;
+}
+div#forum div#post_list div.post img.avatar {
+  width: 120px;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+div#forum div#post_list div.post dt.username span.label,
+div#forum div#post_list div.post dd.status span.label {
+  display: none;
+}
+div#forum div#post_list div.post dt.username span.value {
+  font-weight: bold;
+}
+div#forum div#post_list div.post dd.status, 
+div#forum div#post_list div.post dd.post_count,
+div#forum div#post_list div.post dd.reg_date,
+div#forum div#post_list div.post dd.personal {
+  font-size: 11px;
+}
+
+div#forum div#post_list div.message dd.date {
+  border-bottom: 1px solid gray;
+  margin-left: -1em;
+  padding-left: 1em;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.5em;
+}
+div#forum div#post_list div.message dd.signature {
+  font-size: 12px;
+  color: gray;
+  font-style: italic;
+  margin-top: 2em;
+  margin-right: 2em;
+  -moz-border-radius: 3px;
+}
+div#forum div#post_list div.operations {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.5em;
+  padding: 0.4em;
+  background-color: #ffffc0;
+  border: 1px solid #e0d080;
+  -moz-border-radius: 5px;
+  font-size: 11px;
+}
+div#forum div#post_list div.operations a {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+div#forum div.message div {
+  max-width: 60em;
+}
+div#forum div.quote {
+  font-size: 90%;
+  background-color: #f0f0ff;
+  border: 1px solid #c0c0ff;
+  padding: 0.7em;
+  -moz-border-radius: 5px;
+}
+div#forum div.quote div.quote div.quote {
+  display: none;
+}
+
+/* NEW POST-SPECIFIC                        */
+/* ======================================== */
+
+div#new_post {
+  overflow: auto;
+}
+div#new_post div#preview,
+div#new_post div#message,
+div#new_post div#smiley_list {
+  background-color: white;
+  -moz-border-radius: 7px;
+  border: 1px solid black;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+div#new_post div h3 {
+  margin-bottom: 0.5em;
+}
+div#new_post div#post_preview {
+  height: 16em;
+  overflow: auto;
+}
+
+div#new_post div#message {
+  float: left;
+  width: 65%;
+}
+div#new_post div#message textarea {
+  width: 95%;
+  border: 1px solid #e0e0e0;
+  padding: 0.5em;
+}
+div#new_post div#smiley_list {
+  float: right;
+  width: 30%;
+}
+div#new_post div#smiley_list ul {
+  margin: 1em 0px 0px 0px;
+  padding: 0px;
+  list-style: none;
+}
+div#new_post div#smiley_list img {
+  max-height: 20px;
+  max-width: 4.5em;
+}
+div#new_post div#smiley_list ul li {
+  width: 5em;
+  height: 22px;
+  padding-top: 2px;
+  overflow: hidden;
+  text-align: center;
+  float: left;
+}
+
+/* NEW PM-SPECIFIC                          */
+/* ======================================== */
+
+div#new_pm {
+  overflow: auto;
+}
+div#new_pm div#headers,
+div#new_pm div#preview,
+div#new_pm div#message,
+div#new_pm div#smiley_list {
+  background-color: white;
+  -moz-border-radius: 7px;
+  border: 1px solid black;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+div#new_pm div#headers {
+  overflow: auto;
+}
+div#new_pm div#headers div.label {
+  float: left;
+  clear: left;
+  width: 5em;
+}
+div#new_pm div#headers div.field {
+  float: left;
+  clear: right;
+}
+div#new_pm div h3 {
+  margin-bottom: 0.5em;
+}
+div#new_pm div#pm_preview {
+  height: 16em;
+  overflow: auto;
+}
+
+div#new_pm div#message {
+  float: left;
+  width: 65%;
+}
+div#new_pm div#message textarea {
+  width: 95%;
+  border: 1px solid #e0e0e0;
+  padding: 0.5em;
+}
+div#new_pm div#smiley_list {
+  float: right;
+  width: 30%;
+}
+div#new_pm div#smiley_list ul {
+  margin: 1em 0px 0px 0px;
+  padding: 0px;
+  list-style: none;
+}
+div#new_pm div#smiley_list img {
+  max-height: 20px;
+  max-width: 4.5em;
+}
+div#new_pm div#smiley_list ul li {
+  width: 5em;
+  height: 22px;
+  padding-top: 2px;
+  overflow: hidden;
+  text-align: center;
+  float: left;
+}
+/* PM-SPECIFIC                              */
+/* ======================================== */
+
+div#forum div#pms div.controls {
+  text-align: right;
+  height: 1.8em;
+  clear: both;
+  margin-bottom: 0.3em;
+}
+div#forum div#pms div.controls a {
+  height: 1.8em;
+  line-height: 1.8em;
+  border: 1px solid black;
+  clear: both;
+  background-color: <%=t.altbg2%>;
+  -moz-border-radius: 3px;
+  padding: 0.05em 0.5em 0.1em 0.5em;
+}
+div#forum div#pms div.controls a:hover {
+  background-color: blue;
+  color: yellow;
+}
+div#forum div#pms div.hidden_line {
+}
+div#forum div#pms div.pm {
+}
+div#forum div#pms dl,
+div#forum div#pms dt,
+div#forum div#pms dd {
+  margin: 0px;
+  padding: 0px;
+}
+div#forum div#pms ul {
+  list-style: none;
+  padding: 0px;
+}
+div#forum div#pms div.pm {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid black;
+  padding: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  position: relative;
+  overflow: auto;
+  -moz-border-radius: 5px;
+}
+div#forum div#pms div.pm div.author {
+  float: left;
+  clear: left;
+  width: 130px;
+  border-right: 1px solid gray;
+  overflow: hidden;
+}
+div#forum div#pms div.pm div.message {
+  clear: right;
+  margin-left: 130px;
+  padding-left: 1em;
+  padding-bottom: 4em;
+  border-left: 1px solid gray;
+}
+div#forum div#pms div.pm img.avatar {
+  width: 120px;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+div#forum div#pms div.pm dt.username span.label,
+div#forum div#pms div.pm dd.status span.label {
+  display: none;
+}
+div#forum div#pms div.pm dt.username span.value {
+  font-weight: bold;
+}
+div#forum div#pms div.pm dd.status, 
+div#forum div#pms div.pm dd.post_count,
+div#forum div#pms div.pm dd.reg_date,
+div#forum div#pms div.pm dd.personal {
+  font-size: 11px;
+}
+
+div#forum div#pms div.message dd.date {
+  border-bottom: 1px solid gray;
+  margin-left: -1em;
+  padding-left: 1em;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.5em;
+}
+div#forum div#pms div.message dd.subject {
+  float: left;
+  font-weight: bold;
+  padding-right: 1em;
+}
+div#forum div#pms div.message dd.subject span.label {
+  display: none;
+}
+div#forum div#pms div.message dd.signature {
+  font-size: 12px;
+  color: <%=t.text%>;
+  font-style: italic;
+  margin-top: 2em;
+  margin-right: 2em;
+  -moz-border-radius: 3px;
+}
+div#forum div#pms div.operations {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.5em;
+  padding: 0.4em;
+  background-color: <%=t.altbg1%>;
+  border: 1px solid <%=t.bordercolor%>;
+  -moz-border-radius: 5px;
+  font-size: 11px;
+}
+div#forum div#pms div.operations a {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+div#forum div#pms div.hidden_line {
+  background-color: <%=t.altbg2%>;
+  overflow: hidden;
+  padding: 0.1em 0.2em 0.1em 0.2em;
+  border: 1px solid black;
+  margin-top: -1px;
+  height: 1.6em;
+  line-height: 1.6em;
+}
+div#forum div#pms div.hidden_line:hover {
+  background-color: <%=t.altbg1%>;
+}
+div#forum div#pms div.hidden_line dt {
+  float: left;
+  width: 130px;
+  padding-left: 0.5em;
+}
+div#forum div#pms div.hidden_line dd.subject {
+  float: left;
+}
+div#forum div#pms div.hidden_line dd.date {
+  float: right;
+  padding-right: 0.5em;
+}
+div#forum div#pms div.hidden_line span.label {
+  display: none;
+}
+div#forum div#pms div.msg_new div.hidden_line dd.subject {
+  font-weight: bold;
+}
+
+/* DRAFT-SPECIFIC                           */
+/* ======================================== */
+div#forum div#drafts ul {
+  list-style: none;
+  padding: 0px;
+}
+div#forum div#drafts li {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  margin-top: -1px;
+  position: relative;
+  overflow: auto;
+}
+div#forum div#drafts li dl {
+  position: relative;
+  height: 1.8em;
+  line-height: 1.8em;
+}
+div#forum div#drafts li dt.title {
+  position: absolute;
+  left: 0.5em;
+}
+div#forum div#drafts li dd.time {
+  position: absolute;
+  width: 10em;
+  right: 4em;
+}
+div#forum div#drafts li dd.delete {
+  position: absolute;
+  text-align: center;
+  width: 4em;
+  right: 0em;
+}
+div#forum div#drafts li dd.delete a {
+  display: block;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+div#forum div#drafts li dd.delete a:hover {
+  background-color: red;
+  color: white;
+}
+div#forum div#drafts li.empty_list {
+  text-align: center;
+  padding-top: 4em;
+  padding-bottom: 4em;
+}
+

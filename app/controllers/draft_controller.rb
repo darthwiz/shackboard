@@ -1,5 +1,6 @@
 class DraftController < ApplicationController
   before_filter :authenticate
+
   def list
     unless (@user.is_a? User) then
       redirect_to :controller => 'welcome', :action => 'index' and return
@@ -26,20 +27,17 @@ class DraftController < ApplicationController
       :extra_links => [ :first, :forward, :back, :last ]
     }
     @location = [ 'Draft', :list ]
+    render :layout => 'forum'
   end
+
   def delete
     if request.xml_http_request?
       @draft = Draft.find(params[:id])
       if @draft.user == @user
         @draft.destroy
       end
-    else
-      render :nothing => true and return
     end
+    render :nothing => true and return
   end
-  def css
-    headers["Content-Type"] = 'text/css; charset = utf-8'
-    @theme_name             = params[:id].sub(/\.css$/, "")
-    render :partial => 'css'
-  end
+
 end

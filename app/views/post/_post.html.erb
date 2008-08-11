@@ -1,33 +1,143 @@
-<% flip = 0 unless flip %>
-<li class="bg<%=flip%>" id="post_<%=post.id%>">
-  <div class="avatar"><%#{{{%>
-    <%=content_tag('a', nil, :name => domid(post))%>
-    <%=render :partial => '/user/icon', :locals => { :user => post.user } %>
-  </div><%#}}}%>
-  <div class="content"><%#{{{%>
-    <div class="info_line"><%#{{{%>
-      <div class="seq">
-	<%=link_to post.seq + 1, :start => post.seq + 1, 
-	  :anchor => domid(post)%>
-        <%=content_tag(:a, nil, :name => "seq_#{post.seq + 1}")%>
+<%
+  flip       = 0 unless flip
+  maxwidth   = 120
+  user       = message.user
+  sign       = ''
+  subject    = nil
+  msg_status = 'msg_read'
+  if message.is_a? Pm
+    subject    = message.subject
+    msg_status = 'msg_new' if message.status == 'new'
+  end
+  if user
+    username = cleanup(user.username)
+    msgnum   = user.postnum
+    msgdate  = Time.at(message.dateline.to_i).strftime("%d/%m/%Y, %H.%M")
+    rank     = user.rank
+    sign     = sanitize(user.sig.gsub("\n", "<br />\n"), :tags => %w(br))
+    avatar   = cleanup(user.avatar)
+    regdate  = Time.at(user.regdate).strftime("%d/%m/%Y")
+    status   = user.customstatus.empty? ? user.status : user.customstatus
+  else
+    rank       = Rank.new
+    rank.title = "utente sconosciuto"
+  end
+%>
+<li id="<%=domid(message)%>" class="<%=domid(user)%>">
+  <div class="alt_<%=flip%>">
+    <div class="<%=msg_status%>">
+      <div id="<%=domid(message)%>_hidden_line" class="hidden_line">
+        <dl>
+          <dt class="author">
+            <span class="label">Autore:</span>
+            <span class="value"><%=username%></span>
+          </dt>
+          <%if subject %>
+          <dd class="subject">
+            <span class="label">oggetto:</span>
+            <span class="value"><%=subject%></span>
+          </dd>
+          <%end%>
+          <dd class="date">
+            <span class="label">inviato il:</span>
+            <span class="value"><%=msgdate%></span>
+          </dd>
+        </dl>
       </div>
-      <div class="date">
-	inviato il <%=timestamp_to_date(post.dateline)%>
+      <div id="<%=domid(message)%>_<%=message.class.to_s.downcase%>" class="<%=message.class.to_s.downcase%>">
+        <div class="author">
+          <dl>
+            <dt class="username">
+              <span class="label">Autore:</span>
+              <span class="value">
+                <%if username.to_s.empty?%>
+                <em>utente sconosciuto</em>
+                <%else%>
+                <%=username%>
+                <%end%>
+              </span>
+            </dt>
+            <dd class="status">
+              <span class="label">Status:</span>
+              <span class="value"><%=status%></span>
+            </dd>
+            <dd class="avatar">
+              <%=image_tag(avatar, :alt => '', :class => 'avatar')%>
+            </dd>
+            <dd class="reg_date">
+              <span class="label">registrato il</span>
+              <span class="value"><%=regdate%></span>
+            </dd>
+            <dd class="message_count">
+              <span class="value"><%=msgnum%></span>
+              <span class="label">messaggi</span>
+            </dd>
+            <dd class="personal">
+              <%=link_to 'Profilo', {}, { :class => 'profile' }%>
+              <%=link_to 'e-mail',  {}, { :class => 'email' }%>
+            </dd>
+          </dl>
+        </div>
+        <div class="message">
+          <dl>
+            <%if subject %>
+            <dd class="subject">
+              <span class="label">oggetto:</span>
+              <span class="value"><%=subject%></span>
+            </dd>
+            <%end%>
+            <dd class="date">
+              <span class="label">inviato il</span>
+              <span class="value"><%=msgdate%></span>
+            </dd>
+            <dd class="message">
+              <div>
+                <%=text_to_html(message.message)%>
+              </div>
+            </dd>
+            <%unless sign.empty?%>
+            <dd class="signature">
+              <div><%=sign%></div>
+            </dd>
+            <%end%>
+          </dl>
+        </div>
+        <div class="operations">
+          <%if message.is_a? Post%>
+          <%=link_to 'Rispondi', { :controller => 'post',
+                                   :action     => 'new',
+                                   :reply      => message.id,
+                                   :class      => 'post',
+                                   :quote      => true },
+                                 { :class => 'reply' }%>
+          <%=link_to 'Rispondi in privato', { :controller => 'pm',
+                                              :action     => 'new',
+                                              :reply      => message.id,
+                                              :class      => 'post',
+                                              :quote      => 'true' },
+                                            { :class => 'reply_pm' }%>
+          <%=link_to 'Modifica', { :controller => 'post',
+                                   :action     => 'edit',
+                                   :id         => message.id },
+                                 { :class => 'edit' }%>
+          <%=link_to 'Segnala', {}, { :class => 'report' }%>
+          <%elsif message.is_a? Pm%>
+          <%if message.folder == 'trash'%>
+          <%=link_to 'Ripristina', '#', { :class => 'delete',
+                                          :id    => "pm_undelete_#{message.id}" }%>
+          <%else%>
+          <%=link_to 'Rispondi', { :controller => 'pm',
+                                   :action     => 'new',
+                                   :reply      => message.id,
+                                   :class      => 'pm',
+                                   :quote      => true },
+                                 { :class => 'reply' }%>
+          <%end%>
+          <%=link_to 'Elimina', '#', { :class => 'delete',
+                                       :id    => "pm_delete_#{message.id}" }%>
+          <%end%>
+        </div>
       </div>
-    </div><%#}}}%>
-    <div class="message"><%#{{{%>
-      <%=text_to_html(post.message, post.format.to_sym)%>
-    </div><%#}}}%>
-    <% unless post.user.sig.to_s.empty? %><%#{{{%>
-    <div class="signature">
-      ____________________<br/>
-      <%=h(strip_tags(post.user.sig)).gsub(/\n/, '<br/>')%>
     </div>
-    <% end %><%#}}}%>
-    <div class="commands"><%#{{{%>
-      <%=link_post_new(post, :quote => true)%>
-      <%=link_pm_new(post)%>
-    </div><%#}}}%>
-  </div><%#}}}%>
-  <div class="spacer"></div>
+  </div>
 </li>

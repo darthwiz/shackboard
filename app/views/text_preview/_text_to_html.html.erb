@@ -1,1 +1,5 @@
-<%=text_to_html(@text[:text], @text[:format])%>
+<div class="message">
+  <div>
+    <%=text_to_html(@text[:text], 'bb', @user)%>
+  </div>
+</div>

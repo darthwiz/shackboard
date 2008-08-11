@@ -1,0 +1,7 @@
+<%# vim: set nowrap: %>
+<%
+theme = @opts[:theme]
+url   = url_for :controller => 'css', :action => 'view', :id => 'studentibicocca'
+url   = url_for :controller => 'css', :action => 'view', :id => theme.name
+%>
+<link href="<%=url%>.css" media="screen" rel="stylesheet" title="<%=theme.name%>" type="text/css" />

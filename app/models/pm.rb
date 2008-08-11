@@ -1,9 +1,6 @@
 class Pm < ActiveRecord::Base
   require 'magic_fixes.rb'
-  require 'each_by.rb'
   include ActiveRecord::MagicFixes
-  include ActiveRecord::EachBy
-  extend  ActiveRecord::EachBy
   set_table_name table_name_prefix + "u2u"
   set_primary_key "u2uid"
 
@@ -11,40 +8,33 @@ class Pm < ActiveRecord::Base
   validates_presence_of :message
   validates_inclusion_of :folder, :in => ['inbox', 'outbox', 'trash']
   validates_each :msgfrom, :msgto do |record, attribute, value|
-    record.errors.add(attribute, "user not found") \
-      unless User.find_by_username(value)
-  end
-
-
-  def Pm.unread_for(user)
-    raise TypeError unless user.is_a? User
-    Pm.count(:conditions => ['msgto = ? AND status = ? AND folder = ?',
-      user.username, 'new', 'inbox'])
+    record.errors.add(attribute, "user not found") unless User.find_by_username(value)
   end
 
   def from
-    User.find_by_username(iso(self.msgfrom)) || User.new
+    User.find_by_username(self.msgfrom)
   end
 
   def to
-    User.find_by_username(iso(self.msgto)) || User.new
+    User.find_by_username(self.msgto)
   end
 
   def user
     self.from
   end
 
-  def acl
-    #acl = AclMapping.map(self)
-    #return acl if acl
-    acl = Acl.new
-    acl.can_read(['User', self.from.id])
-    acl.can_read(['User', self.to.id])
-    acl
-  end
-
   def read?
     self.status == 'read'
+  end
+
+  def can_read?(user)
+    self.to == user
+  end
+
+  def Pm.unread_for(user)
+    raise TypeError unless user.is_a? User
+    Pm.count(:conditions => ['msgto = ? AND status = ? AND folder = ?',
+      user.username, 'new', 'inbox'])
   end
 
   def Pm.count_from_to(from, to)

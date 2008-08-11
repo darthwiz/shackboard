@@ -1,5 +1,6 @@
 class PmController < ApplicationController
   before_filter :authenticate
+
   def list 
     ppp    = @opts[:ppp]
     start  = params[:start].to_i
@@ -20,24 +21,21 @@ class PmController < ApplicationController
                        :ipp         => ppp,
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location = [ 'Pm', folder ]
+    render :layout => 'forum'
   end 
-  def css 
-    headers["Content-Type"] = 'text/css; charset = utf-8'
-    @theme_name             = params[:id].sub(/\.css$/, "")
-    render :partial => 'css'
-  end 
+
   def show 
     if request.xml_http_request?
       @pm = Pm.find(params[:id])
-      render :nothing => true and return unless @pm.acl.can_read?(@user)
+      render :nothing => true and return unless @pm.can_read?(@user)
       if @pm.to == @user && !@pm.read?
         @pm.status = 'read'
         @pm.save
       end
-    else
-      render :nothing => true and return
     end
+    render :nothing => true and return
   end 
+
   def delete 
     if request.xml_http_request?
       @pm = Pm.find(params[:id])
@@ -49,22 +47,21 @@ class PmController < ApplicationController
           @pm.save
         end
       end
-    else
-      render :nothing => true and return
     end
+    render :nothing => true and return
   end 
+
   def undelete 
     if request.xml_http_request?
       @pm = Pm.find(params[:id])
       if (@pm.to == @user && @pm.folder == 'trash')
         @pm.folder = 'inbox'
-        if @pm.save
-          render :action => 'delete' and return
-        end
+        @pm.save
       end
     end
     render :nothing => true and return
   end 
+
   def new 
     reply_id = params[:reply].to_i
     draft_id = params[:draft].to_i
@@ -77,11 +74,9 @@ class PmController < ApplicationController
       reply_to = Pm.find(:first, :conditions => conds)
     when 'post'
       reply_to = Post.find(reply_id)
-    when 'topic'
-      reply_to = Topic.find(reply_id)
     end
     if repclass
-      reply_to    = Pm.new unless reply_to.acl.can_read?(@user)
+      reply_to    = Pm.new unless reply_to.can_read?(@user)
       @pm.msgto   = reply_to.user.username
       @pm.subject = reply_to.subject
       @pm.format  = reply_to.format
@@ -102,7 +97,9 @@ class PmController < ApplicationController
       @draft.save!
     end
     @location = [ 'Pm', :new ]
+    render :layout => 'forum'
   end 
+
   def save_draft 
     if request.xml_http_request?
       id    = params[:draft_id]
@@ -124,6 +121,7 @@ class PmController < ApplicationController
       render :nothing => true and return
     end
   end 
+
   def create 
     @pm = Pm.new(params[:pm])
     @pm.dateline = Time.now.to_i
@@ -144,6 +142,7 @@ class PmController < ApplicationController
       redirect_to :back
     end
   end 
+
   def search 
     if request.xml_http_request?
       ppp    = @opts[:ppp]
@@ -159,4 +158,5 @@ class PmController < ApplicationController
       render :partial => 'pm_list'
     end
   end 
+
 end
