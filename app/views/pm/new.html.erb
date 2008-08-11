@@ -2,14 +2,20 @@
   <%=form_tag({ :controller => 'pm', :action => 'create' },
     {:method => 'post', :id => 'new_pm_form'})%>
     <div id="headers">
-      <div class="label">Invia a:</div>
-      <div class="field">
-        <%=text_field 'pm', 'msgto'%>
-      </div>
-      <div class="label">Oggetto:</div>
-      <div class="field">
-        <%=text_field 'pm', 'subject'%>
-      </div>
+      <ul>
+        <li>
+          <div class="label">Invia a:</div>
+          <div class="field">
+            <%=text_field 'pm', 'msgto'%>
+          </div>
+        </li>
+        <li>
+          <div class="label">Oggetto:</div>
+          <div class="field">
+            <%=text_field 'pm', 'subject'%>
+          </div>
+        </li>
+      </ul>
     </div>
     <div id="preview">
       <div class="label">
@@ -23,26 +29,28 @@
         </div>
       </div>
     </div>
-    <div id="message">
-      <div class="label">
-        <h3>Messaggio</h3>
-      </div>
-      <div class="content">
-        <%=text_area 'pm', 'message'%>
-        <%=hidden_field_tag 'id', @pm.id%>
-        <%=hidden_field_tag 'draft_id', @draft.id if @draft%>
-        <div class="control">
-          <%=submit_tag 'Invia'%>
-          <span id="draft_saved" style="display: none;"></span>
+    <div class="input_area">
+      <div id="message">
+        <div class="label">
+          <h3>Messaggio</h3>
+        </div>
+        <div class="content">
+          <%=text_area 'pm', 'message'%>
+          <%=hidden_field_tag 'id', @pm.id%>
+          <%=hidden_field_tag 'draft_id', @draft.id if @draft%>
+          <div class="control">
+            <%=submit_tag 'Invia'%>
+            <span id="draft_saved" style="display: none;"></span>
+          </div>
         </div>
       </div>
-    </div>
-    <div id="smiley_list">
-      <div class="label">
-        <h3>Faccine</h3>
-      </div>
-      <div class="content">
-        <%=render :partial => '/smiley/list'%>
+      <div id="smiley_list">
+        <div class="label">
+          <h3>Faccine</h3>
+        </div>
+        <div class="content">
+          <%=render :partial => '/smiley/list'%>
+        </div>
       </div>
     </div>
   </form>

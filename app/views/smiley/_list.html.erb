@@ -1,9 +1,8 @@
 <% smileys = Smiley.all(@user) %>
-<ul id="smiley_list">
+<ul>
 <% smileys.each do |sm| %>
   <li>
-    <div class="image"><%=image_tag sm.url%></div>
-    <div class="caption"><%=sm.code%></div>
+    <%=image_tag sm.url, :title => sm.code%>
   </li>
 <% end %>
 </ul>

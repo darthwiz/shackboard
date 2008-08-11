@@ -1,4 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%
+lfu = @legacy_forum_uri
+%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -129,12 +131,12 @@
                           <tr>
                             <td class="navtd">
                               &nbsp;
-                              <a href="usercp.php"><span class="navtd">Profilo</span></a> |
-                              <a href="misc.php?action=search"><span class="navtd">Cerca</span></a> |
-                              <a href= "usercp.php?action=u2u"><span class="navtd">Messaggi privati</span></a> 
+                              <a href="<%=lfu%>/usercp.php"><span class="navtd">Profilo</span></a> |
+                              <a href="<%=lfu%>/misc.php?action=search"><span class="navtd">Cerca</span></a> |
+                              <a href="<%=lfu%>/usercp.php?action=u2u"><span class="navtd">Messaggi privati</span></a> 
                             </td>
                             <td align="right">
-                              <a href="http://www.studentibicocca.it"><span class="navtd">Torna a STUDENTIBICOCCA.it</span></a>
+                              <a href="<%=lfu%>/"><span class="navtd">Torna a STUDENTIBICOCCA.it</span></a>
                             </td>
                             <td>
                               &nbsp;
@@ -235,6 +237,6 @@
       urchinTracker();
     </script>
     %>
-    <!--<script type="text/javascript" src="http://www.savethedevelopers.org/js/lang/it/say.no.to.ie.6.js"></script>-->
+    <script type="text/javascript" src="http://www.savethedevelopers.org/js/lang/it/say.no.to.ie.6.js"></script>
   </body>
 </html>
