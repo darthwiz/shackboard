@@ -7,6 +7,7 @@
   msg_status = 'msg_read'
   if message.is_a? Pm
     subject    = message.subject
+    subject    = content_tag('em', '(nessun oggetto)') if subject.to_s.strip.empty?
     msg_status = 'msg_new' if message.status == 'new'
   end
   if user
@@ -42,6 +43,14 @@
             <span class="label">inviato il:</span>
             <span class="value"><%=msgdate%></span>
           </dd>
+          <%if message.is_a? Pm-%>
+          <dd class="delete">
+            <%=link_to_function "elimina", nil do |page|
+              page.hide domid(message)
+              page.call 'pm_delete', message.id
+            end%>
+          </dd>
+          <%end%>
         </dl>
       </div>
       <div id="<%=domid(message)%>_<%=message.class.to_s.downcase%>" class="<%=message.class.to_s.downcase%>">

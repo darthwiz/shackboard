@@ -294,6 +294,7 @@ div#forum div#pms div.hidden_line {
   margin-top: -1px;
   height: 1.6em;
   line-height: 1.6em;
+  position: relative;
 }
 div#forum div#pms div.hidden_line:hover {
   background-color: <%=t.altbg1%>;
@@ -307,8 +308,17 @@ div#forum div#pms div.hidden_line dd.subject {
   float: left;
 }
 div#forum div#pms div.hidden_line dd.date {
-  float: right;
-  padding-right: 0.5em;
+  position: absolute;
+  right: 4.5em;
+  text-align: right;
+}
+div#forum div#pms div.hidden_line dd.delete {
+  position: absolute;
+  right: 0.5em;
+}
+div#forum div#pms div.hidden_line dd.delete a:hover {
+  color: white;
+  background-color: red;
 }
 div#forum div#pms div.hidden_line span.label {
   display: none;
