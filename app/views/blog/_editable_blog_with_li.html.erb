@@ -1,0 +1,5 @@
+<%# vim: set ft=eruby nowrap: -%>
+<li id="<%=domid(blog)%>" class="blog">
+  <%=render :partial => '/blog/editable_blog',
+            :locals  => { :blog => blog }%>
+</li>

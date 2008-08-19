@@ -28,7 +28,7 @@ module ApplicationHelper
   def domid(obj)
     begin
       obj = obj.actual if obj.respond_to?(:actual)
-      obj.class.to_s.downcase + "_" + obj.id.to_s
+      obj.class.to_s.underscore + "_" + obj.id.to_s
     rescue
       # do nothing XXX ugly hack to prevent errors in case of a dangling link
     end
@@ -85,27 +85,38 @@ module ApplicationHelper
       {:class => 'draft_list'}
   end
 
+  def link_post_edit(post, user)
+    caption = 'modifica'
+    only    = 'only_mod'
+    only   += " only_user_#{post.user.id}" if user.is_a? User
+    l = link_to caption,
+      { :controller => 'post', :action => 'edit', :id => post }
+    content_tag('span', l, :class => "button post_edit #{only}",
+      :style => 'display: none;')
+  end
+
   def link_post_new(ctx=@topic, params={})
-    quote = params[:quote] ? true : false
-    ctx   = ctx.actual if ctx.respond_to?(:actual)
+    quote   = params[:quote] ? true : false
+    ctx     = ctx.actual if ctx.respond_to?(:actual)
+    caption = 'nuova&nbsp;risposta'
     case ctx.class.to_s
     when 'Topic'
-      l = link_to 'nuova risposta',
+      l = link_to caption,
         { :controller => 'post', :action => 'new', :class => 'topic',
           :reply => ctx.id, :quote => quote }
     when 'Post'
-      l = link_to 'nuova risposta',
+      l = link_to caption,
         { :controller => 'post', :action => 'new', :class => 'post',
           :reply => ctx.id, :quote => true }
     end
-    content_tag('span', l, :class => 'post_new')
+    content_tag('span', l, :class => 'button post_new')
   end
 
   def link_topic_new(ctx=@forum)
     raise TypeError unless ctx.is_a? Forum
     l = link_to 'nuova discussione',
       { :controller => 'topic', :action => 'new', :id => ctx }
-    content_tag('span', l, :class => 'topic_new')
+    content_tag('span', l, :class => 'button topic_new')
   end
 
   def link_pm_new(ctx=nil)
@@ -127,7 +138,7 @@ module ApplicationHelper
       l = link_to 'nuovo messaggio privato',
         {:controller => 'pm', :action => 'new'}
     end
-    content_tag('span', l, :class => 'pm_new')
+    content_tag('span', l, :class => 'button pm_new')
   end
 
   def link_pm_list
@@ -185,31 +196,9 @@ module ApplicationHelper
       unless @location == [ 'File', :upload ]
   end
 
-  def form_login
-    s = form_tag({ :controller => 'login', :action => 'login' },
-      { :method => 'post' })
-    usn  = content_tag('div', "Username", :class => 'label')
-    usn += text_field 'user', 'username', :size => 16
-    pwd  = content_tag('div', "Password", :class => 'label')
-    pwd += password_field_tag 'user[password]', nil, :size => 16,
-      :id => 'user_password'
-    btn  = submit_tag 'login'
-    s   += content_tag('div', usn, :class => 'username')
-    s   += content_tag('div', pwd, :class => 'password')
-    s   += link_user_register
-    s   += btn
-    s   += '</form>' # XXX
-    content_tag('div', s, :class => 'login')
-  end
-
   def page_trail(loc=@location, opts={})
     return unless (loc.is_a?(Array) && loc.length >= 2)
-    if @host_forum
-      trail = [ ['Portale', { :controller => '/', :host => @host_forum,
-        :only_path => false } ] ]
-    else
-      trail = [ ['Portale', '/' ] ]
-    end
+    trail = [ ['Portale', { :controller => 'welcome', :action => 'index' } ] ]
     s = ""
     case loc[0]
     when 'Pm'    then trail += page_trail_Pm(loc)
@@ -217,6 +206,7 @@ module ApplicationHelper
     when 'Forum' then trail += page_trail_Forum(loc)
     when 'Topic' then trail += page_trail_Topic(loc)
     when 'File'  then trail += page_trail_File(loc)
+    when 'Blog'  then trail += page_trail_Blog(loc)
     else return
     end
     (0...trail.length).each do |i|
@@ -413,6 +403,14 @@ module ApplicationHelper
     return s
   end
 
+  def post_time(time)
+    now = Time.now
+    if    time < now - 1.year then return time.strftime('%d/%m/%y')
+    elsif time < now - 1.day  then return time.strftime('%d/%m')
+    else                           return time.strftime('%H.%M')
+    end
+  end
+
   def timestamp_to_date(ts)
     date = Time.at(ts).strftime("%d/%m/%Y")
     time = Time.at(ts).strftime("%H.%M")
@@ -461,7 +459,9 @@ module ApplicationHelper
     end
     content_tag('span', s, :class => html_class)
   end
+
 end
+
 
 class String
   def scan_words

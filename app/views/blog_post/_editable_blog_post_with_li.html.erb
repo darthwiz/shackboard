@@ -1,0 +1,5 @@
+<%# vim: set ft=eruby nowrap: -%>
+<li id="<%=domid(p)%>" class="<%=p.class.to_s.underscore%>"
+  <%=render :partial => '/blog_post/editable_blog_post',
+            :locals  => { :p => p }%>
+</li>

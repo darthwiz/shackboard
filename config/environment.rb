@@ -80,4 +80,5 @@ FILEDB_ICONS     = [
 ]
 ANNOUNCEDB_PREFIX = 'TW_'
 COOKIE_DOMAIN     = '.studentibicocca.it'
-
+POST_BLOCK_SIZE   = 25
+TOPIC_BLOCK_SIZE  = 25

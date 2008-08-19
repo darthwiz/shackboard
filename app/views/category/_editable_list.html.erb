@@ -1,0 +1,8 @@
+<%# vim: set ft=eruby nowrap: -%>
+<ul id="category_list">
+  <%@categories.each do |cat|-%>
+  <%=render :partial => '/category/editable_category',
+            :locals  => { :cat => cat }%>
+  <%end%>
+</ul>
+<%=render :partial => '/category/new'%>

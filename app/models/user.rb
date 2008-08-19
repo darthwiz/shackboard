@@ -6,21 +6,42 @@ class User < ActiveRecord::Base
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
   has_many :smileys
+  has_many :categories
   validates_uniqueness_of :username
   @@supermods = nil
   @@admins    = nil
+
   def rank 
     Rank.evaluate(self.postnum)
-  end 
+  end
+ 
   def auth(password) 
     password == self.password
-  end 
+  end
+ 
   def fix_counters 
     posts  = Post.count(:conditions => ['author = ?', self.username])
     topics = Topic.count(:conditions => ['author = ?', self.username])
     self.postnum = posts + topics
     self.save
-  end 
+  end
+ 
+  def ppp
+    nearest_multiple(self[:ppp], POST_BLOCK_SIZE)
+  end
+
+  def tpp
+    nearest_multiple(self[:tpp], TOPIC_BLOCK_SIZE)
+  end
+
+  def in_group?(group)
+    begin
+      group.include?(self)
+    rescue
+      return false
+    end
+  end
+ 
   def rename!(new_username) 
     if User.find_by_username(new_username)
       raise DuplicateUserError, "user #{new_username.inspect} already exists"
@@ -46,7 +67,8 @@ class User < ActiveRecord::Base
       t.save_with_validation(false)
     end
     true
-  end 
+  end
+ 
   def User.authenticate(username, password) 
     u = User.find_by_username(username)
     if (u) then
@@ -55,19 +77,22 @@ class User < ActiveRecord::Base
       end
     end
     return nil
-  end 
+  end
+ 
   def User.supermods 
     return @@supermods if @@supermods
     mods  = []
     conds = "status = 'Super Moderator' OR status = 'Administrator'"
     User.find(:all, :conditions => conds).each { |u| mods << u }
     @@supermods = mods
-  end 
+  end
+ 
   def User.supermod_ids 
     ids = []
     User.supermods.each { |u| ids << u.id }
     ids
-  end 
+  end
+ 
   def User.admins 
     return @@admins if @@admins
     adms = []
@@ -75,12 +100,14 @@ class User < ActiveRecord::Base
       adms << u
     end
     @@admins = adms
-  end 
+  end
+ 
   def User.admin_ids 
     ids = []
     User.admins.each { |u| ids << u.id }
     ids
-  end 
+  end
+ 
   def User.find_by_username(s) 
     # XXX a method of untold laziness
     begin
@@ -88,7 +115,13 @@ class User < ActiveRecord::Base
     rescue
     end
     super(s)
-  end 
+  end
+
+  private
+  def nearest_multiple(i, j)
+    (i.to_f / j).round * j
+  end
+ 
 end
 
 class UserError < StandardError; end

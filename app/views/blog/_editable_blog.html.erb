@@ -1,0 +1,20 @@
+<%# vim: set ft=eruby nowrap: -%>
+  <h4>
+    <%=link_to cleanup(blog.name),
+      :action => :view, :username => @blog_user.username, :blog_label => blog.label%>
+  </h4>
+  <div class="description">
+    <%=text_to_html(blog.description)%>
+  </div>
+  <%if @user == @blog_user%>
+  <div class="operations">
+  <%=link_to_remote 'mod',
+    :update => domid(blog),
+    :url    => { :controller => :blog, :action => :edit, :id => blog },
+    :html   => { :class => 'edit' }%>
+  <%=link_to_remote 'del',
+    :update => domid(blog),
+    :url    => { :controller => :blog, :action => :destroy, :id => blog },
+    :html   => { :class => 'delete' }%>
+  </div>
+  <%end%>

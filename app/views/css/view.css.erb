@@ -80,6 +80,14 @@ div#forum div.breadcrumbs_bottom span.current_page {
   font-weight: bold;
 }
 
+div.content_box {
+  background-color: <%=t.altbg2%>;
+  /* background-color: #e8f0ff; */
+  -moz-border-radius: 7px;
+  margin-bottom: 1em;
+  border: 1px solid black;
+  padding: 0.5em;
+}
 
 /* NEW PM-SPECIFIC                          */
 /* ======================================== */
@@ -374,6 +382,139 @@ div#forum div#drafts li.empty_list {
   text-align: center;
   padding-top: 4em;
   padding-bottom: 4em;
+}
+
+
+/* BLOG-SPECIFIC                            */
+/* ======================================== */
+div#blogs div#title {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 8;
+  height: 64px;
+  width: 64px;
+  background-color: #ff9900;
+  background: url('images/logo_button.png');
+}
+
+div#blogs div#header {
+  height: 70px;
+  position: relative;
+}
+
+div#blogs div#navigation {
+  margin-top: 1em;
+  margin-bottom: 0;
+  clear: both;
+  overflow: auto;
+  margin-bottom: -1px;
+  position: relative;
+  height: 1.7em;
+}
+div#blogs div#navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+div#blogs h3 {
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 13px;
+  margin: 0;
+}
+div#blogs div#navigation ul li {
+  float: left;
+  margin-right: 3px;
+  background-color: <%=t.altbg2%>;
+  border-top: 1px solid <%=t.bordercolor%>;
+  border-left: 1px solid <%=t.bordercolor%>;
+  border-right: 1px solid <%=t.bordercolor%>;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+}
+div#blogs div#navigation ul li a {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: block;
+  float: left;
+  padding-bottom: 2px;
+  border-bottom: 1px solid <%=t.bordercolor%>;
+}
+div#blogs div#navigation ul li a:hover {
+  background-color: blue;
+  color: yellow;
+  text-decoration: none;
+}
+div#blogs div#content_box { /* this is where the main content goes */
+  position: relative;
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding-top: 0.6em;
+  padding-left: 1em;
+  padding-right: 1em;
+  overflow: auto;
+}
+div#blogs div.breadcrumbs,
+div#blogs div.breadcrumbs_bottom {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  top: 0.4em;
+  -moz-border-radius: 5px;
+  clear: both;
+}
+div#blogs div.breadcrumbs span.current_page,
+div#blogs div.breadcrumbs_bottom span.current_page {
+  font-weight: bold;
+}
+div#blogs div.primary {
+  overflow: auto;
+  float: left;
+  width: 63%;
+}
+div#blogs div.secondary {
+  overflow: auto;
+  float: right;
+  width: 35%;
+}
+div#blogs ul#category_list {
+  margin: 0 0 0 1.5em;
+  padding: 0;
+}
+div#blogs div#blog h3 {
+  font-size: 18px;
+}
+div#blogs div#blog ul#blog_post_list {
+  list-style: none;
+  margin: 2em 0 2em 0;
+  padding: 0;
+}
+div#blogs div#blog li.blog_post {
+  margin-bottom: 1em;
+  padding: 0.5em 0.5em 1.5em 0.5em;
+  border: 1px solid gray;
+  -moz-border-radius: 3px;
+}
+div#blogs div#blog li.blog_post h4 {
+  display: inline;
+}
+div#blogs div#blog li.blog_post span.categories {
+  font-size: 10px;
+}
+div#blogs div#blog li.blog_post div.text {
+  margin: 0.5em 0 0.5em 0;
+}
+div#blogs ul#blog_list {
+  margin: 1em 0 2em 0;
+  padding: 0;
+  list-style: none;
+}
+div#blogs ul#blog_list li.blog h4 {
+  margin: 0.5em 0 0.5em 0;
+  padding: 0;
 }
 
 

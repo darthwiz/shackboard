@@ -1,0 +1,15 @@
+<%# vim: set ft=eruby nowrap: -%>
+<div class="primary">
+  <div id="blog" class="content_box">
+    <h3><%=cleanup(@blog.name)%></h3>
+    <%=render :partial => '/blog_post/editable_list',
+      :locals => { :posts => @posts }%>
+  </div>
+</div>
+<div class="secondary">
+  <div id="categories" class="content_box">
+    <h3>Categorie</h3>
+    <%=render :partial => '/category/editable_list',
+      :locals => { :cats => @categories }%>
+  </div>
+</div>

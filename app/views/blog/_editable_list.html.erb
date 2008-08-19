@@ -1,0 +1,8 @@
+<%# vim: set ft=eruby nowrap: -%>
+<ul id="blog_list">
+  <%blogs.each do |blog|%>
+  <%=render :partial => 'editable_blog_with_li',
+            :locals  => { :blog => blog }%>
+  <%end%>
+</ul>
+<%=render :partial => 'new' if @user == @blog_user%>

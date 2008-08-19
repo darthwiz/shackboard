@@ -1,0 +1,26 @@
+<%# vim: set ft=eruby nowrap: -%>
+<div id="new_blog_post_form" style="display: none;">
+  <%userid = @user ? @user.id : nil
+    remote_form_for BlogPost.new,
+    :url => { :controller   => :blog_post,
+              :action       => :create } do |f|%>
+    <fieldset>
+      <div>
+        Titolo: <%=f.text_field :title%>
+      </div>
+      <div>
+        <%=f.select :category_ids, @blog.categories.collect { |c| [ c.name, c.id ] }%>
+      </div>
+      <div>
+        <%=f.text_area :text%>
+      </div>
+      <%=f.hidden_field :blog_post_id, :value => 0%>
+      <%=f.hidden_field :blog_id, :value => @blog.id%>
+      <%=f.submit 'Crea'%>
+    </fieldset>
+  <%end%>
+</div>
+<%=link_to_function 'nuovo post', :id => 'new_blog_post_link' do |page|
+  page[:new_blog_post_link].hide
+  page[:new_blog_post_form].show
+end%>

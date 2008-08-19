@@ -1,0 +1,20 @@
+<%# vim: set ft=eruby nowrap: -%>
+<%unless p.title.to_s.empty?%><h4><%=cleanup(p.title)%></h4><%end%>
+<%unless p.categories.empty?%>
+<span class="categories">(<%=p.categories.collect { |c| c.name }.join ', '%>)</span>
+<%end%>
+<div class="text">
+  <%=text_to_html(p.text)%>
+</div>
+<%if p.user == @user%>
+<div class="operations">
+  <%=link_to_remote 'mod',
+    :update => domid(p),
+    :url    => { :controller => :blog_post, :action => :edit, :id => p },
+    :html   => { :class => 'edit' }%>
+  <%=link_to_remote 'del',
+    :update => domid(p),
+    :url    => { :controller => :blog_post, :action => :destroy, :id => p },
+    :html   => { :class => 'delete' }%>
+</div>
+<%end%>
