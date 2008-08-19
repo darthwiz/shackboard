@@ -23,7 +23,8 @@ ANNOUNCEDB_CONN_PARAMS = {
   :host     => 'dbase',
   :username => 'ciao',
   :password => 'ciao123',
-  :database => 'news'
+  :database => 'news',
+  :encoding => 'utf8'
 }
 LEGACY_MODE      = :old
 LEGACY_FORUM_URI = 'http://www.studentibicocca.it/portale/forum'

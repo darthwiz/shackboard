@@ -11,6 +11,87 @@
 
 ActiveRecord::Schema.define(:version => 2) do
 
+  create_table "c_reg_users", :id => false, :force => true do |t|
+    t.string  "username",  :limit => 30,  :default => "",    :null => false
+    t.boolean "latin1",                   :default => false, :null => false
+    t.string  "password",  :limit => 32,  :default => "",    :null => false
+    t.string  "firstname", :limit => 64,  :default => "",    :null => false
+    t.string  "lastname",  :limit => 64,  :default => "",    :null => false
+    t.string  "country",   :limit => 64,  :default => "",    :null => false
+    t.string  "website",   :limit => 64,  :default => "",    :null => false
+    t.string  "email",     :limit => 64,  :default => "",    :null => false
+    t.boolean "showemail",                :default => false, :null => false
+    t.string  "perms",     :limit => 9,   :default => "",    :null => false
+    t.string  "rooms",     :limit => 128, :default => "",    :null => false
+    t.integer "reg_time",  :limit => 11,  :default => 0,     :null => false
+    t.string  "ip",        :limit => 16,  :default => "",    :null => false
+    t.boolean "gender",                   :default => false, :null => false
+  end
+
+  create_table "forum_ranks", :force => true do |t|
+    t.string  "title",        :limit => 40, :default => "", :null => false
+    t.integer "posts",        :limit => 6,  :default => 0,  :null => false
+    t.integer "stars",        :limit => 6,  :default => 0,  :null => false
+    t.string  "allowavatars", :limit => 3,  :default => "", :null => false
+    t.string  "avatarrank",   :limit => 90
+  end
+
+  create_table "forum_themes", :id => false, :force => true do |t|
+    t.string "name",        :limit => 30, :default => "", :null => false
+    t.string "bgcolor",     :limit => 15, :default => "", :null => false
+    t.string "altbg1",      :limit => 15, :default => "", :null => false
+    t.string "altbg2",      :limit => 15, :default => "", :null => false
+    t.string "link",        :limit => 15, :default => "", :null => false
+    t.string "bordercolor", :limit => 15, :default => "", :null => false
+    t.string "header",      :limit => 15, :default => "", :null => false
+    t.string "headertext",  :limit => 15, :default => "", :null => false
+    t.string "top",         :limit => 15, :default => "", :null => false
+    t.string "catcolor",    :limit => 15, :default => "", :null => false
+    t.string "tabletext",   :limit => 15, :default => "", :null => false
+    t.string "text",        :limit => 15, :default => "", :null => false
+    t.string "borderwidth", :limit => 15, :default => "", :null => false
+    t.string "tablewidth",  :limit => 15, :default => "", :null => false
+    t.string "tablespace",  :limit => 15, :default => "", :null => false
+    t.string "font",        :limit => 40, :default => "", :null => false
+    t.string "fontsize",    :limit => 40, :default => "", :null => false
+    t.string "altfont",     :limit => 40, :default => "", :null => false
+    t.string "altfontsize", :limit => 40, :default => "", :null => false
+    t.string "replyimg",    :limit => 50
+    t.string "newtopicimg", :limit => 50
+    t.string "boardimg",    :limit => 50
+    t.string "postscol",    :limit => 5,  :default => "", :null => false
+  end
+
+  create_table "indice", :force => true do |t|
+    t.string "codice"
+    t.string "cod_vecchio"
+    t.string "visibile",           :limit => 50
+    t.string "titolo"
+    t.string "fonte"
+    t.string "annoab"
+    t.string "anno"
+    t.string "disponibilita",      :limit => 50
+    t.string "questionario"
+    t.string "campodataloc"
+    t.string "parolachiave",                     :default => "", :null => false
+    t.string "keywords"
+    t.string "noteab"
+    t.string "noteint"
+    t.string "cod_icpsr"
+    t.string "camposociodata"
+    t.string "campione"
+    t.string "ambitoterritoriale"
+    t.string "livaggregazione",    :limit => 50
+    t.string "argomento"
+    t.string "supinformatico"
+    t.string "supcartaceo"
+    t.string "acquisizione",       :limit => 50
+    t.string "tipo",               :limit => 50
+  end
+
+  add_index "indice", ["parolachiave"], :name => "chiave"
+  add_index "indice", ["id"], :name => "id"
+
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
     t.text    "admin_password"
@@ -78,6 +159,7 @@ ActiveRecord::Schema.define(:version => 2) do
   add_index "materiali_files", ["user_id"], :name => "user_id"
   add_index "materiali_files", ["approved_by"], :name => "approved_by"
   add_index "materiali_files", ["file_catid"], :name => "file_catid"
+  add_index "materiali_files", ["file_time", "approved_by"], :name => "file_time"
 
   create_table "materiali_license", :primary_key => "license_id", :force => true do |t|
     t.text "license_name"
@@ -148,14 +230,6 @@ ActiveRecord::Schema.define(:version => 2) do
     t.integer "ip3",      :limit => 3,  :default => 0,  :null => false
     t.integer "ip4",      :limit => 3,  :default => 0,  :null => false
     t.string  "dateline", :limit => 30, :default => "", :null => false
-  end
-
-  create_table "xmb_banners", :force => true do |t|
-    t.string  "image_url", :limit => 100
-    t.string  "url",       :limit => 100
-    t.text    "text",      :limit => 16777215
-    t.integer "uid",       :limit => 11,                          :null => false
-    t.boolean "active",                        :default => false, :null => false
   end
 
   create_table "xmb_blog_posts", :force => true do |t|
@@ -296,17 +370,6 @@ ActiveRecord::Schema.define(:version => 2) do
   add_index "xmb_members", ["username"], :name => "username", :unique => true
   add_index "xmb_members", ["postnum"], :name => "postnum"
 
-  create_table "xmb_musicdb_albums", :force => true do |t|
-    t.string  "title",     :limit => 100
-    t.string  "author",    :limit => 100
-    t.string  "publisher", :limit => 40
-    t.integer "timestamp", :limit => 11
-    t.integer "user_id",   :limit => 11
-  end
-
-  add_index "xmb_musicdb_albums", ["title", "author", "publisher", "user_id"], :name => "title"
-  add_index "xmb_musicdb_albums", ["timestamp"], :name => "timestamp"
-
   create_table "xmb_posts", :primary_key => "pid", :force => true do |t|
     t.integer "uid",            :limit => 8
     t.integer "fid",            :limit => 6,  :default => 0,    :null => false
@@ -335,6 +398,7 @@ ActiveRecord::Schema.define(:version => 2) do
   add_index "xmb_posts", ["fid", "tid"], :name => "fid"
   add_index "xmb_posts", ["tid", "fid"], :name => "tid"
   add_index "xmb_posts", ["deleted_by"], :name => "deleted_by"
+  add_index "xmb_posts", ["useip"], :name => "useip"
   add_index "xmb_posts", ["reply_to_uid"], :name => "reply_to_uid"
 
   create_table "xmb_ranks", :force => true do |t|
@@ -407,11 +471,11 @@ ActiveRecord::Schema.define(:version => 2) do
   create_table "xmb_smilies", :force => true do |t|
     t.string  "type",    :limit => 15,  :default => "", :null => false
     t.string  "code",    :limit => 40,  :default => "", :null => false
-    t.string  "url",     :limit => 120, :default => "", :null => false
+    t.string  "url",     :limit => 128, :default => "", :null => false
     t.integer "user_id", :limit => 10,  :default => 0,  :null => false
   end
 
-  add_index "xmb_smilies", ["user_id", "code"], :name => "user_id"
+  add_index "xmb_smilies", ["type", "user_id"], :name => "type"
 
   create_table "xmb_static_contents", :force => true do |t|
     t.string  "label",      :limit => 20,       :default => "", :null => false
@@ -423,32 +487,31 @@ ActiveRecord::Schema.define(:version => 2) do
 
   add_index "xmb_static_contents", ["label"], :name => "label", :unique => true
 
-  create_table "xmb_themes", :force => true do |t|
-    t.string "name",        :limit => 30,       :default => "", :null => false
-    t.string "bgcolor",     :limit => 15,       :default => "", :null => false
-    t.string "altbg1",      :limit => 15,       :default => "", :null => false
-    t.string "altbg2",      :limit => 15,       :default => "", :null => false
-    t.string "link",        :limit => 15,       :default => "", :null => false
-    t.string "bordercolor", :limit => 15,       :default => "", :null => false
-    t.string "header",      :limit => 15,       :default => "", :null => false
-    t.string "headertext",  :limit => 15,       :default => "", :null => false
-    t.string "top",         :limit => 15,       :default => "", :null => false
-    t.string "catcolor",    :limit => 15,       :default => "", :null => false
-    t.string "tabletext",   :limit => 15,       :default => "", :null => false
-    t.string "text",        :limit => 15,       :default => "", :null => false
-    t.string "borderwidth", :limit => 15,       :default => "", :null => false
-    t.string "tablewidth",  :limit => 15,       :default => "", :null => false
-    t.string "tablespace",  :limit => 15,       :default => "", :null => false
-    t.string "font",        :limit => 40,       :default => "", :null => false
-    t.string "fontsize",    :limit => 40,       :default => "", :null => false
-    t.string "altfont",     :limit => 40,       :default => "", :null => false
-    t.string "altfontsize", :limit => 40,       :default => "", :null => false
+  create_table "xmb_themes", :id => false, :force => true do |t|
+    t.string "name",        :limit => 30, :default => "", :null => false
+    t.string "bgcolor",     :limit => 15, :default => "", :null => false
+    t.string "altbg1",      :limit => 15, :default => "", :null => false
+    t.string "altbg2",      :limit => 15, :default => "", :null => false
+    t.string "link",        :limit => 15, :default => "", :null => false
+    t.string "bordercolor", :limit => 15, :default => "", :null => false
+    t.string "header",      :limit => 15, :default => "", :null => false
+    t.string "headertext",  :limit => 15, :default => "", :null => false
+    t.string "top",         :limit => 15, :default => "", :null => false
+    t.string "catcolor",    :limit => 15, :default => "", :null => false
+    t.string "tabletext",   :limit => 15, :default => "", :null => false
+    t.string "text",        :limit => 15, :default => "", :null => false
+    t.string "borderwidth", :limit => 15, :default => "", :null => false
+    t.string "tablewidth",  :limit => 15, :default => "", :null => false
+    t.string "tablespace",  :limit => 15, :default => "", :null => false
+    t.string "font",        :limit => 40, :default => "", :null => false
+    t.string "fontsize",    :limit => 40, :default => "", :null => false
+    t.string "altfont",     :limit => 40, :default => "", :null => false
+    t.string "altfontsize", :limit => 40, :default => "", :null => false
     t.string "replyimg",    :limit => 50
     t.string "newtopicimg", :limit => 50
     t.string "pollimg",     :limit => 50
     t.string "boardimg",    :limit => 50
-    t.string "postscol",    :limit => 5,        :default => "", :null => false
-    t.text   "css",         :limit => 16777215
+    t.string "postscol",    :limit => 5,  :default => "", :null => false
   end
 
   create_table "xmb_threads", :primary_key => "tid", :force => true do |t|
@@ -494,6 +557,8 @@ ActiveRecord::Schema.define(:version => 2) do
     t.string "format",   :limit => 16, :default => "bb"
   end
 
+  add_index "xmb_u2u", ["msgto", "folder"], :name => "msgto"
+
   create_table "xmb_uid2jid", :primary_key => "uid", :force => true do |t|
     t.string "localjid", :limit => 25, :default => "", :null => false
   end
@@ -501,9 +566,9 @@ ActiveRecord::Schema.define(:version => 2) do
   add_index "xmb_uid2jid", ["localjid"], :name => "jid"
 
   create_table "xmb_whosonline", :id => false, :force => true do |t|
-    t.integer "uid",      :limit => 10,                  :null => false
+    t.integer "uid",      :limit => 10
     t.string  "ip",       :limit => 40,  :default => "", :null => false
-    t.integer "time",     :limit => 10,                  :null => false
+    t.string  "time",     :limit => 40,  :default => "", :null => false
     t.string  "location", :limit => 150, :default => "", :null => false
   end
 

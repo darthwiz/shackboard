@@ -196,6 +196,23 @@ module ApplicationHelper
       unless @location == [ 'File', :upload ]
   end
 
+  def form_login
+    s = form_tag({ :controller => 'login', :action => 'login' },
+      { :method => 'post' })
+    usn  = content_tag('div', "Username", :class => 'label')
+    usn += text_field 'user', 'username', :size => 16
+    pwd  = content_tag('div', "Password", :class => 'label')
+    pwd += password_field_tag 'user[password]', nil, :size => 16,
+      :id => 'user_password'
+    btn  = submit_tag 'login'
+    s   += content_tag('div', usn, :class => 'username')
+    s   += content_tag('div', pwd, :class => 'password')
+    s   += link_user_register
+    s   += btn
+    s   += '</form>' # XXX
+    content_tag('div', s, :class => 'login')
+  end
+
   def page_trail(loc=@location, opts={})
     return unless (loc.is_a?(Array) && loc.length >= 2)
     trail = [ ['Portale', { :controller => 'welcome', :action => 'index' } ] ]

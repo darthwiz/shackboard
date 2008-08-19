@@ -59,7 +59,8 @@ Rails::Initializer.run do |config|
   config.active_record.table_name_prefix = "xmb_"
 end
 
-ActionController::Base.fragment_cache_store = :file_store, "./tmp/cache"
+# Include your application configuration below
+ActionController::Base.fragment_cache_store = :mem_cache_store, '192.168.1.3'
 $KCODE = 'UTF8'
 
 GLOBAL_ADM_GROUP = "administrators"
@@ -67,7 +68,7 @@ FILEDB_PREFIX    = 'materiali_'
 FILEDB_ADM_GROUP = "materiali_adm"
 FILEDB_ICONS     = [
   'http://www.studentibicocca.it/portale/materiali/images/posticons/',
-  [ 
+  [
     ['supporti',           'supporti.gif'],
     ['appunti studenti',   'studenti.gif'],
     ['materiali docenti',  'docenti.gif'],
