@@ -1,4 +1,5 @@
 <%# vim: set ft=eruby nowrap: -%>
+<%if @user == @blog.user%>
 <div id="new_category_form" style="display: none;">
   <%userid = @user ? @user.id : nil
     remote_form_for Category.new,
@@ -21,3 +22,4 @@
   page[:new_category_link].hide
   page[:new_category_form].show
 end%>
+<%end%>

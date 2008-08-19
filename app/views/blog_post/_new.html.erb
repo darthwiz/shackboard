@@ -1,4 +1,5 @@
 <%# vim: set ft=eruby nowrap: -%>
+<%if @user == @blog.user%>
 <div id="new_blog_post_form" style="display: none;">
   <%userid = @user ? @user.id : nil
     remote_form_for BlogPost.new,
@@ -24,3 +25,4 @@
   page[:new_blog_post_link].hide
   page[:new_blog_post_form].show
 end%>
+<%end%>
