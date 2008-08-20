@@ -6,8 +6,9 @@
 <div class="text">
   <%=text_to_html(p.text)%>
 </div>
-<%if p.user == @user%>
+<%if p.blog_post_id > 0%><span class="author">(<%=cleanup(p.user.username)%>)<%end%>
 <div class="operations">
+  <%if @user == p.user || @user == @blog.user%>
   <%=link_to_remote 'mod',
     :update => domid(p),
     :url    => { :controller => :blog_post, :action => :edit, :id => p },
@@ -16,5 +17,15 @@
     :update => domid(p),
     :url    => { :controller => :blog_post, :action => :destroy, :id => p },
     :html   => { :class => 'delete' }%>
+  <%end%>
+  <%if p.blog_post_id == 0%>
+  <%=link_to_remote 'commenti',
+    :update => domid(p) + '_comments',
+    :url    => { :controller => :blog_post, :action => :view_comments, :id => p },
+    :html   => { :class => 'view_comments' }%>
+  <%end%>
+</div>
+<%if p.blog_post_id == 0%>
+<div id="<%=domid(p)%>_comments">
 </div>
 <%end%>

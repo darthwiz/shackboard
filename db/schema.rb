@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 3) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -258,15 +258,19 @@ ActiveRecord::Schema.define(:version => 2) do
   add_index "xmb_blog_posts_categories", ["category_id"], :name => "index_xmb_blog_posts_categories_on_category_id"
 
   create_table "xmb_blogs", :force => true do |t|
-    t.string   "name",        :limit => 80, :default => "", :null => false
-    t.string   "label",       :limit => 40, :default => "", :null => false
+    t.string   "name",         :limit => 80, :default => "", :null => false
+    t.string   "label",        :limit => 40, :default => "", :null => false
     t.text     "description"
-    t.integer  "user_id",     :limit => 11,                 :null => false
+    t.integer  "user_id",      :limit => 11,                 :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "view_count",   :limit => 11, :default => 0,  :null => false
+    t.integer  "last_post_id", :limit => 11
+    t.datetime "last_post_at"
   end
 
   add_index "xmb_blogs", ["user_id", "label"], :name => "index_xmb_blogs_on_user_id_and_label"
+  add_index "xmb_blogs", ["last_post_at"], :name => "index_xmb_blogs_on_last_post_at"
 
   create_table "xmb_categories", :force => true do |t|
     t.integer "user_id",     :limit => 11,                 :null => false

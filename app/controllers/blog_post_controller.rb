@@ -7,15 +7,28 @@ class BlogPostController < ApplicationController
         post            = BlogPost.new(params[:blog_post])
         post.user       = @user
         post.ip_address = request.env['REMOTE_ADDR']
-        if post.user == post.blog.user
+        if post.user == post.blog.user || post.blog_post_id > 0
           if post.save
-            render :update do |page|
-              page.insert_html :top, :blog_post_list,
-                               :partial => 'editable_blog_post_with_li',
-                               :locals  => { :p => post }
-              page[:new_blog_post_form].hide
-              page[:new_blog_post_link].show
-            end and return
+            post.blog.last_post_id = post.id
+            post.blog.last_post_at = post.created_at
+            post.blog.save
+            if post.blog_post_id > 0 # it's a comment
+              render :update do |page|
+                page.insert_html :bottom, "blog_post_#{post.blog_post_id}_comments_list".to_sym,
+                                 :partial => 'editable_blog_post_with_li',
+                                 :locals  => { :p => post }
+                page["new_blog_post_form_#{post.blog_post_id}".to_sym].hide
+                page["new_blog_post_link_#{post.blog_post_id}".to_sym].show
+              end and return
+            else # it's a post
+              render :update do |page|
+                page.insert_html :top, :blog_post_list,
+                                 :partial => 'editable_blog_post_with_li',
+                                 :locals  => { :p => post }
+                page[:new_blog_post_form_0].hide
+                page[:new_blog_post_link_0].show
+              end and return
+            end
           end
         end
       end
@@ -42,7 +55,7 @@ class BlogPostController < ApplicationController
       if @user.is_a? User
         post_id = params[:blog_post][:id]
         post = BlogPost.find(post_id)
-        if post.user == @user
+        if @user == post.user || @user == post.blog.user
           params[:blog_post].each_pair do |key, value|
             post.send("#{key}=".to_sym, value) if post.respond_to? "#{key}=".to_sym
           end
@@ -61,13 +74,45 @@ class BlogPostController < ApplicationController
       if @user.is_a? User
         post_id = params[:id]
         post = BlogPost.find(post_id)
-        if post.user == @user
-          post.destroy
-          render :update do |page|
-            page.hide "blog_post_#{post.id}"
-          end and return
+        if @user == post.user || @user == post.blog.user
+          if post.destroy
+            new_last_post = BlogPost.find(
+              :first,
+              :conditions => [ 'blog_id = ?', post.blog.id ],
+              :order      => 'created_at DESC'
+            )
+            if new_last_post.is_a? BlogPost
+              new_last_post.blog.last_post_id = new_last_post.id
+              new_last_post.blog.last_post_at = new_last_post.created_at
+              new_last_post.blog.save
+            else
+              post.blog.last_post_id = nil
+              post.blog.last_post_at = nil
+              post.blog.save
+            end
+            render :update do |page|
+              page.hide "blog_post_#{post.id}"
+            end and return
+          end
         end
       end
+    end
+    render :nothing => true
+  end
+
+  def view_comments
+    if request.xhr?
+      post_id     = params[:id]
+      parent_post = BlogPost.find(post_id)
+      @blog       = parent_post.blog
+      @comments   = BlogPost.find(
+        :all,
+        :conditions => [ 'blog_post_id = ?', post_id ],
+        :order      => 'created_at'
+      )
+      render :partial => '/blog_post/editable_list',
+             :locals  => { :comments    => @comments,
+                           :parent_post => parent_post } and return
     end
     render :nothing => true
   end
