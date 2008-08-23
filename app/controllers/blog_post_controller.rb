@@ -111,16 +111,16 @@ class BlogPostController < ApplicationController
         :conditions => [ 'blog_post_id = ?', post_id ],
         :order      => 'created_at'
       )
-      render :partial => '/blog_post/editable_list',
-             :locals  => { :comments    => @comments,
-                           :posts       => nil,
-                           :parent_post => parent_post }
       if @user == @blog.user
         @comments.each do |i|
           i.unread = false
           i.save
         end
-      end and return
+      end
+      render :partial => '/blog_post/editable_list',
+             :locals  => { :comments    => @comments,
+                           :posts       => nil,
+                           :parent_post => parent_post } and return
     end
     render :nothing => true
   end
