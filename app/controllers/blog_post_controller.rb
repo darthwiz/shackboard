@@ -113,6 +113,7 @@ class BlogPostController < ApplicationController
       )
       render :partial => '/blog_post/editable_list',
              :locals  => { :comments    => @comments,
+                           :posts       => nil,
                            :parent_post => parent_post }
       if @user == @blog.user
         @comments.each do |i|
