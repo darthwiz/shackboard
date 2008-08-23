@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'filedb_file'
 class FiledbFileTest < Test::Unit::TestCase
   fixtures :members
-  def test_life_cycle # {{{
+  def test_life_cycle
     wiz = User.find_by_username('wiz')
     f   = FiledbFile.new
     assert !f.save
@@ -17,8 +17,9 @@ class FiledbFileTest < Test::Unit::TestCase
     assert_instance_of(FiledbFile,
       FiledbFile.find(f.id, :with_unapproved => true))
     assert f.destroy
-  end # }}}
-  def test_find_methods # {{{
+  end
+
+  def test_find_methods
     wiz = User.find_by_username('wiz')
     f1  = FiledbFile.new { |f|
       f.file_name  = 'approved'
@@ -37,7 +38,7 @@ class FiledbFileTest < Test::Unit::TestCase
     assert_equal(1, FiledbFile.count_by_words(['approved']))
     assert_equal(2, FiledbFile.count_by_words(['approved'],
       :with_unapproved => true))
-    assert_equal(1, FiledbFile.latest.length)
+    assert_equal(1, FiledbFile.find_latest.length)
     assert_equal([f1], FiledbFile.find(:all))
     assert_equal([f2], FiledbFile.find(:all, :only_unapproved => true))
     assert_equal(0, FiledbFile.find_all_by_words(['words in description'],
@@ -52,5 +53,6 @@ class FiledbFileTest < Test::Unit::TestCase
       :with_unapproved => true))
     assert f1.destroy
     assert f2.destroy
-  end # }}}
+  end
+
 end

@@ -10,7 +10,6 @@ wiz:
   bday: Giugno 14, 1977
   yahoo: ""
   username: wiz
-  jid:
   ppp: "30"
   aim: ""
   uid: "182"
@@ -48,7 +47,6 @@ ark_intruso:
   bday: Maggio 2, 1980
   yahoo: ""
   username: Ark Intruso
-  jid:
   ppp: "99"
   aim: ""
   uid: "871"
@@ -85,7 +83,6 @@ kaworu:
   bday: Maggio 10, 1986
   yahoo: ""
   username: Kaworu
-  jid:
   ppp: "25"
   aim: ""
   uid: "11468"
@@ -120,7 +117,6 @@ runner:
   bday: ""
   yahoo: ""
   username: runner
-  jid:
   ppp: "25"
   aim: ""
   uid: "9913"
@@ -155,7 +151,6 @@ tex:
   bday: Marzo 18, 1984
   yahoo: ""
   username: tex1803
-  jid:
   ppp: "20"
   aim: ""
   uid: "4317"

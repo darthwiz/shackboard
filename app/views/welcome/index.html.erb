@@ -1,7 +1,7 @@
 <%
   @legacy_mode  = LEGACY_MODE
   @page_title   = "StudentiBicocca.it - il portale degli studenti della Bicocca"
-  # links {{{
+  # links 
   link_forum    = @legacy_mode == :old ? '/portale/forum' :
     url_for(:controller => 'forum', :action => 'list')
   link_channels = @legacy_mode == :old ? '/portale/forum/index.php?gid=24' :
@@ -10,10 +10,9 @@
     url_for(:controller => 'forum', :action => 'view', :id => 51)
   link_market   = @legacy_mode == :old ? '/portale/forum/index.php?gid=108' :
     url_for(:controller => 'forum', :action => 'view', :id => 108)
-  # }}}
 %>
-<div id="portal_main"><%#{{{%>
-  <div id="header"><%#Header {{{%>
+<div id="portal_main">
+  <div id="header"><%#Header %>
     <div id="title">
       <h1>StudentiBicocca.it</h1>
       <span id="subtitle">
@@ -25,56 +24,60 @@
     </div>
     <%=render :partial => '/login/login_box'%>
     <div class="spacer"></div>
-  </div><%#}}}%>
-  <div id="portal_left"><%#{{{%>
+  </div>
+  <div id="portal_left">
     <ul class="column">
-      <li id="files"><%#Materiali {{{%>
+      <li id="files"><%#Materiali %>
         <h2>
           <%=link_to 'Materiali', 'http://materiali.studentibicocca.it'%>
         </h2>
         <%#cache('portal/latest_files') do %>
         <%=render :partial => '/welcome/files' %>
         <%#end %>
-      </li><%#}}}%>
-      <li id="boards"><%#Bacheche {{{%>
+      </li>
+      <li id="boards"><%#Bacheche %>
         <h2><%=link_to 'Bacheche', link_boards%></h2>
         <% cache('portal/51') do %>
         <%=render :partial => '/welcome/boards' %>
         <% end %>
-      </li><%#}}}%>
+      </li>
     </ul>
-  </div><%#}}}%>
-  <div id="portal_center"><%#{{{%>
+  </div>
+  <div id="portal_center">
     <ul class="column">
-      <li><%#Forum {{{%>
+      <li><%#Forum %>
         <h2><%=link_to 'Forum', link_forum %></h2>
         <% cache('portal/25') do %>
         <%=render :partial => '/welcome/forums'%>
         <% end %>
-      </li><%#}}}%>
-      <li><%#Canali tematici {{{%>
+      </li>
+      <li><%#Canali tematici %>
         <h2><%=link_to 'Canali tematici', link_channels%></h2>
         <% cache('portal/24') do %>
         <%=render :partial => '/welcome/channels'%>
         <% end %>
-      </li><%#}}}%>
-      <li><%#Cerco/Offro {{{%>
+      </li>
+      <li><%#Cerco/Offro %>
         <h2><%=link_to 'Cerco/Offro', link_market%></h2>
         <% cache('portal/108') do %>
         <%=render :partial => '/welcome/market'%>
         <% end %>
-      </li><%#}}}%>
+      </li>
     </ul>
-  </div><%#}}}%>
-  <div id="portal_right"><%#{{{%>
+  </div>
+  <div id="portal_right">
     <ul class="column">
-      <li><%#Avvisi {{{%>
+      <li><%#Avvisi %>
         <h2><%=link_to 'Avvisi',
             'http://asb.studentibicocca.it/avvisi/'%></h2>
         <%#cache('portal/latest_announcements') do %>
         <%=render :partial => '/announcement/latest' %>
         <%#end %>
-      </li><%#}}}%>
+      </li>
+      <li><%#Blog%>
+        <h2><%=link_to 'Blog', 'javascript:;'%></h2>
+        <%=render :partial => 'latest_blog_posts' %>
+      </li>
       <% 
       contents = []
       ['servizi', 'iniziative', 'rappresentanti', 'network'].each do |i|
@@ -88,15 +91,15 @@
         <div class="spacer"></div>
       </li>
       <%end%>
-      <%#Free tech advertisements {{{%>
+      <%#Free tech advertisements %>
       <li style="text-align: center;">
         <a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
         <a href="http://www.vim.org/"><img src="http://www.studentibicocca.it/portale/forum/images/vim_created.gif" alt="Created with Vim" height="36" width="90" /></a>
         <a href="http://www.rubyonrails.org/"><img src="http://www.studentibicocca.it/portale/forum/images/rails.png" alt="Ruby on Rails" height="100" width="80" /></a>
       </li>
-      <%#}}}%>
+      
     </ul>
-  </div><%#}}}%>
+  </div>
   <div class="spacer"></div>
   <%=render :partial => '/user/online'%>
-</div><%#}}}%>
+</div>

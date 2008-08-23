@@ -1,0 +1,52 @@
+settings:
+  bb_timeoffset: "0"
+  reportpost: "on"
+  expiredtime: "86400"
+  boardurl: http://www.studentibicocca.it/portale/forum/
+  welcomemsg: duh
+  memberperpage: "45"
+  topicperpage: "30"
+  avatar_maxwidth: "150"
+  coppa: "off"
+  avastatus: "on"
+  bbrules: "on"
+  emailcheck: "on"
+  langfile: italian
+  showtotaltime: "on"
+  theme: studentibicocca
+  bbname: Forum degli Studenti della Bicocca
+  u2ustatus: "on"
+  hideprivate: "off"
+  postperpage: "25"
+  adminemail: STUDENTIBICOCCA .it
+  timeformat: "24"
+  u2uquota: "80"
+  searchstatus: "on"
+  hottopic: "20"
+  memliststatus: "off"
+  bbrulestxt: "Regolamento del forum:"
+  onlinerecord: "4"
+  indexstats: "on"
+  modsannounce: "off"
+  regstatus: "on"
+  maxpollopt: "10"
+  avatar_maxheight: "150"
+  statspage: "off"
+  nocacheheaders: "off"
+  sitename: STUDENTIBICOCCA.it
+  piconstatus: "on"
+  showsort: "off"
+  regviewonly: "off"
+  announcestatus: "off"
+  bbstatus: "on"
+  sightml: "off"
+  gzipcompress: "off"
+  faqstatus: "off"
+  dateformat: gg/mm/aaaa
+  catsonly: "off"
+  floodctrl: "30"
+  sigbbcode: "off"
+  noreg: "off"
+  siteurl: http://www.studentibicocca.it
+  bboffreason: Forum chiuso per manutenzione
+  whosonlinestatus: "on"

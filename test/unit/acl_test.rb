@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'acl'
 class AclTest < Test::Unit::TestCase
   fixtures :members, :groups, :group_memberships, :acls, :acl_mappings
-  def test_permission_assignment # {{{
+  def test_permission_assignment
     runner = User.find_by_username("runner")
     wiz    = User.find_by_username('wiz')
     tex    = User.find_by_username('tex1803')
@@ -37,8 +37,9 @@ class AclTest < Test::Unit::TestCase
     assert acl.can_read(['User', :authenticated])
     assert acl.can_read?(wiz)
     assert !acl.can_read?(nil)
-  end # }}}
-  def test_permission_removal # {{{
+  end
+
+  def test_permission_removal
     wiz = User.find_by_username('wiz')
     acl = Acl.new
     assert !acl.can_test?(wiz) # undefined action should fail
@@ -50,8 +51,9 @@ class AclTest < Test::Unit::TestCase
     assert acl.can_test?(wiz)  # should now pass
     acl.remove_can_test(wiz)
     assert !acl.can_test?(wiz) # should now fail
-  end # }}}
-  def test_object_attachment_and_persistence_step_1 # {{{
+  end
+
+  def test_object_attachment_and_persistence_step_1
     # NOTE this test depends on Group implementation
     runner    = User.find_by_username("runner")
     wiz       = User.find_by_username('wiz')
@@ -87,8 +89,9 @@ class AclTest < Test::Unit::TestCase
     # now we persist only one of the ACLs, the other one will be lost as soon
     # as it is no longer referenced
     mod_agora.acl_save
-  end # }}}
-  def test_object_attachment_and_persistence_step_2 # {{{
+  #end
+
+  #def test_object_attachment_and_persistence_step_2
     # XXX test data is *not* supposed to persist, wtf?
     runner    = User.find_by_username("runner")
     wiz       = User.find_by_username('wiz')
@@ -104,5 +107,6 @@ class AclTest < Test::Unit::TestCase
     assert !mod_qdoa.can_edit?(wiz)
     assert !mod_qdoa.can_edit?(runner)
     assert !mod_qdoa.can_edit?(tex)
-  end # }}}
+  end
+
 end

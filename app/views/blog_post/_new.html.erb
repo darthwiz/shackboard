@@ -21,9 +21,11 @@ new_form_id = 'new_blog_post_form_' + parent_post_id.to_s
       <div>
         Titolo: <%=f.text_field :title%>
       </div>
+      <%if parent_post_id == 0%>
       <div>
         <%=f.select :category_ids, @blog.categories.collect { |c| [ c.name, c.id ] }%>
       </div>
+      <%end%>
       <div>
         <%=f.text_area :text%>
       </div>

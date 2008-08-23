@@ -5,9 +5,11 @@
     <div>
       Titolo: <%=f.text_field :title, :value => p.title%>
     </div>
+    <%if p.blog_post_id == 0%>
     <div>
       <%=f.select :category_ids, p.blog.categories.collect { |c| [ c.name, c.id ] }%>
     </div>
+    <%end%>
     <div>
       <%=f.text_area :text, :value => p.text%>
     </div>

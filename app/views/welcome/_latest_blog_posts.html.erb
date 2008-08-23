@@ -1,0 +1,11 @@
+<%# vim: set ft=eruby nowrap:-%>
+<ul id="latest_blog_posts" class="blog_posts">
+  <%BlogPost.find_latest(:posts, 5).each do |i|%>
+  <li>
+    <%title = cleanup(i.title.to_s + ' (' + i.user.username + ')')
+      title = title.empty? ? content_tag('em', 'nessun titolo') : title-%>
+    <%=link_to title, :controller => :blog, :action => :view,
+      :username => i.blog.user.username, :blog_label => i.blog.label%>
+  </li>
+  <%end%>
+</ul>

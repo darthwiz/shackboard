@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 3) do
+ActiveRecord::Schema.define(:version => 4) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -150,8 +150,8 @@ ActiveRecord::Schema.define(:version => 3) do
     t.integer "file_last",       :limit => 50
     t.integer "file_pin",        :limit => 2
     t.text    "file_docsurl"
-    t.text    "file_rating",                   :null => false
-    t.text    "file_totalvotes",               :null => false
+    t.text    "file_rating"
+    t.text    "file_totalvotes"
     t.integer "user_id",         :limit => 20
     t.integer "approved_by",     :limit => 20
   end
@@ -233,7 +233,7 @@ ActiveRecord::Schema.define(:version => 3) do
   end
 
   create_table "xmb_blog_posts", :force => true do |t|
-    t.integer  "user_id",      :limit => 11,  :null => false
+    t.integer  "user_id",      :limit => 11,                     :null => false
     t.datetime "created_at"
     t.string   "title",        :limit => 200
     t.text     "text"
@@ -241,6 +241,7 @@ ActiveRecord::Schema.define(:version => 3) do
     t.string   "ip_address",   :limit => 16
     t.integer  "blog_id",      :limit => 11
     t.datetime "updated_at"
+    t.boolean  "unread",                      :default => false, :null => false
   end
 
   add_index "xmb_blog_posts", ["user_id", "created_at"], :name => "index_xmb_blog_posts_on_user_id_and_timestamp"

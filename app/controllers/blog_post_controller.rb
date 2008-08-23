@@ -7,6 +7,7 @@ class BlogPostController < ApplicationController
         post            = BlogPost.new(params[:blog_post])
         post.user       = @user
         post.ip_address = request.env['REMOTE_ADDR']
+        post.unread     = @user != post.blog.user
         if post.user == post.blog.user || post.blog_post_id > 0
           if post.save
             post.blog.last_post_id = post.id
@@ -112,7 +113,13 @@ class BlogPostController < ApplicationController
       )
       render :partial => '/blog_post/editable_list',
              :locals  => { :comments    => @comments,
-                           :parent_post => parent_post } and return
+                           :parent_post => parent_post }
+      if @user == @blog.user
+        @comments.each do |i|
+          i.unread = false
+          i.save
+        end
+      end and return
     end
     render :nothing => true
   end
