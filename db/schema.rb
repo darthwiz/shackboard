@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 4) do
+ActiveRecord::Schema.define(:version => 6) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -322,6 +322,21 @@ ActiveRecord::Schema.define(:version => 4) do
     t.string  "pollstatus",   :limit => 15,  :default => "off", :null => false
   end
 
+  create_table "xmb_geomarks", :force => true do |t|
+    t.integer  "user_id",     :limit => 11, :null => false
+    t.float    "lat",                       :null => false
+    t.float    "lng",                       :null => false
+    t.string   "name",        :limit => 80
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "xmb_geomarks", ["lat"], :name => "index_xmb_geomarks_on_lat"
+  add_index "xmb_geomarks", ["lng"], :name => "index_xmb_geomarks_on_lng"
+  add_index "xmb_geomarks", ["user_id", "created_at"], :name => "index_xmb_geomarks_on_user_id_and_created_at"
+  add_index "xmb_geomarks", ["created_at"], :name => "index_xmb_geomarks_on_created_at"
+
   create_table "xmb_group_memberships", :force => true do |t|
     t.integer "group_id",  :limit => 20
     t.string  "groupname", :limit => 80
@@ -483,11 +498,12 @@ ActiveRecord::Schema.define(:version => 4) do
   add_index "xmb_smilies", ["type", "user_id"], :name => "type"
 
   create_table "xmb_static_contents", :force => true do |t|
-    t.string  "label",      :limit => 20,       :default => "", :null => false
-    t.text    "content",    :limit => 16777215
-    t.integer "created_on", :limit => 10,                       :null => false
-    t.integer "updated_on", :limit => 10,                       :null => false
-    t.integer "updated_by", :limit => 10,                       :null => false
+    t.string   "label",      :limit => 40,       :default => "",     :null => false
+    t.text     "text",       :limit => 16777215
+    t.integer  "updated_by", :limit => 10,                           :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "format",     :limit => 10,       :default => "html", :null => false
   end
 
   add_index "xmb_static_contents", ["label"], :name => "label", :unique => true

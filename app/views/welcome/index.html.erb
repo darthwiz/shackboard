@@ -81,13 +81,14 @@
       <% 
       contents = []
       ['servizi', 'iniziative', 'rappresentanti', 'network'].each do |i|
-        c = StaticContent.find_by_label(i)
+        c = StaticContent.find_or_prepare(i)
         contents << c unless c.nil?
       end
       %>
       <%contents.each do |c|%>
-      <li>
-        <%=c.content%>
+      <li id="<%=domid(c)%>" class="static_content">
+        <%=render :partial => '/static_content/editable_static_content',
+                  :locals  => { :sc => c }%>
         <div class="spacer"></div>
       </li>
       <%end%>

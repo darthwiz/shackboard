@@ -1,0 +1,94 @@
+= google4r-maps
+
+google4r-maps is a library to access the Google Maps API from Ruby.
+
+It contains a class to use Google's geocoding service and to generate the Javascript for for the map component from Ruby.
+
+== Example
+
+  require 'google4r/maps'
+
+  map = GMap2.new("map", "map")
+  map.to_html # => %q{<div id="map"></div><script type="text/javascript">var map = new GMap2...}
+
+=== License
+
+google4r is distributed under an MIT style license.
+
+== Google Maps HTML Generation
+
+google4r contains a library for generating the HTML and Javascript for your the GMap2 widget. You could do the following, for example:
+
+  map = Google4R::Maps::Map.new("var_name", "dom_id")
+  icon = map.create_icon([7.4419, -122.1419])
+  icon.title = "Google Headquarters"
+  
+  map.to_html
+
+The last line would then generate the necessary HTML and Javascript to display a new GMap2 <div id="dom_id">. The JS variable containing the GMap2 instance is called "var_name".
+
+  TODO: Add example JS output.
+
+Note that we put great care into making the JS generation use anonymous functions in most places instead of global variables. This should make the generated JS pretty robust. Additionally, the JS does not rey on Prototype or any other JS library then Google Maps.
+
+== Google Maps HTML Generation
+
+google4r contains a library for generating the HTML and Javascript for your the GMap2 widget. You could do the following, for example:
+
+  map = Google4R::Maps::Map.new("var_name", "dom_id")
+  icon = map.create_icon([7.4419, -122.1419])
+  icon.title = "Google Headquarters"
+   
+  map.to_html
+ 
+The last line would then generate the necessary HTML and Javascript to display a new GMap2 <div id="dom_id">. The JS variable containing the GMap2 instance is called "var_name".
+ 
+  TODO: Add example JS output.
+
+Note that we put great care into making the JS generation use anonymous functions in most places instead of global variables. This should make the generated JS pretty robust. Additionally, the JS does not rey on Prototype or any other JS library then Google Maps.
+
+== Google Maps Geocoder
+
+The only part of the Google Maps API that can be standalone with sense is the Geocoder. The Google4R::Maps::Geocoder class allows to geocode address strings, i.e. finds a number of known locations that match the query to a certain degree. The information about the "known locations" includes the latitude and longitude of the location.
+
+=== Queries To Try Out
+
+<b>Querying for this string</b>:: <b>will yield n results</b>
+Helena:: 0
+1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA:: 1
+Janitell Rd, Colorado Springs, CO:: 2
+
+=== Maps Tests
+
+Note that you wil have to place a file called 'key.rb' in the directory 'test/maps' to be able to run unit tests. It should have the following contents:
+
+  GOOGLE_MAPS_KEY = '<your google maps key>'
+
+== Dependencies
+
+The unit tests use Mocha so you have to install the gem "mocha" to run the tests.
+
+== How To: Freeze a google4r version in a Rails project
+
+<code>rake rails:freeze:gems</code> only works for the Rails gems. So, how do you freeze your own gems like google4r? It turns out to be pretty straightforward:
+
+  cd RAILS_ROOT
+  cd vendor
+  gem unback google4r-maps
+  ls 
+  # ... google4r-maps-0.1.1 ...
+
+Then, open RAILS_ROOT/config/environment.rb in your favourite text editor and add the following lines at the top of the file just below <code>require File.join(File.dirname(__FILE__), 'boot')</code>:
+
+  # Freeze non-Rails gem.
+  Dir.glob(File.join(RAILS_ROOT, 'vendor', '*', 'lib')) do |path|
+  $LOAD_PATH << path
+  end
+
+Now you can use the following in your own code:
+
+  require 'google4r/maps'
+
+== Acknowledgement
+
+Some ideas but no code have been taken from the Cartographer project.

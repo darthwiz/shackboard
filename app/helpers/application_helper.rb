@@ -387,6 +387,8 @@ module ApplicationHelper
       return bb_to_html(text, user)
     when :textile
       return textilize(text)
+    when :html
+      return text
     else
     end
   end

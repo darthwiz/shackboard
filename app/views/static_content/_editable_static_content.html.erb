@@ -1,0 +1,16 @@
+<%# vim: set ft=eruby nowrap: -%>
+<div class="text">
+  <%=text_to_html(sc.text, sc.format.to_sym)%>
+</div>
+<div class="operations">
+  <%if User.admin_ids.include? @user.id%>
+  <%=link_to_remote 'mod',
+    :update => domid(sc),
+    :url    => { :controller => :static_content, :action => :edit, :id => sc, :label => sc.label },
+    :html   => { :class => 'edit' }%>
+  <%#link_to_remote 'del',
+    :update => domid(sc),
+    :url    => { :controller => :static_content, :action => :destroy, :id => sc },
+    :html   => { :class => 'delete' }%>
+  <%end%>
+</div>

@@ -108,13 +108,10 @@ class User < ActiveRecord::Base
     ids
   end
  
-  def User.find_by_username(s) 
-    # XXX a method of untold laziness
-    begin
-      s = Iconv.new('iso-8859-1', 'utf-8').iconv(s)
-    rescue
-    end
-    super(s)
+  def status=(status)
+    @@admins    = nil if status == 'Administrator'
+    @@supermods = nil if status == 'Super Moderator'
+    super
   end
 
   private

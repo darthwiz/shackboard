@@ -1,0 +1,37 @@
+= google4r-maps Changelog
+
+== HEAD
+
+== 0.1.0 (2007-05-12)
+
+* Polished the README a bit.
+* Added GMap2#onload_js, GMap2#onload_js= to set Javascript to execute after the map has been loaded.
+* Replaced "options.icon" with "options['icon']" in GMarker creation code. This caused problems with markers with custom icons *and* popup windows in MSIE.
+* Added support for client (required for enterprise keys).
+* Split google4r into google4r/maps and google4r/checkout.
+* MerchantCode#create_from_element raises an ArgumentError instead of a RuntimeError on invalid elements now.
+* Changed the #create_from_element code to set the properties directly into the objects instead of building Hashes to collect the values first.
+* "Resolved" the problem of converting currency amounts which are fractional numbers into the amount of the minor currency to be passed into the Money class: Instead of converting the fractional number into a float and multiplying by 100, all nonnumeric characters are stripped from the string, the resulting number is converted into an integer and this integer is then passed to Money.new.
+* Added example to NotificationHandler of how to use the class.
+* Added link to simple_http_auth plugin in NotificationHandler which allows for easy HTTP Auth Basic protection of Rails controllers.
+* Renamed CheckoutCommand#cart to CheckoutCommand#shopping_cart
+* CheckoutCommand raises ArgumentError instead of RuntimeError on invalid clazz parameter.
+* Added "Howto freeze google4r in a Rails project" to README
+* Google4R::Checkout::Command#to_xml raises an NotImplementedError instead of a RuntimeError now.
+* Geocoder returns nil on 603 (G_UNAVAILABLE_ADDRESS) results now.
+* Added support for registering GUnload() to be called on window's unload event.
+* The generated Javascript that creates the GMap2() instance (and thus modifies the map div) has been put into a function <var name>_loader that is called in  an onload handler. This should remove a problem with MSIE.
+* Using Syck as the YAML parser now. However, a workaround is needed because of http://code.whytheluckystiff.net/syck/ticket/27.
+* Only require the json gem if objects have no "to_json" method already added to them. This solves a problem with converting arbitrary objects to json because the json gem seemingly only converts simple types.
+* Added GMarker#info_window_html.
+* Added support for onclick handlers in markers.
+* Added support for the value :auto of GMap2#zoom and GMap2#center.
+* Fixed buggy generation of GMarker Javascript.
+* Adding website folder to contain a webgen based website.
+* Fixed a problem with generating XML from Hashes in the "private" data of shopping carts and items.
+* The parse for the <order-adjustment> tag does not expect to see a <shipping> tag in every case any more.
+* Extending Google4R::Maps by the classes GMap2, GIcon and GMarker to allow for easy Google Maps HTML generation.
+
+== 0.0.1 (2007-02-17)
+  
+* initial release, be prepared for some API changes that move the API closer to the XML API

@@ -1,0 +1,16 @@
+<%# vim: set ft=eruby nowrap: -%>
+<%url = { :controller => :static_content, :action => :update, :label => sc.label }
+  remote_form_for sc, :url => url do |f|%>
+  <fieldset>
+    <div>
+      <%=f.text_area :text, :value => sc.text%>
+    </div>
+    <div>
+      <%=f.hidden_field :id,     :value => sc.id%>
+      <%=f.hidden_field :label,  :value => sc.label%>
+      <%=f.hidden_field :format, :value => 'html'%>
+      <%=submit_to_remote 'save', 'Salva', :url => url,
+      :update => domid(sc)%>
+    </div>
+  </fieldset>
+<%end%>
