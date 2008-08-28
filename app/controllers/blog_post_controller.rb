@@ -8,7 +8,7 @@ class BlogPostController < ApplicationController
         post.user       = @user
         post.ip_address = request.env['REMOTE_ADDR']
         @blog           = post.blog
-        post.blog_post.increment!(:comments_count)
+        post.blog_post.increment!(:comments_count) if post.blog_post_id > 0
         if @user != post.blog.user
           post.unread = true
           post.blog_post.increment!(:unread_comments_count)
