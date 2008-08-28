@@ -1,6 +1,7 @@
 class BlogPost < ActiveRecord::Base
   belongs_to :user
   belongs_to :blog
+  belongs_to :blog_post
   has_and_belongs_to_many :categories
 
   def self.find_latest(what=:posts, n=5, opts={})
