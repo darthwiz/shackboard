@@ -7,7 +7,11 @@ class BlogPostController < ApplicationController
         post            = BlogPost.new(params[:blog_post])
         post.user       = @user
         post.ip_address = request.env['REMOTE_ADDR']
-        post.unread     = @user != post.blog.user
+        if @user != post.blog.user
+          post.unread = true
+          post.blog_post.increment!(:comments_count)
+          post.blog_post.increment!(:unread_comments_count)
+        end
         if post.user == post.blog.user || post.blog_post_id > 0
           if post.save
             post.blog.last_post_id = post.id
@@ -55,11 +59,13 @@ class BlogPostController < ApplicationController
     if request.xhr?
       if @user.is_a? User
         post_id = params[:blog_post][:id]
-        post = BlogPost.find(post_id)
+        post    = BlogPost.find(post_id)
+        @blog   = post.blog
         if @user == post.user || @user == post.blog.user
           params[:blog_post].each_pair do |key, value|
             post.send("#{key}=".to_sym, value) if post.respond_to? "#{key}=".to_sym
           end
+          post.modified_by = @user.id
           if post.save
             render :partial => 'editable_blog_post',
                    :locals  => { :p => post } and return
@@ -91,6 +97,9 @@ class BlogPostController < ApplicationController
               post.blog.last_post_at = nil
               post.blog.save
             end
+            if post.blog_post_id > 0
+              post.blog_post.decrement!(:comments_count)
+            end
             render :update do |page|
               page.hide "blog_post_#{post.id}"
             end and return
@@ -116,6 +125,8 @@ class BlogPostController < ApplicationController
           i.unread = false
           i.save
         end
+        parent_post.unread_comments_count = 0
+        parent_post.save
       end
       render :partial => '/blog_post/editable_list',
              :locals  => { :comments    => @comments,

@@ -107,6 +107,15 @@ class User < ActiveRecord::Base
     User.admins.each { |u| ids << u.id }
     ids
   end
+  
+  def is_adm?
+    User.admin_ids.include? self.id
+  end
+
+  def is_supermod?
+    return true if User.admin_ids.include? self.id
+    User.supermod_ids.include? self.id
+  end
  
   def status=(status)
     @@admins    = nil if status == 'Administrator'

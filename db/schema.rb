@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 6) do
+ActiveRecord::Schema.define(:version => 7) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -233,15 +233,18 @@ ActiveRecord::Schema.define(:version => 6) do
   end
 
   create_table "xmb_blog_posts", :force => true do |t|
-    t.integer  "user_id",      :limit => 11,                     :null => false
+    t.integer  "user_id",               :limit => 11,                     :null => false
     t.datetime "created_at"
-    t.string   "title",        :limit => 200
+    t.string   "title",                 :limit => 200
     t.text     "text"
-    t.integer  "blog_post_id", :limit => 11
-    t.string   "ip_address",   :limit => 16
-    t.integer  "blog_id",      :limit => 11
+    t.integer  "blog_post_id",          :limit => 11
+    t.string   "ip_address",            :limit => 16
+    t.integer  "blog_id",               :limit => 11
     t.datetime "updated_at"
-    t.boolean  "unread",                      :default => false, :null => false
+    t.boolean  "unread",                               :default => false, :null => false
+    t.integer  "modified_by",           :limit => 11
+    t.integer  "comments_count",        :limit => 11,  :default => 0,     :null => false
+    t.integer  "unread_comments_count", :limit => 11,  :default => 0,     :null => false
   end
 
   add_index "xmb_blog_posts", ["user_id", "created_at"], :name => "index_xmb_blog_posts_on_user_id_and_timestamp"

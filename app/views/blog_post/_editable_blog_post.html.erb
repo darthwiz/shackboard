@@ -18,12 +18,23 @@
     :url    => { :controller => :blog_post, :action => :destroy, :id => p },
     :html   => { :class => 'delete' }%>
   <%end%>
-  <%if p.blog_post_id == 0%>
-  <%=link_to_remote 'commenti',
-    :update => domid(p) + '_comments',
-    :url    => { :controller => :blog_post, :action => :view_comments, :id => p },
-    :html   => { :class => 'view_comments' }%>
-  <%end%>
+  <div class="comments_summary">
+    <%
+    if p.blog_post_id == 0
+      label = p.comments_count.to_s + ' commenti'
+      %><%=link_to_remote label,
+      :update => domid(p) + '_comments',
+      :url    => { :controller => :blog_post, :action => :view_comments, :id => p },
+      :html   => { :class => 'view_comments' }%>
+    <%end%>
+    <%if @blog.user == @user%>
+      <%if p.unread_comments_count == 1%>
+        <span class="unread">(<%=p.unread_comments_count%> non letto)</span>
+      <%elsif p.unread_comments_count > 0%>
+        <span class="unread">(<%=p.unread_comments_count%> non letti)</span>
+      <%end%>
+    <%end%>
+  </div>
 </div>
 <%if p.blog_post_id == 0%>
 <div id="<%=domid(p)%>_comments">

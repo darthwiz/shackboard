@@ -28,6 +28,13 @@ ActionController::Routing::Routes.draw do |map|
   # map.root :controller => "welcome"
   blog_reqs = { :username => /.*/ }
   map.root :controller => "welcome"
+  #map.connect 'community', :controller => 'welcome', :action => 'community'
+  #map.connect 'servizi', :controller => 'welcome', :action => 'services'
+  #map.connect 'in-bicocca', :controller => 'welcome', :action => 'in_bicocca'
+  #map.connect 'studiare-a-milano', :controller => 'welcome', :action => 'in_milano'
+  #map.connect 'chi-siamo', :controller => 'welcome', :action => 'about_us'
+  #map.connect 'mappa-del-sito', :controller => 'welcome', :action => 'sitemap'
+  #map.connect 'area-personale', :controller => 'welcome', :action => 'personal'
   map.blog_list 'blogs/:username', :controller => 'blog', :action => 'list', :requirements => blog_reqs
   map.blog_view 'blogs/:username/:blog_label', :controller => 'blog', :action => 'view', :requirements => blog_reqs
   map.blog_view 'blogs/:username/:blog_label/:category_label', :controller => 'blog', :action => 'view', :requirements => blog_reqs

@@ -459,7 +459,18 @@ module ApplicationHelper
     button_to_function(name, remote_function(options), html_options)
   end
 
+  def is_adm?(user=@user)
+    return false unless user.is_a? User
+    user.is_adm?
+  end
+
+  def is_supermod?(user=@user)
+    return false unless user.is_a? User
+    user.is_supermod?
+  end
+
   def is_file_adm?(user=@user)
+    return false unless user.is_a? User
     FileController.new.send(:is_adm?, user)
   end
 
