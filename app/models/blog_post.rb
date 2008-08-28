@@ -19,4 +19,13 @@ class BlogPost < ActiveRecord::Base
       return [] # TODO implement this
     end
   end
+
+  def self.count_unread_for(user)
+    return 0 unless user.is_a? User
+    self.sum(
+      :unread_comments_count,
+      :conditions => [ 'user_id = ? AND blog_post_id = 0 AND unread_comments_count > 0', user.id ]
+    )
+  end
+
 end

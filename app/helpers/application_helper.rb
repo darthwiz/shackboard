@@ -170,6 +170,21 @@ module ApplicationHelper
     msg ? link_to(msg, link) : nil
   end
 
+  def link_blogs_unread(user=@user)
+    return nil unless user.is_a? User
+    count = BlogPost.count_unread_for(user)
+    msg   = "Hai un commento non letto nei tuoi blog."       if count == 1
+    msg   = "Hai #{count} commenti non letti nei tuoi blog." if count > 1
+    link  = { 
+      :controller => 'blog',
+      :action     => 'list',
+      :username   => user.username
+    }
+    link[:host]      = @host_forum if @host_forum
+    link[:only_path] = false if @host_forum
+    msg ? link_to(msg, link) : nil
+  end
+
   def link_draft_unsent(user=@user)
     count = Draft.unsent_for(user)
     msg   = "Hai una bozza non inviata."      if count == 1
