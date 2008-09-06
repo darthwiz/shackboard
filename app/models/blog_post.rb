@@ -5,13 +5,18 @@ class BlogPost < ActiveRecord::Base
   has_and_belongs_to_many :categories
 
   def self.find_latest(what=:posts, n=5, opts={})
+    n = n.to_i > 0 ? n.to_i : 5
     case what
     when :posts
-      posts = BlogPost.find(
-        :all,
-        :conditions => [ 'blog_post_id = 0' ],
-        :order      => 'created_at DESC',
-        :limit      => n
+      posts = BlogPost.find_by_sql(
+        "SELECT p.* FROM xmb_blog_posts p
+        WHERE p.created_at = (
+          SELECT MAX(created_at) FROM xmb_blog_posts p2
+            WHERE user_id = p.user_id AND p2.blog_post_id = 0
+          )
+          AND p.blog_post_id = 0
+        ORDER BY p.created_at DESC
+        LIMIT #{n}"
       )
       return posts
     when :comments
