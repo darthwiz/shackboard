@@ -1,4 +1,6 @@
 class Forum < ActiveRecord::Base
+  require 'magic_fixes.rb'
+  include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "forums"
   set_inheritance_column "_type"
   set_primary_key "fid"

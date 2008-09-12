@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  require 'magic_fixes.rb'
+  include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "members"
   set_primary_key "uid"
   has_many :group_memberships
