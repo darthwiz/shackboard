@@ -1,9 +1,4 @@
 class Post < ActiveRecord::Base
-  require 'magic_fixes.rb'
-  require 'each_by.rb'
-  include ActiveRecord::MagicFixes
-  include ActiveRecord::EachBy
-  extend  ActiveRecord::EachBy
   set_primary_key "pid"
   belongs_to :topic, :foreign_key => "tid", :counter_cache => :replies
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :posts

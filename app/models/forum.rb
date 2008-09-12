@@ -1,12 +1,10 @@
 class Forum < ActiveRecord::Base
-  require 'magic_fixes.rb'
-  include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "forums"
   set_inheritance_column "_type"
   set_primary_key "fid"
   belongs_to :forum,  :foreign_key => 'fup'
-  has_many   :topics, :foreign_key => 'fid', :dependent => :destroy
-  has_many   :posts,  :foreign_key => 'fid', :dependent => :destroy
+  has_many   :topics, :foreign_key => 'fid'
+  has_many   :posts,  :foreign_key => 'fid'
   @@tree = nil
 
   def container
@@ -160,13 +158,42 @@ class Forum < ActiveRecord::Base
     )
   end
 
-  def Forum.latest_topics(id, *args)
+  def self.latest_topics(id, *args)
     f = Forum.find(id)
     f.latest_topics(*args)
   end
 
-  def Forum.reset_cache!
+  def self.reset_cache!
     @@tree = nil
+  end
+
+  def self.rebuild_flattened_list_seq!
+    self_and_children = lambda do |f|
+      fs = []
+      fs << f
+      f.children.each do |i|
+        fs << self_and_children.call(i)
+      end
+      fs.flatten
+    end
+    forums = []
+    self.find(
+      :all,
+      :conditions => 'fup = 0',
+      :order      => 'displayorder'
+    ).each do |f|
+      forums << self_and_children.call(f)
+    end
+    seq = 0
+    forums.flatten.each do |i|
+      seq += 1
+      i.flattened_list_seq = seq
+      i.save!
+    end
+  end
+
+  def self.flattened_list
+    self.find(:all, :order => 'flattened_list_seq')
   end
 
   def move_to_sub(forum)

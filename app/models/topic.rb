@@ -1,14 +1,25 @@
 class Topic < ActiveRecord::Base
-  require 'magic_fixes.rb'
-  require 'each_by.rb'
-  include ActiveRecord::MagicFixes
-  include ActiveRecord::EachBy
-  extend  ActiveRecord::EachBy
   set_table_name table_name_prefix + "threads"
   set_primary_key "tid"
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :threads
   belongs_to :user,  :foreign_key => "uid"
   has_many   :posts, :foreign_key => "tid"
+  def pinned?
+    self[:topped] == 1
+  end
+
+  def pinned=(status)
+    self[:topped] = status
+  end
+
+  def locked?
+    self[:closed] == 'yes'
+  end
+
+  def locked=(status)
+    self[:closed] = status ? 'yes' : 'no'
+  end
+
   def container
     Forum.find(self.fid)
   end

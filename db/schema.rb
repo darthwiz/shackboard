@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 7) do
+ActiveRecord::Schema.define(:version => 8) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -303,27 +303,30 @@ ActiveRecord::Schema.define(:version => 7) do
   end
 
   create_table "xmb_forums", :primary_key => "fid", :force => true do |t|
-    t.string  "type",         :limit => 15,  :default => "",    :null => false
-    t.string  "name",         :limit => 60,  :default => "",    :null => false
-    t.string  "status",       :limit => 15,  :default => "",    :null => false
-    t.string  "lastpost",     :limit => 30,  :default => "",    :null => false
-    t.string  "moderator",    :limit => 100, :default => "",    :null => false
-    t.integer "displayorder", :limit => 10
-    t.string  "private",      :limit => 30
+    t.string  "type",               :limit => 15,  :default => "",    :null => false
+    t.string  "name",               :limit => 60,  :default => "",    :null => false
+    t.string  "status",             :limit => 15,  :default => "",    :null => false
+    t.string  "lastpost",           :limit => 30,  :default => "",    :null => false
+    t.string  "moderator",          :limit => 100, :default => "",    :null => false
+    t.integer "displayorder",       :limit => 10
+    t.string  "private",            :limit => 30
     t.text    "description"
-    t.string  "allowhtml",    :limit => 3,   :default => "",    :null => false
-    t.string  "allowsmilies", :limit => 3,   :default => "",    :null => false
-    t.string  "allowbbcode",  :limit => 3,   :default => "",    :null => false
-    t.string  "guestposting", :limit => 3,   :default => "",    :null => false
-    t.text    "userlist",                                       :null => false
-    t.string  "theme",        :limit => 30,  :default => "",    :null => false
-    t.integer "posts",        :limit => 100, :default => 0,     :null => false
-    t.integer "threads",      :limit => 100, :default => 0,     :null => false
-    t.integer "fup",          :limit => 6,   :default => 0,     :null => false
-    t.string  "postperm",     :limit => 3,   :default => "",    :null => false
-    t.string  "allowimgcode", :limit => 3,   :default => "",    :null => false
-    t.string  "pollstatus",   :limit => 15,  :default => "off", :null => false
+    t.string  "allowhtml",          :limit => 3,   :default => "",    :null => false
+    t.string  "allowsmilies",       :limit => 3,   :default => "",    :null => false
+    t.string  "allowbbcode",        :limit => 3,   :default => "",    :null => false
+    t.string  "guestposting",       :limit => 3,   :default => "",    :null => false
+    t.text    "userlist",                                             :null => false
+    t.string  "theme",              :limit => 30,  :default => "",    :null => false
+    t.integer "posts",              :limit => 100, :default => 0,     :null => false
+    t.integer "threads",            :limit => 100, :default => 0,     :null => false
+    t.integer "fup",                :limit => 6,   :default => 0,     :null => false
+    t.string  "postperm",           :limit => 3,   :default => "",    :null => false
+    t.string  "allowimgcode",       :limit => 3,   :default => "",    :null => false
+    t.string  "pollstatus",         :limit => 15,  :default => "off", :null => false
+    t.integer "flattened_list_seq", :limit => 11
   end
+
+  add_index "xmb_forums", ["flattened_list_seq"], :name => "index_xmb_forums_on_flattened_list_seq"
 
   create_table "xmb_geomarks", :force => true do |t|
     t.integer  "user_id",     :limit => 11, :null => false
