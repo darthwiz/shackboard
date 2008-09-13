@@ -6,8 +6,16 @@ class Post < ActiveRecord::Base
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :posts
   belongs_to :user,  :foreign_key => "uid"
   attr_accessor :seq, :subject
+  def text
+    self.message
+  end
+
+  def text=(s)
+    self.message = s
+  end
+
   def container
-    Topic.find(self.tid)
+    self.topic
   end
   def acl
     acl = AclMapping.map(self)
@@ -51,8 +59,10 @@ class Post < ActiveRecord::Base
     begin
       u = User.find_by_username(self.author)
     rescue
+      u = nil
     end
     self.topic.lastpost = { :user => u, :timestamp => self.dateline } if u
+    self.text = Sanitizer.sanitize_bb(self.text)
     self.topic.save if super
   end
   def destroy

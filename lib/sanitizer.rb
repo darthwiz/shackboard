@@ -1,17 +1,20 @@
 class Sanitizer
-  def self.sanitize_html(html, ok_tags = 'a href, b, br, p, i, em, div, img src')
+  def self.sanitize_html(html, ok_tags=nil)
     # Adapted from http://ideoplex.com/id/1138/sanitize-html-in-ruby
     # Adapted from http://snippets.dzone.com/posts/show/3822
 
+    ok_tags = 'a href, b, br, p, i, em, div, span, ul, li, img src alt, h1, h2, h3, h4, h5' unless ok_tags
     # no closing tag necessary for these
     solo_tags = [ 'br','hr', 'img' ]
 
     # Build hash of allowed tags with allowed attributes
-    tags    = ok_tags.downcase().split(',').collect!{ |s| s.split(' ') }
-    allowed = Hash.new
+    tags    = ok_tags.downcase.split(',').collect!{ |s| s.split(' ') }
+    allowed = {}
     tags.each do |s|
-      key          = s.shift
-      allowed[key] = s
+      key           = s.shift
+      allowed[key]  = s
+      allowed[key] << 'style'
+      allowed[key] << 'class'
     end
 
     # Analyze all <> elements
@@ -50,7 +53,7 @@ class Sanitizer
           else
             # allowed attributes?
             out = "<#{tag}"
-            while ( $' =~ /(\w+)=("[^"]+")/ )
+            while ($' =~ /(\w+)=("[^"]+")/)
               attr = $1.downcase
               valu = $2
               if allowed[tag].include?(attr) then

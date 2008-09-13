@@ -42,6 +42,25 @@ class User < ActiveRecord::Base
     end
   end
  
+  def is_adm?
+    User.admin_ids.include? self.id
+  end
+
+  def is_supermod?
+    return true if User.admin_ids.include? self.id
+    User.supermod_ids.include? self.id
+  end
+ 
+  def banned?
+    self.status == 'Banned'
+  end
+
+  def status=(status)
+    @@admins    = nil if status == 'Administrator'
+    @@supermods = nil if status == 'Super Moderator'
+    super
+  end
+
   def rename!(new_username) 
     if User.find_by_username(new_username)
       raise DuplicateUserError, "user #{new_username.inspect} already exists"
@@ -108,21 +127,6 @@ class User < ActiveRecord::Base
     ids
   end
   
-  def is_adm?
-    User.admin_ids.include? self.id
-  end
-
-  def is_supermod?
-    return true if User.admin_ids.include? self.id
-    User.supermod_ids.include? self.id
-  end
- 
-  def status=(status)
-    @@admins    = nil if status == 'Administrator'
-    @@supermods = nil if status == 'Super Moderator'
-    super
-  end
-
   private
   def nearest_multiple(i, j)
     (i.to_f / j).round * j

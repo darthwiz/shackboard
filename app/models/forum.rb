@@ -27,6 +27,7 @@ class Forum < ActiveRecord::Base
   def can_post?(user)
     # FIXME This is a very basic implementation, only meant to pass the basic
     # tests.
+    return false if self.banned?(user)
     if user.is_a? Array
       begin
         user = User.find(user[1]) if user[0] == 'User'
@@ -47,6 +48,10 @@ class Forum < ActiveRecord::Base
     return true if User.supermod_ids.include? user.id
     return true if self.moderator_ids.include? user.id
     return false
+  end
+
+  def banned?(user)
+    user.banned?
   end
 
   def moderators

@@ -1,0 +1,5 @@
+<%# vim: set ft=eruby nowrap: -%>
+<%=page_trail%>
+<%unless cleanup(page_seq).empty?%>
+  <span class="pages">(pagine: <%=page_seq%>)</span>
+<%end%>

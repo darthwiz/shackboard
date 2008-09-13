@@ -6,12 +6,20 @@ class Topic < ActiveRecord::Base
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :threads
   belongs_to :user,  :foreign_key => "uid"
   has_many   :posts, :foreign_key => "tid"
+  def pinned
+    self[:topped] == 1
+  end
+
   def pinned?
     self[:topped] == 1
   end
 
   def pinned=(status)
-    self[:topped] = status
+    self[:topped] = status ? 1 : 0
+  end
+
+  def locked
+    self[:closed] == 'yes'
   end
 
   def locked?
@@ -31,6 +39,10 @@ class Topic < ActiveRecord::Base
   def title
     self.subject
   end
+  def title=(s)
+    self.subject = s
+  end
+
   def total_posts
     self.replies + 1
   end
@@ -42,7 +54,7 @@ class Topic < ActiveRecord::Base
     acl
   end
   def can_post?(user)
-    self.forum.can_post?(user) && self.closed.empty?
+    self.forum.can_post?(user) && !(self.locked?)
   end
   def can_read?(user)
     self.acl.can_read?(user)

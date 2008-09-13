@@ -211,18 +211,12 @@ lfu = @legacy_forum_uri
     <div id="main">
       <div id="forum">
         <div id="content_box">
-          <div class="breadcrumbs">
-            <%=page_trail%>
-            <%unless cleanup(page_seq).empty?%>
-              <span class="pages">(pagine: <%=page_seq%>)</span>
-            <%end%>
+          <div id="breadcrumbs" class="breadcrumbs">
+            <%=render :partial => '/common/breadcrumbs'%>
           </div>
           <%=yield%>
-          <div class="breadcrumbs_bottom">
-            <%=page_trail%>
-            <%unless cleanup(page_seq).empty?%>
-              <span class="pages">(pagine: <%=page_seq%>)</span>
-            <%end%>
+          <div id="breadcrumbs_bottom" class="breadcrumbs_bottom">
+            <%=render :partial => '/common/breadcrumbs'%>
           </div>
           <%=render :partial => '/user/online'%>
         </div>
