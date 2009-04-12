@@ -63,11 +63,7 @@ module ApplicationHelper
 
   def link_user_register
     msg = 'nuovo utente'
-    if @legacy_mode == :old
-      s = link_to msg, '/portale/forum/member.php?action=reg'
-    else
-      s = link_to msg, :controller => 'user', :action => 'register'
-    end
+    s = link_to msg, new_user_path(:rules => true)
     content_tag('div', s, :class => 'user_register')
   end
 

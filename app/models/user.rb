@@ -8,6 +8,12 @@ class User < ActiveRecord::Base
   has_many :smileys
   has_many :categories
   validates_uniqueness_of :username
+  validates_uniqueness_of :email
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  validates_each :username do |record, key, value|
+    record.errors.add key, 'cannot be numeric'         if value =~ /^[0-9\s]+$/
+    record.errors.add key, 'cannot begin with a space' if value =~ /^\s/
+  end
   @@supermods = nil
   @@admins    = nil
 
@@ -127,6 +133,9 @@ class User < ActiveRecord::Base
     ids
   end
   
+  def self.pwgen
+    `pwgen -1 --capitalize --numerals --ambiguous`.strip
+  end
   private
   def nearest_multiple(i, j)
     (i.to_f / j).round * j

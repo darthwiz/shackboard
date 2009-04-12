@@ -131,9 +131,13 @@ lfu = @legacy_forum_uri
                           <tr>
                             <td class="navtd">
                               &nbsp;
-                              <a href="<%=lfu%>/usercp.php"><span class="navtd">Profilo</span></a> |
-                              <a href="<%=lfu%>/misc.php?action=search"><span class="navtd">Cerca</span></a> |
-                              <a href="<%=lfu%>/usercp.php?action=u2u"><span class="navtd">Messaggi privati</span></a> 
+                              <%if @user%>
+                                <a href="<%=lfu%>/usercp.php"><span class="navtd">Profilo</span></a> |
+                              <%else%>
+                                <%=link_to(content_tag('span', 'Registrati', :class => 'navtd'), new_user_path(:rules => true))%> |
+                              <%end%>
+                              <a href="<%=lfu%>/misc.php?action=search"><span class="navtd">Cerca</span></a>
+                              <%if @user%> | <a href="<%=lfu%>/usercp.php?action=u2u"><span class="navtd">Messaggi privati</span></a><%end%> 
                             </td>
                             <td align="right">
                               <a href="/"><span class="navtd">Torna a STUDENTIBICOCCA.it</span></a>
@@ -211,13 +215,17 @@ lfu = @legacy_forum_uri
     <div id="main">
       <div id="forum">
         <div id="content_box">
+          <%if @location%>
           <div id="breadcrumbs" class="breadcrumbs">
             <%=render :partial => '/common/breadcrumbs'%>
           </div>
+          <%end%>
           <%=yield%>
+          <%if @location%>
           <div id="breadcrumbs_bottom" class="breadcrumbs_bottom">
             <%=render :partial => '/common/breadcrumbs'%>
           </div>
+          <%end%>
           <%=render :partial => '/user/online'%>
         </div>
       </div>

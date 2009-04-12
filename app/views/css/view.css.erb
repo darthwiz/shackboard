@@ -523,4 +523,49 @@ div#blogs ul.comment_list {
   padding: 0;
 }
 
-
+/* NEW USER SPECIFIC */
+form#new_user div.submit,
+div#rules-accept {
+  margin: 2em;
+  text-align: center;
+}
+form#new_user fieldset {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg2%>;
+}
+form#new_user fieldset legend {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg2%>;
+  padding: 0.3em 0.7em;
+}
+form#new_user dl {
+  overflow: auto;
+}
+form#new_user dt {
+  float: left;
+  width: 10em;
+  clear: left;
+}
+div.errors {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 1px solid red;
+  background-color: #ffc0c0;
+  padding: 1em;
+}
+div.errors ul {
+  margin-left: 2em;
+}
+.errors strong {
+  color: red;
+}
+div.ok {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 1px solid green;
+  background-color: #c0ffc0;
+  padding: 1em;
+}
+.ok strong {
+  color: green;
+}

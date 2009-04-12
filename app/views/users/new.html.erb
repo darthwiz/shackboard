@@ -1,0 +1,19 @@
+<div id="signup">
+<%if @rules%>
+  <h3>Registrazione nuovo utente - regolamento</h3>
+  <div id="rules">
+    <%=@rules.text%>
+  </div>
+  <div id="rules-accept">
+    <%=button_to 'Accetta', new_user_path%>
+  </div>
+<%else%>
+  <h3>Registrazione nuovo utente</h3>
+  <%form_for @new_user do |f|%>
+    <%=render :partial => '/common/user_data', :locals => { :f => f, :errors => @new_user.errors }%>
+    <div class="submit">
+      <%=f.submit 'Registrati'%>
+    </div>
+  <%end%>
+<%end%>
+</div>

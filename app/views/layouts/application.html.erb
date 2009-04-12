@@ -7,11 +7,8 @@
     </title>
     <%=javascript_include_tag :defaults%>
     <%=stylesheet_link_tag @stylesheet%>
-    <%#javascript_include_tag 'fckeditor/fckeditor' %>
   </head>
   <body>
-    <%# render :partial => "/layouts/mainbar" %>
-    <p style="color: green"><%= flash[:notice] %></p>
     <%=yield%>
     <script src="http://www.google-analytics.com/urchin.js"
             type="text/javascript">

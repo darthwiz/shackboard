@@ -1,7 +1,7 @@
 <table class="loginbox" cellspacing="0" cellpadding="0">
-<%= start_form_tag :method     => 'post"',
-                   :controller => 'login',
-                   :action     => 'login' %>
+<%=form_tag :method     => 'post"',
+            :controller => 'login',
+            :action     => 'login' %>
   <tr>
     <td>
       Username:
@@ -15,5 +15,5 @@
       <%= submit_tag 'Login', :class => 'loginbox' %>
     </td>
   </tr>
-<%= end_form_tag %>
+</form>
 </table>

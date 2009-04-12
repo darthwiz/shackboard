@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
+#RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -65,7 +65,7 @@ Rails::Initializer.run do |config|
 end
 
 # Include your application configuration below
-ActionController::Base.fragment_cache_store = :mem_cache_store, '192.168.1.3'
+#ActionController::Base.fragment_cache_store = :mem_cache_store, '192.168.1.3'
 $KCODE = 'UTF8'
 
 GLOBAL_ADM_GROUP = "administrators"
