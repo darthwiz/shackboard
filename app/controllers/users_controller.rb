@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @new_user = User.new
     respond_to do |format|
       format.html do
-        @rules = StaticContent.find_by_label('rules') if params[:rules] == 'true'
+        @rules = Settings.find(:first).bbrulestxt if params[:rules] == 'true'
         render :layout => 'forum'
       end
     end
