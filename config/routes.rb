@@ -37,9 +37,9 @@ ActionController::Routing::Routes.draw do |map|
   #map.connect 'chi-siamo', :controller => 'welcome', :action => 'about_us'
   #map.connect 'mappa-del-sito', :controller => 'welcome', :action => 'sitemap'
   #map.connect 'area-personale', :controller => 'welcome', :action => 'personal'
-  map.blog_list 'blogs/:username', :controller => 'blog', :action => 'list', :requirements => blog_reqs
-  map.blog_view 'blogs/:username/:blog_label', :controller => 'blog', :action => 'view', :requirements => blog_reqs
   map.blog_view 'blogs/:username/:blog_label/:category_label', :controller => 'blog', :action => 'view', :requirements => blog_reqs
+  map.blog_view 'blogs/:username/:blog_label', :controller => 'blog', :action => 'view', :requirements => blog_reqs
+  map.blog_list 'blogs/:username', :controller => 'blog', :action => 'list', :requirements => blog_reqs
 
   # See how all your routes lay out with "rake routes"
 

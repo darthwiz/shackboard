@@ -86,6 +86,6 @@ Rails::Initializer.run do |config|
 end
 
 # Include your application configuration below
-#ActionController::Base.fragment_cache_store = :mem_cache_store, '192.168.1.3'
+ActionController::Base.cache_store = :mem_cache_store, '192.168.1.3'
 $KCODE = 'UTF8'
 
