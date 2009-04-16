@@ -53,8 +53,10 @@
     <%@pms.each do |pm|%>
     $('pm_<%=pm.id%>_hidden_line').onclick = function() { pm_reveal(<%=pm.id%>) }
     $('pm_<%=pm.id%>_hidden_line').style.cursor = 'pointer'
-    $('pm_<%=pm.id%>_pm').style.cursor = 'pointer'
-    $('pm_<%=pm.id%>_pm').onclick = function() { pm_hide(<%=pm.id%>) }
+    $$('div#pm_<%=pm.id%>_pm dd.date')[0].style.cursor = 'pointer'
+    $$('div#pm_<%=pm.id%>_pm dd.subject')[0].style.cursor = 'pointer'
+    $$('div#pm_<%=pm.id%>_pm dd.date')[0].onclick = function() { pm_hide(<%=pm.id%>) }
+    $$('div#pm_<%=pm.id%>_pm dd.subject')[0].onclick = function() { pm_hide(<%=pm.id%>) }
     $('pm_delete_<%=pm.id%>').onclick = function() { pm_delete(<%=pm.id%>) }
     <%if pm.folder == 'trash'%>
     $('pm_undelete_<%=pm.id%>').onclick = function() { pm_undelete(<%=pm.id%>) }

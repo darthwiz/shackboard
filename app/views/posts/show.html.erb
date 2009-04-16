@@ -1,0 +1,54 @@
+<%
+t      = @opts[:theme]
+u      = @post.user
+nstars = u.rank.stars
+status = u.customstatus.empty? ? u.status : u.customstatus
+%>
+<div id="topic_view">
+  <h3><%=link_to cleanup(@post.topic.title), "/portale/forum/viewtopic.php?tid=#{@post.topic.id}"%></h3>
+  <div id="post_list" class="<%=domid(@post.topic)%>">
+    <table bgcolor="<%=t.bordercolor%>" cellspacing="1" width="100%" cellpadding="3">
+      <tr bgcolor="<%=t.altbg2%>">
+        <td width="18%" valign="top" class="tablerow" rowspan="2">
+          <span class="postauthor"><%=u.username%></span>
+          <br />
+          <div class="11px">
+            <%=status%><br />
+            <%nstars.times do%><img src="http://www.studentibicocca.it/portale/forum/images/star.gif" alt="*"/><%end%>
+            <br />
+            <br />
+            <img width="<%=u.avatar_width%>" height="<%=u.avatar_height%>" class="avatar" src="<%=u.avatar%>" alt="" />
+            <br />
+            <br />
+            <%=u.postnum%> messaggi<br />
+            Registrato il: <%=Time.at(u.regdate).strftime("%d/%m/%Y")%>
+            <br />
+          </div>
+          <br />
+        </td>
+
+        <td width="82%" valign="top" height="1" class="11px">
+          &nbsp; postato il <%=Time.at(@post.dateline.to_i).strftime("%d/%m/%Y, %H.%M")%>
+        </td>
+      </tr>
+
+      <tr bgcolor="#EEEEEE">
+        <td valign="top" height="120">
+          <div class="maxpostwidth">
+            <%=text_to_html(@post.message, @post.format.to_sym, u)%>
+            <%unless u.sig.strip.empty?%>
+            <p>&nbsp;</p>____________________<br />
+
+            <div class="signature">
+              <%=u.sig%>
+            </div>
+            <%end%>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <%=@post.useip if @user.is_adm?%>
+    <br/>
+    <br/>
+  </div>
+</div>

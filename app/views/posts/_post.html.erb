@@ -1,0 +1,139 @@
+<%
+  flip       = 0 unless flip
+  last_post  = false unless last_post
+  maxwidth   = 120
+  user       = message.user
+  sign       = ''
+  subject    = nil
+  msg_status = 'msg_read'
+  if message.is_a? Pm
+    subject    = message.subject
+    subject    = content_tag('em', '(nessun oggetto)') if subject.to_s.strip.empty?
+    msg_status = 'msg_new' if message.status == 'new'
+  end
+  if user
+    username = cleanup(user.username)
+    msgnum   = user.postnum
+    msgdate  = Time.at(message.dateline.to_i).strftime("%d/%m/%Y, %H.%M")
+    rank     = user.rank
+    sign     = sanitize(user.sig.gsub("\n", "<br />\n"), :tags => %w(br))
+    avatar   = cleanup(user.avatar)
+    regdate  = Time.at(user.regdate).strftime("%d/%m/%Y")
+    status   = user.customstatus.empty? ? user.status : user.customstatus
+  else
+    rank       = Rank.new
+    rank.title = "utente sconosciuto"
+  end
+%>
+<li id="<%=domid(message)%>" class="<%=domid(user)%> alt_<%=flip%>">
+  <%=content_tag('a', '', :name => 'last_post') if last_post%>
+  <div class="<%=msg_status%>">
+    <div id="<%=domid(message)%>_<%=message.class.to_s.downcase%>" class="<%=message.class.to_s.downcase%>">
+      <div class="author">
+        <dl class="author_properties">
+          <dt class="username">
+            <span class="label">Autore:</span>
+            <span class="value">
+              <%if username.to_s.empty?%>
+              <em>utente sconosciuto</em>
+              <%else%>
+              <%=username%>
+              <%end%>
+            </span>
+          </dt>
+          <dd class="status">
+            <span class="label">Status:</span>
+            <span class="value"><%=status%></span>
+          </dd>
+          <dd class="avatar">
+            <%=image_tag(avatar, :alt => '', :class => 'avatar') unless avatar.empty?%>
+          </dd>
+          <dd class="reg_date">
+            <span class="label">registrato il</span>
+            <span class="value"><%=regdate%></span>
+          </dd>
+          <dd class="message_count">
+            <span class="value"><%=msgnum%></span>
+            <span class="label">messaggi</span>
+          </dd>
+          <dd class="personal">
+            <%=link_to 'Profilo', {}, { :class => 'profile' }%>
+            <%=link_to 'e-mail',  {}, { :class => 'email' }%>
+          </dd>
+        </dl>
+      </div>
+      <div class="message">
+        <dl>
+          <%if subject %>
+          <dd class="subject">
+            <span class="label">oggetto:</span>
+            <span class="value"><%=subject%></span>
+          </dd>
+          <%end%>
+          <dd class="date">
+            <span class="label">inviato il</span>
+            <span class="value"><%=msgdate%></span>
+          </dd>
+          <%if message.is_a? Pm-%>
+          <dd class="delete">
+            <%=button_to_function "Elimina", nil do |page|
+              page.hide domid(message)
+              page.call 'pm_delete', message.id
+            end%>
+          </dd>
+          <%elsif message.is_a? Post-%>
+            <dd class="post-permalink">
+              <%=link_to 'permalink', message%>
+            </dd>
+          <%end%>
+          <dd class="message">
+            <div id="<%=domid(message)%>_text">
+              <%=text_to_html(message.message)%>
+            </div>
+          </dd>
+          <%unless sign.empty?%>
+          <dd class="signature">
+            <div class="line"></div>
+            <div class="signature"><%=sign%></div>
+          </dd>
+          <%end%>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="operations">
+    <%if message.is_a? Post%>
+    <%=link_to 'Rispondi', { :controller => 'post',
+                               :action     => 'new',
+                               :reply      => message.id,
+                               :class      => 'post',
+                               :quote      => true },
+                             { :class => 'reply', :method => :get }%>
+    <%=link_to 'Rispondi in privato', { :controller => 'pm',
+                                          :action     => 'new',
+                                          :reply      => message.id,
+                                          :class      => 'post',
+                                          :quote      => 'true' },
+                                        { :class => 'reply_pm' , :method => :get}%>
+    <%=link_to_remote 'Modifica', :url => { :controller => 'post', :action => 'edit', :id => message.id },
+    :html => { :class => 'edit' }, :method => :get%>
+    <%=link_to 'Segnala', {}, { :class => 'report', :method => :get }%>
+    <%elsif message.is_a? Pm%>
+    <%if message.folder == 'trash'%>
+    <%=link_to 'Ripristina', '#', { :class  => 'delete',
+                                    :id     => "pm_undelete_#{message.id}",
+                                    :method => :get }%>
+    <%else%>
+    <%=link_to 'Rispondi', { :controller => 'pm',
+                             :action     => 'new',
+                             :reply      => message.id,
+                             :class      => 'pm',
+                             :quote      => true },
+                           { :class => 'reply', :method => :get }%>
+    <%end%>
+    <%=link_to 'Elimina', '#', { :class  => 'delete',
+                                 :id     => "pm_delete_#{message.id}",
+                                 :method => :get }%>
+    <%end%>
+  </div>
+</li>
