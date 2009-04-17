@@ -32,7 +32,7 @@ status = u.customstatus.empty? ? u.status : u.customstatus
         </td>
       </tr>
 
-      <tr bgcolor="#EEEEEE">
+      <tr bgcolor="<%=t.altbg2%>">
         <td valign="top" height="120">
           <div class="maxpostwidth">
             <%=text_to_html(@post.message, @post.format.to_sym, u)%>
@@ -47,7 +47,7 @@ status = u.customstatus.empty? ? u.status : u.customstatus
         </td>
       </tr>
     </table>
-    <%=@post.useip if @user.is_adm?%>
+    <%=@post.useip if @user.is_a?(User) && @user.is_adm?%>
     <br/>
     <br/>
   </div>
