@@ -8,7 +8,6 @@ class BlogPostController < ApplicationController
         post.user       = @user
         post.ip_address = request.env['REMOTE_ADDR']
         @blog           = post.blog
-        post.blog_post.increment!(:comments_count) if post.blog_post_id > 0
         if @user != post.blog.user
           post.unread = true
           post.blog_post.increment!(:unread_comments_count)
@@ -18,23 +17,13 @@ class BlogPostController < ApplicationController
             post.blog.last_post_id = post.id
             post.blog.last_post_at = post.created_at
             post.blog.save
-            if post.blog_post_id > 0 # it's a comment
-              render :update do |page|
-                page.insert_html :bottom, "blog_post_#{post.blog_post_id}_comments_list".to_sym,
-                                 :partial => 'editable_blog_post_with_li',
-                                 :locals  => { :p => post }
-                page["new_blog_post_form_#{post.blog_post_id}".to_sym].hide
-                page["new_blog_post_link_#{post.blog_post_id}".to_sym].show
-              end and return
-            else # it's a post
-              render :update do |page|
-                page.insert_html :top, :blog_post_list,
-                                 :partial => 'editable_blog_post_with_li',
-                                 :locals  => { :p => post }
-                page[:new_blog_post_form_0].hide
-                page[:new_blog_post_link_0].show
-              end and return
-            end
+            render :update do |page|
+              page.insert_html :top, :blog_post_list,
+                                :partial => 'editable_blog_post_with_li',
+                                :locals  => { :p => post }
+              page[:new_blog_post_form_0].hide
+              page[:new_blog_post_link_0].show
+            end and return
           end
         end
       end
@@ -98,9 +87,6 @@ class BlogPostController < ApplicationController
               post.blog.last_post_at = nil
               post.blog.save
             end
-            if post.blog_post_id > 0
-              post.blog_post.decrement!(:comments_count)
-            end
             render :update do |page|
               page.hide "blog_post_#{post.id}"
             end and return
@@ -116,7 +102,7 @@ class BlogPostController < ApplicationController
       post_id     = params[:id]
       parent_post = BlogPost.find(post_id)
       @blog       = parent_post.blog
-      @comments   = BlogPost.find(
+      @comments   = BlogComment.find(
         :all,
         :conditions => [ 'blog_post_id = ?', post_id ],
         :order      => 'created_at'

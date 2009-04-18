@@ -1,15 +1,13 @@
 <%# vim: set ft=eruby nowrap: -%>
-<%url = { :controller => :blog_post, :action => :update }
+<%url = { :controller => p.class.to_s.underscore, :action => :update }
   remote_form_for p, :url => url do |f|%>
   <fieldset>
     <div>
       Titolo: <%=f.text_field :title, :value => p.title%>
     </div>
-    <%if p.blog_post_id == 0%>
     <div>
-      <%=f.select :category_ids, p.blog.categories.collect { |c| [ c.name, c.id ] }%>
+      <%=f.select :category_ids, p.blog.categories.collect { |c| [ c.name, c.id ] } if p.is_a?(BlogPost)%>
     </div>
-    <%end%>
     <div>
       <%=f.text_area :text, :value => p.text%>
     </div>

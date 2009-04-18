@@ -1,33 +1,40 @@
 <%# vim: set ft=eruby nowrap: -%>
 <%unless p.title.to_s.empty?%><h4><%=cleanup(p.title)%></h4><%end%>
-<%unless p.categories.empty?%>
+<%if p.is_a?(BlogPost) && !p.categories.empty?%>
 <span class="categories">(<%=p.categories.collect { |c| c.name }.join ', '%>)</span>
 <%end%>
 <div class="text">
   <%=text_to_html(p.text)%>
 </div>
-<%if p.blog_post_id > 0%><span class="author">(<%=cleanup(p.user.username)%>)<%end%>
+<span class="author">(<%=cleanup(p.user.username)%>)
 <div class="operations">
   <%if @user == p.user || @user == @blog.user%>
-  <%=link_to_remote 'mod',
-    :update => domid(p),
-    :url    => { :controller => :blog_post, :action => :edit, :id => p },
-    :html   => { :class => 'edit' }%>
-  <%=link_to_remote 'del',
-    :update => domid(p),
-    :url    => { :controller => :blog_post, :action => :destroy, :id => p },
-    :html   => { :class => 'delete' }%>
+    <%if p.is_a?(BlogPost)%>
+      <%=link_to_remote 'mod',
+        :update => domid(p),
+        :url    => { :controller => :blog_post, :action => :edit, :id => p },
+        :html   => { :class => 'edit' }%>
+      <%=link_to_remote 'del',
+        :update => domid(p),
+        :url    => { :controller => :blog_post, :action => :destroy, :id => p },
+        :html   => { :class => 'delete' }%>
+    <%elsif p.is_a?(BlogComment)%>
+      <%=link_to_remote 'mod',
+        :update => domid(p),
+        :url    => { :controller => :blog_comment, :action => :edit, :id => p },
+        :html   => { :class => 'edit' }%>
+      <%=link_to_remote 'del',
+        :update => domid(p),
+        :url    => { :controller => :blog_comment, :action => :destroy, :id => p },
+        :html   => { :class => 'delete' }%>
+    <%end%>
   <%end%>
   <div class="comments_summary">
-    <%
-    if p.blog_post_id == 0
-      label = p.comments_count.to_s + ' commenti'
-      %><%=link_to_remote label,
+    <%=link_to_remote "#{p.comments_count} commenti",
       :update => domid(p) + '_comments',
       :url    => { :controller => :blog_post, :action => :view_comments, :id => p },
-      :html   => { :class => 'view_comments' }%>
-    <%end%>
-    <%if @blog.user == @user%>
+      :html   => { :class => 'view_comments' } if p.is_a?(BlogPost)%>
+    <%if p.is_a?(BlogPost) && @blog.user == @user%>
       <%if p.unread_comments_count == 1%>
         <span class="unread">(<%=p.unread_comments_count%> non letto)</span>
       <%elsif p.unread_comments_count > 0%>
@@ -36,7 +43,5 @@
     <%end%>
   </div>
 </div>
-<%if p.blog_post_id == 0%>
 <div id="<%=domid(p)%>_comments">
 </div>
-<%end%>

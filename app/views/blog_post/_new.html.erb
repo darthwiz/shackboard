@@ -4,19 +4,20 @@ parent_post = nil unless parent_post.is_a? BlogPost
 if parent_post
   parent_post_id = parent_post.id
   new_link_label = 'nuovo commento'
+  object         = BlogComment.new
 else
   parent_post_id = 0
   new_link_label = 'nuovo post'
+  object         = BlogPost.new
 end
 new_link_id = 'new_blog_post_link_' + parent_post_id.to_s
 new_form_id = 'new_blog_post_form_' + parent_post_id.to_s
+form_url    = { :controller => object.class.to_s.underscore, :action => :create }
 -%>
 <%if @user == @blog.user || parent_post_id > 0%>
 <div id="new_blog_post_form_<%=parent_post_id%>" style="display: none;">
   <%userid = @user ? @user.id : nil
-    remote_form_for BlogPost.new,
-    :url => { :controller   => :blog_post,
-              :action       => :create } do |f|%>
+    remote_form_for object, :url => form_url do |f|%>
     <fieldset>
       <div>
         Titolo: <%=f.text_field :title%>
@@ -29,8 +30,8 @@ new_form_id = 'new_blog_post_form_' + parent_post_id.to_s
       <div>
         <%=f.text_area :text%>
       </div>
-      <%=f.hidden_field :blog_post_id, :value => parent_post_id%>
-      <%=f.hidden_field :blog_id, :value => @blog.id%>
+      <%=f.hidden_field :blog_post_id, :value => parent_post_id if parent_post%>
+      <%=f.hidden_field :blog_id, :value => @blog.id unless parent_post%>
       <%=f.submit 'Crea'%>
     </fieldset>
   <%end%>

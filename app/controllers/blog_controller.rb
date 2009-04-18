@@ -26,7 +26,7 @@ class BlogController < ApplicationController
     if @blog.is_a? Blog
       @posts = BlogPost.find(
         :all,
-        :conditions => [ 'user_id = ? AND blog_id = ? AND blog_post_id = 0', @blog_user.id, @blog.id ],
+        :conditions => [ 'user_id = ? AND blog_id = ?', @blog_user.id, @blog.id ],
         :order      => 'created_at DESC'
       )
       @blog.increment! :view_count
