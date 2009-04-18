@@ -1,4 +1,4 @@
-/* <%t = @theme%> */
+/* auto-generated theme: <%t = @theme%><%=t.name%> */
 /* -------------------- general -------------------- */
 body {
   color: <%=t.text%>;
@@ -505,12 +505,18 @@ div#blogs div.primary {
 }
 li.blog_post h2 {
   margin-top: 0;
+  margin-bottom: 0;
 }
 li.blog_post div.author {
   font-style: italic;
   text-align: right;
   margin-right: 2em;
   margin-top: 2em;
+}
+li.blog_post div.permalink {
+  font-style: italic;
+  text-align: right;
+  margin-right: 2em;
 }
 li.blog_post div.author span.author {
   font-weight: bold;
@@ -536,11 +542,12 @@ div#blogs div#blog li.blog_post {
   background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
 }
-div#blogs div#blog li.blog_post span.categories {
+div#blogs div#blog li.blog_post div.categories {
   font-size: 10px;
+  display: none; /* XXX */
 }
 div#blogs div#blog li.blog_post div.text {
-  margin: 0.5em 0 0.5em 0;
+  margin: 1.5em 0 0.5em 0;
   max-width: 60em;
 }
 div#blogs ul#blog_list {
@@ -562,6 +569,20 @@ div#blogs ul.comment_list li.blog_comment {
   background-color: <%=t.altbg1%>;
   margin: 1em;
   padding: 0 1em 1em 1em;
+}
+form.new_blog_post fieldset {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  margin: 1em 0 1em 0;
+}
+form.new_blog_comment fieldset {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  margin: 1em;
+}
+form.new_blog_post fieldset textarea,
+form.new_blog_comment fieldset textarea {
+  width: 100%;
 }
 
 /* NEW USER SPECIFIC */

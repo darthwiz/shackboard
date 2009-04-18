@@ -29,6 +29,7 @@ class BlogController < ApplicationController
         :conditions => [ 'user_id = ? AND blog_id = ?', @blog_user.id, @blog.id ],
         :order      => 'created_at DESC'
       )
+      @page_title = @blog.name
       @blog.increment! :view_count
     end
     @location = [ 'Blog', @blog ]

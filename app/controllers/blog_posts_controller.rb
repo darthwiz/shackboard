@@ -1,5 +1,18 @@
 # vim: set nowrap:
-class BlogPostController < ApplicationController
+class BlogPostsController < ApplicationController
+  layout 'blog'
+  helper :blog
+
+  def show
+    post        = BlogPost.find(params[:id])
+    @blog_user  = post.blog.user
+    @blog       = post.blog
+    @posts      = [ post ]
+    @page_title = post.title || post.blog.title
+    @location   = [ 'Blog', @blog ]
+    render :template => '/blog/view'
+    @blog.increment! :view_count
+  end
 
   def create
     if request.xhr?
@@ -19,8 +32,8 @@ class BlogPostController < ApplicationController
             post.blog.save
             render :update do |page|
               page.insert_html :top, :blog_post_list,
-                                :partial => 'editable_blog_post_with_li',
-                                :locals  => { :p => post }
+                               :partial => 'editable_blog_post_with_li',
+                               :locals  => { :p => post }
               page[:new_blog_post_form_0].hide
               page[:new_blog_post_link_0].show
             end and return
@@ -115,7 +128,7 @@ class BlogPostController < ApplicationController
         parent_post.unread_comments_count = 0
         parent_post.save
       end
-      render :partial => '/blog_post/editable_list',
+      render :partial => '/blog_posts/editable_list',
              :locals  => { :comments    => @comments,
                            :posts       => nil,
                            :parent_post => parent_post } and return

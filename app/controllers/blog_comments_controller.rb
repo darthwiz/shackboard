@@ -1,5 +1,5 @@
 # vim: set nowrap:
-class BlogCommentController < ApplicationController
+class BlogCommentsController < ApplicationController
 
   def create
     if request.xhr?
@@ -16,7 +16,7 @@ class BlogCommentController < ApplicationController
         if comment.save
           render :update do |page|
             page.insert_html :bottom, "blog_post_#{comment.blog_post_id}_comments_list".to_sym,
-                             :partial => '/blog_post/editable_blog_post_with_li',
+                             :partial => '/blog_posts/editable_blog_post_with_li',
                              :locals  => { :p => comment }
             page["new_blog_post_form_#{comment.blog_post_id}".to_sym].hide
             page["new_blog_post_link_#{comment.blog_post_id}".to_sym].show

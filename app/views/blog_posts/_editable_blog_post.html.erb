@@ -1,7 +1,9 @@
 <%# vim: set ft=eruby nowrap: -%>
 <%unless p.title.to_s.empty?%><h2><%=cleanup(p.title)%></h2><%end%>
 <%if p.is_a?(BlogPost) && !p.categories.empty?%>
-<span class="categories">(<%=p.categories.collect { |c| c.name }.join ', '%>)</span>
+<div class="categories">
+  Categoria: <span class="categories"><%=p.categories.collect { |c| c.name }.join ', '%></span>
+</div>
 <%end%>
 <div class="text">
   <%=text_to_html(p.text)%>
@@ -10,32 +12,37 @@
   scritto da <span class="author"><%=cleanup(p.user.username)%></span>
   il <span class="date"><%=p.created_at.strftime("%d/%m/%y, %H.%M")%></span>
 </div>
+<div class="permalink">
+  <%=link_to 'permalink', p%>
+</div>
 <div class="operations">
   <%if @user == p.user || @user == @blog.user%>
     <%if p.is_a?(BlogPost)%>
       <%=link_to_remote 'mod',
         :update => domid(p),
-        :url    => { :controller => :blog_post, :action => :edit, :id => p },
+        :url    => { :controller => :blog_posts, :action => :edit, :id => p },
         :html   => { :class => 'edit' }%>
       <%=link_to_remote 'del',
         :update => domid(p),
-        :url    => { :controller => :blog_post, :action => :destroy, :id => p },
+        :url    => { :controller => :blog_posts, :action => :destroy, :id => p },
+        :method => :delete,
         :html   => { :class => 'delete' }%>
     <%elsif p.is_a?(BlogComment)%>
       <%=link_to_remote 'mod',
         :update => domid(p),
-        :url    => { :controller => :blog_comment, :action => :edit, :id => p },
+        :url    => { :controller => :blog_comments, :action => :edit, :id => p },
         :html   => { :class => 'edit' }%>
       <%=link_to_remote 'del',
         :update => domid(p),
-        :url    => { :controller => :blog_comment, :action => :destroy, :id => p },
+        :url    => { :controller => :blog_comments, :action => :destroy, :id => p },
+        :method => :delete,
         :html   => { :class => 'delete' }%>
     <%end%>
   <%end%>
   <div class="comments_summary">
     <%=link_to_remote "#{p.comments_count} commenti",
       :update => domid(p) + '_comments',
-      :url    => { :controller => :blog_post, :action => :view_comments, :id => p },
+      :url    => { :controller => :blog_posts, :action => :view_comments, :id => p },
       :html   => { :class => 'view_comments' } if p.is_a?(BlogPost)%>
     <%if p.is_a?(BlogPost) && @blog.user == @user%>
       <%if p.unread_comments_count == 1%>

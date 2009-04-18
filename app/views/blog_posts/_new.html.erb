@@ -12,7 +12,7 @@ else
 end
 new_link_id = 'new_blog_post_link_' + parent_post_id.to_s
 new_form_id = 'new_blog_post_form_' + parent_post_id.to_s
-form_url    = { :controller => object.class.to_s.underscore, :action => :create }
+form_url    = { :controller => object.class.to_s.underscore.pluralize, :action => :create }
 -%>
 <%if @user == @blog.user || parent_post_id > 0%>
 <div id="new_blog_post_form_<%=parent_post_id%>" style="display: none;">
