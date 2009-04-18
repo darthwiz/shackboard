@@ -1,5 +1,18 @@
 # vim: set nowrap:
 class BlogCommentsController < ApplicationController
+  layout 'blog'
+  helper :blog
+
+  def show
+    comment     = BlogComment.find(params[:id])
+    @blog_user  = comment.blog.user
+    @blog       = comment.blog
+    @posts      = [ comment ]
+    @page_title = comment.blog_post.title || comment.blog.title
+    @location   = [ 'Blog', @blog ]
+    render :template => '/blog/view'
+    @blog.increment! :view_count
+  end
 
   def create
     if request.xhr?
