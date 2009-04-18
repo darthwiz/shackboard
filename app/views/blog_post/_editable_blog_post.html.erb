@@ -1,12 +1,15 @@
 <%# vim: set ft=eruby nowrap: -%>
-<%unless p.title.to_s.empty?%><h4><%=cleanup(p.title)%></h4><%end%>
+<%unless p.title.to_s.empty?%><h2><%=cleanup(p.title)%></h2><%end%>
 <%if p.is_a?(BlogPost) && !p.categories.empty?%>
 <span class="categories">(<%=p.categories.collect { |c| c.name }.join ', '%>)</span>
 <%end%>
 <div class="text">
   <%=text_to_html(p.text)%>
 </div>
-<span class="author">(<%=cleanup(p.user.username)%>)
+<div class="author">
+  scritto da <span class="author"><%=cleanup(p.user.username)%></span>
+  il <span class="date"><%=p.created_at.strftime("%d/%m/%y, %H.%M")%></span>
+</div>
 <div class="operations">
   <%if @user == p.user || @user == @blog.user%>
     <%if p.is_a?(BlogPost)%>

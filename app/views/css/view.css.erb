@@ -22,9 +22,11 @@ div.spacer {
 div#main { /* defines the page's margins globally */
   margin-left: auto;
   margin-right: auto;
-  width: 97%;
-  margin-top: 1em;
+  max-width: 980px;
   margin-bottom: 0.5em;
+}
+#blogs, #forum, #page-header {
+  margin: 1em;
 }
 div#forum div.quote,
 div#blogs div.quote {
@@ -32,7 +34,6 @@ div#blogs div.quote {
   background-color: <%=t.bgcolor%>;
   border: 1px solid <%=t.bordercolor%>;
   padding: 0.7em;
-  -moz-border-radius: 5px;
 }
 div#forum div.quote div.quote div.quote {
   display: none;
@@ -464,7 +465,6 @@ div#blogs div.breadcrumbs_bottom {
   margin-top: 0.5em;
   margin-bottom: 1em;
   top: 0.4em;
-  -moz-border-radius: 5px;
   clear: both;
 }
 div#blogs div.breadcrumbs span.current_page,
@@ -473,13 +473,50 @@ div#blogs div.breadcrumbs_bottom span.current_page {
 }
 div#blogs div.primary {
   overflow: auto;
-  float: left;
-  width: 63%;
+  width: 100%;
 }
-div#blogs div.secondary {
+#blogs div.content_box {
+  background: none;
+  border: none;
+  padding: 0;
+}
+#blog-header {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
   overflow: auto;
-  float: right;
-  width: 35%;
+}
+#blog-header img.avatar {
+  max-height: 85px;
+  max-width: 85px;
+}
+#blog-header div.header-image {
+  float: left;
+  margin: 0.5em;
+  /* padding: 2px; */
+  border: 1px solid <%=t.bordercolor%>;
+}
+#blog-header div.header-text {
+  float: left;
+  margin: 0.5em 0.5em 1em 0.5em;
+}
+#blog-header h1 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+li.blog_post h2 {
+  margin-top: 0;
+}
+li.blog_post div.author {
+  font-style: italic;
+  text-align: right;
+  margin-right: 2em;
+  margin-top: 2em;
+}
+li.blog_post div.author span.author {
+  font-weight: bold;
+}
+#blog-header div.author {
+  font-style: italic;
 }
 div#blogs ul#category_list {
   margin: 0 0 0 1.5em;
@@ -496,17 +533,15 @@ div#blogs div#blog ul#blog_post_list {
 div#blogs div#blog li.blog_post {
   margin-bottom: 1em;
   padding: 0.5em 0.5em 1.5em 0.5em;
-  border: 1px solid gray;
-  -moz-border-radius: 3px;
-}
-div#blogs div#blog li.blog_post h4 {
-  display: inline;
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
 }
 div#blogs div#blog li.blog_post span.categories {
   font-size: 10px;
 }
 div#blogs div#blog li.blog_post div.text {
   margin: 0.5em 0 0.5em 0;
+  max-width: 60em;
 }
 div#blogs ul#blog_list {
   margin: 1em 0 2em 0;
@@ -519,8 +554,14 @@ div#blogs ul#blog_list li.blog h4 {
 }
 div#blogs ul.comment_list {
   list-style: none;
-  margin: 0;
+  margin: 1em 0 0 0;
   padding: 0;
+}
+div#blogs ul.comment_list li.blog_comment {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  margin: 1em;
+  padding: 0 1em 1em 1em;
 }
 
 /* NEW USER SPECIFIC */
