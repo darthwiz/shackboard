@@ -1,5 +1,5 @@
 <div class="message">
   <div>
-    <%=text_to_html(@text[:text], 'bb', @user)%>
+    <%=BbText.new(@text[:text], Smiley.all(@user)).to_html%>
   </div>
 </div>
