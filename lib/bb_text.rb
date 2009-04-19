@@ -1,11 +1,11 @@
 class BbText
-  def initialize(text='')
-    @text = text
+  def initialize(text='', smileys=[])
+    @text    = text
+    @smileys = smileys
   end
 
   def to_html(params={})
     s            = Sanitizer.sanitize_bb(@text)
-    user         = params[:user]
     spoiler_base = params[:spoiler_id].to_i
     spoiler_id   = 0
     s.gsub!(/&([^#]+)/, "&amp;\\1")
@@ -36,13 +36,8 @@ class BbText
     end
     s.gsub!(/\[\/spoiler\]/i, "</div></div>")
     s.gsub!(/(^|[>[:space:]\n])([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])([<[:space:]\n]|$)/, "\\1<a href=\"\\2://\\3\\4\" target=\"_blank\">\\2://\\3\\4</a>\\5")
-    Smiley.all.each do |sm|
-      s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\" /> ")
-    end
-    if user.is_a? User
-      Smiley.find_all_by_user_id(user.id).each do |sm|
-        s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\" /> ")
-      end
+    @smileys.each do |sm|
+      s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\" /> ") unless sm.code.empty?
     end
     return s
   end

@@ -102,7 +102,7 @@ class TopicsController < ApplicationController
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location      = [ 'Topic', @topic ]
     @page_title    = @topic.subject
-    @posts         = @topic.posts(@range)
+    @posts         = @topic.posts_range(@range)
     @topic.increment!(:views)
   end
 

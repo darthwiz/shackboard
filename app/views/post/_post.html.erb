@@ -101,7 +101,7 @@
             </dd>
             <dd class="message">
               <div>
-                <%=text_to_html(message.message, :bb, user)%>
+                <%=text_to_html(message.message, :bb, Smiley.all(user))%>
               </div>
             </dd>
             <%unless sign.empty?%>

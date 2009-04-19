@@ -390,12 +390,12 @@ module ApplicationHelper
     content_tag('span', s, :class => 'page_seq')
   end
 
-  def text_to_html(text, format=:bb, user=nil)
+  def text_to_html(text, format=:bb, smileys=[])
     text   = String.new(text.to_s)
     format = format.to_sym
     case format
     when :bb
-      return bb_to_html(text, user)
+      return bb_to_html(text, smileys)
     when :textile
       return textilize(text)
     when :html
@@ -404,8 +404,8 @@ module ApplicationHelper
     end
   end
 
-  def bb_to_html(s, user=nil)
-    BbText.new(s).to_html(:user => user, :spoiler_id => rand(10000))
+  def bb_to_html(s, smileys=[])
+    BbText.new(s, smileys).to_html(:spoiler_id => rand(10000))
   end
 
   def post_time(time)

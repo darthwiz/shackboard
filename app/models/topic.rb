@@ -93,25 +93,6 @@ class Topic < ActiveRecord::Base
     self[:views].to_i
   end
 
-  def posts_each(limit=50)
-    total  = self.posts_count
-    offset = 0
-    prog   = Progress.new
-    while offset <= total
-      Post.find(:all,
-        :order      => 'dateline', 
-        :conditions => ['fid = ? AND tid = ?', self.fid, self.id],
-        :offset     => offset,
-        :limit      => limit
-      ).each do |p|
-        yield p
-      end
-      offset += limit
-      prog.measure(total, offset)
-    end
-    nil
-  end
-
   def lastpost(what=nil)
     (timestamp, username) = self[:lastpost].split(/\|/, 2)
     time                  = Time.at(timestamp.to_i)
@@ -147,20 +128,54 @@ class Topic < ActiveRecord::Base
     return self
   end
 
-  def posts(range)
+  def posts_range(range, seen_by_user=nil)
     raise TypeError, 'argument must be a Range' unless range.is_a? Range
-    posts = []
-    seq   = range.begin
+    user         = seen_by_user
+    posts        = []
+    seq          = range.begin
+    can_moderate = self.can_moderate?(user)
+    can_read     = self.can_read?(user)
+    smiley_hash  = {}
+    blog_hash    = {}
+    user_hash    = {}
     if range.end >= range.begin
       conds  = ["tid = ? AND fid = ?", self.tid, self.fid]
       posts += Post.find :all,
                          :conditions => conds,
                          :order      => 'dateline',
                          :offset     => range.begin,
-                         :limit      => range.entries.length,
-                         :include    => :user
+                         :limit      => range.entries.length
+      user_ids = posts.collect(&:uid).uniq
+      users    = User.find(user_ids)
+      smileys  = Smiley.find_all_by_user_id([0] + user_ids)
+      blogs    = Blog.find_all_by_user_id(user_ids)
+      online   = OnlineUser.online.collect(&:id).uniq
+      smileys.each do |i|
+        smiley_hash[i.user_id] ||= []
+        smiley_hash[i.user_id] << i
+      end
+      users.each do |i|
+        user_hash[i.id] ||= i
+      end
+      blogs.each do |i|
+        blog_hash[i.user_id] ||= true
+      end
+      #puts smiley_hash.to_yaml
+      posts.each do |p| 
+        p.seq = seq
+        seq += 1
+        p.cached_has_blog = blog_hash[p.user_id] || false
+        p.cached_smileys  = smiley_hash[0] + smiley_hash[p.user_id].to_a
+        p.cached_online   = online.include?(p.user_id)
+        p.cached_user     = user_hash[p.user_id]
+        p.cached_can_read = false
+        p.cached_can_edit = false
+        p.cached_can_read = true if can_read
+        p.cached_can_edit = true if (user.is_a?(User) && user.id == p.user_id)
+        p.cached_can_read = true if can_moderate
+        p.cached_can_edit = true if can_moderate
+      end
     end
-    posts.each { |p| p.seq = seq; seq += 1 }
     posts
   end
 

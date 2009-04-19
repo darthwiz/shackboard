@@ -1,7 +1,9 @@
 <%
-t    = @opts[:theme]
-flip = 0
-images_url = 'http://www.studentibicocca.it/portale/forum/images/'
+t            = @opts[:theme]
+flip         = 0
+images_url   = 'http://www.studentibicocca.it/portale/forum/images/'
+can_moderate = @topic.can_moderate?(@user)
+can_post     = @topic.can_post?(@user)
 %>
     <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
       <tr>
@@ -20,27 +22,30 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
               <td rowspan="2" valign="top" class="tablerow" width="18%">
                 <a name="pid<%=p.id%>" id="pid<%=p.id%>"></a>
                 <%if p == @posts.last%><a name="last_post"></a><%end%>
-                <span class="postauthor"><%=h(p.user.username)%></span><br />
+                <span class="postauthor"><%=h(p.cached_user.username)%></span><br />
                 <div class="11px">
-                  <%=p.user.rank.title%><br />
-                  <%p.user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
+                  <%=p.cached_user.rank.title%><br />
+                  <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
                   <br />
-                  <%=image_tag p.user.avatar, :width => p.user.avatar_width, :height => p.user.avatar_height, :class => 'avatar', :alt => ''%>
+                  <%=image_tag p.cached_user.avatar,
+                    :width  => p.cached_user.avatar_width,
+                    :height => p.cached_user.avatar_height,
+                    :class => 'avatar', :alt => ''%>
                   <br />
                   <br />
-                  <%if p.user.postnum > 1000%>
-                  <%='%0.2f' % p.user.posts_per_day%> messaggi per giorno<br />
+                  <%if p.cached_user.postnum > 1000%>
+                  <%='%0.2f' % p.cached_user.posts_per_day%> messaggi per giorno<br />
                   <%else%>
-                  <%=p.user.postnum%> messaggi<br />
+                  <%=p.cached_user.postnum%> messaggi<br />
                   <%end%>
                   Registrato: Aug 2006<br />
                   <div class="c3">
                     <br />
-                    <a href="/portale/forum/member.php?action=viewpro&amp;member=<%=h p.user.username%>"><%=image_tag images_url + 'b_profile.png', :border => 0, :alt => 'profilo'%></a>
-                    <%if p.user.has_blog?%>
+                    <a href="/portale/forum/member.php?action=viewpro&amp;member=<%=h p.cached_user.username%>"><%=image_tag images_url + 'b_profile.png', :border => 0, :alt => 'profilo'%></a>
+                    <%if p.cached_has_blog%>
                     <%=link_to(
                       image_tag(images_url + 'b_blog.png', :alt => 'blog', :border => 0),
-                      url_for(:controller => :blog, :action => :list, :username => p.user.username)
+                      url_for(:controller => :blog, :action => :list, :username => p.cached_user.username)
                     )%>
                     <%end%>
                   </div>
@@ -55,11 +60,11 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
             <tr bgcolor="<%=bgcolor%>">
               <td height="120" valign="top" colspan="2">
                 <div class="maxpostwidth">
-                  <%=text_to_html(p.message, :bb, p.user)%>
-                  <%unless p.user.sig.to_s.empty?%>
+                  <%=BbText.new(p.message, p.cached_smileys).to_html%>
+                  <%unless p.cached_user.sig.to_s.empty?%>
                   <p>&nbsp;</p>____________________<br />
                   <div class="signature">
-                    <%=cleanup(p.user.sig).gsub("\n", '<br />')%>
+                    <%=cleanup(p.cached_user.sig).gsub("\n", '<br />')%>
                   </div>
                   <%end%>
                 </div>
@@ -67,7 +72,7 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
             </tr>
             <tr bgcolor="<%=bgcolor%>">
               <td>
-                <%if p.user.online?%>
+                <%if p.cached_online%>
                 <%=image_tag(images_url + 'online_status.gif', :alt => 'online')%>
                 <%else%>
                 <%=image_tag(images_url + 'offline_status.gif', :alt => 'offline')%>
@@ -80,21 +85,21 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
                       <%=link_to(
                         image_tag(images_url + 'b_reply.png', :alt => 'rispondi', :border => 0),
                         "/portale/forum/post.php?action=reply&fid=#{@topic.forum.id}&tid=#{@topic.id}&repquote=r|#{p.id}"
-                      ) if @topic.can_post?(@user)%>
+                      ) if can_post%>
                       <%=link_to(
                         image_tag(images_url + 'b_reply_pm.png', :alt => 'rispondi', :border => 0),
-                        "/portale/forum/usercp.php?action=u2u&option=new&msgto=#{p.user.username}"
+                        "/portale/forum/usercp.php?action=u2u&option=new&msgto=#{p.cached_user.username}"
                       ) if @user%>
                       <%=link_to(
                         image_tag(images_url + 'b_edit.png', :alt => 'modifica', :border => 0),
                         "/portale/forum/post.php?action=edit&fid=#{@topic.forum.id}&tid=#{@topic.id}&pid=#{p.id}"
-                      ) if p.can_edit?(@user)%>
+                      ) if p.cached_can_edit%>
                       <%=link_to(
                         image_tag(images_url + 'b_report.png', :alt => 'segnala', :border => 0),
                         "/portale/forum/topicadmin.php?action=report&fid=#{@topic.forum.id}&tid=#{@topic.id}&pid=#{p.id}"
                       ) if @user%>
                     </td>
-                    <%if @topic.can_moderate?(@user)%>
+                    <%if can_moderate%>
                     <td>
                       <%=image_tag(images_url + 'ip.gif', :title => p.useip)%>
                     </td>

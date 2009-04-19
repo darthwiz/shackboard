@@ -5,7 +5,8 @@ class Post < ActiveRecord::Base
   belongs_to :topic, :foreign_key => "tid", :counter_cache => :replies
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :posts
   belongs_to :user,  :foreign_key => "uid"
-  attr_accessor :seq, :subject
+  attr_accessor :seq, :subject, :cached_can_edit, :cached_can_read,
+    :cached_has_blog, :cached_smileys, :cached_online, :cached_user
   
   def text
     self.message
@@ -17,6 +18,10 @@ class Post < ActiveRecord::Base
 
   def container
     self.topic
+  end
+
+  def user_id
+    self.uid
   end
 
   def actual
@@ -49,7 +54,10 @@ class Post < ActiveRecord::Base
     end
   end
 
-  def can_edit?(user)
+  def can_edit?(user=nil)
+    # try to return the "pushed" value first and do the calculations and
+    # queries only if it isn't there
+    return @can_edit unless @can_edit.nil?
     return false unless user.is_a? User
     return true if self.uid == user.id
     return true if self.topic.can_moderate?(user)
