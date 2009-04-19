@@ -30,6 +30,9 @@ class TopicsController < ApplicationController
     ppp    = ((@opts[:ppp] - 1) / @post_block_size + 1) * @post_block_size
     start  = params[:start].to_i - 1
     start  = 0 if (start <= 0)
+    if (params[:page].to_i > 0 && !params[:start])
+      start = (params[:page].to_i - 1) * ppp
+    end
     rstart = (start/ppp)*ppp
     rend   = rstart + ppp - 1
     @range = rstart..rend
@@ -69,8 +72,7 @@ class TopicsController < ApplicationController
     # avoid indexing permalinks as different pages
     if (start != rstart)
       redirect_to :action => 'show', :id => @topic.id and return if start < ppp
-      redirect_to :action => 'show', :id => @topic.id, :start => rstart + 1 \
-        and return
+      redirect_to :action => 'show', :id => @topic.id, :start => rstart + 1 and return
     end
 
     # use the user's preferred engine
