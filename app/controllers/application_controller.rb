@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
     @post_block_size  = 25
     @topic_block_size = 25
     @legacy_forum_uri = LEGACY_FORUM_URI
+    @legacy_mode      = LEGACY_MODE
     @host_forum       = @legacy_forum_uri.sub(/http:\/\/([^\/]+)\/.*/, "\\1")
     @preferred_engine = cookies[:forum_engine_version].to_i
     begin
