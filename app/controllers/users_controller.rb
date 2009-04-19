@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       :username => username,
       :password => password,
       :email    => email,
-      :regip    => request.env['REMOTE_ADDR'],
+      :regip    => request.remote_ip,
       :regdate  => Time.now.to_i
     )
     respond_to do |format|

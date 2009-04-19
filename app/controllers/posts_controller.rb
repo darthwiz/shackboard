@@ -82,7 +82,7 @@ class PostsController < ApplicationController
     @post.dateline     = Time.now.to_i
     @post.usesig       = "yes"
     @post.uid          = @user.id
-    @post.useip        = request.env['REMOTE_ADDR']
+    @post.useip        = request.remote_ip
     @post.forum        = Forum.find(forum_id)
     @post.topic        = topic_id > 0 ? Topic.find(topic_id) : nil
     @post.reply_to_pid = params[:reply_to_pid]

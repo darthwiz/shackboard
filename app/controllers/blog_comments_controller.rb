@@ -19,7 +19,7 @@ class BlogCommentsController < ApplicationController
       if @user.is_a? User
         comment            = BlogComment.new(params[:blog_comment])
         comment.user       = @user
-        comment.ip_address = request.env['REMOTE_ADDR']
+        comment.ip_address = request.remote_ip
         @blog              = comment.blog_post.blog
         comment.blog_post.increment!(:comments_count)
         if @user != comment.blog.user

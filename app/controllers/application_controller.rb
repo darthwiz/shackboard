@@ -92,7 +92,7 @@ class ApplicationController < ActionController::Base
     end
   end 
   def update_online 
-    @current_user_ip = request.env['REMOTE_ADDR']
+    @current_user_ip = request.remote_ip
     OnlineUser.touch(@user, @current_user_ip)
     OnlineUser.cleanup(5.minutes)
   end 

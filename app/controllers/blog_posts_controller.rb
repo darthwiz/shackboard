@@ -19,7 +19,7 @@ class BlogPostsController < ApplicationController
       if @user.is_a? User
         post            = BlogPost.new(params[:blog_post])
         post.user       = @user
-        post.ip_address = request.env['REMOTE_ADDR']
+        post.ip_address = request.remote_ip
         @blog           = post.blog
         if @user != post.blog.user
           post.unread = true
