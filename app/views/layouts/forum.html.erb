@@ -1,5 +1,6 @@
 <%
 lfu = @legacy_forum_uri
+t   = @opts[:theme]
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -156,27 +157,37 @@ lfu = @legacy_forum_uri
           </td>
         </tr>
       </table>
-      <%#
+      <br/>
       <table cellspacing="0" cellpadding="0" border="0" width="97%" align="center">
         <tr>
-          <td bgcolor="#223344">
+          <td bgcolor="<%=t.bordercolor%>">
             <table border="0" cellspacing="1" cellpadding="6" width="100%">
               <tr>
-                <td width="100%" bgcolor="#EEEEEE">
+                <td width="100%" bgcolor="<%=t.altbg1%>">
                   <table border="0" cellspacing="1" cellpadding="0" width="100%">
                     <tr>
                       <td>
                         <font style="font-size: 10px; font-family: arial, verdana">
-                          Benvenuto <strong><i>wiz</i></strong> |
-                          <a href="misc.php?action=logout"><span class="navtd">Logout</span></a>
+                          <%if @user%>
+                          Benvenuto <strong><em><%=@user.username%></em></strong> |
+                          <%=link_to(
+                            content_tag(:span, 'Logout', :class => 'navtd'),
+                            :controller => :login, :action => :logout
+                          )%>
+                          <%else%>
+                          Non hai fatto il login | 
+                          <%=link_to(
+                            content_tag(:span, 'Login', :class => 'navtd'),
+                            '/portale/forum/misc.php?action=login'
+                          )%>
+                          <%end%>
                         </font>
                       </td>
                       <td align="right" valign="bottom"></td>
                       <td align="right" valign="bottom">
-                        <font style=
-                        "font-size: 10px; font-family: arial, verdana"><a href="index.php">
-
-                        Pagina principale</a> &gt; Messaggi privati</font>
+                        <font style="font-size: 10px; font-family: arial, verdana">
+                          <%=page_trail%>
+                        </font>
                       </td>
                     </tr>
                   </table>
@@ -186,6 +197,7 @@ lfu = @legacy_forum_uri
           </td>
         </tr>
       </table>
+      <%#
       <table cellspacing="0" cellpadding="0" border="0" width="97%" align= "center" bgcolor="#223344">
         <tr>
           <td>
@@ -215,15 +227,24 @@ lfu = @legacy_forum_uri
     <div id="main">
       <div id="forum">
         <div id="content_box">
-          <%if @location%>
+          <%if false && @location%>
           <div id="breadcrumbs" class="breadcrumbs">
             <%=render :partial => '/common/breadcrumbs'%>
           </div>
           <%end%>
+          <%unless cleanup(page_seq).empty?%>
+          <div class="page-seq">
+            <%=page_seq%>
+          </div>
+          <%end%>
           <%=yield%>
+          <div class="page-seq">
+            <%=page_seq%>
+          </div>
           <%if @location%>
           <div id="breadcrumbs_bottom" class="breadcrumbs_bottom">
-            <%=render :partial => '/common/breadcrumbs'%>
+            <%#render :partial => '/common/breadcrumbs'%>
+            <%=page_trail%>
           </div>
           <%end%>
           <%=render :partial => '/user/online'%>
@@ -238,7 +259,7 @@ lfu = @legacy_forum_uri
       _uacct = "UA-2831123-5";
       urchinTracker();
     </script>
-    %>
     <script type="text/javascript" src="http://www.savethedevelopers.org/js/lang/it/say.no.to.ie.6.js"></script>
+    %>
   </body>
 </html>

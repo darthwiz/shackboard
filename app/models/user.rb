@@ -110,8 +110,55 @@ class User < ActiveRecord::Base
     end
     true
   end
+
+  def avatar_size
+    rw = self[:avatar_width].to_f          # real width
+    rh = self[:avatar_height].to_f         # real height
+    mw = self.class.max_avatar_width.to_f  # max width
+    mh = self.class.max_avatar_height.to_f # max height
+    rr = 1.0                               # real ratio
+    rr = rw / rh if rw > 0 && rh > 0       # real ratio
+    tw = rw                                # target width
+    th = rh                                # target height
+    if rw <= mw && rh <= mh
+      (tw, th) = [ rw, rh ]
+    else
+      if rw > mw           # too wide?
+        tw = mw
+        th = tw / rr
+        if th > mh         # still too high?
+          th = mh
+          tw = th * rr
+        end
+      else # rh > mh       # too high?
+        th = mh
+        tw = th * rr
+        if tw > mw         # still too wide?
+          tw = mw
+          th = tw / rr
+        end
+      end
+    end
+    { :width => tw.to_i, :height => th.to_i }
+  end
+
+  def avatar_width
+    self.avatar_size[:width]
+  end
+
+  def avatar_height
+    self.avatar_size[:height]
+  end
  
-  def User.authenticate(username, password) 
+  def self.max_avatar_width
+    150
+  end
+
+  def self.max_avatar_height
+    150
+  end
+
+  def self.authenticate(username, password) 
     u = User.find_by_username(username)
     if (u) then
       if (u.password == password) then
@@ -121,7 +168,7 @@ class User < ActiveRecord::Base
     return nil
   end
  
-  def User.supermods 
+  def self.supermods 
     return @@supermods if @@supermods
     mods  = []
     conds = "status = 'Super Moderator' OR status = 'Administrator'"
@@ -129,25 +176,17 @@ class User < ActiveRecord::Base
     @@supermods = mods
   end
  
-  def User.supermod_ids 
-    ids = []
-    User.supermods.each { |u| ids << u.id }
-    ids
+  def self.supermod_ids 
+    User.supermods.collect(&:id)
   end
  
-  def User.admins 
+  def self.admins 
     return @@admins if @@admins
-    adms = []
-    User.find(:all, :conditions => "status = 'Administrator'").each do |u|
-      adms << u
-    end
-    @@admins = adms
+    @@admins = User.find(:all, :conditions => "status = 'Administrator'")
   end
  
-  def User.admin_ids 
-    ids = []
-    User.admins.each { |u| ids << u.id }
-    ids
+  def self.admin_ids 
+    User.admins.collect(&:id)
   end
   
   def self.pwgen

@@ -80,7 +80,7 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
                       <%=link_to(
                         image_tag(images_url + 'b_reply.png', :alt => 'rispondi', :border => 0),
                         "/portale/forum/post.php?action=reply&fid=#{@topic.forum.id}&tid=#{@topic.id}&repquote=r|#{p.id}"
-                      ) if @user%>
+                      ) if @topic.can_post?(@user)%>
                       <%=link_to(
                         image_tag(images_url + 'b_reply_pm.png', :alt => 'rispondi', :border => 0),
                         "/portale/forum/usercp.php?action=u2u&option=new&msgto=#{p.user.username}"
@@ -88,7 +88,7 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
                       <%=link_to(
                         image_tag(images_url + 'b_edit.png', :alt => 'modifica', :border => 0),
                         "/portale/forum/post.php?action=edit&fid=#{@topic.forum.id}&tid=#{@topic.id}&pid=#{p.id}"
-                      ) if @user == p.user || @topic.can_moderate?(@user)%>
+                      ) if p.can_edit?(@user)%>
                       <%=link_to(
                         image_tag(images_url + 'b_report.png', :alt => 'segnala', :border => 0),
                         "/portale/forum/topicadmin.php?action=report&fid=#{@topic.forum.id}&tid=#{@topic.id}&pid=#{p.id}"
@@ -101,11 +101,6 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
                     <%end%>
                   </tr>
                 </table>
-                <table border="0" cellspacing="0" cellpadding="0" align="right">
-                  <tr>
-                    <td></td>
-                  </tr>
-                </table>
               </td>
             </tr>
             <%end%>
@@ -113,3 +108,11 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
         </td>
       </tr>
     </table>
+    <%if @topic.can_post?(@user)%>
+    <div style="text-align: right; font-size: 15px; font-weight: bold; margin: 1em;">
+      <%=link_to(
+        'Nuova risposta',
+        "/portale/forum/post.php?action=reply&fid=#{@topic.forum.id}&tid=#{@topic.id}"
+      )%>
+    </div>
+    <%end%>

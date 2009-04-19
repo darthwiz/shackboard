@@ -30,6 +30,30 @@ div.signature {
 .c3 {
   text-align: center;
 }
+div.page-seq {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+div.page-seq a,
+div.page-seq span.current {
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  padding: 0.2em 0.6em;
+  background-color: <%=t.altbg1%>;
+}
+div.page-seq a {
+  border: 1px solid <%=t.link%>;
+}
+div.page-seq a:hover {
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+}
+div.page-seq span.current {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.header%>;
+  color: <%=t.headertext%>;
+}
 /* ---------------------------------------- */
 dl, ul {
   margin: 0px; /* needed for IE6 */
@@ -103,6 +127,9 @@ div#forum div.breadcrumbs_bottom {
   margin-top: 0.5em;
   margin-bottom: 1em;
   top: 0.4em;
+}
+div#forum div.breadcrumbs_bottom {
+  font-size: 11px;
 }
 div#forum div.breadcrumbs span.current_page,
 div#forum div.breadcrumbs_bottom span.current_page {

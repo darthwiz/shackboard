@@ -27,6 +27,7 @@ class Forum < ActiveRecord::Base
   def can_post?(user)
     # FIXME This is a very basic implementation, only meant to pass the basic
     # tests.
+    return false if user.nil?
     return false if self.banned?(user)
     if user.is_a? Array
       begin
