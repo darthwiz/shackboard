@@ -5,7 +5,7 @@ nstars = u.rank.stars
 status = u.customstatus.empty? ? u.status : u.customstatus
 %>
 <div id="topic_view">
-  <h3><%=link_to cleanup(@post.topic.title), "/portale/forum/viewtopic.php?tid=#{@post.topic.id}"%></h3>
+  <h3><%=link_to cleanup(@post.topic.title), "/portale/forum/viewthread.php?tid=#{@post.topic.id}"%></h3>
   <div id="post_list" class="<%=domid(@post.topic)%>">
     <table bgcolor="<%=t.bordercolor%>" cellspacing="1" width="100%" cellpadding="3">
       <tr bgcolor="<%=t.altbg2%>">
