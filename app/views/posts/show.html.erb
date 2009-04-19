@@ -35,7 +35,7 @@ status = u.customstatus.empty? ? u.status : u.customstatus
       <tr bgcolor="<%=t.altbg2%>">
         <td valign="top" height="120">
           <div class="maxpostwidth">
-            <%=text_to_html(@post.message, @post.format.to_sym, u)%>
+            <%=BbText.new(@post.message, Smiley.all(u)).to_html%>
             <%unless u.sig.strip.empty?%>
             <p>&nbsp;</p>____________________<br />
 
