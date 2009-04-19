@@ -32,6 +32,7 @@ class TopicsController < ApplicationController
     start  = 0 if (start <= 0)
     if (params[:page].to_i > 0 && !params[:start])
       start = (params[:page].to_i - 1) * ppp
+      redirect_to :action => 'show', :id => params[:id], :start => start + 1, :status => :moved_permanently and return
     end
     rstart = (start/ppp)*ppp
     rend   = rstart + ppp - 1
