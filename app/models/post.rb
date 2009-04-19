@@ -6,6 +6,7 @@ class Post < ActiveRecord::Base
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :posts
   belongs_to :user,  :foreign_key => "uid"
   attr_accessor :seq, :subject
+  
   def text
     self.message
   end
@@ -17,27 +18,22 @@ class Post < ActiveRecord::Base
   def container
     self.topic
   end
-  def acl
-    acl = AclMapping.map(self)
-    return acl if acl
-    acl             = Acl.new
-    acl.permissions = self.container.acl.permissions
-    acl.can_edit      self.user
-  end
+
   def actual
     return self unless self.new_record?
     self.topic
   end
+
   def Post.find(*args)
     opts  = args.extract_options!
     conds = opts[:conditions] ? opts[:conditions] : ''
     unless (opts[:with_deleted] || opts[:only_deleted])
-      conds    += ' AND deleted IS NULL' if conds.is_a? String
-      conds[0] += ' AND deleted IS NULL' if conds.is_a? Array
+      conds    += ' AND deleted_by IS NULL' if conds.is_a? String
+      conds[0] += ' AND deleted_by IS NULL' if conds.is_a? Array
     end
     if (opts[:only_deleted])
-      conds    += ' AND deleted IS NOT NULL' if conds.is_a? String
-      conds[0] += ' AND deleted IS NOT NULL' if conds.is_a? Array
+      conds    += ' AND deleted_by IS NOT NULL' if conds.is_a? String
+      conds[0] += ' AND deleted_by IS NOT NULL' if conds.is_a? Array
     end
     conds.sub!(/^ AND /, '') if conds.is_a? String
     conds = nil if conds.empty?
@@ -52,19 +48,30 @@ class Post < ActiveRecord::Base
       else             find_from_ids(args, opts)
     end
   end
+
+  def can_edit?(user)
+    return false unless user.is_a? User
+    return true if self.uid == user.id
+    return true if self.topic.can_moderate?(user)
+    return false
+  end
+
+  def can_read?(user)
+    self.container.can_read?(user)
+  end
+
   def can_post?(user)
     self.container.can_post?(user)
   end
-  def save
-    begin
-      u = User.find_by_username(self.author)
-    rescue
-      u = nil
-    end
-    self.topic.lastpost = { :user => u, :timestamp => self.dateline } if u
+
+  def before_save
     self.text = Sanitizer.sanitize_bb(self.text)
-    self.topic.save if super
   end
+
+  def created_at
+    Time.at(self.dateline)
+  end
+
   def destroy
     begin
       u = User.find_by_username(self.author)
@@ -74,10 +81,13 @@ class Post < ActiveRecord::Base
     end
     super
   end
+
   def timestamp
     self[:dateline]
   end
+
   def timestamp=(ts)
     self[:dateline] = ts
   end
+
 end

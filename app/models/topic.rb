@@ -6,6 +6,7 @@ class Topic < ActiveRecord::Base
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :threads
   belongs_to :user,  :foreign_key => "uid"
   has_many   :posts, :foreign_key => "tid"
+
   def pinned
     self[:topped] == 1
   end
@@ -33,36 +34,40 @@ class Topic < ActiveRecord::Base
   def container
     Forum.find(self.fid)
   end
+
   def name
     self.subject
   end
+
   def title
     self.subject
   end
+
   def title=(s)
     self.subject = s
   end
 
   def total_posts
-    self.replies + 1
+    self.replies
   end
-  def acl
-    acl = AclMapping.map(self)
-    return acl if acl
-    acl             = Acl.new
-    acl.permissions = self.container.acl.permissions
-    acl
-  end
+
   def can_post?(user)
     self.forum.can_post?(user) && !(self.locked?)
   end
+
   def can_read?(user)
-    self.acl.can_read?(user)
+    self.forum.can_read?(user)
   end
+
+  def can_moderate?(user)
+    self.forum.can_moderate?(user)
+  end
+
   def fix_counters
     self[:replies] = self.posts_count
     self.save
   end
+
   def move_to(forum)
     raise ArgumentError, "argument is not a Forum" unless forum.is_a? Forum
     Post.update_all("fid = #{forum.fid}",
@@ -70,19 +75,24 @@ class Topic < ActiveRecord::Base
     self.forum = forum
     self.save
   end
+
   def posts_count
     conds = [ "fid = ? AND tid = ? AND DELETED IS NULL", self.fid, self.id ]
     Post.count(:conditions => conds) + 1
   end
+
   def posts_count_cached
-    self[:replies].to_i + 1
+    self[:replies].to_i
   end
+
   def posts_count_cached=(n)
-    self[:replies] = n - 1
+    self[:replies] = n
   end
+
   def views_count_cached
     self[:views].to_i
   end
+
   def posts_each(limit=50)
     total  = self.posts_count
     offset = 0
@@ -101,6 +111,7 @@ class Topic < ActiveRecord::Base
     end
     nil
   end
+
   def lastpost(what=nil)
     (timestamp, username) = self[:lastpost].split(/\|/, 2)
     time                  = Time.at(timestamp.to_i)
@@ -117,12 +128,14 @@ class Topic < ActiveRecord::Base
       return nil
     end
   end
+
   def lastpost=(params)
     user            = params[:user]
     return false unless user.is_a? User
     timestamp       = params[:timestamp]
     self[:lastpost] = "#{timestamp}|#{user.username}"
   end
+
   def actual
     begin
       if self.closed == "moved"
@@ -133,45 +146,38 @@ class Topic < ActiveRecord::Base
     end
     return self
   end
+
   def posts(range)
     raise TypeError, 'argument must be a Range' unless range.is_a? Range
     posts = []
     seq   = range.begin
-    if range.begin == 0
-      p = Post.new
-      self.attribute_names.each do |a|
-        p.send(a + '=', self.send(a)) if p.respond_to?(a + '=')
-      end
-      p.user = self.user
-      posts << p
-      range = (range.begin.succ..range.end)     if !range.exclude_end?
-      range = (range.begin.succ..range.end - 1) if range.exclude_end?
-    end
     if range.end >= range.begin
       conds  = ["tid = ? AND fid = ?", self.tid, self.fid]
       posts += Post.find :all,
                          :conditions => conds,
                          :order      => 'dateline',
-                         :offset     => range.begin - 1,
+                         :offset     => range.begin,
                          :limit      => range.entries.length,
                          :include    => :user
     end
     posts.each { |p| p.seq = seq; seq += 1 }
     posts
   end
+
   def format
     'bb'
   end
+
   def Topic.find(*args)
     opts  = args.extract_options!
     conds = opts[:conditions] ? opts[:conditions] : ''
     unless (opts[:with_deleted] || opts[:only_deleted])
-      conds    += ' AND deleted IS NULL' if conds.is_a? String
-      conds[0] += ' AND deleted IS NULL' if conds.is_a? Array
+      conds    += ' AND deleted_by IS NULL' if conds.is_a? String
+      conds[0] += ' AND deleted_by IS NULL' if conds.is_a? Array
     end
     if (opts[:only_deleted])
-      conds    += ' AND deleted IS NOT NULL' if conds.is_a? String
-      conds[0] += ' AND deleted IS NOT NULL' if conds.is_a? Array
+      conds    += ' AND deleted_by IS NOT NULL' if conds.is_a? String
+      conds[0] += ' AND deleted_by IS NOT NULL' if conds.is_a? Array
     end
     conds.sub!(/^ AND /, '') if conds.is_a? String
     conds = nil if conds.empty?
@@ -186,6 +192,7 @@ class Topic < ActiveRecord::Base
       else             find_from_ids(args, opts)
     end
   end
+
   def destroy
     self.posts_each do |p|
       p.destroy
@@ -198,6 +205,7 @@ class Topic < ActiveRecord::Base
     end
     super
   end
+
   def move_posts(start_seq, dest_topic)
     raise TypeError, 'argument 1 must be a sequence number' unless
       start_seq.is_a? Integer
@@ -221,4 +229,5 @@ class Topic < ActiveRecord::Base
       t.save
     end
   end
+
 end

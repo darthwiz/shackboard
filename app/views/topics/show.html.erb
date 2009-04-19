@@ -1,0 +1,115 @@
+<%
+t    = @opts[:theme]
+flip = 0
+images_url = 'http://www.studentibicocca.it/portale/forum/images/'
+%>
+    <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+      <tr>
+        <td bgcolor="<%=t.bordercolor%>">
+          <table border="0" cellspacing="1" cellpadding="6" width="100%">
+            <tr>
+              <td width="18%" class="header">Autore:</td>
+              <td class="header" colspan="2">Oggetto: <%=cleanup(@topic.subject)%></td>
+            </tr>
+            <%@posts.each do |p|%>
+            <%
+            bgcolor = (flip == 0) ? t.altbg1 : t.altbg2
+            flip    = 1 - flip
+            %>
+            <tr bgcolor="<%=bgcolor%>">
+              <td rowspan="2" valign="top" class="tablerow" width="18%">
+                <a name="pid<%=p.id%>" id="pid<%=p.id%>"></a>
+                <%if p == @posts.last%><a name="last_post"></a><%end%>
+                <span class="postauthor"><%=h(p.user.username)%></span><br />
+                <div class="11px">
+                  <%=p.user.rank.title%><br />
+                  <%p.user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
+                  <br />
+                  <%=image_tag p.user.avatar, :width => p.user.avatar_width, :height => p.user.avatar_height, :class => 'avatar', :alt => ''%>
+                  <br />
+                  <br />
+                  <%if p.user.postnum > 1000%>
+                  <%='%0.2f' % p.user.posts_per_day%> messaggi per giorno<br />
+                  <%else%>
+                  <%=p.user.postnum%> messaggi<br />
+                  <%end%>
+                  Registrato: Aug 2006<br />
+                  <div class="c3">
+                    <br />
+                    <a href="/portale/forum/member.php?action=viewpro&amp;member=<%=h p.user.username%>"><%=image_tag images_url + 'b_profile.png', :border => 0, :alt => 'profilo'%></a>
+                    <%if p.user.has_blog?%>
+                    <%=link_to(
+                      image_tag(images_url + 'b_blog.png', :alt => 'blog', :border => 0),
+                      url_for(:controller => :blog, :action => :list, :username => p.user.username)
+                    )%>
+                    <%end%>
+                  </div>
+                </div><br />
+              </td>
+              <td valign="top" height="1" class="tablerow" width="82%">
+                &nbsp; postato il <%=p.created_at.strftime('%d/%m/%Y')%>
+                alle <%=p.created_at.strftime('%H.%M')%>
+              </td>
+              <td><span class="c4"><a href="/forum/posts/<%=p.id%>.html">permalink</a></span></td>
+            </tr>
+            <tr bgcolor="<%=bgcolor%>">
+              <td height="120" valign="top" colspan="2">
+                <div class="maxpostwidth">
+                  <%=text_to_html(p.message, :bb, p.user)%>
+                  <%unless p.user.sig.to_s.empty?%>
+                  <p>&nbsp;</p>____________________<br />
+                  <div class="signature">
+                    <%=cleanup(p.user.sig).gsub("\n", '<br />')%>
+                  </div>
+                  <%end%>
+                </div>
+              </td>
+            </tr>
+            <tr bgcolor="<%=bgcolor%>">
+              <td>
+                <%if p.user.online?%>
+                <%=image_tag(images_url + 'online_status.gif', :alt => 'online')%>
+                <%else%>
+                <%=image_tag(images_url + 'offline_status.gif', :alt => 'offline')%>
+                <%end%>
+              </td>
+              <td valign="top" class="tablerow" colspan="2">
+                <table border="0" cellspacing="0" cellpadding="0" align="left">
+                  <tr>
+                    <td class="11px" width="100%">
+                      <%=link_to(
+                        image_tag(images_url + 'b_reply.png', :alt => 'rispondi', :border => 0),
+                        "/portale/forum/post.php?action=reply&fid=#{@topic.forum.id}&tid=#{@topic.id}&repquote=r|#{p.id}"
+                      ) if @user%>
+                      <%=link_to(
+                        image_tag(images_url + 'b_reply_pm.png', :alt => 'rispondi', :border => 0),
+                        "/portale/forum/usercp.php?action=u2u&option=new&msgto=#{p.user.username}"
+                      ) if @user%>
+                      <%=link_to(
+                        image_tag(images_url + 'b_edit.png', :alt => 'modifica', :border => 0),
+                        "/portale/forum/post.php?action=edit&fid=#{@topic.forum.id}&tid=#{@topic.id}&pid=#{p.id}"
+                      ) if @user == p.user || @topic.can_moderate?(@user)%>
+                      <%=link_to(
+                        image_tag(images_url + 'b_report.png', :alt => 'segnala', :border => 0),
+                        "/portale/forum/topicadmin.php?action=report&fid=#{@topic.forum.id}&tid=#{@topic.id}&pid=#{p.id}"
+                      ) if @user%>
+                    </td>
+                    <%if @topic.can_moderate?(@user)%>
+                    <td>
+                      <%=image_tag(images_url + 'ip.gif', :title => p.useip)%>
+                    </td>
+                    <%end%>
+                  </tr>
+                </table>
+                <table border="0" cellspacing="0" cellpadding="0" align="right">
+                  <tr>
+                    <td></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <%end%>
+          </table>
+        </td>
+      </tr>
+    </table>

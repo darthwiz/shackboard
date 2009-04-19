@@ -40,6 +40,23 @@ class User < ActiveRecord::Base
     nearest_multiple(self[:tpp], TOPIC_BLOCK_SIZE)
   end
 
+  def posts_per_day
+    time = Time.now - Time.at(self.regdate)
+    postnum.to_f * 3600 * 24 / time
+  end
+
+  def blogs
+    Blog.find_all_by_user_id(self.id)
+  end
+
+  def has_blog?
+    !self.blogs.empty?
+  end
+
+  def online?
+    OnlineUser.online.include?(self)
+  end
+
   def in_group?(group)
     begin
       group.include?(self)
