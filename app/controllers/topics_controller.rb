@@ -95,14 +95,14 @@ class TopicsController < ApplicationController
       rend   = rstart + ppp - 1
       @range = rstart..rend
     end
-    @page_seq_opts = { :last        => @topic.replies + 1,
+    @page_seq_opts = { :last        => @topic.replies,
                        :ipp         => ppp,
                        :current     => start + 1,
                        :id          => tid,
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location      = [ 'Topic', @topic ]
     @page_title    = @topic.subject
-    @posts         = @topic.posts_range(@range)
+    @posts         = @topic.posts_range(@range, @user)
     @topic.increment!(:views)
   end
 
