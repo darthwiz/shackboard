@@ -90,9 +90,9 @@ class TopicsController < ApplicationController
 
     if params[:page] == 'last'
       # XXX refactor here
-      start  = @topic.total_posts
+      start  = @topic.total_posts - 1
       rstart = (start/ppp)*ppp
-      rend   = rstart + ppp - 1
+      rend   = rstart + ppp
       @range = rstart..rend
     end
     @page_seq_opts = { :last        => @topic.replies,

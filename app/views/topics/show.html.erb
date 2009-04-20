@@ -35,10 +35,12 @@ can_post     = @topic.can_post?(@user)
                   <%=p.cached_user.rank.title%><br />
                   <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
                   <br />
+                  <%if p.cached_user.avatar%>
                   <%=image_tag p.cached_user.avatar,
                     :width  => p.cached_user.avatar_width,
                     :height => p.cached_user.avatar_height,
                     :class => 'avatar', :alt => ''%>
+                  <%end%>
                   <br />
                   <br />
                   <%if p.cached_user.postnum > 1000%>
