@@ -1,0 +1,40 @@
+<%
+  # vim: set ft=eruby nowrap: 
+  update_id = "moderation_options_#{@topic.id}"
+  hidden    = false unless hidden
+  style     = hidden ? 'display: none;' : ''
+%>
+<div id="<%=update_id%>" class="only_mod" style="<%=style%>">
+  <%remote_form_for @topic do |f|%>
+  <div class="title">
+    <span class="label">Titolo:</span>
+    <%=f.text_field :title, :value => @topic.title%>
+  </div>
+  <div class="pinned">
+    <%=radio_button 'topic', 'pinned', 'false'%>
+    <span class="not_pinned">Normale</span>
+    <%=radio_button 'topic', 'pinned', 'true'%>
+    <span class="pinned">In evidenza</span>
+  </div>
+  <div class="locked">
+    <%=radio_button 'topic', 'locked', 'false'%>
+    <span class="not_locked">Aperta</span>
+    <%=radio_button 'topic', 'locked', 'true'%>
+    <span class="locked">Chiusa</span>
+  </div>
+  <div class="move_to">
+    <span class="label">Sposta in</span>
+    <%=f.select :fid, Forum.flattened_list.collect { |i| [ Sanitizer.sanitize_html(i.name, ''), i.id ] }%>
+  </div>
+  <div class="commit">
+    <%=f.submit 'Aggiorna', :disabled => true%>
+  </div>
+  <%end%>
+  <script type="text/javascript">
+    function activate_commit_button() { $('topic_submit').disabled = false }
+    $('topic_title').onkeypress = activate_commit_button
+    <%[ 'topic_pinned_true', 'topic_pinned_false', 'topic_locked_true', 'topic_locked_false', 'topic_fid' ].each do |id|%>
+    $('<%=id%>').onchange = activate_commit_button
+    <%end%>
+  </script>
+</div>

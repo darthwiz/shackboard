@@ -131,9 +131,9 @@ class TopicsController < ApplicationController
                          :id          => @topic.id,
                          :extra_links => [ :first, :forward, :back, :last ] }
       render :update do |page|
-        page.replace_html 'moderator_panel_top', :partial => 'moderation_options'
-        page.replace_html 'breadcrumbs',         :partial => '/common/breadcrumbs'
-        page.replace_html 'breadcrumbs_bottom',  :partial => '/common/breadcrumbs'
+        page.replace_html 'moderator-panel-top', :partial => 'moderation_options'
+        #page.replace_html 'breadcrumbs',         :partial => '/common/breadcrumbs'
+        #page.replace_html 'breadcrumbs_bottom',  :partial => '/common/breadcrumbs'
       end
     end
   end
