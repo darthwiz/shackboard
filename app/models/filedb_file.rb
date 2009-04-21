@@ -107,10 +107,9 @@ class FiledbFile < ActiveRecord::Base
   def words_to_conds(words) # {{{
     conds = ""
     words.each do |i|
-      word   = ActiveRecord::Base.send(:sanitize_sql, i)
-      conds << " AND (file_name LIKE '%#{word}%'"
-      conds << " OR file_creator LIKE '%#{word}%'"
-      conds << " OR file_desc LIKE '%#{word}%')"
+      conds << ActiveRecord::Base.send(:sanitize_sql_array, [ " AND (file_name LIKE ?", "%#{i}%" ])
+      conds << ActiveRecord::Base.send(:sanitize_sql_array, [ " OR file_creator LIKE ?", "%#{i}%" ])
+      conds << ActiveRecord::Base.send(:sanitize_sql_array, [ " OR file_desc LIKE ?)", "%#{i}%" ])
     end
     conds.sub(/^ AND /, '')
   end # }}}
