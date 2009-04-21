@@ -1,0 +1,9 @@
+<% 
+links = []
+@online_users.each { |u| links << link_to(u.username, u) }
+%>
+<div class="online_users">
+  Ci sono <strong><%=@guests_count%></strong> visitatori e
+  <strong><%=@online_users.size%></strong> utenti registrati online:
+  <%=links.join ', '%>
+</div>

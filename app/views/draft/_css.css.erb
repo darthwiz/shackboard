@@ -1,7 +1,7 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
 <%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
-<%=render :partial => '/login/login_box_css', :locals => { :t => t } %>
+<%=render :partial => '/users/login_box_css', :locals => { :t => t } %>
 div.title_bar {<%#{{{%>
   padding: .5em;
   background-color: <%=t.header%>;

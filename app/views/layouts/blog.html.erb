@@ -1,6 +1,6 @@
 <%
-# vim: set ft=eruby nowrap:
 lfu = @legacy_forum_uri
+t   = @opts[:theme]
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -46,11 +46,11 @@ lfu = @legacy_forum_uri
     a = 0;
     function StartAnim() {
       if (version >= 3) {
-        document.write('<A HREF="#" onClick="ImgDest();return(false)"><IMG SRC="01.gif" BORDER=0 ALT="immagine" NAME=defil><\/A>');
+        document.write('<A HREF="#" onClick="ImgDest();return(false)"><IMG SRC="/portale/forum/images/01.gif" BORDER=0 ALT="immagine" NAME=defil><\/A>');
         defilimg()
       }
       else {
-        document.write('<A HREF="http://www.html.it"><IMG SRC="01.gif" BORDER=0><\/A>')
+        document.write('<A HREF="http://www.html.it"><IMG SRC="/portale/forum/images/01.gif" BORDER=0><\/A>')
       }
     }
 
@@ -71,7 +71,7 @@ lfu = @legacy_forum_uri
     //]]>
     </script>
     <title>
-      <%=@page_title || "Forum degli Studenti della Bicocca"%>
+      <%=cleanup(@page_title) || "Forum degli Studenti della Bicocca"%>
     </title>
   </head>
   <body>
@@ -90,81 +90,164 @@ lfu = @legacy_forum_uri
         </tr>
       </table>
     </div>
-    <div id="main">
-      <div id="page-header">
-        <script src="http://www.studentibicocca.it/portale/include/bannerad3.js" type="text/javascript">
-        </script>
-        <script type="text/javascript">
-        //<![CDATA[
-        /* {{{1 */
-        function Popup(url, window_name, window_width, window_height) 
-        { settings= 
-        "toolbar=no,location=no,directories=no,"+ 
-        "status=no,menubar=no,scrollbars=yes,"+ 
-        "resizable=yes,width="+window_width+",height="+window_height; 
+    <div>
+      <script src="http://www.studentibicocca.it/portale/include/bannerad3.js" type="text/javascript">
+      </script>
+      <script type="text/javascript">
+      //<![CDATA[
+      /* {{{1 */
+      function Popup(url, window_name, window_width, window_height) 
+      { settings= 
+      "toolbar=no,location=no,directories=no,"+ 
+      "status=no,menubar=no,scrollbars=yes,"+ 
+      "resizable=yes,width="+window_width+",height="+window_height; 
 
-        NewWindow=window.open(url,window_name,settings); }
+      NewWindow=window.open(url,window_name,settings); }
 
-        function icon(theicon) { 
-        document.input.message.value += ""+theicon; 
-        document.input.message.focus(); 
-        } 
-        /* }}}1 */ 
-        //]]>
-        </script>
-        <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center" class="themed">
-          <tr>
-            <td>
-              <table border="0" cellspacing="1" cellpadding="6" width="100%">
-                <tr>
-                  <td width="100%" class="top">
-                    <table width="100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td>
-                          <font style="font-size: 10px; font-family: arial, verdana">
-                            Forum degli Studenti della Bicocca
-                            <br />
-                          </font>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="navtd">
-                          <table width="100%" cellpadding="0" cellspacing="0">
-                            <tr>
-                              <td class="navtd">
-                                &nbsp;
+      function icon(theicon) { 
+      document.input.message.value += ""+theicon; 
+      document.input.message.focus(); 
+      } 
+      /* }}}1 */ 
+      //]]>
+      </script>
+      <table cellspacing="0" cellpadding="0" border="0" width="97%" align="center" class="themed">
+        <tr>
+          <td>
+            <table border="0" cellspacing="1" cellpadding="6" width="100%">
+              <tr>
+                <td width="100%" class="top">
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td>
+                        <font style="font-size: 10px; font-family: arial, verdana">
+                          Forum degli Studenti della Bicocca
+                          <br />
+                        </font>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="navtd">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td class="navtd">
+                              &nbsp;
+                              <%if @user%>
                                 <a href="<%=lfu%>/usercp.php"><span class="navtd">Profilo</span></a> |
-                                <a href="<%=lfu%>/misc.php?action=search"><span class="navtd">Cerca</span></a> |
-                                <a href="<%=lfu%>/usercp.php?action=u2u"><span class="navtd">Messaggi privati</span></a> 
-                              </td>
-                              <td align="right">
-                                <a href="/"><span class="navtd">Torna a STUDENTIBICOCCA.it</span></a>
-                              </td>
-                              <td>
-                                &nbsp;
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </div>
+                              <%else%>
+                                <%=link_to(content_tag('span', 'Registrati', :class => 'navtd'), new_user_path(:rules => true))%> |
+                              <%end%>
+                              <a href="<%=lfu%>/misc.php?action=search"><span class="navtd">Cerca</span></a>
+                              <%if @user%> | <a href="<%=lfu%>/usercp.php?action=u2u"><span class="navtd">Messaggi privati</span></a><%end%> 
+                            </td>
+                            <td align="right">
+                              <a href="/"><span class="navtd">Torna a STUDENTIBICOCCA.it</span></a>
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br/>
+      <table cellspacing="0" cellpadding="0" border="0" width="97%" align="center">
+        <tr>
+          <td bgcolor="<%=t.bordercolor%>">
+            <table border="0" cellspacing="1" cellpadding="6" width="100%">
+              <tr>
+                <td width="100%" bgcolor="<%=t.altbg1%>">
+                  <table border="0" cellspacing="1" cellpadding="0" width="100%">
+                    <tr>
+                      <td>
+                        <font style="font-size: 10px; font-family: arial, verdana">
+                          <%if @user%>
+                          Benvenuto <strong><em><%=@user.username%></em></strong> |
+                          <%=link_to(
+                            content_tag(:span, 'Logout', :class => 'navtd'),
+                            logout_users_path
+                          )%>
+                          <%else%>
+                          Non hai fatto il login | 
+                          <%=link_to(
+                            content_tag(:span, 'Login', :class => 'navtd'),
+                            login_users_path
+                          )%>
+                          <%end%>
+                        </font>
+                      </td>
+                      <td align="right" valign="bottom"></td>
+                      <td align="right" valign="bottom">
+                        <font style="font-size: 10px; font-family: arial, verdana">
+                          <%=page_trail%>
+                        </font>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <%#
+      <table cellspacing="0" cellpadding="0" border="0" width="97%" align= "center" bgcolor="#223344">
+        <tr>
+          <td>
+            <table border="0" cellspacing="1" cellpadding="4" width="100%"
+            align="center">
+              <tr>
+                <td bgcolor="#778899" align="center" class="tablerow"
+                width="25%">
+                  <a href="?action=home">Pagina personale</a>
+                </td>
+                <td bgcolor="#778899" align="center" class="tablerow" width="25%">
+                  <a href="?action=editpro">Modifica profilo</a>
+                </td>
+                <td bgcolor="#778899" align="center" class="tablerow" width="25%">
+                  <a href="?action=u2u">Messaggi privati</a>
+                </td>
+                <td bgcolor="#778899" align="center" class="tablerow" width="25%">
+                  <a href="?action=notify">Discussioni con notifica</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      %>
+    </div>
+    <div id="main">
       <div id="blogs">
         <div id="content_box">
-          <div class="breadcrumbs">
-            <%=page_trail%>
+          <%if false && @location%>
+          <div id="breadcrumbs" class="breadcrumbs">
+            <%=render :partial => '/common/breadcrumbs'%>
           </div>
+          <%end%>
+          <%unless cleanup(page_seq).empty?%>
+          <div class="page-seq">
+            <%=page_seq%>
+          </div>
+          <%end%>
           <%=yield%>
-          <div class="breadcrumbs_bottom">
+          <div class="page-seq">
+            <%=page_seq%>
+          </div>
+          <%if @location%>
+          <div id="breadcrumbs_bottom" class="breadcrumbs_bottom">
+            <%#render :partial => '/common/breadcrumbs'%>
             <%=page_trail%>
           </div>
-          <%=render :partial => '/user/online'%>
+          <%end%>
+          <%=render :partial => '/users/online'%>
         </div>
       </div>
     </div>
@@ -176,7 +259,7 @@ lfu = @legacy_forum_uri
       _uacct = "UA-2831123-5";
       urchinTracker();
     </script>
-    %>
     <script type="text/javascript" src="http://www.savethedevelopers.org/js/lang/it/say.no.to.ie.6.js"></script>
+    %>
   </body>
 </html>

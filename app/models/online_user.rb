@@ -5,29 +5,32 @@ class OnlineUser < ActiveRecord::Base
   belongs_to :user, :foreign_key => 'uid'
   #set_primary_key "username"
   #validates_uniqueness_of :username
-  def OnlineUser.touch(user, ip)
+
+  def self.touch(user, ip)
     raise TypeError unless user.is_a?(User) || user.nil?
     uid   = 0
     uid   = user.id unless user.nil?
     conds = sanitize_sql(["uid = %d AND ip = '%s'", uid, ip])
-    OnlineUser.delete_all(conds)
-    ou      = OnlineUser.new
+    self.delete_all(conds)
+    ou      = self.new
     ou.uid  = uid
     ou.ip   = ip
     ou.time = Time.now.to_i
     ou.save
   end
-  def OnlineUser.cleanup(time=5.minutes)
+
+  def self.cleanup(time=5.minutes)
     conds = sanitize_sql(["time < %s", Time.now.to_i - time])
-    OnlineUser.delete_all(conds)
+    self.delete_all(conds)
   end
-  def OnlineUser.guests_count
-    conds = sanitize_sql(["uid = 0"])
-    OnlineUser.count(conds)
+
+  def self.guests_count
+    self.count(:conditions => 'uid = 0')
   end
-  def OnlineUser.online
+
+  def self.online
     users = []
-    OnlineUser.find(
+    self.find(
       :all, :joins => 'INNER JOIN xmb_members
         ON xmb_members.uid = xmb_whosonline.uid',
       :order => 'xmb_members.username'

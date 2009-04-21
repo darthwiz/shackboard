@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
+  @@domain = COOKIE_DOMAIN
+  layout 'forum'
   # GET /users/1
   # GET /users/1.xml
   def show
-    @user = User.find(params[:id])
+    @shown_user = User.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
     end
   end
 
@@ -48,6 +50,47 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def login
+  end
+
+  def authenticate
+    username    = params[:users][:username]
+    password    = params[:users][:password]
+    cookie_time = params[:users][:cookie]
+    cookie_time = cookie_time.to_i > 0 ? cookie_time.to_i : 10
+    user        = User.find_by_username(username)
+    if (user) then
+      if user.auth(password)
+        session[:userid]          = user.id
+        intended_action           = session[:intended_action]
+        session[:intended_action] = nil
+        cookies[:thisuser]        = { :value => username, :domain => @@domain, :expires => Time.now + cookie_time.days }
+        cookies[:thispw]          = { :value => password, :domain => @@domain, :expires => Time.now + cookie_time.days }
+        if intended_action
+          redirect_to intended_action 
+        else
+          redirect_to :back
+        end
+      else
+        redirect_to :controller => "login", :action => "index"
+      end
+    else
+      redirect_to :controller => "login", :action => "index"
+    end
+  end 
+
+  def logout 
+    cookies[:thisuser] = { :domain => @@domain, :expires => Time.at(0) }
+    cookies[:thispw]   = { :domain => @@domain, :expires => Time.at(0) }
+    reset_session
+    if request.env["HTTP_REFERER"]
+      redirect_to :back 
+    else
+      redirect_to root_path
+    end
+  end 
+
 =begin
   # PUT /users/1
   # PUT /users/1.xml

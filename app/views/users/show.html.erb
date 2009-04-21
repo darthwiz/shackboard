@@ -1,0 +1,42 @@
+<%t = @opts[:theme]%>
+<table cellspacing="0" cellpadding="0" border="0" width="97%" align="center">
+  <tr>
+    <td bgcolor="<%=t.bordercolor%>">
+      <table border="0" cellspacing="1" cellpadding="6" width="100%">
+        <tr>
+          <td colspan="2" class="header">Profilo per <%=cleanup(@shown_user.username)%></td>
+        </tr>
+        <tr>
+          <td bgcolor="<%=t.altbg1%>" width="22%" class="tablerow">Username:</td>
+          <td bgcolor="<%=t.altbg2%>" class="tablerow"><%=cleanup(@shown_user.username)%></td>
+        </tr>
+        <tr>
+          <td bgcolor="<%=t.altbg1%>" class="tablerow">Registrato:</td>
+          <td bgcolor="<%=t.altbg2%>" class="tablerow">
+            <%=Time.at(@shown_user.regdate).strftime('%d/%m/%Y')%>
+            (<%='%0.2f' % @shown_user.posts_per_day%> messaggi per giorno)
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="<%=t.altbg1%>" class="tablerow">Status:</td>
+          <td bgcolor="<%=t.altbg2%>" class="tablerow"><%=@shown_user.rank.title%></td>
+        </tr>
+        <tr>
+          <td bgcolor="<%=t.altbg1%>" class="tablerow">Online Status:</td>
+          <td bgcolor="<%=t.altbg2%>" class="tablerow"><%=@shown_user.online? ? 'Online' : 'Offline'%></td>
+        </tr>
+        <tr>
+          <td bgcolor="<%=t.altbg1%>" valign="top" class="tablerow">Bio:</td>
+          <td bgcolor="<%=t.altbg2%>" class="tablerow">
+            <%=cleanup(@shown_user.bio).gsub("\n", "<br />\n")%>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="<%=t.altbg1%>" colspan="2" class="tablerow">
+            <a href="/portale/forum/misc.php?action=search&amp;srchuname=<%=@shown_user.username%>&amp;searchsubmit=a&amp;srchfid=all&amp;srchfrom=0">Cerca</a> tutti i post di questo utente
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

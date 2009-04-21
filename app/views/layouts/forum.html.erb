@@ -46,11 +46,11 @@ t   = @opts[:theme]
     a = 0;
     function StartAnim() {
       if (version >= 3) {
-        document.write('<A HREF="#" onClick="ImgDest();return(false)"><IMG SRC="01.gif" BORDER=0 ALT="immagine" NAME=defil><\/A>');
+        document.write('<A HREF="#" onClick="ImgDest();return(false)"><IMG SRC="/portale/forum/images/01.gif" BORDER=0 ALT="immagine" NAME=defil><\/A>');
         defilimg()
       }
       else {
-        document.write('<A HREF="http://www.html.it"><IMG SRC="01.gif" BORDER=0><\/A>')
+        document.write('<A HREF="http://www.html.it"><IMG SRC="/portale/forum/images/01.gif" BORDER=0><\/A>')
       }
     }
 
@@ -172,13 +172,13 @@ t   = @opts[:theme]
                           Benvenuto <strong><em><%=@user.username%></em></strong> |
                           <%=link_to(
                             content_tag(:span, 'Logout', :class => 'navtd'),
-                            :controller => :login, :action => :logout
+                            logout_users_path
                           )%>
                           <%else%>
                           Non hai fatto il login | 
                           <%=link_to(
                             content_tag(:span, 'Login', :class => 'navtd'),
-                            '/portale/forum/misc.php?action=login'
+                            login_users_path
                           )%>
                           <%end%>
                         </font>
@@ -247,7 +247,7 @@ t   = @opts[:theme]
             <%=page_trail%>
           </div>
           <%end%>
-          <%=render :partial => '/user/online'%>
+          <%=render :partial => '/users/online'%>
         </div>
       </div>
     </div>
