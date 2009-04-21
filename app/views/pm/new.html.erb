@@ -1,6 +1,11 @@
+<%=javascript_include_tag 'editor.js'%>
+<script type="text/javascript">
+  form_name = 'new_pm'
+  text_name = 'pm[message]'
+</script>
 <div id="new_pm">
   <%=form_tag({ :controller => 'pm', :action => 'create' },
-    {:method => 'post', :id => 'new_pm_form'})%>
+    {:method => 'post', :id => 'new_pm_form', :name =>'new_pm'})%>
     <div id="headers">
       <ul>
         <li>
@@ -42,6 +47,22 @@
             <%=submit_tag 'Invia'%>
             <span id="draft_saved" style="display: none;"></span>
           </div>
+        </div>
+      </div>
+      <div id="format-commands">
+        <div class="label">
+          <h3>Formattazione</h3>
+        </div>
+        <div class="content">
+          <ul>
+            <li><%=format_button('b', 'bb_bold.gif', 'grassetto')%></li>
+            <li><%=format_button('i', 'bb_italicize.gif', 'corsivo')%></li>
+            <li><%=format_button('u', 'bb_underline.gif', 'sottolineato')%></li>
+            <li><%=format_button('quote', 'bb_quote.gif', 'citazione')%></li>
+            <li><%=format_button('img', 'bb_image.gif', 'immagine')%></li>
+            <li><%=format_button('list', 'bb_list.gif', 'lista')%></li>
+            <li><%=format_button('code', 'bb_code.gif', 'codice')%></li>
+          </ul>
         </div>
       </div>
       <div id="smiley_list">

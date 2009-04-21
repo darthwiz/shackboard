@@ -1,8 +1,12 @@
-<% smileys = Smiley.all(@user) %>
+<%smileys = Smiley.all(@user)%>
 <ul>
 <% smileys.each do |sm| %>
   <li>
-    <%=image_tag sm.url, :title => sm.code%>
+    <%=link_to(
+      image_tag(sm.url, :title => sm.code, :border => 0),
+      'javascript:;',
+      :onclick => "insert_text('#{sm.code}', true); return false"
+    )%>
   </li>
 <% end %>
 </ul>

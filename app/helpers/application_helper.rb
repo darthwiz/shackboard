@@ -460,6 +460,14 @@ module ApplicationHelper
     FileController.new.send(:is_adm?, user)
   end
 
+  def format_button(tag, image, title='')
+    link_to(
+      image_tag('http://www.studentibicocca.it/portale/forum/images/' + image, :border => 0),
+      "javascript:bbfontstyle('[#{tag}]', '[/#{tag}]');",
+      :title => title
+    )
+  end
+
   def link_legacy(params={})
     msg        = params[:caption]
     old_url    = params[:old]

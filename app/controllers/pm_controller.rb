@@ -1,5 +1,6 @@
 class PmController < ApplicationController
   before_filter :authenticate
+  layout 'forum'
 
   def list 
     ppp    = @opts[:ppp]
@@ -96,8 +97,8 @@ class PmController < ApplicationController
       @draft.object_type = @pm.class.to_s
       @draft.save!
     end
+    @page_title = 'Nuovo messaggio privato'
     @location = [ 'Pm', :new ]
-    render :layout => 'forum'
   end 
 
   def save_draft 
