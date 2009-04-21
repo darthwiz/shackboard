@@ -88,4 +88,4 @@ end
 # Include your application configuration below
 ActionController::Base.cache_store = :mem_cache_store, '192.168.1.3'
 $KCODE = 'UTF8'
-
+Mime::Type.register 'text/plain', :txt

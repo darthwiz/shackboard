@@ -104,6 +104,11 @@ class TopicsController < ApplicationController
     @page_title    = @topic.subject
     @posts         = @topic.posts_range(@range, @user)
     @topic.increment!(:views)
+    respond_to do |format|
+      format.html
+      format.txt
+      format.xml { render :xml => @post }
+    end
   end
 
   def update

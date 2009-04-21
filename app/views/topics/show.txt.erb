@@ -1,0 +1,13 @@
+<%
+host = 'www.studentibicocca.it'
+-%>
+Discussione: <%=cleanup(@topic.title)%> (messaggi da <%=@posts.first.seq%> a <%=@posts.last.seq%>)
+[<%=topic_url @topic, :host => host%>]
+
+<%@posts.each do |p|%>
+--------------------------------------------------------------------------------
+Autore: <%=p.cached_user.username%> [<%=user_url p.cached_user, :host => host%>]
+Data: <%=p.created_at.strftime('%d/%m/%Y')%>, <%=p.created_at.strftime('%H.%M')%>
+
+<%=BbText.new(p.message).to_plaintext%>
+<%end%>

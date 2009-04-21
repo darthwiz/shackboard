@@ -1,4 +1,5 @@
 class BbText
+  include ActionView::Helpers::TextHelper
   def initialize(text='', smileys=[])
     @text    = text
     @smileys = smileys
@@ -39,6 +40,25 @@ class BbText
     @smileys.each do |sm|
       s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\" /> ") unless sm.code.empty?
     end
+    return s
+  end
+
+  def to_plaintext(params={})
+    s = Sanitizer.sanitize_bb(@text)
+    s.gsub!(/\[img\]([^\[\]]+)\[\/img\]/i, '[immagine]')
+    s.gsub!(/\[i\]/i, '')
+    s.gsub!(/\[\/i\]/i, '')
+    s.gsub!(/\[b\]/i, '')
+    s.gsub!(/\[\/b\]/i, '')
+    s.gsub!(/\[u\]/i, '')
+    s.gsub!(/\[\/u\]/i, '')
+    s.gsub!(/\[code\]/i, '')
+    s.gsub!(/\[\/code\]/i, '')
+    s.gsub!(/\[quote\]/i, '')
+    s.gsub!(/\[\/quote\]/i, '')
+    s.gsub!(/\[spoiler\]/i, '')
+    s.gsub!(/\[\/spoiler\]/i, '')
+    s = word_wrap(s, :line_width => 80)
     return s
   end
 
