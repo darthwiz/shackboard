@@ -71,7 +71,7 @@ t   = @opts[:theme]
     //]]>
     </script>
     <title>
-      <%=@page_title || "Forum degli Studenti della Bicocca"%>
+      <%=cleanup(@page_title) || "Forum degli Studenti della Bicocca"%>
     </title>
   </head>
   <body>

@@ -138,6 +138,7 @@ class Topic < ActiveRecord::Base
     smiley_hash  = {}
     blog_hash    = {}
     user_hash    = {}
+    range.begin  = 0 if range.begin < 0
     if range.end >= range.begin
       conds  = ["tid = ? AND fid = ?", self.tid, self.fid]
       posts += Post.find :all,
