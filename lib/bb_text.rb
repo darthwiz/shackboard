@@ -37,6 +37,7 @@ class BbText
     end
     s.gsub!(/\[\/spoiler\]/i, "</div></div>")
     s.gsub!(/(^|[>[:space:]\n])([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])([<[:space:]\n]|$)/, "\\1<a href=\"\\2://\\3\\4\" target=\"_blank\">\\2://\\3\\4</a>\\5")
+    s.gsub!(/\[url=([^\]]*)\](.*)\[\/url\]/, "<a href=\"\\1\" title=\"\\1\">\\2</a>")
     @smileys.each do |sm|
       s.gsub!(sm.code, " <img src=\"#{sm.url}\" alt=\"#{sm.code}\" /> ") unless sm.code.empty?
     end

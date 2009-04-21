@@ -58,7 +58,6 @@ class TopicsController < ApplicationController
       render :partial => "not_found" and return
     end
 
-    # redirect if needed
     # redirect if the topic has moved
     if (@topic.actual && @topic.id != @topic.actual.id)
       redirect_to :action => 'show', :id => @topic.actual.id and return
@@ -76,12 +75,10 @@ class TopicsController < ApplicationController
       redirect_to :action => 'show', :id => @topic.id, :start => rstart + 1 and return
     end
 
-    # use the user's preferred engine
-    if @preferred_engine == 1
-      redirect_to @legacy_forum_uri + "/viewthread.php?tid=#{@topic.id}" \
-        and return
+    # redirect to the numeric topic id unless we're already using it
+    unless params[:id].to_i > 0
+      redirect_to :action => 'show', :id => @topic.id, :start => rstart + 1 and return
     end
-
 
     # check access control once we have found the topic
     unless @topic.can_read?(@user)
