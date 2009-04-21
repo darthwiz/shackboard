@@ -1,23 +1,18 @@
-<% n           = 5     unless n %>
-<% include_sub = false unless include_sub %>
-<% topics = Forum.latest_topics(id, n, :include_sub => include_sub) %>
-<% unless topics.empty? %>
+<%n           = 5     unless n%>
+<%include_sub = false unless include_sub%>
+<%topics = Forum.latest_topics(id, n, :include_sub => include_sub)%>
+<%unless topics.empty?%>
   <ul class="latest_topics">
-  <% topics.each do |t| %>
+  <%topics.each do |t|%>
     <li><%
-      if @legacy_mode == :old
-        url  = "/portale/forum/viewthread.php?tid=#{t.actual.id}"
-        last = url + "&amp;page=last#bottom"
-      else
         url  = topic_path(t.actual)
         last = topic_path(t.actual, :page => 'last', :anchor => 'last_post')
-      end
       %>
       <div class="topic"><%=link_to cleanup(t.subject), url%></div>
       <div class="lastposter">
         <%=link_to h(t.lastpost(:username)), last%>
       </div>
     </li>
-  <% end %>
+  <%end%>
   </ul>
-<% end %>
+<%end%>
