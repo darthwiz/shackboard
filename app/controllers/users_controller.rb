@@ -52,6 +52,7 @@ class UsersController < ApplicationController
   end
 
   def login
+    session[:intended_action] = request.env['HTTP_REFERER']
   end
 
   def authenticate
