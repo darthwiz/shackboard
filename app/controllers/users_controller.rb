@@ -74,10 +74,10 @@ class UsersController < ApplicationController
           redirect_to :back
         end
       else
-        redirect_to :controller => "login", :action => "index"
+        redirect_to :controller => :users, :action => :login
       end
     else
-      redirect_to :controller => "login", :action => "index"
+      redirect_to :controller => :users, :action => :login
     end
   end 
 
