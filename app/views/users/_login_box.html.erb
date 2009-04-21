@@ -14,19 +14,21 @@
     </div>
     <div class="spacer"></div>
   <%else%>
-    <%form_for :users, :url => authenticate_users_path do |f|%>
-    <div class="username">
-      <div class="label">Username</div>
-      <%=f.text_field :username, :size => 16%>
-    </div>
-    <div class="password">
-      <div class="label">Password</div>
-      <%=f.password_field :password, :size => 16%>
-    </div>
-    <div class="user_register">
-      <%=link_to 'nuovo utente', new_user_path%>
-    </div>
-    <%=f.submit 'login'%>
+    <div class="login">
+      <%form_for :users, :url => authenticate_users_path do |f|%>
+      <div class="username">
+        <div class="label">Username</div>
+        <%=f.text_field :username, :size => 16%>
+      </div>
+      <div class="password">
+        <div class="label">Password</div>
+        <%=f.password_field :password, :size => 16%>
+      </div>
+      <div class="user_register">
+        <%=link_to 'nuovo utente', new_user_path%>
+      </div>
+      <%=f.submit 'login'%>
+      <%end%>
     <%end%>
-  <%end%>
+  </div>
 </div>
