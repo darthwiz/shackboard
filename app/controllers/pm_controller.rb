@@ -82,7 +82,9 @@ class PmController < ApplicationController
       @pm.subject = reply_to.subject
       @pm.format  = reply_to.format
       @pm.message = (reply_to.format == 'bb') ? 
-        "[quote]\n" + reply_to.message + "\n[/quote]" : reply_to.message
+        "[quote]" + reply_to.message + "[/quote]" : reply_to.message
+    else
+      @pm.msgto = params[:msgto]
     end
     if draft_id > 0
       conds  = [ 'id = ? AND object_type = ? AND user_id = ?', draft_id, 'Pm',

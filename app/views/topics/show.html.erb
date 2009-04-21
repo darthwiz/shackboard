@@ -98,7 +98,7 @@ can_post     = @topic.can_post?(@user)
                       ) if can_post%>
                       <%=link_to(
                         image_tag(images_url + 'b_reply_pm.png', :alt => 'rispondi', :border => 0),
-                        "/portale/forum/usercp.php?action=u2u&option=new&msgto=#{p.cached_user.username}"
+                        new_pm_path(:reply => p.id, :class => 'post')
                       ) if @user%>
                       <%=link_to(
                         image_tag(images_url + 'b_edit.png', :alt => 'modifica', :border => 0),

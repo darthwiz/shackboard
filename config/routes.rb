@@ -25,6 +25,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   map.resources :users
+  map.resources :pms, :as => 'pm', :controller => :pm
   map.resources :posts, :path_prefix => 'forum'
   map.resources :topics, :path_prefix => 'forum'
   map.resources :blog_posts, :has_many => :blog_comments, :path_prefix => 'blog'
