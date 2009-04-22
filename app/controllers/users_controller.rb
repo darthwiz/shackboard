@@ -25,6 +25,12 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @edit_user = User.find(params[:id])
+    unless @edit_user == @user || @user.is_adm?
+      redirect_to user_path(@edit_user) and return
+    end
+    respond_to do |format|
+      format.html
+    end
   end
 
   # POST /users
@@ -92,32 +98,29 @@ class UsersController < ApplicationController
     end
   end 
 
-=begin
   # PUT /users/1
   # PUT /users/1.xml
   def update
-    @user = User.find(params[:id])
+    @edit_user = User.find(params[:id])
     respond_to do |format|
-      if @user.update_attributes(params[:user])
-        flash[:notice] = 'User was successfully updated.'
-        format.html { redirect_to(@user) }
-        format.xml  { head :ok }
+      if @edit_user == @user || @user.is_adm?
+        if @user.update_attributes(params[:user])
+          #flash[:notice] = 'User was successfully updated.'
+          new_password = params[:new_password].to_s
+          unless new_password.empty?
+            @edit_user.password = new_password
+            @edit_user.save
+          end
+          format.html { redirect_to(@edit_user) }
+          #format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          #format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        end
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        redirect_to @edit_user
       end
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.xml
-  def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to(users_url) }
-      format.xml  { head :ok }
-    end
-  end
-=end
 end

@@ -27,12 +27,13 @@ class TopicsController < ApplicationController
   end
 
   def show
-    ppp    = ((@opts[:ppp] - 1) / @post_block_size + 1) * @post_block_size
+    #ppp    = ((@opts[:ppp] - 1) / @post_block_size + 1) * @post_block_size
+    ppp    = @opts[:ppp]
     start  = params[:start].to_i - 1
     start  = 0 if (start <= 0)
     if (params[:page].to_i > 0 && !params[:start])
       start = (params[:page].to_i - 1) * ppp
-      redirect_to :action => 'show', :id => params[:id], :start => start + 1, :status => :moved_permanently and return
+      redirect_to :action => :show, :id => params[:id], :start => start + 1, :status => :moved_permanently and return
     end
     rstart = (start/ppp)*ppp
     rend   = rstart + ppp - 1

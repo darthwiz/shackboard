@@ -133,7 +133,7 @@ t   = @opts[:theme]
                             <td class="navtd">
                               &nbsp;
                               <%if @user%>
-                                <a href="<%=lfu%>/usercp.php"><span class="navtd">Profilo</span></a> |
+                                <%=link_to(content_tag('span', 'Profilo', :class => 'navtd'), edit_user_path(@user))%> |
                               <%else%>
                                 <%=link_to(content_tag('span', 'Registrati', :class => 'navtd'), new_user_path(:rules => true))%> |
                               <%end%>
