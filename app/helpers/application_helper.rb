@@ -139,20 +139,14 @@ module ApplicationHelper
 
   def link_pm_list
     return nil unless @user.is_a? User
-    msg = 'messaggi privati'
-    if @legacy_mode == :old
-      s                = link_to msg, '/portale/forum/usercp.php?action=u2u'
-    else
-      link             = { :controller => 'pm', :action => 'list' }
-      link[:host]      = @host_forum if @host_forum
-      link[:only_path] = false if @host_forum
-      s                = link_to msg, link
-    end
+    msg  = 'messaggi privati'
+    link = { :controller => :pm, :action => :index }
+    s    = link_to msg, link
     content_tag('span', s, :class => 'pm_list')
   end
 
   def link_pm_trash
-    link_to 'cestino', {:controller => 'pm', :action => 'list',
+    link_to 'cestino', {:controller => :pm, :action => :index,
       :folder => 'trash'}, {:class => 'pm_trash'}
   end
 
@@ -160,9 +154,7 @@ module ApplicationHelper
     count = Pm.unread_for(user)
     msg   = "Hai un messaggio privato non letto."        if count == 1
     msg   = "Hai #{count} messaggi privati non letti."   if count > 1
-    link  = { :controller => 'pm', :action => 'list' }
-    link[:host]      = @host_forum if @host_forum
-    link[:only_path] = false if @host_forum
+    link  = { :controller => :pm, :action => :index }
     msg ? link_to(msg, link) : nil
   end
 

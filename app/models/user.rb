@@ -33,11 +33,13 @@ class User < ActiveRecord::Base
   end
  
   def ppp
-    nearest_multiple(self[:ppp], POST_BLOCK_SIZE)
+    #nearest_multiple(self[:ppp], POST_BLOCK_SIZE)
+    self[:ppp]
   end
 
   def tpp
-    nearest_multiple(self[:tpp], TOPIC_BLOCK_SIZE)
+    #nearest_multiple(self[:tpp], TOPIC_BLOCK_SIZE)
+    self[:tpp]
   end
 
   def posts_per_day

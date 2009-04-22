@@ -5,10 +5,10 @@ module PmHelper
     when 'inbox'
       trail << [ 'Messaggi privati', {} ]
     when 'trash'
-      trail << [ 'Messaggi privati', {:controller => 'pm', :action => 'list'} ]
+      trail << [ 'Messaggi privati', {:controller => :pm, :action => :index} ]
       trail << [ 'Cestino', {} ]
     when :new
-      trail << [ 'Messaggi privati', {:controller => 'pm', :action => 'list'} ]
+      trail << [ 'Messaggi privati', {:controller => :pm, :action => :index} ]
       trail << [ 'Nuovo', {} ]
     end
     trail
