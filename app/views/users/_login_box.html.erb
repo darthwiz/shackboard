@@ -8,7 +8,7 @@
       <%=content_tag('li', link_blogs_unread)    if link_blogs_unread%>
     </ul>
     <div class="buttons">
-      <%=link_user_edit%>
+      <%=link_to 'Impostazioni', edit_user_path(@user)%>
       <%=link_pm_list%>
       <%=link_to 'logout', logout_users_path%>
     </div>
