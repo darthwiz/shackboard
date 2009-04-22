@@ -2,7 +2,7 @@ class PmController < ApplicationController
   before_filter :authenticate
   layout 'forum'
 
-  def list 
+  def index 
     ppp    = @opts[:ppp]
     start  = params[:start].to_i
     folder = params[:folder] || 'inbox'
@@ -16,7 +16,7 @@ class PmController < ApplicationController
                      :limit      => limit,
                      :offset     => offset
     @page_seq_opts = { :controller  => 'pm',
-                       :action      => 'list',
+                       :action      => 'index',
                        :last        => Pm.count(:conditions => conds),
                        :current     => start,
                        :ipp         => ppp,
@@ -133,7 +133,7 @@ class PmController < ApplicationController
     @pm.msgfrom  = @user.username
     if @pm.save
       Draft.destroy(params[:draft_id]) # FIXME need better security here
-      redirect_to :controller => 'pm', :action => 'list'
+      redirect_to :controller => 'pm', :action => 'index'
     else
       draft = Draft.find(params[:draft_id])
       @pm.attribute_names.each do |a|
@@ -158,7 +158,7 @@ class PmController < ApplicationController
         :order      => 'dateline DESC',
         :limit      => limit,
         :offset     => offset
-      render :partial => 'pm_list'
+      render :partial => 'pm_index'
     end
   end 
 
