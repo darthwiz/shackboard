@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  @@domain = COOKIE_DOMAIN
   layout 'forum'
   # GET /users/1
   # GET /users/1.xml

@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   before_filter :load_defaults, :update_online, :set_stylesheet
+  @@domain = COOKIE_DOMAIN
 
   private
   def cache_expire(params) 
@@ -49,6 +50,13 @@ class ApplicationController < ActionController::Base
       password         = cookies[:thispw]
       @user            = User.authenticate(username, password)
       session[:userid] = @user.id if @user
+    end
+
+    # refresh legacy cookie
+    # FIXME this clearly is a hack and should be phased out soon
+    if @user.is_a? User
+      cookies[:thisuser] = { :value => @user.username, :domain => @@domain, :expires => Time.now + 10.days }
+      cookies[:thispw]   = { :value => @user.password, :domain => @@domain, :expires => Time.now + 10.days }
     end
     
     @opts = {}
