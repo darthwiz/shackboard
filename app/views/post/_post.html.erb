@@ -16,7 +16,7 @@
     msgdate  = Time.at(message.dateline.to_i).strftime("%d/%m/%Y, %H.%M")
     rank     = user.rank
     sign     = sanitize(user.sig.gsub("\n", "<br />\n"), :tags => %w(br))
-    avatar   = cleanup(user.avatar)
+    avatar   = cleanup(user.avatar).to_s
     regdate  = Time.at(user.regdate).strftime("%d/%m/%Y")
     status   = user.customstatus.empty? ? user.status : user.customstatus
   else
@@ -71,7 +71,7 @@
               <span class="value"><%=status%></span>
             </dd>
             <dd class="avatar">
-              <%=image_tag(avatar, :alt => '', :class => 'avatar')%>
+              <%=image_tag(avatar.to_s, :alt => '', :class => 'avatar')%>
             </dd>
             <dd class="reg_date">
               <span class="label">registrato il</span>
