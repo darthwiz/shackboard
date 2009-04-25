@@ -22,6 +22,7 @@ class Forum < ActiveRecord::Base
     User.supermods.each do |u|
       return true if u.id = userid
     end
+    false
   end
 
   def can_post?(user)
