@@ -51,7 +51,10 @@ can_post     = @topic.can_post?(@user)
                   Registrato: <%=Time.at(p.cached_user.regdate).strftime('%m/%Y')%><br />
                   <div class="c3">
                     <br />
-                    <a href="/portale/forum/member.php?action=viewpro&amp;member=<%=h p.cached_user.username%>"><%=image_tag images_url + 'b_profile.png', :border => 0, :alt => 'profilo'%></a>
+                    <%=link_to(
+                      image_tag(images_url + 'b_profile.png', :border => 0, :alt => 'profilo'),
+                      p.cached_user
+                    )%>
                     <%if p.cached_has_blog%>
                     <%=link_to(
                       image_tag(images_url + 'b_blog.png', :alt => 'blog', :border => 0),

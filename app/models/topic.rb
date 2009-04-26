@@ -172,12 +172,11 @@ class Topic < ActiveRecord::Base
       blogs.each do |i|
         blog_hash[i.user_id] ||= true
       end
-      #puts smiley_hash.to_yaml
       posts.each do |p| 
         p.seq = seq
         seq += 1
         p.cached_has_blog = blog_hash[p.user_id] || false
-        p.cached_smileys  = smiley_hash[0] + smiley_hash[p.user_id].to_a
+        p.cached_smileys  = smiley_hash[p.user_id].to_a + smiley_hash[0]
         p.cached_online   = online.include?(p.user_id)
         p.cached_user     = user_hash[p.user_id]
         p.cached_can_read = false
