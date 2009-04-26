@@ -87,6 +87,9 @@ what = obj.class.to_s.underscore
         </div>
         <div class="content">
           <%=render :partial => '/smileys/list'%>
+          <div class="smileys_link">
+            <%=link_to("Modifica", user_smileys_path(@user), :target => '_blank')%>
+          </div>
         </div>
       </div>
     </div>
