@@ -14,7 +14,7 @@ img = image_tag(url, { :alt => sm.code })
 <td class="bg0" align="center">
   <%if sm.user_id == user_id && user_id != 0%>
   <%=button_to_remote 'modifica', :update => "smiley_#{sm.id}",
-    :url => {:action => 'edit_in_place', :id => sm.id}%>
+    :url => edit_user_smiley_path(@user, sm), :method => :get%>
   <%else%>
   <%end%>
 </td>

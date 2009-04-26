@@ -17,9 +17,9 @@ img = image_tag(url, { :alt => sm.code })
 <td class="bg0" align="center"><%=img%></td>
 <td class="bg0" align="center">
   <%=submit_to_remote 'submit', 'salva',
-       :url => { :action => 'edit', :id => sm.id },
+       :url => user_smiley_path(@user, sm), :method => :put,
        :update => "smiley_#{sm.id}"%>
   <%=submit_to_remote 'submit', 'elimina',
-       :url => { :action => 'delete', :id => sm.id },
+       :url => user_smiley_path(@user, sm), :method => :delete,
        :update => "smiley_#{sm.id}"%>
 </td>

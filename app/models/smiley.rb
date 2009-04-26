@@ -4,6 +4,7 @@ class Smiley < ActiveRecord::Base
   belongs_to :user
   validates_format_of :url,  :with => %r{^http:\/\/[/.[:alnum:]_-]*\.(gif|jpg|png)$}
   validates_format_of :code, :with => /^:[[:alnum:]_-]+:/
+  attr_accessor :parsed
 
   def Smiley.all(user=nil)
     if user.is_a? User
@@ -11,7 +12,7 @@ class Smiley < ActiveRecord::Base
     else
       conds = [ 'type = ? AND user_id = 0 AND code != ""', 'smiley' ]
     end
-    Smiley.find(:all, :conditions => conds)
+    Smiley.find(:all, :conditions => conds, :order => 'user_id DESC')
   end
 
   def url
