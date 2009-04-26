@@ -301,12 +301,13 @@ ActiveRecord::Schema.define(:version => 20090425174859) do
 
   create_table "xmb_drafts", :force => true do |t|
     t.integer "user_id"
-    t.integer "timestamp"
+    t.integer "updated_at"
     t.string  "object_type", :limit => 30
     t.text    "object",      :limit => 16777215
+    t.integer "created_at"
   end
 
-  add_index "xmb_drafts", ["user_id", "timestamp", "object_type"], :name => "drafts_index"
+  add_index "xmb_drafts", ["user_id", "updated_at", "object_type"], :name => "drafts_index"
 
   create_table "xmb_favorites", :force => true do |t|
     t.integer "tid",                    :default => 0,  :null => false

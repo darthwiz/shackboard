@@ -120,19 +120,19 @@ module ApplicationHelper
     case ctx.class.to_s
     when 'Post'
       l = link_to 'rispondi in privato',
-        { :controller => 'pm', :action => 'new', :class => 'post',
+        { :controller => :pms, :action => 'new', :class => 'post',
           :reply => ctx.id }
     when 'Topic'
       l = link_to 'rispondi in privato',
-        { :controller => 'pm', :action => 'new', :class => 'topic',
+        { :controller => :pms, :action => 'new', :class => 'topic',
           :reply => ctx.id }
     when 'Pm'
       l = link_to 'rispondi',
-        { :controller => 'pm', :action => 'new', :class => 'pm',
+        { :controller => :pms, :action => 'new', :class => 'pm',
           :reply => ctx.id }
     else
       l = link_to 'nuovo messaggio privato',
-        {:controller => 'pm', :action => 'new'}
+        {:controller => :pms, :action => 'new'}
     end
     content_tag('span', l, :class => 'button pm_new')
   end
@@ -140,7 +140,7 @@ module ApplicationHelper
   def link_pm_list
     return nil unless @user.is_a? User
     msg  = 'messaggi privati'
-    link = { :controller => :pm, :action => :index }
+    link = { :controller => :pms, :action => :index }
     s    = link_to msg, link
     content_tag('span', s, :class => 'pm_list')
   end
