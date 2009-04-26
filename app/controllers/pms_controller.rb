@@ -76,6 +76,7 @@ class PmsController < ApplicationController
         :object_type => @pm.class.to_s,
         :object      => @pm
       )
+      @draft.save!
     end
     @page_title = 'Nuovo messaggio privato'
     @location = [ 'Pm', :new ]
