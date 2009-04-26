@@ -69,6 +69,13 @@ class PmsController < ApplicationController
     if draft_id > 0
       @draft = Draft.secure_find(draft_id, @user)
       @pm    = @draft.object
+    else
+      @pm    = Pm.new
+      @draft = Draft.new(
+        :user        => @user,
+        :object_type => @pm.class.to_s,
+        :object      => @pm
+      )
     end
     @page_title = 'Nuovo messaggio privato'
     @location = [ 'Pm', :new ]
