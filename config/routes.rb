@@ -25,10 +25,12 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   map.resources :users, :collection => { :login => :get, :logout => :get, :authenticate => :post }
-  map.resources :pms, :as => 'pm', :controller => :pm
-  map.resources :posts, :path_prefix => 'forum'
-  map.resources :topics, :path_prefix => 'forum'
-  map.resources :blog_posts, :has_many => :blog_comments, :path_prefix => 'blog'
+  map.resources :pms, :member => { :reply => :get, :post_reply => :get }, :new => { :save_draft => :post, :draft => :get }
+  map.resources :drafts, :path_prefix => 'forum', :has_one => [ :post, :pm, :topic ]
+  map.resources :posts, :path_prefix => 'forum', :member => { :reply => :get }, :new => { :save_draft => :post, :draft => :get }
+  map.resources :topics, :path_prefix => 'forum', :has_many => :posts
+  map.resources :forums, :path_prefix => 'forum', :has_many => [ :topics, :posts ]
+  map.resources :blog_posts, :path_prefix => 'blog', :has_many => :blog_comments
   map.resources :blog_comments, :path_prefix => 'blog'
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.

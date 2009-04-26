@@ -7,9 +7,11 @@ module ForumHelper
       link = {}
       case obj.class.to_s
       when 'Forum'
-	link[:controller] = 'forum'
-	link[:action]     = 'view'
-	link[:id]         = obj.id
+        if @legacy_mode == :old
+          forum_path(obj)
+        else
+          forum_path(obj)
+        end
       end
       trail << [ obj.name, link ]
     end

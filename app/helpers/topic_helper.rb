@@ -10,9 +10,7 @@ module TopicHelper
         if @legacy_mode == :old
           link = (obj.type == 'group') ? nil : "/portale/forum/forumdisplay.php?fid=#{obj.id}"
         else
-          link[:controller] = 'forum'
-          link[:action]     = 'view'
-          link[:id]         = obj.id
+          link = forum_path(obj)
         end
       end
       trail << [ obj.name, link ] unless link.nil?

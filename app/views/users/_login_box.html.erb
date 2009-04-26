@@ -1,5 +1,5 @@
 <div id="login_box">
-  <%if @user%>
+  <%if @user.is_a? User%>
     Benvenuto <strong><%=h @user.username%></strong>!
     <ul>
       <%=content_tag('li', link_pm_unread)       if link_pm_unread%>

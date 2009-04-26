@@ -31,13 +31,19 @@ class Pm < ActiveRecord::Base
     self.to == user
   end
 
-  def Pm.unread_for(user)
+  def self.secure_find(id, user)
+    pm = self.find(id)
+    raise ::UnauthorizedError unless (pm.from == user || pm.to == user)
+    pm
+  end
+
+  def self.unread_for(user)
     raise TypeError unless user.is_a? User
     Pm.count(:conditions => ['msgto = ? AND status = ? AND folder = ?',
       user.username, 'new', 'inbox'])
   end
 
-  def Pm.count_from_to(from, to)
+  def self.count_from_to(from, to)
     raise TypeError unless from.is_a? User
     raise TypeError unless to.is_a? User
     conds = [ "msgfrom = ? AND msgto = ? AND folder = 'inbox'",
@@ -45,7 +51,7 @@ class Pm < ActiveRecord::Base
     Pm.count(:conditions => conds)
   end
 
-  def Pm.find_all_by_words(user, words, opts={})
+  def self.find_all_by_words(user, words, opts={})
     username          = ActiveRecord::Base.send(:sanitize_sql, user.username)
     words2c           = Pm.new.send(:words_to_conds, words)
     conds             = ["msgto = ? AND folder = 'inbox'", user.username]

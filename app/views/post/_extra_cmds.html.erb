@@ -1,3 +1,0 @@
-<%=update_page_tag { |p| p.show("extra_cmds_" + domid(obj)) }%>
-<%=link_to 'modifica' if obj.acl.can_moderate?(@user) || obj.acl.can_edit?(@user)%>
-<%=link_to 'elimina' if obj.acl.can_moderate?(@user) || obj.acl.can_edit?(@user)%>

@@ -1,35 +1,48 @@
-<%=javascript_include_tag 'editor.js'%>
+<%
+if @pm
+  obj = @pm
+elsif @post
+  obj = @post
+end
+what = obj.class.to_s.underscore
+%>
 <script type="text/javascript">
-  form_name = 'new_pm'
-  text_name = 'pm[message]'
+  form_name = 'new_message'
+  text_name = '<%=what%>[message]'
 </script>
-<div id="new_pm">
-  <%=form_tag({ :controller => 'pm', :action => 'create' },
-    {:method => 'post', :id => 'new_pm_form', :name =>'new_pm'})%>
+<%=javascript_include_tag 'editor.js'%>
+<div id="new_<%=what%>">
+  <%form_for(obj, :html => { :id => 'new_message' }) do |f|%>
+    <%if (obj.is_a?(Pm) || @topic.new_record?)%>
     <div id="headers">
       <ul>
+        <%if obj.is_a?(Pm)%>
         <li>
           <div class="label">Invia a:</div>
           <div class="field">
-            <%=text_field 'pm', 'msgto'%>
+            <%=text_field what, 'msgto'%>
           </div>
         </li>
+        <%end%>
+        <%if obj.is_a?(Pm) || @topic.new_record?%>
         <li>
           <div class="label">Oggetto:</div>
           <div class="field">
-            <%=text_field 'pm', 'subject'%>
+            <%=text_field what, 'subject'%>
           </div>
         </li>
+        <%end%>
       </ul>
     </div>
+    <%end%>
     <div id="preview">
       <div class="label">
         <h3>Anteprima</h3>
       </div>
       <div class="content">
-        <div id="pm_preview">
+        <div id="<%=what%>_preview">
           <div class="message">
-            <%=text_to_html(@pm.message, 'bb')%>
+            <%=BbText.new(obj.message, Smiley.all(@user)).to_html%>
           </div>
         </div>
       </div>
@@ -40,9 +53,12 @@
           <h3>Messaggio</h3>
         </div>
         <div class="content">
-          <%=text_area 'pm', 'message'%>
-          <%=hidden_field_tag 'id', @pm.id%>
+          <%=f.text_area :message%>
           <%=hidden_field_tag 'draft_id', @draft.id if @draft%>
+          <%=f.hidden_field :topic_id if @topic%>
+          <%=f.hidden_field :id if obj.is_a?(Post) && !obj.new_record?%>
+          <%=f.hidden_field :reply_to_pid if obj.is_a? Post%>
+          <%=f.hidden_field :reply_to_uid if obj.is_a? Post%>
           <div class="control">
             <%=submit_tag 'Invia'%>
             <span id="draft_saved" style="display: none;"></span>
@@ -74,9 +90,8 @@
         </div>
       </div>
     </div>
-  </form>
-  <%=observe_form 'new_pm_form', :frequency => 5, :update => 'pm_preview',
-    :url => {:controller => 'text_preview', :action => 'text_to_html' }%>
-  <%=observe_form 'new_pm_form', :frequency => 10, :update => 'draft_saved',
-    :url => {:controller => 'pm', :action => 'save_draft' } %>
+  <%end%>
+  <%=observe_form 'new_message', :frequency => 5, :update => "#{what}_preview", :url => { :controller => :text_preview, :action => :text_to_html }%>
+  <%=observe_form 'new_message', :frequency => 10, :update => 'draft_saved', :url => save_draft_new_post_path if obj.is_a?(Post) && obj.new_record?%>
+  <%=observe_form 'new_message', :frequency => 10, :update => 'draft_saved', :url => save_draft_new_pm_path if obj.is_a?(Pm) && obj.new_record?%>
 </div>

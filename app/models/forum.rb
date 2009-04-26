@@ -46,9 +46,9 @@ class Forum < ActiveRecord::Base
 
   def can_moderate?(user)
     return false unless user.is_a? User
-    return true if User.admin_ids.include? user.id
-    return true if User.supermod_ids.include? user.id
     return true if self.moderator_ids.include? user.id
+    return true if User.supermod_ids.include? user.id
+    return true if User.admin_ids.include? user.id
     return false
   end
 

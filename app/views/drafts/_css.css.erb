@@ -2,7 +2,7 @@
 /* Theme: <%=t.name.inspect if t%> */
 <%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
 <%=render :partial => '/users/login_box_css', :locals => { :t => t } %>
-div.title_bar {<%#{{{%>
+div.title_bar {
   padding: .5em;
   background-color: <%=t.header%>;
   margin-top: .5em;
@@ -10,51 +10,51 @@ div.title_bar {<%#{{{%>
   color: <%=t.headertext%>;
   font-size: 1em;
   border: 1px solid <%=t.bordercolor%>;
-}<%#}}}%>
-table#draft_list {<%#{{{%>
+}
+table#draft_list {
   border: 1px solid <%=t.bordercolor%>;
   width: 100%;
-}<%#}}}%>
-div.spacer {<%#{{{%>
+}
+div.spacer {
   clear: both;
-}<%#}}}%>
-div#drafts {<%#{{{%>
+}
+div#drafts {
   margin-left: 2em;
   margin-right: 2em;
   margin-top: .5em;
   margin-bottom: .5em;
-}<%#}}}%>
-div#navbar_top, div#navbar_bottom {<%#{{{%>
+}
+div#navbar_top, div#navbar_bottom {
   margin-left: 2em;
   margin-right: 2em;
   margin-top: .5em;
   margin-bottom: .5em;
-}<%#}}}%>
-ul {<%#{{{%>
+}
+ul {
   margin: 0;
   padding: 0;
   list-style: none;
-}<%#}}}%>
-a, a:visited {<%#{{{%>
+}
+a, a:visited {
   text-decoration: none;
   color: <%=t.link%>;
-}<%#}}}%>
-a:hover {<%#{{{%>
+}
+a:hover {
   text-decoration: underline;
-}<%#}}}%>
-ul#draft_list li {<%#{{{%>
+}
+ul#draft_list li {
   clear: both;
   display: block;
   height: 2.8em;
   overflow: hidden;
   border-bottom: 1px solid <%=t.bordercolor%>;
-}<%#}}}%>
-div.type {<%#{{{%>
+}
+div.type {
   float: left;
   width: 8em;
   text-align: center;
-}<%#}}}%>
-div.title {<%#{{{%>
+}
+div.title {
   overflow: hidden;
   margin-right: 16em;
   margin-left: 8.1em;
@@ -64,15 +64,15 @@ div.title {<%#{{{%>
   top: -1.8em;
   height: 4em;
   background-color: <%=t.altbg2%>;
-}<%#}}}%>
-div.time {<%#{{{%>
+}
+div.time {
   text-align: right;
-}<%#}}}%>
-div.title a {<%#{{{%>
+}
+div.title a {
   display: block;
   width: 100%;
-}<%#}}}%>
-div.title a:hover {<%#{{{%>
+}
+div.title a:hover {
   background-color: <%=t.altbg1%>;
   text-decoration: none;
-}<%#}}}%>
+}

@@ -68,6 +68,16 @@ class Topic < ActiveRecord::Base
     self.save
   end
 
+  def update_last_post!
+    last = Post.find(
+      :first,
+      :conditions => [ 'tid = ? AND deleted_by IS NULL', self.id ],
+      :order      => 'dateline DESC'
+    )
+    self[:lastpost] = "#{last.dateline.to_i}|#{last.user.username}"
+    self.save!
+  end
+
   def move_to(forum)
     raise ArgumentError, "argument is not a Forum" unless forum.is_a? Forum
     Post.update_all("fid = #{forum.fid}",
@@ -138,6 +148,7 @@ class Topic < ActiveRecord::Base
     smiley_hash  = {}
     blog_hash    = {}
     user_hash    = {}
+    time_limit   = Settings.edit_time_limit
     range        = 0..(range.end) if range.begin < 0
     if range.end >= range.begin
       conds  = ["tid = ? AND fid = ?", self.tid, self.fid]
@@ -172,7 +183,7 @@ class Topic < ActiveRecord::Base
         p.cached_can_read = false
         p.cached_can_edit = false
         p.cached_can_read = true if can_read
-        p.cached_can_edit = true if (user.is_a?(User) && user.id == p.user_id)
+        p.cached_can_edit = true if (user.is_a?(User) && user.id == p.user_id) && (Time.now.to_i - p.dateline < time_limit)
         p.cached_can_read = true if can_moderate
         p.cached_can_edit = true if can_moderate
       end
@@ -184,7 +195,13 @@ class Topic < ActiveRecord::Base
     'bb'
   end
 
-  def Topic.find(*args)
+  def self.secure_find(id, user)
+    topic = self.find(id)
+    raise UnauthorizedError unless topic.can_read?(user)
+    topic
+  end
+
+  def self.find(*args)
     opts  = args.extract_options!
     conds = opts[:conditions] ? opts[:conditions] : ''
     unless (opts[:with_deleted] || opts[:only_deleted])

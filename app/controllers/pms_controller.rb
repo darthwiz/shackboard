@@ -1,4 +1,4 @@
-class PmController < ApplicationController
+class PmsController < ApplicationController
   before_filter :authenticate
   layout 'forum'
 
@@ -37,7 +37,7 @@ class PmController < ApplicationController
     render :nothing => true and return
   end 
 
-  def delete 
+  def destroy 
     if request.xml_http_request?
       @pm = Pm.find(params[:id])
       if @pm.to == @user
@@ -64,58 +64,65 @@ class PmController < ApplicationController
   end 
 
   def new 
-    reply_id = params[:reply].to_i
-    draft_id = params[:draft].to_i
-    repclass = params[:class]
-    @pm      = Pm.new
-    case repclass
-    when 'pm'
-      conds    = [ 'u2uid = ? AND msgto = ? AND folder = ?', reply_id,
-        @user.username, 'inbox' ]
-      reply_to = Pm.find(:first, :conditions => conds)
-    when 'post'
-      reply_to = Post.find(reply_id)
-    end
-    if repclass
-      reply_to    = Pm.new unless reply_to.can_read?(@user)
-      @pm.msgto   = reply_to.user.username
-      @pm.subject = reply_to.subject
-      @pm.format  = reply_to.format
-      @pm.message = (reply_to.format == 'bb') ? 
-        "[quote]" + reply_to.message + "[/quote]" : reply_to.message
-    else
-      @pm.msgto = params[:msgto]
-    end
+    reply_id = params[:pm_id].to_i
+    draft_id = params[:draft_id].to_i
     if draft_id > 0
-      conds  = [ 'id = ? AND object_type = ? AND user_id = ?', draft_id, 'Pm',
-        @user.id ]
-      @draft = Draft.find(:first, :conditions => conds) || Draft.new
-      @pm    = @draft.object[0] if @draft.object && @draft.object[0]
-    else
-      @draft             = Draft.new
-      @draft.user        = @user
-      @draft.timestamp   = Time.now.to_i
-      @draft.object      = [ @pm ]
-      @draft.object_type = @pm.class.to_s
-      @draft.save!
+      @draft = Draft.secure_find(draft_id, @user)
+      @pm    = @draft.object
     end
     @page_title = 'Nuovo messaggio privato'
     @location = [ 'Pm', :new ]
+    render '/posts/new', :layout => 'forum'
   end 
 
+  def reply
+    reply_to = Pm.secure_find(params[:id], @user)
+    @pm = Pm.new(
+      :msgto   => reply_to.msgfrom,
+      :message => "[quote]#{reply_to.message}[/quote]\n",
+      :subject => reply_to.subject
+    )
+    @draft = Draft.new(
+      :object      => @pm,
+      :user        => @user,
+      :object_type => @pm.class.to_s
+    )
+    @draft.save!
+    respond_to do |format|
+      format.html { render '/posts/new', :layout => 'forum' }
+    end
+  end
+
+  def post_reply
+    reply_to = Post.secure_find(params[:id], @user)
+    @pm = Pm.new(
+      :msgto   => reply_to.user.username,
+      :message => "[quote]#{reply_to.message}[/quote]\n",
+      :subject => reply_to.topic.subject
+    )
+    @draft = Draft.new(
+      :object      => @pm,
+      :user        => @user,
+      :object_type => @pm.class.to_s
+    )
+    @draft.save!
+    respond_to do |format|
+      format.html { render '/posts/new', :layout => 'forum' }
+    end
+  end
+
   def save_draft 
+    # FIXME refactor to use secure_find
     if request.xml_http_request?
       id    = params[:draft_id]
       conds = ['user_id = ?', @user.id]
       d     = Draft.find(id, :conditions => conds ) || Draft.new
       if (d.user == @user)
-        d.object             = [ Pm.new ]
-        d.object[0].msgfrom  = @user.username
-        d.object[0].msgto    = params[:pm][:msgto]
-        d.object[0].message  = params[:pm][:message]
-        d.object[0].subject  = params[:pm][:subject]
-        d.object[0].format   = params[:pm][:format]
-        d.timestamp          = Time.now.to_i
+        d.object             = Pm.new
+        d.object.msgfrom = @user.username
+        d.object.msgto   = params[:pm][:msgto]
+        d.object.message = params[:pm][:message]
+        d.object.subject = params[:pm][:subject]
         d.save
       end
       @draft = d
@@ -133,7 +140,7 @@ class PmController < ApplicationController
     @pm.msgfrom  = @user.username
     if @pm.save
       Draft.destroy(params[:draft_id]) # FIXME need better security here
-      redirect_to :controller => 'pm', :action => 'index'
+      redirect_to pms_path
     else
       draft = Draft.find(params[:draft_id])
       @pm.attribute_names.each do |a|

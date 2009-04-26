@@ -2,9 +2,10 @@ class Post < ActiveRecord::Base
   require 'magic_fixes.rb'
   include ActiveRecord::MagicFixes
   set_primary_key "pid"
-  belongs_to :topic, :foreign_key => "tid", :counter_cache => :replies
-  belongs_to :forum, :foreign_key => "fid", :counter_cache => :posts
-  belongs_to :user,  :foreign_key => "uid"
+  belongs_to :topic, :foreign_key => 'tid', :counter_cache => :replies
+  belongs_to :forum, :foreign_key => 'fid', :counter_cache => :posts
+  belongs_to :user,  :foreign_key => 'uid'
+  #belongs_to :post,  :foreign_key => 'reply_to_pid'
   attr_accessor :seq, :subject, :cached_can_edit, :cached_can_read,
     :cached_has_blog, :cached_smileys, :cached_online, :cached_user
   
@@ -24,12 +25,36 @@ class Post < ActiveRecord::Base
     self.uid
   end
 
+  def topic_id
+    self.tid
+  end
+
+  def topic_id=(tid)
+    self.tid = tid
+  end
+
   def actual
     return self unless self.new_record?
     self.topic
   end
 
-  def Post.find(*args)
+  def find_seq
+    self.class.count(:conditions => [ 'tid = ? AND dateline <= ? AND deleted_by IS NULL', self.topic_id, self.dateline ])
+  end
+
+  def self.secure_find(id, user)
+    post = self.find(id)
+    raise ::UnauthorizedError unless post.can_read?(user)
+    post
+  end
+
+  def self.secure_find_for_edit(id, user)
+    post = self.find(id)
+    raise ::UnauthorizedError unless post.can_edit?(user)
+    post
+  end
+
+  def self.find(*args)
     opts  = args.extract_options!
     conds = opts[:conditions] ? opts[:conditions] : ''
     unless (opts[:with_deleted] || opts[:only_deleted])
@@ -59,7 +84,7 @@ class Post < ActiveRecord::Base
     # queries only if it isn't there
     return @can_edit unless @can_edit.nil?
     return false unless user.is_a? User
-    return true if self.uid == user.id
+    return true if (self.uid == user.id) && (Time.now.to_i - self.dateline < Settings.edit_time_limit)
     return true if self.topic.can_moderate?(user)
     return false
   end

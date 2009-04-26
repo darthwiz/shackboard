@@ -5,18 +5,15 @@
   </script>
   <%unless @location[1] == 'trash'%>
   <div class="controls">
-    <%=link_to 'Bozze', { :controller => 'draft', :action => 'list' },
-                        { :class => 'drafts' }%>
-    <%=link_to 'Nuovo messaggio', { :action => 'new' },
-                                  { :class  => 'trashcan' }%>
-    <%=link_to 'Cestino', { :action => 'list', :folder => 'trash' },
-                          { :class  => 'trashcan' }%>
+    <%=link_to 'Bozze', drafts_path, { :class => 'drafts' }%>
+    <%=link_to 'Nuovo messaggio', new_pm_path, { :class  => 'trashcan' }%>
+    <%=link_to 'Cestino', pms_path(:folder => 'trash'), { :class  => 'trashcan' }%>
   </div>
   <%end%>
   <ul>
     <%@pms.each do |pm|
         flip = 0 unless flip
-        %><%=render :partial => '/post/post',
+        %><%=render :partial => 'pm',
         :locals => { :message => pm, :flip => flip }%><%
         flip = 1 - flip
       end 
@@ -29,7 +26,7 @@
     function pm_reveal(id) {
       $('pm_' + id + '_hidden_line').hide()
       $('pm_' + id + '_pm').show()
-      <%url = url_for :controller => 'pm', :action => 'show'
+      <%url = url_for :controller => :pms, :action => :show
       %>new Ajax.Request('<%=url%>/' + id)
     }
 
@@ -38,15 +35,15 @@
       $('pm_' + id + '_pm').hide()
     }
 
-    function pm_delete(id) {
+    function pm_destroy(id) {
       $('pm_' + id).hide()
-      <%url = url_for :controller => 'pm', :action => 'delete'
+      <%url = url_for :controller => :pms, :action => :destroy
       %>new Ajax.Request('<%=url%>/' + id)
     }
 
     function pm_undelete(id) {
       $('pm_' + id).hide()
-      <%url = url_for :controller => 'pm', :action => 'undelete'
+      <%url = url_for :controller => :pms, :action => :undelete
       %>new Ajax.Request('<%=url%>/' + id)
     }
 
@@ -57,7 +54,7 @@
     $$('div#pm_<%=pm.id%>_pm dd.subject')[0].style.cursor = 'pointer'
     $$('div#pm_<%=pm.id%>_pm dd.date')[0].onclick = function() { pm_hide(<%=pm.id%>) }
     $$('div#pm_<%=pm.id%>_pm dd.subject')[0].onclick = function() { pm_hide(<%=pm.id%>) }
-    $('pm_delete_<%=pm.id%>').onclick = function() { pm_delete(<%=pm.id%>) }
+    $('pm_destroy_<%=pm.id%>').onclick = function() { pm_destroy(<%=pm.id%>) }
     <%if pm.folder == 'trash'%>
     $('pm_undelete_<%=pm.id%>').onclick = function() { pm_undelete(<%=pm.id%>) }
     <%end%>

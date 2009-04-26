@@ -165,79 +165,103 @@ div.content_box {
 /* NEW PM-SPECIFIC                          */
 /* ======================================== */
 
-div#new_pm {
+div#new_pm,
+div#new_post {
   overflow: auto;
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding: 1em;
 }
 div#new_pm div#headers,
 div#new_pm div#preview,
 div#new_pm div#message,
 div#new_pm div#smiley_list,
-div#new_pm div#format-commands {
-  background-color: white;
+div#new_pm div#format-commands,
+div#new_post div#headers,
+div#new_post div#preview,
+div#new_post div#message,
+div#new_post div#smiley_list,
+div#new_post div#format-commands {
+  background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
   padding: 0.5em;
   margin-top: 0.5em;
   margin-bottom: 1em;
 }
-div#new_pm h3 {
+div#new_pm h3,
+div#new_post h3 {
   margin: 0em;
   font-size: 14px;
   font-family: "Trebuchet MS", "Verdana", sans-serif;
 }
-div#new_pm div#headers ul {
+div#new_pm div#headers ul,
+div#new_post div#headers ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-div#new_pm div#headers ul li {
+div#new_pm div#headers ul li,
+div#new_post div#headers ul li {
   height: 2em;
   line-height: 2em;
 }
-div#new_pm div#headers div.label {
+div#new_pm div#headers div.label,
+div#new_post div#headers div.label {
   float: left;
   clear: left;
   width: 5em;
 }
-div#new_pm div#headers div.field {
+div#new_pm div#headers div.field,
+div#new_post div#headers div.field {
   float: left;
   clear: right;
 }
-div#new_pm div h3 {
+div#new_pm div h3,
+div#new_post div h3 {
   margin-bottom: 0.5em;
 }
-div#new_pm div#pm_preview {
+div#new_pm div#preview,
+div#new_post div#preview {
   height: 16em;
   overflow: auto;
 }
-
-div#new_pm div.input_area {
+div#new_pm div.input_area,
+div#new_post div.input_area {
   width: 100%;
 }
-div#new_pm div#message {
+div#new_pm div#message,
+div#new_post div#message {
   float: left;
   width: 65%;
 }
-div#new_pm div#message textarea {
+div#new_pm div#message textarea,
+div#new_post div#message textarea {
   width: 95%;
   border: 1px solid #e0e0e0;
   padding: 0.5em;
 }
 div#new_pm div#smiley_list,
-div#new_pm div#format-commands {
+div#new_pm div#format-commands,
+div#new_post div#smiley_list,
+div#new_post div#format-commands {
   float: right;
   width: 30%;
 }
 div#new_pm div#smiley_list ul,
-div#new_pm div#format-commands ul {
+div#new_pm div#format-commands ul,
+div#new_post div#smiley_list ul,
+div#new_post div#format-commands ul {
   margin: 1em 0px 0px 0px;
   padding: 0px;
   list-style: none;
 }
-div#new_pm div#smiley_list img {
+div#new_pm div#smiley_list img,
+div#new_post div#smiley_list img {
   max-height: 20px;
   max-width: 4.5em;
 }
-div#new_pm div#smiley_list ul li {
+div#new_pm div#smiley_list ul li,
+div#new_post div#smiley_list ul li {
   width: 5em;
   height: 22px;
   padding-top: 2px;
@@ -245,7 +269,8 @@ div#new_pm div#smiley_list ul li {
   text-align: center;
   float: left;
 }
-div#new_pm div#format-commands ul li {
+div#new_pm div#format-commands ul li,
+div#new_post div#format-commands ul li {
   float: left;
   margin-right: 0.5em;
 }
@@ -395,11 +420,11 @@ div#forum div#pms div.hidden_line dd.date {
   right: 4.5em;
   text-align: right;
 }
-div#forum div#pms div.hidden_line dd.delete {
+div#forum div#pms div.hidden_line dd.destroy {
   position: absolute;
   right: 0.5em;
 }
-div#forum div#pms div.hidden_line dd.delete a:hover {
+div#forum div#pms div.hidden_line dd.destroy a:hover {
   color: white;
   background-color: red;
 }
@@ -438,18 +463,18 @@ div#forum div#drafts li dd.time {
   width: 10em;
   right: 4em;
 }
-div#forum div#drafts li dd.delete {
+div#forum div#drafts li dd.destroy {
   position: absolute;
   text-align: center;
   width: 4em;
   right: 0em;
 }
-div#forum div#drafts li dd.delete a {
+div#forum div#drafts li dd.destroy a {
   display: block;
   padding-left: 0.2em;
   padding-right: 0.2em;
 }
-div#forum div#drafts li dd.delete a:hover {
+div#forum div#drafts li dd.destroy a:hover {
   background-color: red;
   color: white;
 }

@@ -1,5 +1,4 @@
 <%flip = 0 unless flip%>
-<%@page_title = "Bozze di #{h(@user.username)}"%>
 <div id="drafts">
   <ul>
     <%@drafts.each do |dr|%>
@@ -15,16 +14,16 @@
     <%end%>
   </ul>
   <script type="text/javascript">
-    function draft_delete(id) {
+    function draft_destroy(id) {
       $('draft_' + id).hide()
-      <%url = url_for :controller => 'draft',
-                      :action     => 'delete',
+      <%url = url_for :controller => :drafts,
+                      :action     => :destroy,
                       :id         => ''%>
       new Ajax.Request("<%=url%>" + id)
     }
 
     <%@drafts.each do |dr|
-    %>$('draft_delete_<%=dr.id%>').onclick = function() { draft_delete(<%=dr.id%>) }
+    %>$('draft_destroy_<%=dr.id%>').onclick = function() { draft_destroy(<%=dr.id%>) }
     <%end%>
   </script>
 </div>

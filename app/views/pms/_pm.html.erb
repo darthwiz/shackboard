@@ -16,7 +16,7 @@
     msgdate  = Time.at(message.dateline.to_i).strftime("%d/%m/%Y, %H.%M")
     rank     = user.rank
     sign     = sanitize(user.sig.gsub("\n", "<br />\n"), :tags => %w(br))
-    avatar   = cleanup(user.avatar).to_s
+    avatar   = cleanup(user.avatar)
     regdate  = Time.at(user.regdate).strftime("%d/%m/%Y")
     status   = user.customstatus.empty? ? user.status : user.customstatus
   else
@@ -44,10 +44,10 @@
             <span class="value"><%=msgdate%></span>
           </dd>
           <%if message.is_a? Pm-%>
-          <dd class="delete">
+          <dd class="destroy">
             <%=link_to_function "elimina", nil do |page|
               page.hide domid(message)
-              page.call 'pm_delete', message.id
+              page.call 'pm_destroy', message.id
             end%>
           </dd>
           <%end%>
@@ -71,7 +71,7 @@
               <span class="value"><%=status%></span>
             </dd>
             <dd class="avatar">
-              <%=image_tag(avatar.to_s, :alt => '', :class => 'avatar')%>
+              <%=image_tag(avatar, :alt => '', :class => 'avatar')%>
             </dd>
             <dd class="reg_date">
               <span class="label">registrato il</span>
@@ -82,14 +82,13 @@
               <span class="label">messaggi</span>
             </dd>
             <dd class="personal">
-              <%=link_to 'Profilo', {}, { :class => 'profile' }%>
-              <%=link_to 'e-mail',  {}, { :class => 'email' }%>
+              <%=link_to 'Profilo', user_path(user), { :class => 'profile' } if user%>
             </dd>
           </dl>
         </div>
         <div class="message">
           <dl>
-            <%if subject %>
+            <%if subject%>
             <dd class="subject">
               <span class="label">oggetto:</span>
               <span class="value"><%=subject%></span>
@@ -132,18 +131,13 @@
           <%=link_to 'Segnala', {}, { :class => 'report' }%>
           <%elsif message.is_a? Pm%>
           <%if message.folder == 'trash'%>
-          <%=link_to 'Ripristina', '#', { :class => 'delete',
+          <%=link_to 'Ripristina', '#', { :class => 'destroy',
                                           :id    => "pm_undelete_#{message.id}" }%>
           <%else%>
-          <%=link_to 'Rispondi', { :controller => 'pm',
-                                   :action     => 'new',
-                                   :reply      => message.id,
-                                   :class      => 'pm',
-                                   :quote      => true },
-                                 { :class => 'reply' }%>
+          <%=link_to 'Rispondi', reply_pm_path(message), { :class => 'reply' }%>
           <%end%>
-          <%=link_to 'Elimina', '#', { :class => 'delete',
-                                       :id    => "pm_delete_#{message.id}" }%>
+          <%=link_to 'Elimina', '#', { :class => 'destroy',
+                                       :id    => "pm_destroy_#{message.id}" }%>
           <%end%>
         </div>
       </div>

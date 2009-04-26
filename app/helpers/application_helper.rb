@@ -154,7 +154,7 @@ module ApplicationHelper
     count = Pm.unread_for(user)
     msg   = "Hai un messaggio privato non letto."        if count == 1
     msg   = "Hai #{count} messaggi privati non letti."   if count > 1
-    link  = { :controller => :pm, :action => :index }
+    link  = pms_path
     msg ? link_to(msg, link) : nil
   end
 
@@ -177,9 +177,7 @@ module ApplicationHelper
     count = Draft.unsent_for(user)
     msg   = "Hai una bozza non inviata."      if count == 1
     msg   = "Hai #{count} bozze non inviate." if count > 1
-    link  = { :controller => 'draft', :action => 'list' }
-    link[:host]      = @host_forum if @host_forum
-    link[:only_path] = false if @host_forum
+    link  = drafts_path
     msg ? link_to(msg, link) : nil
   end
 
