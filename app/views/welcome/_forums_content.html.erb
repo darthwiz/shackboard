@@ -6,8 +6,7 @@
       if @legacy_mode == :old
         url = base_url + i[:forum].to_s
       else
-        url = url_for(:controller => 'forum', :action => 'view',
-          :id => i[:forum])
+        url = forum_path(i[:forum])
       end
     %>
     <%=link_image_to i[:image], base_url + i[:forum].to_s if i[:image]%>

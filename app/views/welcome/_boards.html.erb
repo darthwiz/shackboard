@@ -62,7 +62,7 @@
 <ul>
   <%boards.each do |i|%>
   <li>
-    <%url = fdisplay + i[:forum].to_s%>
+    <%url = @legacy_mode == :old ? fdisplay + i[:forum].to_s : forum_path(i[:forum])%>
     <%if i[:icon]%>
       <%img = image_tag i[:icon], :alt => i[:name], :style => 'float: left; margin-right: 10px; margin-left: .5em; border: none;'%>
       <%=link_to img, url%>

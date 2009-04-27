@@ -21,11 +21,7 @@ class PostsController < ApplicationController
       :reply_to_uid => reply_to.uid,
       :message      => "[quote][b]Originariamente inviato da #{reply_to.user.username}[/b]\n#{reply_to.message}[/quote]\n"
     )
-    @draft = Draft.new(
-      :object      => @post,
-      :user        => @user,
-      :object_type => @post.class.to_s
-    )
+    @draft = Draft.new(:object => @post, :user => @user)
     @draft.save!
     respond_to do |format|
       format.html { render :action => 'new' }
@@ -46,11 +42,7 @@ class PostsController < ApplicationController
         :reply_to_pid => 0,
         :reply_to_uid => 0
       )
-      @draft = Draft.new(
-        :object      => @post,
-        :user        => @user,
-        :object_type => @post.class.to_s
-      )
+      @draft = Draft.new(:object => @post, :user => @user)
       @draft.save!
     end
     respond_to do |format|
@@ -64,8 +56,7 @@ class PostsController < ApplicationController
     ## TODO we don't use drafts on editing right now
     #@draft = Draft.new(
     #  :object      => @post,
-    #  :user        => @user,
-    #  :object_type => @post.class.to_s
+    #  :user        => @user
     #)
     #@draft.save!
     respond_to do |format|

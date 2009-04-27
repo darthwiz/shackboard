@@ -71,11 +71,7 @@ class PmsController < ApplicationController
       @pm    = @draft.object
     else
       @pm    = Pm.new
-      @draft = Draft.new(
-        :user        => @user,
-        :object_type => @pm.class.to_s,
-        :object      => @pm
-      )
+      @draft = Draft.new(:user => @user, :object => @pm)
       @draft.save!
     end
     @page_title = 'Nuovo messaggio privato'
@@ -90,11 +86,7 @@ class PmsController < ApplicationController
       :message => "[quote]#{reply_to.message}[/quote]\n",
       :subject => reply_to.subject
     )
-    @draft = Draft.new(
-      :object      => @pm,
-      :user        => @user,
-      :object_type => @pm.class.to_s
-    )
+    @draft = Draft.new(:object => @pm, :user => @user)
     @draft.save!
     respond_to do |format|
       format.html { render '/posts/new', :layout => 'forum' }
@@ -108,11 +100,7 @@ class PmsController < ApplicationController
       :message => "[quote]#{reply_to.message}[/quote]\n",
       :subject => reply_to.topic.subject
     )
-    @draft = Draft.new(
-      :object      => @pm,
-      :user        => @user,
-      :object_type => @pm.class.to_s
-    )
+    @draft = Draft.new(:object => @pm, :user => @user)
     @draft.save!
     respond_to do |format|
       format.html { render '/posts/new', :layout => 'forum' }

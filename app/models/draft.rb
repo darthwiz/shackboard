@@ -11,6 +11,7 @@ class Draft < ActiveRecord::Base
 
   def object=(obj)
     self[:object] = [ obj ]
+    self.object_type = obj.class.to_s
   end
 
   def self.find_paged_for(user, offset=0, limit=25)

@@ -92,9 +92,11 @@ class Sanitizer
       allowed[key] = s
     end
 
+    # First try to make lists valid
+    text = text.gsub(/\[list\](\s*)([^\[][^\*][^\]])/mi, "[list]\\1[*]\\2\\3")
     # Analyze all [] elements
     stack  = Array.new
-    result = text.gsub( /(\[.*?\])/m ) do |element|
+    result = text.gsub(/(\[.*?\])/m) do |element|
       if element =~ /\A\[\/(\w+)/ then
         # [/tag]
         tag = $1.downcase
@@ -113,7 +115,7 @@ class Sanitizer
         # [tag ...]
         tag = $1.downcase
         if allowed.include?(tag) then
-          if ! solo_tags.include?(tag) then
+          if !solo_tags.include?(tag) then
             stack.push(tag)
           end
         end

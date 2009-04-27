@@ -11,18 +11,13 @@ class TopicsController < ApplicationController
     @post[:subject] = ''
     @post.forum     = @forum
     if draft_id > 0
-      conds  = [ 'id = ? AND object_type = ? AND user_id = ?', draft_id,
-        'Post', @user.id ]
-      @draft = Draft.find(:first, :conditions => conds) || Draft.new
+      @draft = Draft.secure_find(params[:draft_id], @user)
       @post  = @draft.object if @draft.object
     else
-      @draft           = Draft.new
-      @draft.user      = @user
-      @draft.timestamp = Time.now.to_i
-      @draft.object    = @post
-      @draft.save
+      @draft = Draft.new(:user => @user, :object => @post)
+      @draft.save!
     end
-    @location = @forum
+    @location = @post
     render '/post/new'
   end
 

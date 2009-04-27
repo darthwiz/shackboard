@@ -17,14 +17,37 @@ class ForumsController < ApplicationController
       start = (params[:page].to_i - 1) * tpp
       redirect_to :action => :show, :id => params[:id], :start => start + 1, :status => :moved_permanently and return
     end
-    rstart      = (start/tpp)*tpp
-    rend        = rstart + tpp - 1
-    @range      = rstart..rend
-    @forum      = Forum.find(params[:id])
-    @forums     = Forum.find(:all, :conditions => [ 'fup = ?', params[:id] ], :order => 'displayorder')
-    @topics     = @forum.topics_range(@range)
-    @page_title = @forum.name
-    @location   = @forum
+    rstart = (start/tpp)*tpp
+    rend   = rstart + tpp - 1
+    @range = rstart..rend
+    # convert textual forum ids to numeric 
+    fid = params[:id].to_i
+    if (fid <= 0) then
+      forum = Forum.find(
+        :first,
+        :conditions => ['name LIKE ?', '%' + params[:id].to_s + '%'],
+        :order => 'posts DESC'
+      )
+      if (forum.is_a? Forum) then
+        fid = forum.id
+      end
+    end
+    # try to get the requested forum or fail nicely 
+    begin
+      @forum = Forum.find(fid)
+    rescue
+      render :partial => "not_found" and return
+    end
+    @forum = Forum.find(params[:id])
+    render :partial => "not_authorized" and return unless @forum.can_read?(@user)
+    @forums        = Forum.find(:all, :conditions => [ 'fup = ?', params[:id] ], :order => 'displayorder')
+    @topics        = @forum.topics_range(@range)
+    @page_title    = @forum.name
+    @location      = @forum
+    @page_seq_opts = { :last    => @forum.topics_count_cached,
+                       :ipp     => tpp,
+                       :current => start + 1,
+                       :id      => fid }
   end
 
 end

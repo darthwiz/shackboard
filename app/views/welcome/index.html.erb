@@ -1,8 +1,8 @@
 <%
-  link_forum    = (@legacy_mode == :old) ? '/portale/forum'                   : url_for(:controller => 'forum', :action => 'list')
-  link_channels = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=24'  : url_for(:controller => 'forum', :action => 'view', :id => 24)
-  link_boards   = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=51'  : url_for(:controller => 'forum', :action => 'view', :id => 51)
-  link_market   = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=108' : url_for(:controller => 'forum', :action => 'view', :id => 108)
+  link_forum    = (@legacy_mode == :old) ? '/portale/forum'                   : url_for(:controller => :forum, :action => :index)
+  link_channels = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=24'  : url_for(:controller => :forum, :action => :show, :id => 24)
+  link_boards   = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=51'  : url_for(:controller => :forum, :action => :show, :id => 51)
+  link_market   = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=108' : url_for(:controller => :forum, :action => :show, :id => 108)
 %>
 <div id="portal_main">
   <div id="header"><%#Header %>
