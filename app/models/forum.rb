@@ -145,6 +145,16 @@ class Forum < ActiveRecord::Base
     end
   end
 
+  def update_last_post!
+    last = Post.find(
+      :first,
+      :conditions => [ 'fid = ? AND deleted_by IS NULL', self.id ],
+      :order      => 'dateline DESC'
+    )
+    self[:lastpost] = "#{last.dateline.to_i}|#{last.user.username}"
+    self.save!
+  end
+
   def fix_counters
     self[:threads] = Forum.find(self.id).topics_count
     self[:posts]   = Forum.find(self.id).posts_count

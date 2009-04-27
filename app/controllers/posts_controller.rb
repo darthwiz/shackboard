@@ -97,6 +97,7 @@ class PostsController < ApplicationController
         format.html { redirect_to topic_path(@post.topic, :page => 'last', :anchor => 'last_post') }
       end
       @post.topic.update_last_post!
+      @post.forum.update_last_post!
       cache_expire({:object => :topic, :id => @post.topic.id})
     end
   end
@@ -127,6 +128,7 @@ class PostsController < ApplicationController
       @post.save!
       cache_expire({:object => :topic, :id => @post.topic.id})
       @post.topic.update_last_post!
+      @post.forum.update_last_post!
       respond_to do |format|
         format.html { redirect_to topic_path(@post.topic, :start => seq, :anchor => "pid#{pid}") }
       end

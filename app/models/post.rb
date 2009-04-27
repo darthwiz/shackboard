@@ -7,7 +7,8 @@ class Post < ActiveRecord::Base
   belongs_to :user,  :foreign_key => 'uid'
   #belongs_to :post,  :foreign_key => 'reply_to_pid'
   attr_accessor :seq, :subject, :cached_can_edit, :cached_can_read,
-    :cached_has_blog, :cached_smileys, :cached_online, :cached_user
+    :cached_has_blog, :cached_smileys, :cached_online, :cached_user,
+    :cached_edited_by
   
   def text
     self.message
@@ -104,6 +105,16 @@ class Post < ActiveRecord::Base
   def created_at
     Time.at(self.dateline)
   end
+
+  def updated_at
+    Time.at(self.editdate)
+  end
+
+  def updated_by
+    return nil unless self[:edituser] > 0
+    User.find(self[:edituser])
+  end
+
 
   def destroy
     begin
