@@ -6,7 +6,7 @@
 </div>
 <%end%>
 <div class="text">
-  <%=text_to_html(p.text)%>
+  <%=BbText.new(p.text, Smiley.all(p.user)).to_html%>
 </div>
 <div class="author">
   scritto da <span class="author"><%=cleanup(p.user.username)%></span>
