@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090425174859) do
+ActiveRecord::Schema.define(:version => 20090427083531) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -456,7 +456,7 @@ ActiveRecord::Schema.define(:version => 20090425174859) do
 
   add_index "xmb_schema_migrations", ["version"], :name => "unique_schema_migrations", :unique => true
 
-  create_table "xmb_settings", :id => false, :force => true do |t|
+  create_table "xmb_settings", :force => true do |t|
     t.string  "langfile",                               :default => "", :null => false
     t.string  "bbname",                                 :default => "", :null => false
     t.string  "postperpage",                            :default => "", :null => false
