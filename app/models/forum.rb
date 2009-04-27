@@ -56,6 +56,26 @@ class Forum < ActiveRecord::Base
     user.banned?
   end
 
+  def topics_range(range, seen_by_user=nil)
+    raise TypeError, 'argument must be a Range' unless range.is_a? Range
+    user         = seen_by_user
+    topics       = []
+    seq          = range.begin
+    can_moderate = self.can_moderate?(user)
+    can_read     = self.can_read?(user)
+    user_hash    = {}
+    range        = 0..(range.end) if range.begin < 0
+    if range.end >= range.begin
+      conds   = ["fid = ? AND deleted_by IS NULL", self.fid]
+      topics += Topic.find :all,
+                           :conditions => conds,
+                           :order      => 'topped DESC, lastpost DESC',
+                           :offset     => range.begin,
+                           :limit      => range.entries.length
+    end
+    topics
+  end
+
   def moderators
     mods = []
     self.moderator.split(/,\s*/).each do |n|
@@ -128,7 +148,7 @@ class Forum < ActiveRecord::Base
     self[:posts]
   end
 
-  def lastpost(what=nil)
+  def last_post(what=nil)
     (time, username) = self[:lastpost].split(/\|/, 2)
     time             = Time.at(time.to_i)
     case what

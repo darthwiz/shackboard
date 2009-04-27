@@ -10,7 +10,7 @@
       %>
       <div class="topic"><%=link_to cleanup(t.subject), url%></div>
       <div class="lastposter">
-        <%=link_to h(t.lastpost(:username)), last%>
+        <%=link_to h(t.last_post(:username)), last%>
       </div>
     </li>
   <%end%>

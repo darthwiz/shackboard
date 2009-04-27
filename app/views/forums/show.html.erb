@@ -1,0 +1,140 @@
+<%
+t = @opts[:theme]
+images_url = "http://www.studentibicocca.it/portale/forum/images"
+%>
+    <%if @forums && !@forums.empty?%>
+    <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+      <tr>
+        <td bgcolor="<%=t.bordercolor%>">
+          <table border="0" cellspacing="1" cellpadding="6" width="100%">
+            <tr>
+              <td width="4%" class="header">&nbsp;</td>
+              <td width="45%" class="header">Forum:</td>
+              <td width="6%" class="header">Threads:</td>
+              <td width="6%" class="header">Posts:</td>
+              <td width="23%" class="header">Ultimo Post:</td>
+              <td width="28%" class="header">Moderatori:</td>
+            </tr>
+            <%@forums.each do |f|%>
+            <tr>
+              <td bgcolor="<%=t.altbg1%>" align="center" class="tablerow">
+                <img src="<%=images_url%>/folder.gif" alt="forum" />
+              </td>
+              <td bgcolor="<%=t.altbg2%>" class="tablerow c2" onmouseover="this.style.backgroundColor='<%=t.altbg1%>'; this.style.cursor='pointer';" onmouseout="this.style.backgroundColor='<%=t.altbg2%>'; this.style.cursor='auto';" onclick="window.location.href='<%=forum_path(f)%>';">
+                <%=link_to cleanup(f.name), f%>
+                <br />
+                <span><%=cleanup(f.description)%></span>
+              </td>
+              <td bgcolor="<%=t.altbg1%>" align="center" class="tablerow">
+                <span><%=f.threads%></span>
+              </td>
+              <td bgcolor="<%=t.altbg2%>" align="center" class="tablerow">
+                <span><%=f[:posts].to_i%></span>
+              </td>
+              <td bgcolor="<%=t.altbg1%>" class="tablerow">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                  <tr align="right">
+                    <td width="85%">
+                      <span class="c3">
+                        il <%=f.last_post(:time).strftime('%d/%m/%Y')%> alle <%=f.last_post(:time).strftime('%H.%M')%>
+                        <br />
+                        by <%=link_to f.last_post(:username), f.last_post(:user)%>
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td bgcolor="<%=t.altbg2%>" align="center" class="tablerow">
+                <span>
+                  <%=f.moderators.collect { |i| link_to(cleanup(i.username), i) }.join(', ')%>
+                </span>
+              </td>
+            </tr>
+            <%end%>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <%end%>
+    <table width="100%" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td bgcolor="<%=t.bgcolor%>" class="post" align="right">
+          <%=link_to "Nuova discussione", new_forum_topic_path(@forum)%>
+        </td>
+      </tr>
+    </table>
+    <%unless @topics.empty?%>
+    <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+      <tr>
+        <td bgcolor="<%=t.bordercolor%>">
+          <table border="0" cellspacing="1" cellpadding="6" width="100%">
+            <tr>
+              <td width="4%" class="header">&nbsp;</td>
+              <td width="4%" class="header">&nbsp;</td>
+              <td width="47%" class="header">Oggetto:</td>
+              <td width="14%" class="header">Autore:</td>
+              <td width="6%" class="header">Post:</td>
+              <td width="6%" class="header">Visite:</td>
+              <td width="19%" class="header">Ultimo Post:</td>
+            </tr>
+            <%@topics.each do |tp|%>
+            <tr>
+              <td bgcolor="<%=t.altbg2%>" align="center" class="tablerow">
+                <%if tp.locked?%><img src="<%=images_url%>/lock_folder.gif" alt="Closed Topic" />
+                <%elsif tp.replies >= 20%><img src="<%=images_url%>/hot_folder.gif" alt="Hot Topic" />
+                <%else%><img src="<%=images_url%>/folder.gif" alt="Topic" />
+                <%end%>
+              </td>
+              <td bgcolor="<%=t.altbg1%>" align="center" class="tablerow">
+                &nbsp;
+              </td>
+              <td bgcolor="<%=t.altbg2%>" class="tablerow">
+                <span>
+                  <%=link_to(cleanup(tp.subject), tp)%>
+                  <%if tp.pinned?%><span class="11px">(in evidenza)</span><%end%>
+                </span>
+              </td>
+              <td bgcolor="<%=t.altbg1%>" class="tablerow">
+                <%=link_to(tp.last_post(:username), tp.last_post(:user))%>
+              </td>
+              <td bgcolor="<%=t.altbg2%>" class="tablerow" align="center">
+                <span><%=tp.replies%></span>
+              </td>
+              <td bgcolor="<%=t.altbg1%>" class="tablerow" align="center">
+                <span><%=tp.views%></span>
+              </td>
+              <td bgcolor="<%=t.altbg2%>" class="tablerow">
+                <span class="c3">
+                  il <%=tp.last_post(:time).strftime('%d/%m/%Y')%> alle <%=tp.last_post(:time).strftime('%H.%M')%>
+                  <br />
+                  by <%=link_to tp.last_post(:username), tp.last_post(:user)%>
+                </span>
+              </td>
+            </tr>
+            <%end%>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <%end%>
+    <table width="100%" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td bgcolor="<%=t.bgcolor%>" class="post" align="right">
+          <%=link_to 'Nuova discussione', new_forum_topic_path(@forum)%>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table width="100%" align="center">
+            <tr>
+              <td class="tablerow">
+                <img src="<%=images_url%>/red_folder.gif" alt="Topic" /> Thread aperto con nuovi post (<img src="<%=images_url%>/hot_red_folder.gif" alt="Hot Topic" /> più di 20 risposte)<br />
+                <img src="<%=images_url%>/folder.gif" alt="Topic" /> Thread aperto (<img src="<%=images_url%>/hot_folder.gif" alt="Hot Topic" /> più di 20 risposte)<br />
+                <img src="<%=images_url%>/lock_folder.gif" alt="Closed Topic" /> Thread chiuso
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>

@@ -103,7 +103,7 @@ class Topic < ActiveRecord::Base
     self[:views].to_i
   end
 
-  def lastpost(what=nil)
+  def last_post(what=nil)
     (timestamp, username) = self[:lastpost].split(/\|/, 2)
     time                  = Time.at(timestamp.to_i)
     case what
@@ -120,7 +120,7 @@ class Topic < ActiveRecord::Base
     end
   end
 
-  def lastpost=(params)
+  def last_post=(params)
     user            = params[:user]
     return false unless user.is_a? User
     timestamp       = params[:timestamp]

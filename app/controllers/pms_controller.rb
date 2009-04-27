@@ -15,8 +15,8 @@ class PmsController < ApplicationController
                      :order      => 'dateline DESC',
                      :limit      => limit,
                      :offset     => offset
-    @page_seq_opts = { :controller  => 'pm',
-                       :action      => 'index',
+    @page_seq_opts = { :controller  => :pms,
+                       :action      => :index,
                        :last        => Pm.count(:conditions => conds),
                        :current     => start,
                        :ipp         => ppp,
