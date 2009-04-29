@@ -84,6 +84,12 @@ class User < ActiveRecord::Base
     super
   end
 
+  def fix_post_count!
+    self.postnum = Post.count(:conditions => [ 'uid = ? AND deleted_by IS NULL', self.id ])
+    self.save!
+    self.postnum
+  end
+
   def rename!(new_username) 
     if User.find_by_username(new_username)
       raise DuplicateUserError, "user #{new_username.inspect} already exists"
@@ -192,6 +198,21 @@ class User < ActiveRecord::Base
   def self.pwgen
     `pwgen -1 --capitalize --numerals --ambiguous`.strip
   end
+
+  def self.fix_post_count!
+    res = Post.connection.execute(
+      "SELECT #{User.primary_key} AS id, COUNT(1) AS count FROM #{Post.table_name}
+        WHERE deleted_by IS NULL
+        GROUP BY uid"
+    ).all_hashes.each do |i|
+      User.connection.execute(
+        "UPDATE #{User.table_name}
+        SET postnum = #{i['count']}
+        WHERE #{User.primary_key} = #{i['id']}"
+      ) if i['id'].to_i > 0
+    end
+  end
+
   private
   def nearest_multiple(i, j)
     (i.to_f / j).round * j

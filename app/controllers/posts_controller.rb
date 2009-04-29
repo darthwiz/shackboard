@@ -94,6 +94,7 @@ class PostsController < ApplicationController
       end
       @post.topic.update_last_post!
       @post.forum.update_last_post!
+      @post.user.increment!(:postnum)
       cache_expire({:object => :topic, :id => @post.topic.id})
     end
   end
@@ -116,8 +117,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.secure_find_for_edit(params[:id], @user)
     if @post.can_edit?(@user)
-      seq = @post.find_seq - 2
-      seq = 0 if seq < 0
+      seq = [ @post.find_seq - 2, 0 ].max
       pid = @post.topic.posts_range(seq..seq).first.id
       @post.deleted_by = @user.id
       @post.deleted_on = Time.now.to_i
@@ -125,6 +125,7 @@ class PostsController < ApplicationController
       cache_expire({:object => :topic, :id => @post.topic.id})
       @post.topic.update_last_post!
       @post.forum.update_last_post!
+      @post.user.decrement!(:postnum)
       respond_to do |format|
         format.html { redirect_to topic_path(@post.topic, :start => seq, :anchor => "pid#{pid}") }
       end
