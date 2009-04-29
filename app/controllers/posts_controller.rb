@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   layout 'forum'
 
   def show
-    @post = Post.secure_find(params[:id])
+    @post = Post.secure_find(params[:id], @user)
     @page_title = @post.topic.title
     @post.message = '[ messaggio cancellato ]' if @post.deleted_by && !@user.is_adm?
     respond_to do |format|
@@ -24,7 +24,10 @@ class PostsController < ApplicationController
     @draft = Draft.new(:object => @post, :user => @user)
     @draft.save!
     respond_to do |format|
-      format.html { render :action => 'new' }
+      format.html do
+        @latest_posts = @topic.latest_posts(10).reverse
+        render :action => 'new'
+      end
     end
   end
 
@@ -46,7 +49,9 @@ class PostsController < ApplicationController
       @draft.save!
     end
     respond_to do |format|
-      format.html
+      format.html do
+        @latest_posts = @topic.latest_posts(10).reverse
+      end
     end
   end
 

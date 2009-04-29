@@ -43,7 +43,7 @@ class Post < ActiveRecord::Base
     self.class.count(:conditions => [ 'tid = ? AND dateline <= ? AND deleted_by IS NULL', self.topic_id, self.dateline ])
   end
 
-  def self.secure_find(id, user)
+  def self.secure_find(id, user=nil)
     post = self.find(id)
     raise ::UnauthorizedError unless post.can_read?(user)
     post

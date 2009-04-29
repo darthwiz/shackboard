@@ -98,3 +98,24 @@ what = obj.class.to_s.underscore
   <%=observe_form 'new_message', :frequency => 10, :update => 'draft_saved', :url => save_draft_new_post_path if obj.is_a?(Post) && obj.new_record?%>
   <%=observe_form 'new_message', :frequency => 10, :update => 'draft_saved', :url => save_draft_new_pm_path if obj.is_a?(Pm) && obj.new_record?%>
 </div>
+
+<%if @latest_posts%>
+<br/>
+<br/>
+<%
+t    = @opts[:theme]
+flip = 0
+%>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+  <tr>
+    <td bgcolor="<%=t.bordercolor%>">
+      <table border="0" cellspacing="1" cellpadding="6" width="100%">
+        <%@latest_posts.each do |p|%>
+          <%=render :partial => '/posts/post', :locals => { :p => p, :flip => flip, :can_moderate => false, :can_post => false, :buttons => false }-%>
+          <%flip = 1 - flip-%>
+        <%end%>
+      </table>
+    </td>
+  </tr>
+</table>
+<%end%>

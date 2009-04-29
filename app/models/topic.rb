@@ -87,7 +87,7 @@ class Topic < ActiveRecord::Base
   end
 
   def posts_count
-    conds = [ "fid = ? AND tid = ? AND DELETED IS NULL", self.fid, self.id ]
+    conds = [ "fid = ? AND tid = ? AND deleted_by IS NULL", self.fid, self.id ]
     Post.count(:conditions => conds) + 1
   end
 
@@ -101,6 +101,12 @@ class Topic < ActiveRecord::Base
 
   def views_count_cached
     self[:views].to_i
+  end
+
+  def latest_posts(n=10, seen_by_user=nil)
+    rend   = self.posts_count_cached - 1
+    rstart = [ rend - n, 0 ].max
+    self.posts_range(rstart..rend, seen_by_user)
   end
 
   def last_post(what=nil)
@@ -194,7 +200,7 @@ class Topic < ActiveRecord::Base
     'bb'
   end
 
-  def self.secure_find(id, user)
+  def self.secure_find(id, user=nil)
     topic = self.find(id)
     raise UnauthorizedError unless topic.can_read?(user)
     topic

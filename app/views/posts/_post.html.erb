@@ -1,139 +1,119 @@
-<%
-  flip       = 0 unless flip
-  last_post  = false unless last_post
-  maxwidth   = 120
-  user       = message.user
-  sign       = ''
-  subject    = nil
-  msg_status = 'msg_read'
-  if message.is_a? Pm
-    subject    = message.subject
-    subject    = content_tag('em', '(nessun oggetto)') if subject.to_s.strip.empty?
-    msg_status = 'msg_new' if message.status == 'new'
-  end
-  if user
-    username = cleanup(user.username)
-    msgnum   = user.postnum
-    msgdate  = Time.at(message.dateline.to_i).strftime("%d/%m/%Y, %H.%M")
-    rank     = user.rank
-    sign     = sanitize(user.sig.gsub("\n", "<br />\n"), :tags => %w(br))
-    avatar   = cleanup(user.avatar)
-    regdate  = Time.at(user.regdate).strftime("%d/%m/%Y")
-    status   = user.customstatus.empty? ? user.status : user.customstatus
-  else
-    rank       = Rank.new
-    rank.title = "utente sconosciuto"
-  end
-%>
-<li id="<%=domid(message)%>" class="<%=domid(user)%> alt_<%=flip%>">
-  <%=content_tag('a', '', :name => 'last_post') if last_post%>
-  <div class="<%=msg_status%>">
-    <div id="<%=domid(message)%>_<%=message.class.to_s.downcase%>" class="<%=message.class.to_s.downcase%>">
-      <div class="author">
-        <dl class="author_properties">
-          <dt class="username">
-            <span class="label">Autore:</span>
-            <span class="value">
-              <%if username.to_s.empty?%>
-              <em>utente sconosciuto</em>
-              <%else%>
-              <%=username%>
-              <%end%>
-            </span>
-          </dt>
-          <dd class="status">
-            <span class="label">Status:</span>
-            <span class="value"><%=status%></span>
-          </dd>
-          <dd class="avatar">
-            <%=image_tag(avatar, :alt => '', :class => 'avatar') unless avatar.empty?%>
-          </dd>
-          <dd class="reg_date">
-            <span class="label">registrato il</span>
-            <span class="value"><%=regdate%></span>
-          </dd>
-          <dd class="message_count">
-            <span class="value"><%=msgnum%></span>
-            <span class="label">messaggi</span>
-          </dd>
-          <dd class="personal">
-            <%=link_to 'Profilo', {}, { :class => 'profile' }%>
-            <%=link_to 'e-mail',  {}, { :class => 'email' }%>
-          </dd>
-        </dl>
-      </div>
-      <div class="message">
-        <dl>
-          <%if subject %>
-          <dd class="subject">
-            <span class="label">oggetto:</span>
-            <span class="value"><%=subject%></span>
-          </dd>
-          <%end%>
-          <dd class="date">
-            <span class="label">inviato il</span>
-            <span class="value"><%=msgdate%></span>
-          </dd>
-          <%if message.is_a? Pm-%>
-          <dd class="delete">
-            <%=button_to_function "Elimina", nil do |page|
-              page.hide domid(message)
-              page.call 'pm_delete', message.id
-            end%>
-          </dd>
-          <%elsif message.is_a? Post-%>
-            <dd class="post-permalink">
-              <%=link_to 'permalink', message%>
-            </dd>
-          <%end%>
-          <dd class="message">
-            <div id="<%=domid(message)%>_text">
-              <%=text_to_html(message.message)%>
-            </div>
-          </dd>
-          <%unless sign.empty?%>
-          <dd class="signature">
-            <div class="line"></div>
-            <div class="signature"><%=sign%></div>
-          </dd>
-          <%end%>
-        </dl>
-      </div>
-    </div>
-  </div>
-  <div class="operations">
-    <%if message.is_a? Post%>
-    <%=link_to 'Rispondi', { :controller => 'post',
-                               :action     => 'new',
-                               :reply      => message.id,
-                               :class      => 'post',
-                               :quote      => true },
-                             { :class => 'reply', :method => :get }%>
-    <%=link_to 'Rispondi in privato', { :controller => 'pm',
-                                          :action     => 'new',
-                                          :reply      => message.id,
-                                          :class      => 'post',
-                                          :quote      => 'true' },
-                                        { :class => 'reply_pm' , :method => :get}%>
-    <%=link_to_remote 'Modifica', :url => { :controller => 'post', :action => 'edit', :id => message.id },
-    :html => { :class => 'edit' }, :method => :get%>
-    <%=link_to 'Segnala', {}, { :class => 'report', :method => :get }%>
-    <%elsif message.is_a? Pm%>
-    <%if message.folder == 'trash'%>
-    <%=link_to 'Ripristina', '#', { :class  => 'delete',
-                                    :id     => "pm_undelete_#{message.id}",
-                                    :method => :get }%>
-    <%else%>
-    <%=link_to 'Rispondi', { :controller => 'pm',
-                             :action     => 'new',
-                             :reply      => message.id,
-                             :class      => 'pm',
-                             :quote      => true },
-                           { :class => 'reply', :method => :get }%>
-    <%end%>
-    <%=link_to 'Elimina', '#', { :class  => 'delete',
-                                 :id     => "pm_delete_#{message.id}",
-                                 :method => :get }%>
-    <%end%>
-  </div>
-</li>
+            <%
+            t          = @opts[:theme]
+            bgcolor    = (flip == 0) ? t.altbg1 : t.altbg2
+            images_url = 'http://www.studentibicocca.it/portale/forum/images/'
+            unless defined?(buttons)
+              buttons = true
+            end
+            %>
+            <tr bgcolor="<%=bgcolor%>">
+              <td rowspan="2" valign="top" class="tablerow" width="18%">
+                <a name="pid<%=p.id%>" id="pid<%=p.id%>"></a>
+                <%if p == @posts.try(:last)%><a name="last_post"></a><a name="bottom"></a><%end%>
+                <span class="postauthor"><%=h(p.cached_user.username)%></span><br />
+                <div class="11px">
+                  <%=p.cached_user.rank.title%><br />
+                  <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
+                  <br />
+                  <%if p.cached_user.avatar%>
+                  <%=image_tag p.cached_user.avatar,
+                    :width  => p.cached_user.avatar_width,
+                    :height => p.cached_user.avatar_height,
+                    :class => 'avatar', :alt => ''%>
+                  <%end%>
+                  <br />
+                  <br />
+                  <%if p.cached_user.postnum > 1000%>
+                  <%='%0.2f' % p.cached_user.posts_per_day%> messaggi per giorno<br />
+                  <%else%>
+                  <%=p.cached_user.postnum%> messaggi<br />
+                  <%end%>
+                  Registrato: <%=Time.at(p.cached_user.regdate).strftime('%m/%Y')%><br />
+                  <div class="c3">
+                    <br />
+                    <%=link_to(
+                      image_tag(images_url + 'b_profile.png', :border => 0, :alt => 'profilo'),
+                      p.cached_user
+                    )%>
+                    <%if p.cached_has_blog%>
+                    <%=link_to(
+                      image_tag(images_url + 'b_blog.png', :alt => 'blog', :border => 0),
+                      url_for(:controller => :blog, :action => :list, :username => p.cached_user.username)
+                    )%>
+                    <%end%>
+                  </div>
+                </div><br />
+              </td>
+              <td valign="top" height="1" class="tablerow" width="82%">
+                &nbsp; postato il <%=p.created_at.strftime('%d/%m/%Y')%>
+                alle <%=p.created_at.strftime('%H.%M')%>
+              </td>
+              <td>
+                <div style="text-align: center;"><%=link_to 'permalink', p%></div>
+              </td>
+            </tr>
+            <tr bgcolor="<%=bgcolor%>">
+              <td height="120" valign="top" colspan="2">
+                <div class="maxpostwidth">
+                  <%=BbText.new(p.message, p.cached_smileys).to_html%>
+                  <%unless p.cached_user.sig.to_s.empty?%>
+                  <p>&nbsp;</p>____________________<br />
+                  <div class="signature">
+                    <%=cleanup(p.cached_user.sig).gsub("\n", '<br />')%>
+                  </div>
+                  <%end%>
+                  <%if p.edituser && (p.updated_at - p.created_at > 2.minutes)%>
+                  <div class="post_updated">
+                    modificato da <%=cleanup(p.updated_by.username)%> il <%=p.updated_at.strftime('%d/%m/%Y')%>
+                    alle <%=p.updated_at.strftime('%H.%M')%>
+                  </div>
+                  <%end%>
+                </div>
+              </td>
+            </tr>
+            <%if buttons%>
+            <tr bgcolor="<%=bgcolor%>">
+              <td>
+                <%if p.cached_online%>
+                <%=image_tag(images_url + 'online_status.gif', :alt => 'online')%>
+                <%else%>
+                <%=image_tag(images_url + 'offline_status.gif', :alt => 'offline')%>
+                <%end%>
+              </td>
+              <td valign="top" class="tablerow" colspan="2">
+                <table border="0" cellspacing="0" cellpadding="0" align="left">
+                  <tr>
+                    <td class="11px" width="100%">
+                      <%=link_to(
+                        image_tag(images_url + 'b_reply.png', :alt => 'rispondi', :border => 0),
+                        reply_post_path(p)
+                      ) if can_post%>
+                      <%=link_to(
+                        image_tag(images_url + 'b_reply_pm.png', :alt => 'rispondi', :border => 0),
+                        post_reply_pm_path(p)
+                      ) if @user%>
+                      <%=link_to(
+                        image_tag(images_url + 'b_edit.png', :alt => 'modifica', :border => 0),
+                        edit_post_path(p)
+                      ) if p.cached_can_edit%>
+                      <%=link_to(
+                        image_tag(images_url + 'b_destroy.png', :alt => 'elimina', :border => 0),
+                        post_path(p),
+                        :method  => :delete,
+                        :confirm => "Sei sicuro di voler cancellare questo messaggio?"
+                      ) if p.cached_can_edit%>
+                      <%=link_to(
+                        image_tag(images_url + 'b_report.png', :alt => 'segnala', :border => 0),
+                        "/portale/forum/topicadmin.php?action=report&fid=#{@topic.forum.id}&tid=#{@topic.id}&pid=#{p.id}"
+                      ) if @user%>
+                    </td>
+                    <%if can_moderate%>
+                    <td>
+                      <%=image_tag(images_url + 'ip.gif', :title => p.useip)%>
+                    </td>
+                    <%end%>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <%end%>
