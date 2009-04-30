@@ -103,7 +103,7 @@ class UsersController < ApplicationController
     @edit_user = User.find(params[:id])
     respond_to do |format|
       if @edit_user == @user || @user.is_adm?
-        if @user.update_attributes(params[:user])
+        if @edit_user.update_attributes(params[:user])
           #flash[:notice] = 'User was successfully updated.'
           new_password = params[:new_password].to_s
           unless new_password.empty?
