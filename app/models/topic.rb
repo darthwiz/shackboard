@@ -63,7 +63,7 @@ class Topic < ActiveRecord::Base
     self.forum.can_moderate?(user)
   end
 
-  def fix_counters
+  def fix_counters!
     self[:replies] = self.posts_count
     self.save
   end
@@ -88,7 +88,7 @@ class Topic < ActiveRecord::Base
 
   def posts_count
     conds = [ "fid = ? AND tid = ? AND deleted_by IS NULL", self.fid, self.id ]
-    Post.count(:conditions => conds) + 1
+    Post.count(:conditions => conds)
   end
 
   def posts_count_cached

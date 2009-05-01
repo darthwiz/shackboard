@@ -6,13 +6,21 @@ class Smiley < ActiveRecord::Base
   validates_format_of :code, :with => /^:[[:alnum:]_-]+:/
   attr_accessor :parsed
 
-  def Smiley.all(user=nil)
+  def self.all(user=nil)
     if user.is_a? User
       conds = [ 'type = ? AND (user_id = 0 OR user_id = ?) AND code != ""', 'smiley', user.id ]
     else
       conds = [ 'type = ? AND user_id = 0 AND code != ""', 'smiley' ]
     end
-    Smiley.find(:all, :conditions => conds, :order => 'user_id DESC')
+    self.find(:all, :conditions => conds, :order => 'user_id DESC')
+  end
+
+  def self.post_icons
+    self.find(
+      :all,
+      :conditions => [ 'type = ?', 'picon' ],
+      :order      => 'id'
+    )
   end
 
   def url

@@ -95,6 +95,7 @@ class TopicsController < ApplicationController
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location      = [ 'Topic', @topic ]
     @page_title    = @topic.subject
+    @post_icons    = Smiley.post_icons
     @posts         = @topic.posts_range(@range, @user)
     @topic.increment!(:views)
     respond_to do |format|
@@ -112,6 +113,7 @@ class TopicsController < ApplicationController
           @topic.pinned = params['topic']['pinned'] == 'true' ? true : false
           @topic.locked = params['topic']['locked'] == 'true' ? true : false
           @topic.title  = params['topic']['title']
+          @topic.icon   = params['topic']['icon'] == 'on' ? nil : params['topic']['icon']
           new_fid       = params['topic']['fid'].to_i
           if @topic.fid != new_fid
             forum = Forum.find(new_fid)
@@ -122,6 +124,7 @@ class TopicsController < ApplicationController
       end
       ppp            = ((@opts[:ppp] - 1) / @post_block_size + 1) * @post_block_size
       @location      = @topic
+      @post_icons    = Smiley.post_icons
       @page_seq_opts = { :last        => @topic.replies + 1,
                          :action      => :show,
                          :ipp         => ppp,
