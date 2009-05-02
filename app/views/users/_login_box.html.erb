@@ -24,10 +24,13 @@
         <div class="label">Password</div>
         <%=f.password_field :password, :size => 16%>
       </div>
+      <%=f.submit 'login'%>
       <div class="user_register">
         <%=link_to 'nuovo utente', new_user_path(:rules => true)%>
       </div>
-      <%=f.submit 'login'%>
+      <div class="user_recover_password">
+        <%=link_to 'dimenticato la password?', recover_password_users_path%>
+      </div>
       <%end%>
     </div>
   <%end%>

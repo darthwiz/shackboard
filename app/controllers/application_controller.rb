@@ -76,6 +76,7 @@ class ApplicationController < ActionController::Base
       @opts[:tpp]   = @settings.topicperpage.to_i
       @opts[:theme] = Theme.find_by_name(@settings.theme)
     end
+    Notifier.delivery_method = :sendmail
   end 
 
   def set_stylesheet 

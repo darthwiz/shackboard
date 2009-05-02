@@ -6,6 +6,7 @@ class Topic < ActiveRecord::Base
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :threads
   belongs_to :user,  :foreign_key => "uid"
   has_many   :posts, :foreign_key => "tid"
+  validates_format_of :subject, :with => /^[^\s]/
 
   def pinned
     self[:topped] == 1

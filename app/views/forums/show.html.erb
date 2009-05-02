@@ -121,7 +121,7 @@ images_url = "http://www.studentibicocca.it/portale/forum/images"
     <table width="100%" cellspacing="0" cellpadding="0" align="center">
       <tr>
         <td bgcolor="<%=t.bgcolor%>" class="post" align="right">
-          <%=link_to 'Nuova discussione', new_forum_topic_path(@forum)%>
+          <%=link_to 'Nuova discussione', new_forum_topic_path(@forum) if @forum.can_post?(@user)%>
         </td>
       </tr>
       <tr>

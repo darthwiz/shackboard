@@ -1,15 +1,18 @@
 class TopicsController < ApplicationController
+  before_filter :authenticate, :except => :show
   layout 'forum'
 
   def new
-    @forum = Forum.find(params[:id])
+    @forum = Forum.find(params[:forum_id])
     unless @forum.can_post?(@user)
       redirect_to :action => 'show', :id => @forum.id and return
     end
     draft_id        = params[:draft].to_i
     @post           = Post.new
-    @post[:subject] = ''
+    @topic          = Topic.new
     @post.forum     = @forum
+    @topic.forum    = @forum
+    @topic.subject  = ''
     if draft_id > 0
       @draft = Draft.secure_find(params[:draft_id], @user)
       @post  = @draft.object if @draft.object
@@ -18,7 +21,7 @@ class TopicsController < ApplicationController
       @draft.save!
     end
     @location = @post
-    render '/post/new'
+    render '/posts/new', :layout => 'forum' # XXX why is layout necessary here?
   end
 
   def show

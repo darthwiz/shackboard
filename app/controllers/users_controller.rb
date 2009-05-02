@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
   layout 'forum'
-  # GET /users/1
-  # GET /users/1.xml
+
   def show
     @shown_user = User.find(params[:id])
     respond_to do |format|
@@ -9,19 +8,15 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/new
-  # GET /users/new.xml
   def new
     @new_user = User.new
     respond_to do |format|
       format.html do
         @rules = Settings.find(:first).bbrulestxt if params[:rules] == 'true'
-        render :layout => 'forum'
       end
     end
   end
 
-  # GET /users/1/edit
   def edit
     @edit_user = User.find(params[:id])
     unless @edit_user == @user || @user.is_adm?
@@ -32,8 +27,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # POST /users
-  # POST /users.xml
   def create
     email     = params[:user][:email].strip
     username  = params[:user][:username].strip
@@ -47,7 +40,6 @@ class UsersController < ApplicationController
     )
     respond_to do |format|
       if @new_user.save
-        Notifier.delivery_method = :sendmail
         Notifier.deliver_signup_notification(email, username, password)
         format.html { render :layout => 'forum' }
       else
@@ -97,8 +89,6 @@ class UsersController < ApplicationController
     end
   end 
 
-  # PUT /users/1
-  # PUT /users/1.xml
   def update
     @edit_user = User.find(params[:id])
     respond_to do |format|
@@ -120,6 +110,28 @@ class UsersController < ApplicationController
         redirect_to @edit_user
       end
     end
+  end
+
+  def recover_password
+    @new_user = User.new
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def send_password
+    @email    = params[:user][:email]
+    @new_user = User.find_by_email(@email) || User.new
+    @new_user = User.new if @email.to_s.empty?
+    @status   = :failure
+    unless @new_user.new_record?
+      Notifier.deliver_signup_notification(@email, @new_user.username, @new_user.password)
+      @status = :success
+    end
+    puts "****************************************"
+    p [ @email, @new_user, @status ]
+    puts "****************************************"
+    render :action => :recover_password
   end
 
 end
