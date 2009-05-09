@@ -22,6 +22,12 @@ class BbText
     s.gsub!(/\[i\](.*?)\[\/i\]/im, "<i>\\1</i>")
     s.gsub!(/\[b\](.*?)\[\/b\]/im, "<b>\\1</b>")
     s.gsub!(/\[u\](.*?)\[\/u\]/im, "<u>\\1</u>")
+    while s =~ /\[small\](.*)\[\/small\]/im
+      s.gsub!(/\[small\](.*)\[\/small\]/im, "<small>\\1</small>")
+    end
+    while s =~ /\[big\](.*)\[\/big\]/im
+      s.gsub!(/\[big\](.*)\[\/big\]/im, "<big>\\1</big>")
+    end
     while s =~ /\[code\](.*)\[\/code\]/im
       s.gsub!(/\[code\](.*)\[\/code\]/im, "<div class=\"code\">\\1</div>")
     end
