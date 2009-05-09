@@ -22,20 +22,20 @@ class BbText
     s.gsub!(/\[i\](.*?)\[\/i\]/im, "<i>\\1</i>")
     s.gsub!(/\[b\](.*?)\[\/b\]/im, "<b>\\1</b>")
     s.gsub!(/\[u\](.*?)\[\/u\]/im, "<u>\\1</u>")
-    while s =~ /\[small\](.*)\[\/small\]/im
-      s.gsub!(/\[small\](.*)\[\/small\]/im, "<small>\\1</small>")
+    while s =~ /\[small\](.*?)\[\/small\]/im
+      s.gsub!(/\[small\](.*?)\[\/small\]/im, "<small>\\1</small>")
     end
-    while s =~ /\[big\](.*)\[\/big\]/im
-      s.gsub!(/\[big\](.*)\[\/big\]/im, "<big>\\1</big>")
+    while s =~ /\[big\](.*?)\[\/big\]/im
+      s.gsub!(/\[big\](.*?)\[\/big\]/im, "<big>\\1</big>")
     end
-    while s =~ /\[code\](.*)\[\/code\]/im
-      s.gsub!(/\[code\](.*)\[\/code\]/im, "<div class=\"code\">\\1</div>")
+    while s =~ /\[code\](.*?)\[\/code\]/im
+      s.gsub!(/\[code\](.*?)\[\/code\]/im, "<div class=\"code\">\\1</div>")
     end
-    while s =~ /\[quote\](.*)\[\/quote\]/im
-      s.gsub!(/\[quote\](.*)\[\/quote\]/im, "<div class=\"quote\">\\1</div>")
+    while s =~ /\[quote\](.*?)\[\/quote\]/im
+      s.gsub!(/\[quote\](.*?)\[\/quote\]/im, "<div class=\"quote\">\\1</div>")
     end
-    while s =~ /\[spoiler\](.*)\[\/spoiler\]/im
-      s.gsub!(/\[spoiler\](.*)\[\/spoiler\]/im) do |match|
+    while s =~ /\[spoiler\](.*?)\[\/spoiler\]/im
+      s.gsub!(/\[spoiler\](.*?)\[\/spoiler\]/im) do |match|
         spoiler_id += 1
         dom_id = "spoiler_#{MD5.md5(match).to_s[0..4]}_#{spoiler_id}"
         "<div class=\"spoiler\">
