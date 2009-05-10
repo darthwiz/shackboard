@@ -38,7 +38,7 @@
                     <%if p.cached_has_blog%>
                     <%=link_to(
                       image_tag(images_url + 'b_blog.png', :alt => 'blog', :border => 0),
-                      url_for(:controller => :blog, :action => :list, :username => p.cached_user.username)
+                      blog_list_path(:username => p.cached_user.username)
                     )%>
                     <%end%>
                   </div>
