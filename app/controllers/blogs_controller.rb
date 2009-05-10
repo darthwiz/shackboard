@@ -1,7 +1,7 @@
 # vim: set nowrap:
-class BlogController < ApplicationController
+class BlogsController < ApplicationController
 
-  def list
+  def index
     username   = params[:username]
     @blog_user = User.find_by_username(username)
     if @blog_user.is_a? User
@@ -13,7 +13,7 @@ class BlogController < ApplicationController
     @location = [ 'Blog', @blog_user ]
   end
 
-  def view
+  def show
     username   = params[:username]
     label      = params[:blog_label]
     @blog_user = User.find_by_username(username)

@@ -1,6 +1,5 @@
 <%# vim: set ft=eruby nowrap: -%>
-<%url = { :controller => p.class.to_s.underscore, :action => :update }
-  remote_form_for p, :url => url do |f|%>
+<%remote_form_for p, :update => domid(p) do |f|%>
   <fieldset>
     <div>
       Titolo: <%=f.text_field :title, :value => p.title%>
@@ -13,8 +12,7 @@
     </div>
     <div>
       <%=f.hidden_field :id, :value => p.id%>
-      <%=submit_to_remote 'save', 'Salva', :url => url,
-      :update => domid(p)%>
+      <%=f.submit 'Salva'%>
     </div>
   </fieldset>
 <%end%>

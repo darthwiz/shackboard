@@ -1,7 +1,6 @@
 <%# vim: set ft=eruby nowrap: -%>
   <h4>
-    <%=link_to cleanup(blog.name),
-      :action => :view, :username => @blog_user.username, :blog_label => blog.label%>
+    <%=link_to cleanup(blog.name), blog_view_path(blog.user.username, blog.label)%>
   </h4>
   <div class="description">
     <%=text_to_html(blog.description)%>
@@ -10,11 +9,13 @@
   <div class="operations">
   <%=link_to_remote 'mod',
     :update => domid(blog),
-    :url    => { :controller => :blog, :action => :edit, :id => blog },
+    :url    => edit_blog_path(blog),
+    :method => :get,
     :html   => { :class => 'edit' }%>
   <%=link_to_remote 'del',
     :update => domid(blog),
-    :url    => { :controller => :blog, :action => :destroy, :id => blog },
+    :url    => blog_path(blog),
+    :method => :delete,
     :html   => { :class => 'delete' }%>
   </div>
   <%end%>

@@ -1,40 +1,42 @@
-<%# vim: set ft=eruby nowrap: -%>
+<%# vim: set ft=eruby nowrap autoindent: -%>
+<%
+username = p.user.username
+-%>
 <%unless p.title.to_s.empty?%><h2><%=cleanup(p.title)%></h2><%end%>
-<%if p.is_a?(BlogPost) && !p.categories.empty?%>
-<div class="categories">
-  Categoria: <span class="categories"><%=p.categories.collect { |c| c.name }.join ', '%></span>
-</div>
-<%end%>
 <div class="text">
   <%=BbText.new(p.text, Smiley.all(p.user)).to_html%>
 </div>
 <div class="author">
-  scritto da <span class="author"><%=cleanup(p.user.username)%></span>
+  scritto da <span class="author"><%=cleanup(username)%></span>
   il <span class="date"><%=p.created_at.strftime("%d/%m/%y, %H.%M")%></span>
 </div>
+<%if p.is_a?(BlogPost)%>
 <div class="permalink">
-  <%=link_to 'permalink', p%>
+  <%=link_to 'permalink', seo_blog_post_path(:username => username, :id => p, :seo => seo(p.title))%>
 </div>
+<%end%>
 <div class="operations">
   <%if @user == p.user || @user == @blog.user%>
     <%if p.is_a?(BlogPost)%>
       <%=link_to_remote 'mod',
         :update => domid(p),
-        :url    => { :controller => :blog_posts, :action => :edit, :id => p },
+        :url    => edit_blog_post_path(p),
+        :method => :get,
         :html   => { :class => 'edit' }%>
       <%=link_to_remote 'del',
         :update => domid(p),
-        :url    => { :controller => :blog_posts, :action => :destroy, :id => p },
+        :url    => blog_post_path(p),
         :method => :delete,
         :html   => { :class => 'delete' }%>
     <%elsif p.is_a?(BlogComment)%>
       <%=link_to_remote 'mod',
         :update => domid(p),
-        :url    => { :controller => :blog_comments, :action => :edit, :id => p },
+        :url    => edit_blog_comment_path(p),
+        :method => :get,
         :html   => { :class => 'edit' }%>
       <%=link_to_remote 'del',
         :update => domid(p),
-        :url    => { :controller => :blog_comments, :action => :destroy, :id => p },
+        :url    => blog_comment_path(p),
         :method => :delete,
         :html   => { :class => 'delete' }%>
     <%end%>

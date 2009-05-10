@@ -34,6 +34,11 @@ module ApplicationHelper
     end
   end
 
+  def seo(s, length=80)
+    s = word_wrap(s.to_s, :line_width => length).split("\n").first.to_s
+    s.gsub(/[^[:alnum:]]/, '-').gsub(/-+/, '-').downcase
+  end
+
   def cleanup(str)
     h(strip_tags(str))
   end

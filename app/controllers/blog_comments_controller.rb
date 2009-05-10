@@ -1,7 +1,7 @@
 # vim: set nowrap:
 class BlogCommentsController < ApplicationController
-  layout 'blog'
-  helper :blog
+  layout 'blogs'
+  helper :blogs
 
   def show
     comment     = BlogComment.find(params[:id])
@@ -10,7 +10,7 @@ class BlogCommentsController < ApplicationController
     @posts      = [ comment ]
     @page_title = comment.blog_post.title || comment.blog.title
     @location   = [ 'Blog', @blog ]
-    render :template => '/blog/view'
+    render :template => '/blogs/show'
     @blog.increment! :view_count
   end
 
@@ -45,7 +45,7 @@ class BlogCommentsController < ApplicationController
       if @user.is_a? User
         id      = params[:id]
         comment = BlogComment.find(id)
-        render :partial => '/blog_post/blog_post_editor',
+        render :partial => '/blog_posts/blog_post_editor',
                :locals  => { :p => comment } and return
       end
     end
@@ -64,7 +64,7 @@ class BlogCommentsController < ApplicationController
           end
           comment.modified_by = @user.id
           if comment.save
-            render :partial => '/blog_post/editable_blog_post',
+            render :partial => '/blog_posts/editable_blog_post',
                    :locals  => { :p => comment } and return
           end
         end

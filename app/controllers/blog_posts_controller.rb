@@ -1,7 +1,7 @@
 # vim: set nowrap:
 class BlogPostsController < ApplicationController
-  layout 'blog'
-  helper :blog
+  layout 'blogs'
+  helper :blogs
 
   def show
     post        = BlogPost.find(params[:id])
@@ -10,7 +10,7 @@ class BlogPostsController < ApplicationController
     @posts      = [ post ]
     @page_title = post.title || post.blog.title
     @location   = [ 'Blog', @blog ]
-    render :template => '/blog/view'
+    render :template => '/blogs/show'
     @blog.increment! :view_count
   end
 

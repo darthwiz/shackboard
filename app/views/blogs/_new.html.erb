@@ -1,7 +1,7 @@
 <%# vim: set ft=eruby nowrap: -%>
 <%userid = @user ? @user.id : nil
   remote_form_for Blog.new,
-  :url => { :controller   => :blog,
+  :url => { :controller   => :blogs,
             :action       => :create } do |f|%>
   <fieldset id="new_blog_form" style="display: none;">
     <legend>Nuovo blog per <%=cleanup(@user.username)%></legend>
@@ -9,7 +9,7 @@
       Titolo: <%=f.text_field :name, :size => 50%>
     </p>
     <p>
-      URL: <%=f.text_field :label, :size => 40%>
+      URL: <%=blog_list_url(:username => @user.username)%>/<%=f.text_field :label, :size => 40%>
     </p>
     <p>
       Descrizione: <%=f.text_area :description, :rows => 10, :cols => 70%>
