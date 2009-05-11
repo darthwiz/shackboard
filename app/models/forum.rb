@@ -20,7 +20,7 @@ class Forum < ActiveRecord::Base
     return true if allowed.include?(userid)
     return true if moderator_ids.include?(userid)
     User.supermods.each do |u|
-      return true if u.id = userid
+      return true if u.id == userid
     end
     false
   end
