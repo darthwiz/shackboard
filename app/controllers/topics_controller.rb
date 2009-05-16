@@ -142,4 +142,13 @@ class TopicsController < ApplicationController
     end
   end
 
+  def full
+    render :nothing and return unless @user.is_a? User
+    @topic = Topic.find(params[:id])
+    @posts = @topic.posts_range(0..(@topic.posts_count))
+    respond_to do |format|
+      format.txt { render :action => :show }
+    end
+  end
+
 end

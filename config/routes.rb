@@ -39,6 +39,8 @@ ActionController::Routing::Routes.draw do |map|
   # map.root :controller => "welcome"
   map.root :controller => 'welcome'
 
+  map.full_topic '/forum/topics/full/:id.:format', :controller => 'topics', :action => 'full'
+
   # SEO routes
   map.seo_blog_post 'blogs/:username/:id/:seo', :controller => 'blog_posts', :action => 'show', :requirements => { :id => /[0-9]+/ }
   map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9]+/, :blog_label => /.*/ }
