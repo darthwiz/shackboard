@@ -7,6 +7,7 @@ class Forum < ActiveRecord::Base
   belongs_to :forum,  :foreign_key => 'fup'
   has_many   :topics, :foreign_key => 'fid'
   has_many   :posts,  :foreign_key => 'fid'
+  alias_attribute :posts_count, :posts
   @@tree = nil
 
   def container
@@ -234,6 +235,25 @@ class Forum < ActiveRecord::Base
   def self.flattened_list
     self.find(:all, :order => 'flattened_list_seq')
   end
+
+  def self.fix_post_count!
+    ftn = self.table_name
+    ptn = Post.table_name
+    ctn = 'tmp_forum_posts_count'
+    q1  = "CREATE TEMPORARY TABLE #{ctn} (
+      SELECT fid, COUNT(1) AS posts_count FROM #{ptn}
+      WHERE deleted_by IS NULL
+      GROUP BY fid
+    )"
+    q2  = "UPDATE #{ftn} f
+      INNER JOIN #{ctn} c ON f.fid = c.fid
+      SET f.posts = c.posts_count"
+    q3  = "DROP TABLE #{ctn}"
+    self.connection.execute q1
+    self.connection.execute q2
+    self.connection.execute q3
+  end
+
 
   def move_to_sub(forum)
     raise ArgumentError unless forum.is_a? Forum

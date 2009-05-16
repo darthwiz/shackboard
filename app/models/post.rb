@@ -4,7 +4,7 @@ class Post < ActiveRecord::Base
   set_primary_key "pid"
   belongs_to :topic, :foreign_key => 'tid', :counter_cache => :replies
   belongs_to :forum, :foreign_key => 'fid', :counter_cache => :posts
-  belongs_to :user,  :foreign_key => 'uid'
+  belongs_to :user,  :foreign_key => 'uid', :counter_cache => :postnum
   #belongs_to :post,  :foreign_key => 'reply_to_pid'
   attr_accessor :seq, :subject, :cached_can_edit, :cached_can_read,
     :cached_has_blog, :cached_smileys, :cached_online, :cached_user,
@@ -53,6 +53,19 @@ class Post < ActiveRecord::Base
     post = self.find(id)
     raise ::UnauthorizedError unless post.can_edit?(user)
     post
+  end
+
+  def delete(by_whom)
+    self.deleted_by = by_whom.id
+    self.deleted_on = Time.now.to_i
+    self.save!
+    self.topic.update_last_post!
+    self.forum.update_last_post!
+    self.user.decrement!(:postnum)     # FIXME this doesn't appear to work
+    self.topic.decrement!(:replies)
+    self.forum.decrement(:posts).save! # NOTE this syntax is needed because the
+                                       # 'posts' attribute clashes with the
+                                       # 'posts' method
   end
 
   def self.find(*args)
@@ -113,17 +126,6 @@ class Post < ActiveRecord::Base
   def updated_by
     return nil unless self[:edituser] > 0
     User.find(self[:edituser])
-  end
-
-
-  def destroy
-    begin
-      u = User.find_by_username(self.author)
-      u.postnum -= 1
-      u.save
-    rescue
-    end
-    super
   end
 
   def timestamp

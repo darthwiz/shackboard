@@ -232,19 +232,6 @@ class Topic < ActiveRecord::Base
     end
   end
 
-  def destroy
-    self.posts_each do |p|
-      p.destroy
-    end
-    begin
-      u = User.find_by_username(self.author)
-      u.postnum -= 1
-      u.save
-    rescue
-    end
-    super
-  end
-
   def move_posts(start_seq, dest_topic)
     raise TypeError, 'argument 1 must be a sequence number' unless
       start_seq.is_a? Integer
@@ -267,6 +254,24 @@ class Topic < ActiveRecord::Base
                                :timestamp => last.timestamp }
       t.save
     end
+  end
+
+  def self.fix_post_count!
+    ttn = self.table_name
+    ptn = Post.table_name
+    ctn = 'tmp_topic_posts_count'
+    q1  = "CREATE TEMPORARY TABLE #{ctn} (
+      SELECT tid, COUNT(1) AS posts_count FROM #{ptn}
+      WHERE deleted_by IS NULL
+      GROUP BY tid
+    )"
+    q2  = "UPDATE #{ttn} t
+      INNER JOIN #{ctn} c ON t.tid = c.tid
+      SET t.replies = c.posts_count"
+    q3  = "DROP TABLE #{ctn}"
+    self.connection.execute q1
+    self.connection.execute q2
+    self.connection.execute q3
   end
 
 end

@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :group_memberships
   has_many :smileys
   has_many :categories
+  has_many :blogs
   validates_uniqueness_of :username
   validates_uniqueness_of :email
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
@@ -43,10 +44,6 @@ class User < ActiveRecord::Base
   def posts_per_day
     time = Time.now - Time.at(self.regdate)
     postnum.to_f * 3600 * 24 / time
-  end
-
-  def blogs
-    Blog.find_all_by_user_id(self.id)
   end
 
   def has_blog?
@@ -164,6 +161,10 @@ class User < ActiveRecord::Base
     150
   end
 
+  def self.[](id)
+    self.find(id)
+  end
+
   def self.authenticate(username, password) 
     u = User.find_by_username(username)
     if (u) then
@@ -200,17 +201,21 @@ class User < ActiveRecord::Base
   end
 
   def self.fix_post_count!
-    res = Post.connection.execute(
-      "SELECT #{User.primary_key} AS id, COUNT(1) AS count FROM #{Post.table_name}
-        WHERE deleted_by IS NULL
-        GROUP BY uid"
-    ).all_hashes.each do |i|
-      User.connection.execute(
-        "UPDATE #{User.table_name}
-        SET postnum = #{i['count']}
-        WHERE #{User.primary_key} = #{i['id']}"
-      ) if i['id'].to_i > 0
-    end
+    utn = self.table_name
+    ptn = Post.table_name
+    ctn = 'tmp_user_posts_count'
+    q1  = "CREATE TEMPORARY TABLE #{ctn} (
+      SELECT uid, COUNT(1) AS posts_count FROM #{ptn}
+      WHERE deleted_by IS NULL
+      GROUP BY uid
+    )"
+    q2  = "UPDATE #{utn} u
+      INNER JOIN #{ctn} c ON u.uid = c.uid
+      SET u.postnum = c.posts_count"
+    q3  = "DROP TABLE #{ctn}"
+    self.connection.execute q1
+    self.connection.execute q2
+    self.connection.execute q3
   end
 
   private
