@@ -1,15 +1,17 @@
 module BlogsHelper
-  def page_trail_Blog(loc) 
+
+  def page_trail_blog(loc, opts={}) 
     trail  = []
-    loc    = loc[1]
-    if loc.is_a? User
-      trail << [ 'Blog', { :controller => :blogs, :action => :index } ]
-      trail << [ loc.username, {} ]
-    elsif loc.is_a? Blog
-      trail << [ 'Blog', { :controller => :blogs, :action => :index } ]
-      trail << [ loc.user.username, { :controller => :blogs, :action => :index, :username => loc.user.username } ]
-      trail << [ loc.name, {} ]
-    end
+    trail << [ 'Blog', blogs_path ]
+    trail << [ cleanup(loc.name), {} ]
+    trail
+  end 
+
+  def page_trail_blog_post(loc, opts={}) 
+    trail  = []
+    trail << [ 'Blog', blogs_path ]
+    trail << [ cleanup(loc.blog.name), blog_view_path(loc.blog.user.username, loc.blog.label) ]
+    trail << [ loc.title, {} ] unless loc.title.blank?
     trail
   end 
 

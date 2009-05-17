@@ -1,7 +1,7 @@
 module TopicHelper
-  def page_trail_Topic(loc)
+
+  def page_trail_topic(obj, opts={})
     trail  = []
-    obj    = loc[1]
     trail << [ obj.subject, {} ]
     while(obj = obj.container)
       link = {}
@@ -17,4 +17,5 @@ module TopicHelper
     end
     trail.reverse
   end
+
 end

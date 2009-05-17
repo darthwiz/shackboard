@@ -10,7 +10,7 @@ class BlogsController < ApplicationController
         :conditions => [ 'user_id = ?', @blog_user.id ]
       )
     end
-    @location = [ 'Blog', @blog_user ]
+    @location = @blog_user
   end
 
   def show
@@ -32,7 +32,7 @@ class BlogsController < ApplicationController
       @page_title = @blog.name
       @blog.increment! :view_count
     end
-    @location = [ 'Blog', @blog ]
+    @location = @blog
   end
 
   def edit

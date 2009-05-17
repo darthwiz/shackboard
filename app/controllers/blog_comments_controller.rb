@@ -9,7 +9,7 @@ class BlogCommentsController < ApplicationController
     @blog       = comment.blog
     @posts      = [ comment ]
     @page_title = comment.blog_post.title || comment.blog.title
-    @location   = [ 'Blog', @blog ]
+    @location   = @blog
     render :template => '/blogs/show'
     @blog.increment! :view_count
   end

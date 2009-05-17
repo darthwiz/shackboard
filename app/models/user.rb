@@ -114,6 +114,11 @@ class User < ActiveRecord::Base
     true
   end
 
+  def avatar
+    return self[:avatar] if self[:avatar] =~ /^http:\/\//
+    nil
+  end
+
   def avatar_size
     rw = self[:avatar_width].to_f          # real width
     rh = self[:avatar_height].to_f         # real height

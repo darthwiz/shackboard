@@ -71,7 +71,7 @@
               <span class="value"><%=status%></span>
             </dd>
             <dd class="avatar">
-              <%=image_tag(avatar, :alt => '', :class => 'avatar')%>
+              <%=image_tag(avatar, :alt => '', :class => 'avatar') unless avatar.blank?%>
             </dd>
             <dd class="reg_date">
               <span class="label">registrato il</span>

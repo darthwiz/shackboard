@@ -1,16 +1,24 @@
 module PmsHelper
-  def page_trail_Pm(loc) # {{{
+
+  def page_trail_pm(loc, opts={})
     trail = []
-    case loc[1]
+    if loc.new_record?
+      trail << [ 'Messaggi privati', pms_path ]
+      trail << [ 'Nuovo', {} ]
+    end
+    trail
+  end
+
+  def page_trail_pms(loc, opts={})
+    trail = []
+    case loc.first.folder
     when 'inbox'
       trail << [ 'Messaggi privati', {} ]
     when 'trash'
       trail << [ 'Messaggi privati', pms_path ]
       trail << [ 'Cestino', {} ]
-    when :new
-      trail << [ 'Messaggi privati', pms_path ]
-      trail << [ 'Nuovo', {} ]
     end
     trail
-  end # }}}
+  end
+
 end

@@ -8,9 +8,11 @@
       <%=submit_tag 'Cerca'%>
       <%=text_field_tag 'file'%>
     </div>
+    <%if @user.is_a? User%>
     <div class="upload">
       <%=link_file_upload%>
     </div>
+    <%end%>
     <div class="spacer"></div>
   </form>
 </div>

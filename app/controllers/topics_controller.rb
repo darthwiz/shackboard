@@ -96,7 +96,7 @@ class TopicsController < ApplicationController
                        :current     => start + 1,
                        :id          => tid,
                        :extra_links => [ :first, :forward, :back, :last ] }
-    @location      = [ 'Topic', @topic ]
+    @location      = @topic
     @page_title    = @topic.subject
     @post_icons    = Smiley.post_icons
     @posts         = @topic.posts_range(@range, @user)

@@ -2,6 +2,7 @@ class FileController < ApplicationController
   before_filter :init
   skip_before_filter :load_defaults, :authenticate, :update_online,
     :set_stylesheet, :only => [ :css ]
+
   def categories 
     @numfiles   = {}
     @categories = FiledbCategory.find :all, :order => 'cat_order'
@@ -9,8 +10,9 @@ class FileController < ApplicationController
       @numfiles[c.id] = FiledbFile.count(
         :conditions => ['file_catid = ? AND approved_by IS NOT NULL', c.id] )
     }
-    @location = [ 'File', :categories ]
+    @location = @categories
   end 
+
   def list 
     ppp    = @opts[:ppp]
     start  = params[:start].to_i
@@ -47,8 +49,9 @@ class FileController < ApplicationController
       :ipp        => ppp,
       :get_parms  => [:order]
     }
-    @location = [ 'File', FiledbCategory.find(cid) ]
+    @location = FiledbCategory.find(cid)
   end 
+
   def download 
     confirmed = params[:license_confirmed] || is_adm?
     id        = params[:id]
@@ -65,23 +68,26 @@ class FileController < ApplicationController
         @file.save
       end
     else
-      @location = [ 'File', :confirm_license ]
+      @location = @file
       render :action => 'confirm_license', :id => id
     end
   end 
+
   def upload 
     @categories = FiledbCategory.find(:all, :order => 'cat_order')
     if is_authenticated?
-      @location = [ 'File', :upload ]
+      @location = FiledbFile.new
     else
       session[:intended_action] = { :controller => controller_name, 
                                     :action     => action_name }
       render :action => 'need_auth'
     end
   end 
+
   def index 
     redirect_to :action => 'categories'
   end 
+
   def create 
     @new_file = FiledbFile.new { |f|
       f.user_id       = session[:userid]
@@ -105,11 +111,13 @@ class FileController < ApplicationController
     @new_file_data.save
     redirect_to :action => :index
   end 
+
   def review 
     redirect_to :action => :categories unless is_adm?
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     @unapproved = FiledbFile.find(:all, :only_unapproved => true)
   end 
+
   def approve 
     render :nothing unless is_adm?
     @categories   = FiledbCategory.find :all, :order => 'cat_order'
@@ -126,21 +134,25 @@ class FileController < ApplicationController
     f.approve(@user, param_hash)
     expire_fragment(:controller => 'file', :action => 'latest')
   end 
+
   def unapprove 
     render :nothing unless is_adm?
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     FiledbFile.unapprove(params[:id].to_i)
     expire_fragment(:controller => 'file', :action => 'latest')
   end 
+
   def delete 
     render :nothing unless is_adm?
     id = params[:id].to_i
     @file = FiledbFile.find(id, :with_unapproved => true)
     @file.destroy
   end 
+
   def show_icon 
     render :partial => 'icon', :locals => { :icon => params[:icon] }
   end 
+
   def search 
     words = params[:file].to_s.scan_words
     start = params[:start].to_i
@@ -161,16 +173,19 @@ class FileController < ApplicationController
         :limit           => @opts[:ppp],
         :order           => order_clause(order)
       )
-      @location = [ 'File', :search_results ]
+      @location = @results
       render :action => 'results'
     end
   end 
+
   def css 
     headers["Content-Type"] = 'text/css; charset = utf-8'
     @theme_name             = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
   end 
+
   private
+
   def is_adm?(user=@user) 
     begin
       Group.include?(['Group', FILEDB_ADM_GROUP], user)
@@ -178,6 +193,7 @@ class FileController < ApplicationController
       return false
     end
   end 
+
   def order_clause(order) 
     case order
     when :name
@@ -194,7 +210,9 @@ class FileController < ApplicationController
       order_clause = 'file_name'
     end
   end 
+
   def init 
     @page_title = "Area Materiali studentibicocca.it"
   end 
+
 end

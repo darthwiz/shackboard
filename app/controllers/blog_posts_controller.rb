@@ -9,7 +9,7 @@ class BlogPostsController < ApplicationController
     @blog       = post.blog
     @posts      = [ post ]
     @page_title = post.title || post.blog.title
-    @location   = [ 'Blog', @blog ]
+    @location   = post
     render :template => '/blogs/show'
     @blog.increment! :view_count
   end

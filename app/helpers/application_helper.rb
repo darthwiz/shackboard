@@ -202,46 +202,28 @@ module ApplicationHelper
       unless @location == [ 'File', :upload ]
   end
 
-  def form_login
-    s = form_tag({ :controller => 'login', :action => 'login' },
-      { :method => 'post' })
-    usn  = content_tag('div', "Username", :class => 'label')
-    usn += text_field 'user', 'username', :size => 16
-    pwd  = content_tag('div', "Password", :class => 'label')
-    pwd += password_field_tag 'user[password]', nil, :size => 16,
-      :id => 'user_password'
-    btn  = submit_tag 'login'
-    s   += content_tag('div', usn, :class => 'username')
-    s   += content_tag('div', pwd, :class => 'password')
-    s   += link_user_register
-    s   += btn
-    s   += '</form>' # XXX
-    content_tag('div', s, :class => 'login')
-  end
-
   def page_trail(loc=@location, opts={})
-    return unless (loc.is_a?(Array) && loc.length >= 2)
-    trail = [ ['Portale', { :controller => 'welcome', :action => 'index' } ] ]
-    s = ""
-    case loc[0]
-    when 'Pm'    then trail += page_trail_Pm(loc)
-    when 'Draft' then trail += page_trail_Draft(loc)
-    when 'Forum' then trail += page_trail_Forum(loc)
-    when 'Topic' then trail += page_trail_Topic(loc)
-    when 'File'  then trail += page_trail_File(loc)
-    when 'Blog'  then trail += page_trail_Blog(loc)
-    else return
+    s = link_to('Portale', root_path)
+    case loc.class.to_s
+    when 'Array'
+      method_name = ('page_trail_' + loc.first.class.to_s.underscore.pluralize).to_sym
+    else
+      method_name = ('page_trail_' + loc.class.to_s.underscore).to_sym
     end
-    (0...trail.length).each do |i|
-      el    = trail[i]
-      el[0] = cleanup(el[0])
-      if el[1].empty?
-        s += content_tag('span', el[0], :class => 'current_page')
+    if ENV['RAILS_ENV'] == 'development'
+      puts "****************************************"
+      puts "calling #{method_name}"
+      puts "****************************************"
+    end
+    trail = nil
+    trail = self.send(method_name, loc, opts) if self.respond_to?(method_name)
+    s    += ' &gt; ' + trail.collect { |i|
+      if i[1].blank?
+        content_tag('span', cleanup(i[0]), :class => 'current_location')
       else
-        s += link_to(el[0], el[1])
+        link_to(cleanup(i[0]), i[1])
       end
-      s += " &gt; " if i < trail.length - 1
-    end
+    }.join(' &gt; ') if trail.is_a? Array
     content_tag('span', s, :class => 'page_trail')
   end
 

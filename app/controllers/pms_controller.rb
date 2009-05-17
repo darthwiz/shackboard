@@ -21,7 +21,7 @@ class PmsController < ApplicationController
                        :current     => start,
                        :ipp         => ppp,
                        :extra_links => [ :first, :forward, :back, :last ] }
-    @location = [ 'Pm', folder ]
+    @location = @pms
     render :layout => 'forum'
   end 
 
@@ -75,7 +75,7 @@ class PmsController < ApplicationController
       @draft.save!
     end
     @page_title = 'Nuovo messaggio privato'
-    @location = [ 'Pm', :new ]
+    @location = @pm
     render '/posts/new', :layout => 'forum'
   end 
 

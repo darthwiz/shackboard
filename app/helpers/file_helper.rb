@@ -1,8 +1,10 @@
 module FileHelper
-  def is_adm?(user=@user) # {{{
+
+  def is_adm?(user=@user)
     @controller.send(:is_adm?, user)
-  end # }}}
-  def icon_selector(object, method, icon=nil) # {{{
+  end
+
+  def icon_selector(object, method, icon=nil)
     s = "<select id='#{object}_#{method}' name='#{object}[#{method}]'>\n"
     FILEDB_ICONS[1].each do |i|
       s << "  <option value='#{i[1]}'"
@@ -10,16 +12,18 @@ module FileHelper
       s << ">#{i[0]}</option>\n"
     end
     s << "</select>\n"
-  end # }}}
-  def icon(filename) # {{{
+  end
+
+  def icon(filename)
     caption = nil
     FILEDB_ICONS[1].each do |i|
       caption = i[0] if filename == i[1]
     end
     filename = '' unless caption
     "<img src='#{FILEDB_ICONS[0]}#{filename}' alt='#{caption}'/>"
-  end # }}}
-  def order_link(text, field) # {{{
+  end
+
+  def order_link(text, field)
     fields = [:name, :description, :category, :author, :downloads, :uploader]
     order  = nil
     order  = field if fields.include?(field)
@@ -28,23 +32,31 @@ module FileHelper
                     :file       => params[:file],
                     :start      => params[:start],
                     :order      => order } )
-  end # }}}
-  def page_trail_File(loc) # {{{
+  end
+
+  def page_trail_filedb_file(loc, opts={})
     trail  = []
-    loc    = loc[1]
-    if loc == :categories
-      trail << [ 'Area file', {} ]
+    trail << [ 'Materiali', {:controller => 'file', :action => 'categories'} ]
+    if loc.new_record?
+      trail << [ "caricamento nuovo file", {} ]
     else
-      trail << [ 'Area file', {:controller => 'file', :action => 'categories'} ]
+      trail << [ loc.category.name, {:controller => 'file', :action => 'list', :id => loc.category.id} ]
+      trail << [ "download di \"#{loc.file_name}\"", {} ]
     end
-    if loc == :confirm_license
-      trail << [ @file.category.name, {:controller => 'file', :action => 'list',
-        :id => @file.category.id} ]
-      trail << [ "download di \"#{@file.file_name}\"", {} ] 
-    end
-    trail << [ 'caricamento nuovo file', {} ] if loc == :upload
-    trail << [ 'risultati ricerca', {} ]      if loc == :search_results
-    trail << [ loc.cat_name, {} ]             if loc.is_a? FiledbCategory
     trail
-  end # }}}
+  end
+
+  def page_trail_filedb_category(loc, opts={})
+    trail  = []
+    trail << [ 'Materiali', {:controller => 'file', :action => 'categories'} ]
+    trail << [ loc.name, {} ]
+    trail
+  end
+
+  def page_trail_filedb_categories(loc, opts={})
+    trail  = []
+    trail << [ 'Materiali', {} ]
+    trail
+  end
+
 end
