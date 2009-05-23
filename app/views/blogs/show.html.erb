@@ -12,6 +12,9 @@
         <div class="author">
           di <span class="username"><%=cleanup(@blog.user.username)%></span>
         </div>
+        <div class="description">
+          <%=cleanup(@blog.description)%>
+        </div>
       </div>
     </div>
     <%=render :partial => '/blog_posts/editable_list', :locals => { :posts => @posts }%>

@@ -12,7 +12,7 @@ username = p.user.username
 </div>
 <%if p.is_a?(BlogPost)%>
 <div class="permalink">
-  <%=link_to 'permalink', seo_blog_post_path(:username => username, :id => p, :seo => seo(p.title))%>
+  <%=link_to 'permalink', seo_blog_post_path(:username => username, :id => p, :slug => slugify(p.title))%>
 </div>
 <%end%>
 <div class="operations">

@@ -5,7 +5,7 @@
     <%username = cleanup(i.user.username)
       title    = cleanup(i.title.to_s + ' (' + username + ')')
       title    = title.empty? ? content_tag('em', 'nessun titolo') : title-%>
-    <%=link_to title, seo_blog_post_path(:username => username, :id => i, :seo => seo(i.title))%>
+    <%=link_to title, seo_blog_post_path(:username => username, :id => i, :slug => slugify(i.title))%>
   </li>
   <%end%>
 </ul>

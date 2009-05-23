@@ -102,10 +102,15 @@ div#forum div.quote div.quote div.quote {
 table.themed {
   background-color: <%=t.bordercolor%>;
 }
-table.themed td.top {
+table.themed td.top,
+table.themed th {
   background-color: <%=t.top%>;
 }
-
+table.themed td.themed {
+  background-color: <%=t.altbg1%>;
+  font-family: Verdana, sans-serif;
+  font-size: 13px;
+}
 /* FORUM-SPECIFIC                           */
 /* ======================================== */
 div#forum div.post_updated {
@@ -632,6 +637,9 @@ li.blog_comment div.author span.author {
 }
 #blog-header div.author {
   font-style: italic;
+}
+#blog-header div.description {
+  margin-top: 1em;
 }
 div#blogs ul#category_list {
   margin: 0 0 0 1.5em;

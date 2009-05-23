@@ -33,16 +33,21 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :blogs, :path_prefix => 'blog', :has_many => :blog_posts
   map.resources :blog_posts, :path_prefix => 'blog', :has_many => :blog_comments
   map.resources :blog_comments, :path_prefix => 'blog'
+  map.resources :cms_pages, :path_prefix => 'cms'
   map.resources :smileys
+  map.namespace(:admin) do |admin|
+    admin.resources :cms_pages 
+  end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   # map.root :controller => "welcome"
   map.root :controller => 'welcome'
 
   map.full_topic '/forum/topics/full/:id.:format', :controller => 'topics', :action => 'full'
+  map.css        '/css/:name.:format', :controller => 'css', :action => 'view'
 
   # SEO routes
-  map.seo_blog_post 'blogs/:username/:id/:seo', :controller => 'blog_posts', :action => 'show', :requirements => { :id => /[0-9]+/ }
+  map.seo_blog_post 'blogs/:username/:id/:slug', :controller => 'blog_posts', :action => 'show', :requirements => { :id => /[0-9]+/ }
   map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9]+/, :blog_label => /.*/ }
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
