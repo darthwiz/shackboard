@@ -4,7 +4,7 @@ class StaticContent < ActiveRecord::Base
   belongs_to :user, :foreign_key => "updated_by"
   
   def save
-    self.text = Sanitizer.sanitize_html(self.text)
+    #self.text = Sanitizer.sanitize_html(self.text)
     super
   end
 

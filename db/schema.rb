@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090427083531) do
+ActiveRecord::Schema.define(:version => 20090523161728) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -298,6 +298,21 @@ ActiveRecord::Schema.define(:version => 20090427083531) do
 
   add_index "xmb_categories", ["owner_class", "owner_id"], :name => "index_xmb_categories_on_owner_class_and_owner_id"
   add_index "xmb_categories", ["user_id", "label"], :name => "index_xmb_categories_on_user_id_and_label"
+
+  create_table "xmb_cms_pages", :force => true do |t|
+    t.text     "text"
+    t.string   "title",      :limit => 80, :default => "",   :null => false
+    t.string   "slug",       :limit => 80, :default => "",   :null => false
+    t.string   "format",     :limit => 10, :default => "bb", :null => false
+    t.integer  "created_by",                                 :null => false
+    t.integer  "updated_by"
+    t.integer  "deleted_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "xmb_cms_pages", ["slug"], :name => "slug", :unique => true
 
   create_table "xmb_drafts", :force => true do |t|
     t.integer "user_id"
