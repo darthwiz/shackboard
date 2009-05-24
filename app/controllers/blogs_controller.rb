@@ -19,7 +19,7 @@ class BlogsController < ApplicationController
       users_with_blogs.each do |u|
         @blogs_by_user << [ u, blogs.select { |i| i.user_id == u.id } ]
       end
-      @blogs_by_user.sort! { |b, a| a[1].first.last_post_at <=> b[1].first.last_post_at }
+      @blogs_by_user.sort! { |b, a| a[1].first.last_post_at.to_i <=> b[1].first.last_post_at.to_i }
       @location = @blogs_by_user.first[1]
     end
   end
