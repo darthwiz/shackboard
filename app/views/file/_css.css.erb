@@ -1,14 +1,14 @@
 <% t = Theme.find_by_name(@theme_name) || Theme.new %>
 /* Theme: <%=t.name.inspect if t%> */
-<%=render :partial => '/layouts/main_css', :locals => { :t => t } %>
-<%=render :partial => '/users/login_box_css', :locals => { :t => t } %>
-a, a:visited {<%#{{{%>
+<%#render :partial => '/layouts/main_css', :locals => { :t => t } %>
+<%#render :partial => '/users/login_box_css', :locals => { :t => t } %>
+a, a:visited {
   color: <%=t.link%>;
-}<%#}}}%>
-.vmid {<%#{{{%>
+}
+.vmid {
   display: table-cell;
   vertical-align: middle;
-}<%#}}}%>
+}
 /* header {{{ */
 h1 {
   margin-left: auto;
@@ -238,13 +238,13 @@ div#footer {
   text-align: center;
 }
 /* }}} */
-div.spacer {<%#{{{%>
+div.spacer {
   clear: both;
-}<%#}}}%>
-a, a:visited {<%#{{{%>
+}
+a, a:visited {
   text-decoration: none;
   color: <%=t.link%>;
-}<%#}}}%>
-a:hover {<%#{{{%>
+}
+a:hover {
   text-decoration: underline;
-}<%#}}}%>
+}

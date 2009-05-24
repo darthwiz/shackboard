@@ -111,6 +111,248 @@ table.themed td.themed {
   font-family: Verdana, sans-serif;
   font-size: 13px;
 }
+
+
+
+/* HOME PAGE */
+
+div.online_users {
+  margin: .5em;
+}
+div#portal_main {
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: <%=t.altbg1%>;
+  border: 1px solid <%=t.bordercolor%>;
+  font-size: 11px;
+}
+div#title {
+  float: left;
+  margin-left: .5em;
+  margin-right: .5em;
+  width: 375px;
+  height: 100px;
+  text-align: center;
+}
+div#portal_left {
+  width: 30%;
+  float: left;
+  clear: left;
+  overflow: hidden;
+}
+div#portal_center {
+  width: 40%;
+  float: left;
+  overflow: hidden;
+}
+div#portal_right {
+  width: 30%;
+  float: left;
+  clear: right;
+  overflow: hidden;
+}
+div#asb_icon {
+  float: left;
+  margin-right: 1em;
+}
+#portal_main div#login_box {
+  float: right;
+  margin-right: .5em;
+}
+div#icons,
+#portal_main div#login_box,
+div#asb_icon,
+div#title {
+  margin-top: .5em;
+}
+div.spacer {
+  clear: both;
+}
+h1 {
+  color: <%=t.header%>;
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+span#subtitle {
+  color: <%=t.headertext%>;
+  background-color: <%=t.header%>;
+  padding-left: .5em;
+  padding-right: .5em;
+  padding-top: .1em;
+  padding-bottom: .1em;
+}
+div#unread_messages {
+  margin-left: .5em;
+}
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+ul.column h2 {
+  color: <%=t.altbg2%>;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+ul.column h3 {
+  font-weight: bold;
+  margin: 0;
+}
+ul.column li {
+  padding: .5em;
+}
+ul.column li ul li {
+  color: <%=t.text%>;
+  background-color: <%=t.altbg2%>;
+}
+li#iniziative ul li img {
+  float: left;
+  margin-right: .7em;
+}
+ul.column li ul li div {
+  clear: both;
+}
+li.forum_name {
+  text-align: center;
+}
+a, a:visited {
+  text-decoration: none;
+  color: <%=t.link%>;
+}
+ul.latest_topics li,
+ul.blog_posts li {
+  margin: 0;
+  padding: 0;
+  padding-left: .5em;
+  overflow: hidden;
+  height: 1.3em;
+}
+ul.latest_topics li a {
+  font-weight: normal;
+  display: block;
+}
+ul.latest_topics div.topic {
+  width: 77%;
+  height: 1.3em;
+  overflow: hidden;
+}
+ul.latest_topics div.lastposter {
+  width: 20%;
+  margin-left: 78%;
+  height: 1.3em;
+  overflow: hidden;
+  position: relative;
+  top: -1.3em;
+  text-align: right;
+}
+div.lastposter a, div.lastposter a:visited {
+  color: <%=t.text%>;
+  display: block;
+}
+div.lastposter a:hover {
+  color: yellow;
+}
+#portal_main h2 a,
+#portal_main h2 a:visited {
+  color: <%=t.headertext%>;
+  <%unless t.name == 'studentibicocca'%>background-color: <%=t.header%>;<%end%>
+  display: block;
+  padding-left: .5em;
+  border-bottom: none;
+}
+#portal_main h3 a {
+  display: block;
+  background-color: <%=t.catcolor%>;
+  font-size: <%=t.fontsize%>;
+}
+#portal_main ul.announcement li {
+  padding: 0;
+  padding-top: .3em;
+  padding-bottom: .2em;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+#portal_main ul.announcement li a,
+#portal_main ul.blog_posts li a {
+  display: block;
+}
+#portal_main li.static_content fieldset textarea {
+  width: 100%;
+}
+img {
+  border: 0;
+}
+a:hover {
+  background-color: blue;
+  color: yellow;
+  text-decoration: none;
+}
+#portal_main h2 a:hover,
+#portal_main h3 a:hover {
+  font-weight: bold;
+  color: yellow;
+  background-color: blue;
+}
+
+
+
+
+
+
+
+/* LOGIN BOX */
+
+div#login_box {
+  width: 20em;
+  background-color: <%=t.altbg2%>;
+  padding: .5em;
+  border: 1px solid <%=t.bordercolor%>;
+  float: right;
+}
+div#login_box ul {
+  padding-left: 1.5em;
+  margin: 0;
+  list-style-type: disc;
+}
+div#login_box div.login {
+  text-align: right;
+  padding: .5em;
+}
+div#login_box, div#login_box input {
+  font-size: 11px;
+}
+div#login_box div.label {
+  float: left;
+  text-align: right;
+  width: 6em;
+  padding-right: .5em;
+}
+div#login_box div.buttons {
+  margin-top: .5em;
+  text-align: right;
+}
+div#login_box div.buttons a {
+  background-color: <%=t.altbg1%>;
+  padding-left: .5em;
+  padding-right: .5em;
+  border: 1px solid <%=t.bordercolor%>;
+  color: <%=t.text%>;
+  line-height: 1.8em;
+  text-decoration: none;
+}
+div#login_box div.buttons a:hover {
+  background-color: <%=t.altbg2%>;
+  text-decoration: none;
+}
+div#login_box div.user_register {
+  float: left;
+}
+
+
+
+
 /* FORUM-SPECIFIC                           */
 /* ======================================== */
 div#forum div.post_updated {
@@ -510,6 +752,15 @@ ul.user_blog_list {
   margin: 0;
   padding: 0;
 }
+ul.blog_users_list {
+  position: relative;
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding-top: 0.6em;
+  padding-left: 1em;
+  padding-right: 1em;
+  overflow: auto;
+}
 ul.blog_users_list li.blog_user {
   background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
@@ -583,15 +834,6 @@ div#blogs div#navigation ul li a:hover {
   background-color: blue;
   color: yellow;
   text-decoration: none;
-}
-div#blogs div#content_box { /* this is where the main content goes */
-  position: relative;
-  border: 1px solid <%=t.bordercolor%>;
-  background-color: <%=t.altbg1%>;
-  padding-top: 0.6em;
-  padding-left: 1em;
-  padding-right: 1em;
-  overflow: auto;
 }
 div#blogs div.breadcrumbs,
 div#blogs div.breadcrumbs_bottom {
@@ -820,6 +1062,19 @@ div#cms div.author span.author {
 }
 
 
+
+/* FILE AREA */
+
+
+
+
+
+
+
+
+
+
+
 /* GENERIC */
 
 a.inexistent {
@@ -855,3 +1110,32 @@ div.ok {
 .ok strong {
   color: green;
 }
+
+
+
+
+
+<% if t.name == "studentibicocca" %>
+#portal_main div#title {
+  background: url(http://www.studentibicocca.it/portale/immagini/header_stubi.png);
+  width: 620px;
+  height: 108px;
+}
+div#portal_main {
+  background: url(http://www.studentibicocca.it/portale/immagini/stripes_orange.png);
+}
+#portal_main div#asb_icon {
+  display: none;
+}
+#portal_main div#title h1,
+#portal_main div#title span {
+  display: none;
+}
+#portal_main h2 a,
+#portal_main h2 a:visited {
+  color: yellow;
+}
+#portal_main h3 a {
+  background-color: #ffd000;
+}
+<% end %>

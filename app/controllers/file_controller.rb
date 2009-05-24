@@ -2,6 +2,7 @@ class FileController < ApplicationController
   before_filter :init
   skip_before_filter :load_defaults, :authenticate, :update_online,
     :set_stylesheet, :only => [ :css ]
+  layout 'file_area'
 
   def categories 
     @numfiles   = {}
