@@ -3,6 +3,8 @@
   =BbText.new(@cms_page.text, Smiley.all(@cms_page.creator)).to_html(:controller => self)
   .author
     Modificato da
-    %span.author= cleanup(@cms_page.updater.username)
+    %span.author= link_to cleanup(@cms_page.updater.username), user_path(@cms_page.updater)
     il
     %span.date= @cms_page.updated_at.strftime("%d/%m/%Y, %H.%m")
+-if @cms_page.can_edit?(@user)
+  .edit_cms_page_link= link_to 'modifica pagina', edit_admin_cms_page_path(@cms_page)
