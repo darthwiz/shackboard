@@ -39,7 +39,7 @@ class BbText
     while s =~ /\[spoiler\](.*?)\[\/spoiler\]/im
       s.gsub!(/\[spoiler\](.*?)\[\/spoiler\]/im) do |match|
         spoiler_id += 1
-        dom_id = "spoiler_#{MD5.md5(match).to_s[0..4]}_#{spoiler_id}"
+        dom_id = "spoiler_#{spoiler_base}_#{MD5.md5(match).to_s[0..4]}_#{spoiler_id}"
         "<div class=\"spoiler\">
           <a class=\"spoiler\" href=\"javascript:void(0);\" onclick=\"e = document.getElementById('#{dom_id}'); if (e.style.display == 'none') { e.style.display = ''} else { e.style.display = 'none' }\">spoiler</a>
           <div style=\"display: none;\" id=\"#{dom_id}\">
@@ -50,9 +50,10 @@ class BbText
     end
     s.gsub!(/(^|[>[:space:]\n])([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])([<[:space:]\n]|$)/, "\\1<a href=\"\\2://\\3\\4\" target=\"_blank\">\\2://\\3\\4</a>\\5")
     s.gsub!(/\[url=([^\]]*)\](.*?)\[\/url\]/, "<a href=\"\\1\" title=\"\\1\">\\2</a>")
+    s.gsub!(/\[color=([^\]]*)\](.*?)\[\/color\]/, "<span style=\"color: \\1;\">\\2</span>")
     s.gsub!(/\[cms=([^\]]*)\](.*?)\[\/cms\]/) do |match| 
       if controller
-        controller.link_to_cms_page($2, $1) }
+        controller.link_to_cms_page($2, $1)
       else
         $2
       end

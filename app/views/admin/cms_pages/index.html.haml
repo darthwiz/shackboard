@@ -1,4 +1,6 @@
 -can_edit_pages = CmsPage.can_edit? @user
+.new_cms_page_link
+  =link_to 'nuova pagina', new_admin_cms_page_path
 %table#cms_pages_index.themed{ :width => "100%",  :cellspacing => 1, :cellpadding => 3 }
   %tr
     %th id
@@ -20,5 +22,5 @@
       %td.themed{ :align => 'center', :style => 'white-space: nowrap;' }= p.created_at.strftime("%d/%m/%Y, %H.%M")
       -if can_edit_pages
         %td.themed{ :align => 'center' }= link_to 'elimina', admin_cms_page_path(p), :method => :delete, :confirm => "Vuoi veramente cancellare la pagina \"#{p.slug}\"?"
-#new_cms_page_link
+.new_cms_page_link
   =link_to 'nuova pagina', new_admin_cms_page_path

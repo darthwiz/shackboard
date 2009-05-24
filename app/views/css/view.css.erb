@@ -568,9 +568,7 @@ div#blogs div#content_box { /* this is where the main content goes */
   overflow: auto;
 }
 div#blogs div.breadcrumbs,
-div#blogs div.breadcrumbs_bottom,
-div#cms div.breadcrumbs,
-div#cms div.breadcrumbs_bottom {
+div#blogs div.breadcrumbs_bottom {
   background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
   padding: 0.5em;
@@ -764,6 +762,25 @@ div#cms_admin form.new_cms_page textarea,
 div#cms_admin form.edit_cms_page textarea {
   float: left;
   width: 90%;
+}
+div#cms_admin div.new_cms_page_link {
+  text-align: right;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+div#cms div.breadcrumbs,
+div#cms div.breadcrumbs_bottom,
+div#cms_admin div.breadcrumbs,
+div#cms_admin div.breadcrumbs_bottom {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  top: 0.4em;
+  clear: both;
 }
 
 

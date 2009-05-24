@@ -4,6 +4,7 @@ class Admin::CmsPagesController < Admin::ApplicationController
 
   def index
     @cms_pages = CmsPage.all(:order => :id)
+    @location  = @cms_pages
   end
 
   def new
@@ -20,7 +21,7 @@ class Admin::CmsPagesController < Admin::ApplicationController
     @cms_page.created_by = @user.id
     @cms_page.updated_by = @user.id
     if @cms_page.save
-      redirect_to cms_page_path(@cms_page)
+      redirect_to cms_page_path(@cms_page.slug)
     else
       render :action => :edit
     end
