@@ -28,7 +28,9 @@ class Admin::CmsPagesController < Admin::ApplicationController
   end
 
   def update
-    @cms_page = CmsPage.find(params[:id])
+    @cms_page                      = CmsPage.find(params[:id])
+    params[:cms_page][:updated_by] = @user.id
+    logger.debug params.inspect
     if @cms_page.update_attributes(params[:cms_page])
       redirect_to cms_page_path(@cms_page.slug)
     else

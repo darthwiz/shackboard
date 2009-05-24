@@ -1,3 +1,8 @@
 #cms_page
   %h1= cleanup(@cms_page.title)
   =BbText.new(@cms_page.text, Smiley.all(@cms_page.creator)).to_html(:controller => self)
+  .author
+    Modificato da
+    %span.author= cleanup(@cms_page.updater.username)
+    il
+    %span.date= @cms_page.updated_at.strftime("%d/%m/%Y, %H.%m")

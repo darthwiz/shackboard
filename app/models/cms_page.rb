@@ -1,6 +1,6 @@
 class CmsPage < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User', :foreign_key => :created_by
-  belongs_to :updater, :class_name => 'User', :foreign_key => :modified_by
+  belongs_to :updater, :class_name => 'User', :foreign_key => :updated_by
   validates_length_of :title, :minimum => 1
   validates_format_of :slug, :with => /\A[a-z0-9-]+\Z/
   validates_uniqueness_of :slug
