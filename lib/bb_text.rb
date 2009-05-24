@@ -1,5 +1,6 @@
 class BbText
   include ActionView::Helpers::TextHelper
+  include ApplicationHelper
   def initialize(text='', smileys=[])
     @text    = text
     @smileys = smileys
@@ -8,6 +9,7 @@ class BbText
   def to_html(params={})
     require 'md5'
     s            = Sanitizer.sanitize_bb(@text)
+    controller   = params[:controller]
     spoiler_base = params[:spoiler_id].to_i
     spoiler_id   = 0
     s.gsub!(/&([^#]+)/, "&amp;\\1")
@@ -48,6 +50,13 @@ class BbText
     end
     s.gsub!(/(^|[>[:space:]\n])([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])([<[:space:]\n]|$)/, "\\1<a href=\"\\2://\\3\\4\" target=\"_blank\">\\2://\\3\\4</a>\\5")
     s.gsub!(/\[url=([^\]]*)\](.*?)\[\/url\]/, "<a href=\"\\1\" title=\"\\1\">\\2</a>")
+    s.gsub!(/\[cms=([^\]]*)\](.*?)\[\/cms\]/) do |match| 
+      if controller
+        controller.link_to_cms_page($2, $1) }
+      else
+        $2
+      end
+    end
     @smileys.each do |sm|
       s.gsub!(/#{Regexp.escape(sm.code)}/, " <img src=\"#{sm.url}\" alt=\"\" /> ") unless sm.code.empty?
     end

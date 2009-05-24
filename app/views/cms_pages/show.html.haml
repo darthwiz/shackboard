@@ -1,0 +1,3 @@
+#cms_page
+  %h1= cleanup(@cms_page.title)
+  =BbText.new(@cms_page.text, Smiley.all(@cms_page.creator)).to_html(:controller => self)

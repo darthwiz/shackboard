@@ -1,0 +1,24 @@
+-can_edit_pages = CmsPage.can_edit? @user
+%table#cms_pages_index.themed{ :width => "100%",  :cellspacing => 1, :cellpadding => 3 }
+  %tr
+    %th id
+    %th titolo
+    %th slug
+    %th autore
+    %th{ :width => '1%' } data
+    -if can_edit_pages
+      %th{ :width => '1%' } azioni
+  -@cms_pages.each do |p|
+    %tr
+      %td.themed{ :align => 'center' }= p.id
+      -if can_edit_pages
+        %td.themed= link_to cleanup(p.title), edit_admin_cms_page_path(p)
+      -else
+        %td.themed= link_to cleanup(p.title), cms_page_path(p.slug)
+      %td.themed= p.slug
+      %td.themed= link_to cleanup(p.creator.username), p.creator
+      %td.themed{ :align => 'center', :style => 'white-space: nowrap;' }= p.created_at.strftime("%d/%m/%Y, %H.%M")
+      -if can_edit_pages
+        %td.themed{ :align => 'center' }= link_to 'elimina', admin_cms_page_path(p), :method => :delete, :confirm => "Vuoi veramente cancellare la pagina \"#{p.slug}\"?"
+#new_cms_page_link
+  =link_to 'nuova pagina', new_admin_cms_page_path

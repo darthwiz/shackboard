@@ -568,7 +568,9 @@ div#blogs div#content_box { /* this is where the main content goes */
   overflow: auto;
 }
 div#blogs div.breadcrumbs,
-div#blogs div.breadcrumbs_bottom {
+div#blogs div.breadcrumbs_bottom,
+div#cms div.breadcrumbs,
+div#cms div.breadcrumbs_bottom {
   background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
   padding: 0.5em;
@@ -729,6 +731,53 @@ form#new_user dt {
   float: left;
   width: 10em;
   clear: left;
+}
+
+/* CMS */
+
+#cms_page h1 {
+  margin-top: 0;
+}
+div#cms_admin {
+  margin-top: 1.5em;
+}
+div#cms_admin form.edit_cms_page,
+div#cms_admin form.new_cms_page,
+div#cms div#content_box div#cms_page {
+  margin-top: 1.5em;
+  overflow: auto;
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding: 1em;
+}
+div#cms_admin form.new_cms_page div.row,
+div#cms_admin form.edit_cms_page div.row {
+  overflow: auto;
+  clear: both;
+}
+div#cms_admin form.new_cms_page label,
+div#cms_admin form.edit_cms_page label {
+  float: left;
+  width: 4em;
+}
+div#cms_admin form.new_cms_page textarea,
+div#cms_admin form.edit_cms_page textarea {
+  float: left;
+  width: 90%;
+}
+
+
+/* GENERIC */
+
+a.inexistent {
+  border-bottom: 1px dashed <%=t.link%>;
+}
+div.fieldWithErrors {
+  display: inline;
+}
+div.fieldWithErrors input,
+div.fieldWithErrors textarea {
+  border: 1px solid red;
 }
 div.errors {
   margin-top: 1em;

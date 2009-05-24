@@ -55,7 +55,7 @@
             <tr bgcolor="<%=bgcolor%>">
               <td height="120" valign="top" colspan="2">
                 <div class="maxpostwidth">
-                  <%=BbText.new(p.message, p.cached_smileys).to_html%>
+                  <%=BbText.new(p.message, p.cached_smileys).to_html(:controller => self)%>
                   <%unless p.cached_user.sig.to_s.empty?%>
                   <p>&nbsp;</p>____________________<br />
                   <div class="signature">

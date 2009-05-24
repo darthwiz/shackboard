@@ -4,7 +4,7 @@ username = p.user.username
 -%>
 <%unless p.title.to_s.empty?%><h2><%=cleanup(p.title)%></h2><%end%>
 <div class="text">
-  <%=BbText.new(p.text, Smiley.all(p.user)).to_html%>
+  <%=BbText.new(p.text, Smiley.all(p.user)).to_html(:controller => self)%>
 </div>
 <div class="author">
   scritto da <span class="author"><%=cleanup(username)%></span>

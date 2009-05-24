@@ -1,5 +1,5 @@
 <div class="message">
   <div>
-    <%=BbText.new(@text[:text], Smiley.all(@user)).to_html%>
+    <%=BbText.new(@text[:text], Smiley.all(@user)).to_html(:controller => self)%>
   </div>
 </div>

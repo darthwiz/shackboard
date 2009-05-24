@@ -42,7 +42,7 @@ what = obj.class.to_s.underscore
       <div class="content">
         <div id="<%=what%>_preview">
           <div class="message">
-            <%=BbText.new(obj.message, Smiley.all(@user)).to_html%>
+            <%=BbText.new(obj.message, Smiley.all(@user)).to_html(:controller => self)%>
           </div>
         </div>
       </div>

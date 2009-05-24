@@ -113,6 +113,21 @@ module ApplicationHelper
     content_tag('span', l, :class => 'button post_new')
   end
 
+  def link_to_cms_page(text, slug, user=@user)
+    page = CmsPage.find_by_slug(slug)
+    if page
+      html = link_to(text, cms_page_path(slug), :title => page.title)
+    else
+      html = text
+      html = link_to(
+        text,
+        new_admin_cms_page_path(page, :cms_page => { :slug => slug }),
+        :class => 'inexistent'
+      ) if CmsPage.can_edit?(user)
+    end
+    html
+  end
+
   def link_topic_new(ctx=@forum)
     raise TypeError unless ctx.is_a? Forum
     l = link_to 'nuova discussione',
@@ -211,9 +226,7 @@ module ApplicationHelper
       method_name = ('page_trail_' + loc.class.to_s.underscore).to_sym
     end
     if ENV['RAILS_ENV'] == 'development'
-      puts "****************************************"
-      puts "calling #{method_name}"
-      puts "****************************************"
+      logger.info "** breadcrumb helper: calling #{method_name}"
     end
     trail = nil
     trail = self.send(method_name, loc, opts) if self.respond_to?(method_name)

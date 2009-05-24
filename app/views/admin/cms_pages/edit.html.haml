@@ -1,0 +1,19 @@
+-unless @cms_page.errors.empty?
+  .errors
+    %strong Attenzione:
+    %ul
+      -@cms_page.errors.each do |attr, msg|
+        %li= "#{attr} #{msg}"
+
+-form_for [ :admin, @cms_page ] do |f|
+  .row
+    =f.label :title, 'Titolo:'
+    =f.text_field :title
+  .row
+    =f.label :slug, 'Slug:'
+    =f.text_field :slug
+  .row
+    =f.label :text, 'Testo:'
+    =f.text_area :text
+  .row
+    =f.submit 'Salva'
