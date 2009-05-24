@@ -24,10 +24,11 @@ username = p.user.username
         :method => :get,
         :html   => { :class => 'edit' }%>
       <%=link_to_remote 'del',
-        :update => domid(p),
-        :url    => blog_post_path(p),
-        :method => :delete,
-        :html   => { :class => 'delete' }%>
+        :update  => domid(p),
+        :url     => blog_post_path(p),
+        :method  => :delete,
+        :confirm => "Vuoi veramente cancellare questo post?",
+        :html    => { :class => 'delete' }%>
     <%elsif p.is_a?(BlogComment)%>
       <%=link_to_remote 'mod',
         :update => domid(p),
@@ -35,10 +36,11 @@ username = p.user.username
         :method => :get,
         :html   => { :class => 'edit' }%>
       <%=link_to_remote 'del',
-        :update => domid(p),
-        :url    => blog_comment_path(p),
-        :method => :delete,
-        :html   => { :class => 'delete' }%>
+        :update  => domid(p),
+        :url     => blog_comment_path(p),
+        :method  => :delete,
+        :confirm => "Vuoi veramente cancellare questo commento?",
+        :html    => { :class => 'delete' }%>
     <%end%>
   <%end%>
   <div class="comments_summary">

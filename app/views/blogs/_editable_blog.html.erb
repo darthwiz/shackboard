@@ -13,9 +13,10 @@
     :method => :get,
     :html   => { :class => 'edit' }%>
   <%=link_to_remote 'del',
-    :update => domid(blog),
-    :url    => blog_path(blog),
-    :method => :delete,
-    :html   => { :class => 'delete' }%>
+    :update  => domid(blog),
+    :url     => blog_path(blog),
+    :method  => :delete,
+    :confirm => "Vuoi veramente cancellare questo blog?",
+    :html    => { :class => 'delete' }%>
   </div>
   <%end%>
