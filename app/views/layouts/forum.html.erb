@@ -24,14 +24,12 @@ t   = @opts[:theme]
           <div class="spacer"></div>
           <%if @location%>
           <div id="breadcrumbs" class="breadcrumbs">
-            <%=render :partial => '/common/breadcrumbs'%>
+            <%=page_trail%>
           </div>
           <%end%>
-          <%unless cleanup(page_seq).empty?%>
           <div class="page-seq">
             <%=page_seq%>
           </div>
-          <%end%>
           <%=yield%>
           <div class="page-seq">
             <%=page_seq%>
