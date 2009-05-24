@@ -5,6 +5,6 @@
     Modificato da
     %span.author= link_to cleanup(@cms_page.updater.username), user_path(@cms_page.updater)
     il
-    %span.date= @cms_page.updated_at.strftime("%d/%m/%Y, %H.%m")
+    %span.date= @cms_page.updated_at.strftime("%d/%m/%Y, %H.%M")
 -if @cms_page.can_edit?(@user)
   .edit_cms_page_link= link_to 'modifica pagina', edit_admin_cms_page_path(@cms_page)
