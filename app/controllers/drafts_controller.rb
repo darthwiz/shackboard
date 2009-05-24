@@ -10,7 +10,7 @@ class DraftsController < ApplicationController
     offset        = ((start - 1)/ppp)*ppp
     limit         = ppp
     @drafts       = Draft.find_paged_for(@user, offset, limit)
-    @drafts_count = Draft.unsent_for(@user)
+    @drafts_count = Draft.count_unsent_for(@user)
     @pageseq_opts = { 
       :controller  => :draft,
       :action      => :index,

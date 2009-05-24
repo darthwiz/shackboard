@@ -170,42 +170,30 @@ module ApplicationHelper
       :folder => 'trash'}, {:class => 'pm_trash'}
   end
 
-  def link_pm_unread(user=@user)
-    count = Pm.unread_for(user)
+  def link_pm_unread(count)
     msg   = "Hai un messaggio privato non letto."        if count == 1
     msg   = "Hai #{count} messaggi privati non letti."   if count > 1
     link  = pms_path
     msg ? link_to(msg, link) : nil
   end
 
-  def link_blogs_unread(user=@user)
+  def link_blogs_unread(user, count)
     return nil unless user.is_a? User
-    count = BlogPost.count_unread_for(user)
     msg   = "Hai un commento non letto nei tuoi blog."       if count == 1
     msg   = "Hai #{count} commenti non letti nei tuoi blog." if count > 1
-    link  = { 
-      :controller => 'blog',
-      :action     => 'list',
-      :username   => user.username
-    }
-    link[:host]      = @host_forum if @host_forum
-    link[:only_path] = false if @host_forum
-    msg ? link_to(msg, link) : nil
+    msg ? link_to(msg, blog_list_path(:username => user.username)) : nil
   end
 
-  def link_draft_unsent(user=@user)
-    count = Draft.unsent_for(user)
+  def link_draft_unsent(count)
     msg   = "Hai una bozza non inviata."      if count == 1
     msg   = "Hai #{count} bozze non inviate." if count > 1
     link  = drafts_path
     msg ? link_to(msg, link) : nil
   end
 
-  def link_file_unapproved(user=@user)
-    return nil unless is_file_adm?(user)
-    n    = FiledbFile.count_unapproved
-    msg  = "C'è un nuovo file in attesa di approvazione."       if n == 1
-    msg  = "Ci sono #{n} nuovi file in attesa di approvazione." if n > 1
+  def link_file_unapproved(count)
+    msg  = "C'è un nuovo file in attesa di approvazione."           if count == 1
+    msg  = "Ci sono #{count} nuovi file in attesa di approvazione." if count > 1
     link = { :controller => 'file', :action => 'review' }
     link[:host]      = @host_filedb if @host_filedb
     link[:only_path] = false if @host_filedb

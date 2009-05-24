@@ -1,12 +1,14 @@
 <div id="login_box">
   <%if @user.is_a? User%>
     Benvenuto <strong><%=h @user.username%></strong>!
+    <%if @unread_pms_count > 0 || @unsent_drafts_count > 0 || @unapproved_files_count > 0 || @unread_blog_comments_count > 0%>
     <ul>
-      <%=content_tag('li', link_pm_unread)       if link_pm_unread%>
-      <%=content_tag('li', link_draft_unsent)    if link_draft_unsent%>
-      <%=content_tag('li', link_file_unapproved) if link_file_unapproved%>
-      <%=content_tag('li', link_blogs_unread)    if link_blogs_unread%>
+      <%=content_tag('li', link_pm_unread(@unread_pms_count))                     if @unread_pms_count           > 0%>
+      <%=content_tag('li', link_blogs_unread(@user, @unread_blog_comments_count)) if @unread_blog_comments_count > 0%>
+      <%=content_tag('li', link_draft_unsent(@unsent_drafts_count))               if @unsent_drafts_count        > 0%>
+      <%=content_tag('li', link_file_unapproved(@unapproved_files_count))         if @unapproved_files_count     > 0%>
     </ul>
+    <%end%>
     <div class="buttons">
       <%=link_to 'impostazioni', edit_user_path(@user)%>
       <%=link_pm_list%>

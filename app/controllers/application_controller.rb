@@ -30,6 +30,11 @@ class ApplicationController < ActionController::Base
     end
   end 
 
+  def is_file_adm?(user=@user)
+    return false unless user.is_a? User
+    FileController.new.send(:is_adm?, user)
+  end
+
   def load_defaults 
     @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
@@ -60,7 +65,7 @@ class ApplicationController < ActionController::Base
     end
     
     @opts = {}
-    if (@user) then
+    if @user
       # Custom user settings
       @opts[:ppp]   = @user.ppp.to_i || @post_block_size
       @opts[:tpp]   = @user.tpp.to_i || @post_block_size
@@ -76,6 +81,15 @@ class ApplicationController < ActionController::Base
       @opts[:tpp]   = @settings.topicperpage.to_i
       @opts[:theme] = Theme.find_by_name(@settings.theme)
     end
+
+    # personal info
+    if @user
+      @unread_pms_count           = Pm.count_unread_for(@user)
+      @unread_blog_comments_count = BlogPost.count_unread_for(@user)
+      @unsent_drafts_count        = Draft.count_unsent_for(@user)
+      @unapproved_files_count     = is_file_adm?(@user) ? FiledbFile.count_unapproved : 0
+    end
+
     Notifier.delivery_method = :sendmail
   end 
 

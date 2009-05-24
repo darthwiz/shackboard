@@ -37,7 +37,7 @@ class Pm < ActiveRecord::Base
     pm
   end
 
-  def self.unread_for(user)
+  def self.count_unread_for(user)
     raise TypeError unless user.is_a? User
     Pm.count(:conditions => ['msgto = ? AND status = ? AND folder = ?',
       user.username, 'new', 'inbox'])

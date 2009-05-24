@@ -12,6 +12,11 @@ can_post     = @topic.can_post?(@user)
       </div>
     </div>
     <%end%>
+    <%if can_post%>
+    <div style="text-align: right; font-size: 15px; font-weight: bold; margin: 1em;">
+      <%=link_to('Nuova risposta', new_topic_post_path(@topic))%>
+    </div>
+    <%end%>
     <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
       <tr>
         <td bgcolor="<%=t.bordercolor%>">
@@ -36,11 +41,8 @@ can_post     = @topic.can_post?(@user)
       )%>
     </div>
     <%end%>
-    <%if @topic.can_post?(@user)%>
+    <%if can_post%>
     <div style="text-align: right; font-size: 15px; font-weight: bold; margin: 1em;">
-      <%=link_to(
-        'Nuova risposta',
-        new_topic_post_path(@topic)
-      )%>
+      <%=link_to('Nuova risposta', new_topic_post_path(@topic))%>
     </div>
     <%end%>
