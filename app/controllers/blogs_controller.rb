@@ -2,15 +2,26 @@
 class BlogsController < ApplicationController
 
   def index
-    username   = params[:username]
-    @blog_user = User.find_by_username(username)
-    if @blog_user.is_a? User
-      @blogs = Blog.find(
-        :all,
-        :conditions => [ 'user_id = ?', @blog_user.id ]
-      )
+    username = params[:username]
+    if username
+      @blog_user = User.find_by_username(username)
+      if @blog_user.is_a? User
+        @blogs = Blog.find(
+          :all,
+          :conditions => [ 'user_id = ?', @blog_user.id ]
+        )
+      end
+      @location = @blog_user
+    else
+      blogs            = Blog.all(:order => 'user_id, last_post_at DESC')
+      users_with_blogs = User.find(blogs.collect(&:user_id).uniq)
+      @blogs_by_user   = []
+      users_with_blogs.each do |u|
+        @blogs_by_user << [ u, blogs.select { |i| i.user_id == u.id } ]
+      end
+      @blogs_by_user.sort! { |b, a| a[1].first.last_post_at <=> b[1].first.last_post_at }
+      @location = @blogs_by_user.first[1]
     end
-    @location = @blog_user
   end
 
   def show

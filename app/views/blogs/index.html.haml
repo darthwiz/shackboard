@@ -1,0 +1,18 @@
+-if @blogs_by_user
+  #blogs_list.content_box
+    %h1 Tutti i blog
+  %ul.blog_users_list
+    -@blogs_by_user.each do |bbu|
+      -user = bbu.shift
+      %li.blog_user
+        %h2= link_to cleanup(user.username), user
+        %ul.user_blog_list
+          -bbu.first.each do |blog|
+            %li.blog
+              %h3= link_to cleanup(blog.name), blog_view_path(:username => user.username, :blog_label => blog.label)
+              .description= BbText.new(blog.description, Smiley.all(user)).to_html(:controller => self)
+
+-if @blog_user
+  #blogs_list.content_box
+    %h1= "Blog di #{cleanup(@blog_user.username)}"
+    =render :partial => 'editable_list', :locals => { :blogs => @blogs }

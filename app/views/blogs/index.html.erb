@@ -1,6 +1,0 @@
-<%# vim: set ft=eruby nowrap: -%>
-<div id="blogs_list" class="content_box">
-  <h3>Blog di <%=cleanup(@blog_user.username)%></h3>
-  <%=render :partial => 'editable_list',
-    :locals => { :blogs => @blogs }%>
-</div>

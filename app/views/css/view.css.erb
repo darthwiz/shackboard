@@ -501,6 +501,32 @@ div#forum div#drafts li.empty_list {
 
 /* BLOG-SPECIFIC                            */
 /* ======================================== */
+#blogs_list h1 {
+  margin: 0;
+}
+ul.blog_users_list,
+ul.user_blog_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul.blog_users_list li.blog_user {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+ul.blog_users_list li.blog_user h2 {
+  margin: 0;
+}
+ul.blog_users_list li.blog_user li.blog {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+ul.blog_users_list li.blog_user li.blog div.description {
+  margin-left: 1em;
+}
 div#blogs div#title {
   position: absolute;
   top: 0px;
