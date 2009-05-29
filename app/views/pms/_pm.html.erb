@@ -15,7 +15,7 @@
     msgnum   = user.postnum
     msgdate  = Time.at(message.dateline.to_i).strftime("%d/%m/%Y, %H.%M")
     rank     = user.rank
-    sign     = sanitize(user.sig.gsub("\n", "<br />\n"), :tags => %w(br))
+    sign     = sanitize(user.sig.to_s.gsub("\n", "<br />\n"), :tags => %w(br))
     avatar   = cleanup(user.avatar)
     regdate  = Time.at(user.regdate).strftime("%d/%m/%Y")
     status   = user.customstatus.empty? ? user.status : user.customstatus
