@@ -228,6 +228,19 @@ module ApplicationHelper
     content_tag('span', s, :class => 'page_trail')
   end
 
+  def page_title(loc=@location, opts={})
+    return cleanup(@page_title) unless @page_title.blank?
+    case loc.class.to_s
+    when 'Array'
+      method_name = ('page_trail_' + loc.first.class.to_s.underscore.pluralize).to_sym
+    else
+      method_name = ('page_trail_' + loc.class.to_s.underscore).to_sym
+    end
+    trail = nil
+    trail = self.send(method_name, loc, opts) if self.respond_to?(method_name)
+    trail.is_a?(Array) ? cleanup(trail.last[0]) : nil
+  end
+
   def page_seq(opts=@page_seq_opts)
     return unless opts.is_a? Hash
     # shortcut variables
