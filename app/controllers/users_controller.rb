@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def show
     @shown_user = User.find(params[:id])
+    @location   = @shown_user
     respond_to do |format|
       format.html
     end

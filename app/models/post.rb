@@ -9,6 +9,7 @@ class Post < ActiveRecord::Base
   attr_accessor :seq, :subject, :cached_can_edit, :cached_can_read,
     :cached_has_blog, :cached_smileys, :cached_online, :cached_user,
     :cached_edited_by
+  default_scope :conditions => { :deleted_by => nil }
   
   def text
     self.message
@@ -55,6 +56,14 @@ class Post < ActiveRecord::Base
     post
   end
 
+  def self.count_replies_to_user(user, since=1.week.ago)
+    self.count(:conditions => [ 'reply_to_uid = ? AND dateline >= ?', user, since.to_i ])
+  end
+
+  def self.find_replies_to_user(user, since=1.week.ago)
+    self.find(:all, :conditions => [ 'reply_to_uid = ? AND dateline >= ?', user, since.to_i ], :order => 'dateline DESC')
+  end
+
   def delete(by_whom)
     self.deleted_by = by_whom.id
     self.deleted_on = Time.now.to_i
@@ -66,31 +75,6 @@ class Post < ActiveRecord::Base
     self.forum.decrement(:posts).save! # NOTE this syntax is needed because the
                                        # 'posts' attribute clashes with the
                                        # 'posts' method
-  end
-
-  def self.find(*args)
-    opts  = args.extract_options!
-    conds = opts[:conditions] ? opts[:conditions] : ''
-    unless (opts[:with_deleted] || opts[:only_deleted])
-      conds    += ' AND deleted_by IS NULL' if conds.is_a? String
-      conds[0] += ' AND deleted_by IS NULL' if conds.is_a? Array
-    end
-    if (opts[:only_deleted])
-      conds    += ' AND deleted_by IS NOT NULL' if conds.is_a? String
-      conds[0] += ' AND deleted_by IS NOT NULL' if conds.is_a? Array
-    end
-    conds.sub!(/^ AND /, '') if conds.is_a? String
-    conds = nil if conds.empty?
-    opts.delete(:with_deleted)
-    opts.delete(:only_deleted)
-    opts[:conditions] = conds
-    validate_find_options(opts)
-    set_readonly_option!(opts)
-    case args.first
-      when :first then find_initial(opts)
-      when :all   then find_every(opts)
-      else             find_from_ids(args, opts)
-    end
   end
 
   def can_edit?(user=nil)

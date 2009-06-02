@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
     record.errors.add key, 'cannot be numeric'         if value =~ /^[0-9\s]+$/
     record.errors.add key, 'cannot begin with a space' if value =~ /^\s/
   end
+  alias_attribute :created_at, :regdate
+  alias_attribute :website, :site
   @@supermods = nil
   @@admins    = nil
 
@@ -71,6 +73,19 @@ class User < ActiveRecord::Base
     User.supermod_ids.include? self.id
   end
  
+  def can_edit?(user)
+    # Beware, this method really should be called "can_be_edited_by?" but is so
+    # called for consistency with the same method in other objects.
+    return false unless user.is_a? User
+    return true if user == self
+    return true if user.is_adm?
+    false
+  end
+
+  def moderates
+    Forum.find(:all, :conditions => [ 'moderator LIKE ?', "%#{self.username}%" ], :order => 'name')
+  end
+
   def banned?
     self.status == 'Banned'
   end
