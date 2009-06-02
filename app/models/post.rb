@@ -95,11 +95,11 @@ class Post < ActiveRecord::Base
     return false
   end
 
-  def can_read?(user)
+  def can_read?(user=nil)
     self.container.can_read?(user)
   end
 
-  def can_post?(user)
+  def can_post?(user=nil)
     self.container.can_post?(user)
   end
 
