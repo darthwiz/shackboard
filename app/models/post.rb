@@ -9,6 +9,7 @@ class Post < ActiveRecord::Base
   attr_accessor :seq, :subject, :cached_can_edit, :cached_can_read,
     :cached_has_blog, :cached_smileys, :cached_online, :cached_user,
     :cached_edited_by
+  alias_attribute :created_at, :dateline
   default_scope :conditions => { :deleted_by => nil }
   
   def text
@@ -60,8 +61,15 @@ class Post < ActiveRecord::Base
     self.count(:conditions => [ 'reply_to_uid = ? AND dateline >= ?', user, since.to_i ])
   end
 
-  def self.find_replies_to_user(user, since=1.week.ago)
-    self.find(:all, :conditions => [ 'reply_to_uid = ? AND dateline >= ?', user, since.to_i ], :order => 'dateline DESC')
+  def self.find_replies_to_user(user, since=1.week.ago, limit=50)
+    return [] unless user.is_a? User
+    self.find(
+      :all,
+      :conditions => [ 'reply_to_uid = ? AND dateline >= ?', user.id, since.to_i ],
+      :include    => [ :user ],
+      :order      => 'dateline DESC',
+      :limit      => limit
+    )
   end
 
   def delete(by_whom)

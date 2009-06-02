@@ -3,9 +3,11 @@ class UsersController < ApplicationController
 
   def show
     @shown_user = User.find(params[:id])
-    @location   = @shown_user
     respond_to do |format|
-      format.html
+      format.html do
+        @location       = @shown_user
+        @latest_replies = Post.find_replies_to_user(@shown_user, 1.month.ago, 50) if @shown_user == @user
+      end
     end
   end
 

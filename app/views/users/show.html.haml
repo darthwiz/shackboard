@@ -49,3 +49,17 @@
       %dl.bio
         %dt Bio:
         %dd= cleanup(@shown_user.bio).gsub("\n", "<br />\n") # TODO BB would be nice here
+
+
+-unless @latest_replies.blank?
+  #latest_replies{ :class => domid(@shown_user) }
+    %h3 Le ultime risposte ai tuoi messaggi:
+    .list
+      %ul.latest_replies
+        -@latest_replies.each do |p|
+          %li
+            =link_to(cleanup(p.user.username), p.user)
+            in
+            =link_to(cleanup(p.topic.title), p.topic)
+            il
+            =link_to(p.created_at.strftime("%d/%m/%Y, %H.%M"), p)
