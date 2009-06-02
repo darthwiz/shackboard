@@ -7,7 +7,10 @@ class PostsController < ApplicationController
     @page_title = @post.topic.title
     @post.message = '[ messaggio cancellato ]' if @post.deleted_by && !@user.is_adm?
     respond_to do |format|
-      format.html
+      format.html do
+        @location   = @post
+        @page_title = @post.topic.title
+      end
       format.xml { render :xml => @post }
     end
   end

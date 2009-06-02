@@ -6,7 +6,6 @@ t      = @opts[:theme]
 @post.cached_can_edit = @post.can_edit?(@user)
 %>
 <div id="topic_view">
-  <h3><%=link_to cleanup(@topic.title), @topic%></h3>
   <div id="post_list" class="<%=domid(@post.topic)%>">
     <table bgcolor="<%=t.bordercolor%>" cellspacing="1" width="100%" cellpadding="3">
       <%=render :partial => '/posts/post',
