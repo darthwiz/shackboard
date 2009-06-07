@@ -1,0 +1,33 @@
+it-IT:
+  activerecord:
+    models:
+      user: "utente"
+
+    attributes:
+      user:
+        username: "Nome utente"
+        password: "Password"
+        email:    "e-mail"
+        site:     "Sito web"
+        msn:      "MSN"
+        icq:      "ICQ"
+        aim:      "AIM"
+        yahoo:    "Yahoo"
+        location: "Corso di laurea"
+        bio:      "Bio"
+        sig:      "Firma"
+        avatar:   "URL dell'avatar"
+        tpp:      "Discussioni per pagina"
+        ppp:      "Messaggi per pagina"
+
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken:   "l'indirizzo e-mail è già in uso"
+              invalid: "l'indirizzo e-mail non è valido"
+            username:
+              taken:             "il nome utente è già in uso"
+              too_short:         "il nome utente è troppo corto"
+              cannot_be_numeric: "il nome utente non può essere un numero"
