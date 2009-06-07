@@ -31,6 +31,19 @@ COOKIE_DOMAIN     = '.studentibicocca.it'
 POST_BLOCK_SIZE   = 25
 TOPIC_BLOCK_SIZE  = 25
 
+ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+  error_class = "fieldWithErrors"
+  if html_tag =~ /<(input|textarea|select)[^>]+class=/
+    class_attribute = html_tag =~ /class=['"]/
+    html_tag.insert(class_attribute + 7, "#{error_class} ")
+  elsif html_tag =~ /<(input|textarea|select)/
+    first_whitespace = html_tag =~ /\s/
+    html_tag[first_whitespace] = " class='#{error_class}' "
+  end
+  html_tag
+end
+
+
 # Frozen non-Rails gems
 Dir.glob(File.join(RAILS_ROOT, 'vendor', '*', 'lib')) do |path|
   $LOAD_PATH << path

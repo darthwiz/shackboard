@@ -1,0 +1,76 @@
+-new_user = false unless defined?(new_user)
+-optional = false unless defined?(optional)
+%fieldset#user-required
+  %legend Dati richiesti
+  %ul
+    -if new_user
+      %li.username
+        %dl
+          %dt= "#{f.label :username}:"
+          %dd= f.text_field :username
+    %li.email
+      %dl
+        %dt= "#{f.label :email}:"
+        %dd= f.text_field :email
+    -unless new_user
+      %li.password
+        %dl
+          %dt= "#{t :current_password}:"
+          %dd= password_field_tag 'current_password'
+      %li.new_password
+        %dl
+          %dt= "#{t :new_password}:"
+          %dd= password_field_tag 'new_password'
+      %li.confirm_new_password
+        %dl
+          %dt= "#{t :confirm_new_password}:"
+          %dd= password_field_tag 'confirm_new_password'
+
+-if optional
+  %fieldset#user-optional
+    %legend Dati facoltativi
+    %ul
+      %li.website
+        %dl
+          %dt= "#{f.label :site}:"
+          %dd= f.text_field :site
+      %li.msn
+        %dl
+          %dt= "#{f.label :msn}:"
+          %dd= f.text_field :msn
+      %li.icq
+        %dl
+          %dt= "#{f.label :icq}:"
+          %dd= f.text_field :icq
+      %li.aim
+        %dl
+          %dt= "#{f.label :aim}:"
+          %dd= f.text_field :aim
+      %li.yahoo
+        %dl
+          %dt= "#{f.label :yahoo}:"
+          %dd= f.text_field :yahoo
+      %li.location
+        %dl
+          %dt= "#{f.label :location}:"
+          %dd= f.text_field :location
+      %li.bio
+        %dl
+          %dt= "#{f.label :bio}:"
+          %dd= f.text_area :bio
+      %li.signature
+        %dl
+          %dt= "#{f.label :sig}:"
+          %dd= f.text_area :sig
+      %li.avatar
+        %dl
+          %dt= "#{f.label :avatar}:"
+          %dd= f.text_field :avatar
+      %li.tpp
+        %dl
+          %dt= "#{f.label :tpp}:"
+          %dd= f.text_field :tpp
+      %li.ppp
+        %dl
+          %dt= "#{f.label :ppp}:"
+          %dd= f.text_field :ppp

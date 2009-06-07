@@ -1,0 +1,6 @@
+-t = @opts[:theme]
+#user_profile_edit
+  %h1= "Modifica profilo di #{cleanup @edit_user.username}"
+  -form_for @edit_user do |f|
+    =render :partial => '/common/user_data', :locals => { :f => f, :optional => true }
+    =f.submit 'modifica profilo'

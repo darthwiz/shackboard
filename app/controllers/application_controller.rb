@@ -1,7 +1,7 @@
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
-  before_filter :load_defaults, :update_online, :set_stylesheet
+  before_filter :load_defaults, :set_locale, :update_online, :set_stylesheet
   @@domain = COOKIE_DOMAIN
 
   private
@@ -92,6 +92,14 @@ class ApplicationController < ActionController::Base
 
     Notifier.delivery_method = :sendmail
   end 
+
+  def set_locale
+    # see http://github.com/iain/http_accept_language/tree/master
+    # locale = request.user_preferred_languages_from([ 'it_IT' ]) || 'en-US'
+    # locale      = request.user_preferred_languages.first || 'it-IT'
+    locale      = 'it-IT'
+    I18n.locale = locale
+  end
 
   def set_stylesheet 
     @stylesheet = url_for(

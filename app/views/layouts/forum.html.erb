@@ -30,6 +30,7 @@ t   = @opts[:theme]
           <div class="page-seq">
             <%=page_seq%>
           </div>
+          <%=render :partial => '/common/errors'%>
           <%=yield%>
           <div class="page-seq">
             <%=page_seq%>

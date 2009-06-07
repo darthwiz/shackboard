@@ -1065,24 +1065,49 @@ div#cms div.author span.author {
 
 /* USER PROFILE */
 #user_profile,
+#user_profile_edit,
 #latest_replies {
   border: 1px solid <%=t.bordercolor%>;
   background-color: <%=t.altbg1%>;
   padding: 1em;
   margin-bottom: 1em;
 }
+#user_profile_edit h1 {
+  margin-top: 0;
+}
+#user_profile_edit fieldset {
+  border: none;
+  padding: 0;
+  margin-bottom: 1em;
+}
+#user_profile_edit textarea {
+  width: 50em;
+}
+#user_profile_edit .signature textarea {
+  height: 6em;
+}
+#user_profile_edit .tpp input,
+#user_profile_edit .ppp input {
+  width: 4em;
+}
+#user_profile_edit .website input,
+#user_profile_edit .avatar input {
+  width: 50em;
+}
 #user_profile div.edit_link {
   text-align: right;
   font-weight: bold;
   padding-bottom: 1em;
 }
-#user_profile div.list,
-#latest_replies div.list {
+#user_profile ul,
+#user_profile_edit ul,
+#latest_replies ul {
   border-bottom: 1px solid <%=t.bordercolor%>;
   border-left: 1px solid <%=t.bordercolor%>;
   border-right: 1px solid <%=t.bordercolor%>;
 }
-#user_profile dl,
+#user_profile ul li,
+#user_profile_edit ul li,
 #latest_replies ul li {
   border-top: 1px solid <%=t.bordercolor%>;
   background-color: <%=t.altbg2%>;
@@ -1092,11 +1117,13 @@ div#cms div.author span.author {
 div#latest_replies ul li {
   padding: 0.3em 1em;
 }
-#user_profile dl dt {
+#user_profile dl dt,
+#user_profile_edit dl dt {
   float: left;
   width: 10em;
 }
-#user_profile dl dd {
+#user_profile dl dd,
+#user_profile_edit dl dd {
   float: left;
   margin: 0;
 }
@@ -1129,7 +1156,9 @@ div.fieldWithErrors {
   display: inline;
 }
 div.fieldWithErrors input,
-div.fieldWithErrors textarea {
+div.fieldWithErrors textarea,
+input.fieldWithErrors,
+textarea.fieldWithErrors {
   border: 1px solid red;
 }
 div.errors {
@@ -1137,6 +1166,7 @@ div.errors {
   margin-bottom: 1em;
   border: 1px solid red;
   background-color: #ffc0c0;
+  color: black;
   padding: 1em;
 }
 div.errors ul {

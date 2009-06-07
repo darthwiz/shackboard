@@ -31,3 +31,7 @@ it-IT:
               taken:             "il nome utente è già in uso"
               too_short:         "il nome utente è troppo corto"
               cannot_be_numeric: "il nome utente non può essere un numero"
+            password:
+              passwords_dont_match:  "le password non coincidono"
+              authentication_failed: "la password attuale non è corretta"
+              too_short:             "la password deve essere di almeno {{count}} caratteri"

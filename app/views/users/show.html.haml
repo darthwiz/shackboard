@@ -2,53 +2,63 @@
   -if @shown_user.can_edit?(@user)
     .edit_link
       %a{ :href => edit_user_path(@shown_user) } Modifica profilo
-  .list
-    %dl.username
-      / username / reg_date / status / online / email / www / aim / icq / yahoo / msn / location / birthday / bio / pm / search
-      %dt Nome utente:
-      %dd= cleanup(@shown_user.username)
+  %ul
+    %li.username
+      %dl
+        -# username / reg_date / status / online / email / www / aim / icq / yahoo / msn / location / birthday / bio / pm / search
+        %dt Nome utente:
+        %dd= cleanup(@shown_user.username)
 
-    %dl.registration_date
-      %dt Registratro il:
-      %dd= Time.at(@shown_user.created_at).strftime("%d/%m/%Y")
+    %li.registration_date
+      %dl
+        %dt Registratro il:
+        %dd= Time.at(@shown_user.created_at).strftime("%d/%m/%Y")
 
-    %dl.status
-      %dt Status:
-      %dd= status_list(@shown_user)
+    %li.status
+      %dl
+        %dt Status:
+        %dd= status_list(@shown_user)
 
-    %dl.online
-      %dt Online:
-      %dd= @shown_user.online? ? 'sì' : 'no'
+    %li.online
+      %dl
+        %dt Online:
+        %dd= @shown_user.online? ? 'sì' : 'no'
 
     -unless @shown_user.location.blank?
-      %dl.location
-        %dt Corso di laurea:
-        %dd= @shown_user.location
+      %li.location
+        %dl
+          %dt Corso di laurea:
+          %dd= @shown_user.location
 
     -unless @shown_user.website.blank?
-      %dl.website
-        %dt Sito web:
-        %dd= link_to(@shown_user.website, @shown_user.website, :target => '_blank')
+      %li.website
+        %dl
+          %dt Sito web:
+          %dd= link_to(@shown_user.website, @shown_user.website, :target => '_blank')
 
     -unless @shown_user.msn.blank?
-      %dl.msn
-        %dt MSN:
-        %dd= @shown_user.msn
+      %li.msn
+        %dl
+          %dt MSN:
+          %dd= @shown_user.msn
 
     -unless @shown_user.icq.blank?
-      %dl.icq
-        %dt ICQ:
-        %dd= @shown_user.icq
+      %li.icq
+        %dl
+          %dt ICQ:
+          %dd= @shown_user.icq
 
     -unless @shown_user.yahoo.blank?
-      %dl.yahoo
-        %dt Yahoo:
-        %dd= @shown_user.yahoo
+      %li.yahoo
+        %dl
+          %dt Yahoo:
+          %dd= @shown_user.yahoo
 
     -unless @shown_user.bio.blank?
-      %dl.bio
-        %dt Bio:
-        %dd= cleanup(@shown_user.bio).gsub("\n", "<br />\n") # TODO BB would be nice here
+      %li.bio
+        %dl
+          %dt Bio:
+          %dd= cleanup(@shown_user.bio).gsub("\n", "<br />\n") # TODO BB would be nice here
 
 
 -unless @latest_replies.blank?

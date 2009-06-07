@@ -79,11 +79,15 @@ class Forum < ActiveRecord::Base
 
   def moderators
     mods = []
-    self.moderator.split(/,\s*/).each do |n|
+    self.moderator_usernames.each do |n|
       u = User.find_by_username(n.strip)
       mods << u unless u.nil?
     end
     mods
+  end
+
+  def moderator_usernames
+    self.moderator.split(/,\s*/)
   end
 
   def moderator_ids

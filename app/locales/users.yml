@@ -1,0 +1,4 @@
+it-IT:
+  current_password:     "Password attuale"
+  new_password:         "Nuova password"
+  confirm_new_password: "Conferma nuova password"

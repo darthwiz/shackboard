@@ -8,10 +8,12 @@ class User < ActiveRecord::Base
   has_many :blogs
   validates_uniqueness_of :username
   validates_uniqueness_of :email
+  validates_length_of :username, :minimum => 1
+  validates_length_of :password, :minimum => 6
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   validates_each :username do |record, key, value|
-    record.errors.add key, 'cannot be numeric'         if value =~ /^[0-9\s]+$/
-    record.errors.add key, 'cannot begin with a space' if value =~ /^\s/
+    record.errors.add key, :cannot_be_numeric       if value =~ /^[0-9\s]+$/
+    record.errors.add key, :cannot_begin_with_space if value =~ /^\s/
   end
   alias_attribute :created_at, :regdate
   alias_attribute :website, :site
@@ -24,13 +26,6 @@ class User < ActiveRecord::Base
  
   def auth(password) 
     password == self.password
-  end
- 
-  def fix_counters 
-    posts  = Post.count(:conditions => ['author = ?', self.username])
-    topics = Topic.count(:conditions => ['author = ?', self.username])
-    self.postnum = posts + topics
-    self.save
   end
  
   def ppp
@@ -83,7 +78,9 @@ class User < ActiveRecord::Base
   end
 
   def moderates
-    Forum.find(:all, :conditions => [ 'moderator LIKE ?', "%#{self.username}%" ], :order => 'name')
+    Forum.find(:all, :conditions => [ 'moderator LIKE ?', "%#{self.username}%" ], :order => 'name').select do |f|
+      f.moderator_usernames.include? self.username
+    end
   end
 
   def banned?

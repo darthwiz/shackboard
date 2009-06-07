@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   layout 'forum'
 
+  def index
+    redirect_to root_path
+  end
+
   def show
     @shown_user = User.find(params[:id])
     respond_to do |format|
@@ -22,7 +26,7 @@ class UsersController < ApplicationController
 
   def edit
     @edit_user = User.find(params[:id])
-    unless @edit_user == @user || @user.is_adm?
+    unless @edit_user == @user || (@user && @user.is_adm?)
       redirect_to user_path(@edit_user) and return
     end
     respond_to do |format|
@@ -44,9 +48,12 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @new_user.save
         Notifier.deliver_signup_notification(email, username, password)
-        format.html { render :layout => 'forum' }
+        format.html
       else
-        format.html { render :action => "new", :layout => 'forum' }
+        format.html do
+          @model_errors = @new_user.errors
+          render :action => "new"
+        end
       end
     end
   end
@@ -93,20 +100,38 @@ class UsersController < ApplicationController
   end 
 
   def update
+    # FIXME Some refactoring would be nice here.
     @edit_user = User.find(params[:id])
     respond_to do |format|
       if @edit_user == @user || @user.is_adm?
         if @edit_user.update_attributes(params[:user])
           #flash[:notice] = 'User was successfully updated.'
-          new_password = params[:new_password].to_s
-          unless new_password.empty?
-            @edit_user.password = new_password
-            @edit_user.save
+          current_password     = params[:current_password].to_s
+          new_password         = params[:new_password].to_s
+          confirm_new_password = params[:confirm_new_password].to_s
+          unless new_password.blank?
+            if @edit_user.auth(current_password) || @user.is_adm?
+              if new_password == confirm_new_password
+                @edit_user.password = new_password
+                @edit_user.save
+              else
+                @edit_user.errors.add :password, :passwords_dont_match
+              end
+            else
+              @edit_user.errors.add :password, :authentication_failed
+            end
           end
-          format.html { redirect_to(@edit_user) }
+          format.html do
+            redirect_to(@edit_user) and return if @edit_user.errors.blank?
+            @model_errors = @edit_user.errors
+            render :action => "edit"
+          end
           #format.xml  { head :ok }
         else
-          format.html { render :action => "edit" }
+          format.html do
+            @model_errors = @edit_user.errors
+            render :action => "edit"
+          end
           #format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
         end
       else
@@ -131,9 +156,6 @@ class UsersController < ApplicationController
       Notifier.deliver_signup_notification(@email, @new_user.username, @new_user.password)
       @status = :success
     end
-    puts "****************************************"
-    p [ @email, @new_user, @status ]
-    puts "****************************************"
     render :action => :recover_password
   end
 
