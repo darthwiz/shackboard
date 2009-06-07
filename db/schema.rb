@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090523161728) do
+ActiveRecord::Schema.define(:version => 20090607160908) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -389,6 +389,17 @@ ActiveRecord::Schema.define(:version => 20090523161728) do
   end
 
   add_index "xmb_groups", ["name"], :name => "name"
+
+  create_table "xmb_last_visits", :force => true do |t|
+    t.integer "user_id",                                   :null => false
+    t.string  "object_type", :limit => 40, :default => "", :null => false
+    t.integer "object_id",                                 :null => false
+    t.integer "created_at"
+    t.string  "ip",          :limit => 40
+  end
+
+  add_index "xmb_last_visits", ["user_id", "created_at"], :name => "by_time"
+  add_index "xmb_last_visits", ["user_id", "object_type", "object_id"], :name => "by_object", :unique => true
 
   create_table "xmb_members", :primary_key => "uid", :force => true do |t|
     t.string  "username",      :limit => 25,       :default => "",                :null => false
