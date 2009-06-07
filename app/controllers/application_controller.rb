@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   before_filter :load_defaults, :set_locale, :update_online, :set_stylesheet
+  after_filter :update_last_visit
   @@domain = COOKIE_DOMAIN
 
   private
@@ -136,5 +137,16 @@ class ApplicationController < ActionController::Base
     OnlineUser.touch(@user, @current_user_ip)
     OnlineUser.cleanup(5.minutes)
   end 
+
+  def update_last_visit
+    if @user.is_a?(User) && @location.is_a?(ActiveRecord::Base)
+      LastVisit.cleanup(@user, @location)
+      LastVisit.new(
+        :user   => @user,
+        :object => @location,
+        :ip     => @current_user_ip
+      ).save
+    end
+  end
 
 end

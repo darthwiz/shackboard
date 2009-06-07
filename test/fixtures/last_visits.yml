@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  type: MyString
+  object_id: 1
+  last_visit_at: 1
+
+two:
+  user_id: 1
+  type: MyString
+  object_id: 1
+  last_visit_at: 1
