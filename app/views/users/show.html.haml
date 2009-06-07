@@ -60,6 +60,12 @@
           %dt Bio:
           %dd= cleanup(@shown_user.bio).gsub("\n", "<br />\n") # TODO BB would be nice here
 
+    %li.post_count
+      %dl
+        %dt Messaggi inviati:
+        %dd= "#{@shown_user.postnum} (#{"%0.2f" % @shown_user.posts_per_day} / giorno)"
+
+
 
 -unless @latest_replies.blank?
   #latest_replies{ :class => domid(@shown_user) }

@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   end
   alias_attribute :created_at, :regdate
   alias_attribute :website, :site
+  attr_accessor :ip
   @@supermods = nil
   @@admins    = nil
 

@@ -36,7 +36,9 @@ class OnlineUser < ActiveRecord::Base
       :order => 'xmb_members.username'
     ).each do |ou|
       users << ou.user
+      users.last.ip = ou.ip
     end
     users
   end
+
 end
