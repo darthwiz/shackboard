@@ -210,6 +210,16 @@ class User < ActiveRecord::Base
     User.admins.collect(&:id)
   end
   
+  def self.anonymized_usernames
+    self.with_exclusive_scope do
+      self.find(
+        :all,
+        :conditions => [ "status = 'Anonymized' OR deleted_at IS NOT NULL" ],
+        :select => :username
+      ).collect(&:username)
+    end
+  end
+
   def self.pwgen
     `pwgen -1 --capitalize --numerals --ambiguous`.strip
   end

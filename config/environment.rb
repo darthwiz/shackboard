@@ -62,6 +62,8 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
   config.active_record.table_name_prefix = "xmb_"
+
+  config.load_paths += %W(#{RAILS_ROOT}/app/middleware)
 end
 
 # Include your application configuration below
