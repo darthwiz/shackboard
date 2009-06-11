@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'acl'
-class AclTest < Test::Unit::TestCase
+class AclTest < ActiveSupport::TestCase
   fixtures :members, :groups, :group_memberships, :acls, :acl_mappings
   def test_permission_assignment
     runner = User.find_by_username("runner")

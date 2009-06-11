@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'draft'
-class DraftTest < Test::Unit::TestCase
+class DraftTest < ActiveSupport::TestCase
   fixtures :members, :forums
   def test_life_cycle
     wiz = User.find_by_username('wiz')

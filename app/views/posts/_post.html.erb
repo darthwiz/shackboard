@@ -10,7 +10,11 @@ end
               <td rowspan="2" valign="top" class="tablerow" width="18%">
                 <a name="pid<%=p.id%>" id="pid<%=p.id%>"></a>
                 <%if p == @posts.try(:last)%><a name="last_post"></a><a name="bottom"></a><%end%>
-                <span class="postauthor"><%=h(p.cached_user.username)%></span><br />
+                <span class="postauthor">
+                  <%=p.cached_user.anonymized? ? content_tag(:em, 'utente anonimo') : h(p.cached_user.username)%>
+                </span>
+                <%unless p.cached_user.anonymized?%>
+                <br />
                 <div class="11px">
                   <%=p.cached_user.rank.title%><br />
                   <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
@@ -43,7 +47,9 @@ end
                     <%end%>
                     <%=render :partial => '/vote/icons', :partials => { :object => p }%>
                   </div>
-                </div><br />
+                </div>
+                <br />
+                <%end%>
               </td>
               <td valign="top" height="1" class="tablerow" width="82%">
                 &nbsp; postato il <%=p.created_at.strftime('%d/%m/%Y')%>
@@ -57,10 +63,10 @@ end
               <td height="120" valign="top" colspan="2">
                 <div class="maxpostwidth">
                   <%=BbText.new(p.message, p.cached_smileys).to_html(:controller => self)%>
-                  <%unless p.cached_user.sig.to_s.empty?%>
+                  <%unless p.cached_user.signature.blank? || p.cached_user.anonymized?%>
                   <p>&nbsp;</p>____________________<br />
                   <div class="signature">
-                    <%=cleanup(p.cached_user.sig).gsub("\n", '<br />')%>
+                    <%=cleanup(p.cached_user.signature).gsub("\n", '<br />')%>
                   </div>
                   <%end%>
                   <%if p.edituser && (p.updated_at - p.created_at > 2.minutes)%>

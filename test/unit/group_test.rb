@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'group'
-class GroupTest < Test::Unit::TestCase
+class GroupTest < ActiveSupport::TestCase
   fixtures :groups, :group_memberships, :members
   def test_reality_check # {{{
     assert_equal("mod_agora", Group.find(1).name)

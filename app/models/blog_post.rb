@@ -3,6 +3,7 @@ class BlogPost < ActiveRecord::Base
   belongs_to :blog
   has_many :blog_comments
   has_and_belongs_to_many :categories
+  default_scope :joins => "INNER JOIN #{User.table_name} u ON u.uid = #{self.table_name}.user_id AND u.deleted_at IS NULL AND u.status != 'Anonymized'"
 
   def container
     self.blog
@@ -10,23 +11,17 @@ class BlogPost < ActiveRecord::Base
 
   def self.find_latest(what=:posts, n=5, opts={})
     n = n.to_i > 0 ? n.to_i : 5
-    case what
-    when :posts
-      posts = BlogPost.find_by_sql(
-        "SELECT p.* FROM xmb_blog_posts p
-        WHERE p.created_at = (
-          SELECT MAX(created_at) FROM xmb_blog_posts p2
-            WHERE user_id = p.user_id
-          )
-        ORDER BY p.created_at DESC
-        LIMIT #{n}"
-      )
-      return posts
-    when :comments
-      return [] # TODO implement this
-    else
-      return [] # TODO implement this
-    end
+    posts = self.find_by_sql("
+      SELECT p.* FROM xmb_blog_posts p
+      INNER JOIN #{User.table_name} u 
+        ON (p.user_id = u.uid AND u.deleted_at IS NULL AND u.status != 'Anonymized')
+      WHERE p.created_at = (
+        SELECT MAX(created_at) FROM xmb_blog_posts p2
+          WHERE user_id = p.user_id
+        )
+      ORDER BY p.created_at DESC
+      LIMIT #{n}"
+    )
   end
 
   def self.count_unread_for(user)

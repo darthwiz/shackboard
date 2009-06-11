@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'filedb_file'
-class FiledbFileTest < Test::Unit::TestCase
+class FiledbFileTest < ActiveSupport::TestCase
   fixtures :members
   def test_life_cycle
     wiz = User.find_by_username('wiz')

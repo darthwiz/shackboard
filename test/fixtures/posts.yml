@@ -1,5 +1,25 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
-  pid: 1
-another:
-  pid: 2
+orphan:
+  pid: "33538"
+  format: bb
+  edituser: "0"
+  fid: "52"
+  editdate: "0"
+  author: paolo82
+  deleted_reason:
+  useip: 217.22.243.162
+  reply_to_pid: "0"
+  dateline: "1046377933"
+  tid: "5372"
+  deleted_on:
+  deleted:
+  icon: ""
+  uid: "760"
+  bbcodeoff: ""
+  deleted_by:
+  reply_to_uid: "0"
+  message: |
+    gli orari sono  sul sito non ufficiale
+    nella sezione corsi - orari.
+  smileyoff: ""
+  usesig: "yes"

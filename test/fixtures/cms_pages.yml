@@ -2,18 +2,18 @@
 
 one:
   text: MyText
-  slug: MyString
-  format: MyString
+  slug: one
+  format: bb
   created_by: 1
-  modified_by: 1
-  deleted_by: 1
-  deleted_at: 2009-05-23 18:17:28
+  updated_by: 1
+  deleted_by: nil
+  deleted_at: nil
 
 two:
   text: MyText
-  slug: MyString
-  format: MyString
+  slug: two
+  format: bb
   created_by: 1
-  modified_by: 1
-  deleted_by: 1
-  deleted_at: 2009-05-23 18:17:28
+  updated_by: 1
+  deleted_by: nil
+  deleted_at: nil

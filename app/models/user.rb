@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   end
   alias_attribute :created_at, :regdate
   alias_attribute :website, :site
+  alias_attribute :signature, :sig
+  default_scope :conditions => { :deleted_at => nil }
   attr_accessor :ip
   @@supermods = nil
   @@admins    = nil
@@ -29,14 +31,8 @@ class User < ActiveRecord::Base
     password == self.password
   end
  
-  def ppp
-    #nearest_multiple(self[:ppp], POST_BLOCK_SIZE)
-    self[:ppp]
-  end
-
-  def tpp
-    #nearest_multiple(self[:tpp], TOPIC_BLOCK_SIZE)
-    self[:tpp]
+  def anonymized?
+    self.status == 'Anonymized'
   end
 
   def posts_per_day
@@ -85,7 +81,7 @@ class User < ActiveRecord::Base
   end
 
   def banned?
-    self.status == 'Banned'
+    [ 'Banned', 'Anonymized' ].include? self.status
   end
 
   def status=(status)
@@ -180,7 +176,7 @@ class User < ActiveRecord::Base
   end
 
   def self.[](id)
-    self.find(id)
+    self.with_exclusive_scope { self.find(id) }
   end
 
   def self.authenticate(username, password) 

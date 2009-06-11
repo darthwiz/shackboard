@@ -10,7 +10,8 @@ class Post < ActiveRecord::Base
     :cached_has_blog, :cached_smileys, :cached_online, :cached_user,
     :cached_edited_by
   alias_attribute :created_at, :dateline
-  default_scope :conditions => { :deleted_by => nil }
+  default_scope :conditions => { :deleted_by => nil },
+    :joins => "INNER JOIN #{User.table_name} u ON u.uid = #{self.table_name}.uid AND u.deleted_at IS NULL"
   
   def text
     self.message
