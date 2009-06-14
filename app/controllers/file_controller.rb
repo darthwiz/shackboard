@@ -90,25 +90,25 @@ class FileController < ApplicationController
   end 
 
   def create 
-    @new_file = FiledbFile.new { |f|
-      f.user_id       = session[:userid]
-      f.file_name     = params[:file][:name]
-      f.file_creator  = params[:file][:author]
-      f.file_desc     = params[:file][:description]
-      f.file_catid    = params[:file][:category]
-      f.file_license  = params[:file][:license]
-      f.file_posticon = params[:file][:icon]
-      f.file_time     = Time.now.to_i
-      f.file_dls      = 0
-    }
+    @new_file = FiledbFile.new(
+      :user_id       => session[:userid],
+      :file_name     => params[:file][:name],
+      :file_creator  => params[:file][:author],
+      :file_desc     => params[:file][:description],
+      :file_catid    => params[:file][:category],
+      :file_license  => params[:file][:license],
+      :file_posticon => params[:file][:icon],
+      :file_time     => Time.now.to_i,
+      :file_dls      => 0
+    )
     @new_file.save
-    @new_file_data = FiledbFiledata.new { |fd|
-      fd.filename       = params[:file][:data].original_filename
-      fd.data           = params[:file][:data].read
-      fd.mimetype       = params[:file][:data].content_type.strip
-      fd.filesize       = fd.data.length
-      fd.filedb_file_id = @new_file.id
-    }
+    @new_file_data = FiledbFiledata.new(
+      :filename       => params[:file][:data].original_filename,
+      :data           => params[:file][:data].read,
+      :mimetype       => params[:file][:data].content_type.strip,
+      :filesize       => params[:file][:data].length,
+      :filedb_file_id => @new_file.id
+    )
     @new_file_data.save
     redirect_to :action => :index
   end 

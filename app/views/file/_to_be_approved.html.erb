@@ -55,7 +55,7 @@
               <%= link_to 'download', :controller => 'file',
                                       :action     => 'download',
                                       :id         => f.id %>
-              (<%= f.metadata.filesize / 1.kilobyte %> kB)
+              (<%= f.metadata.filesize.to_i / 1.kilobyte %> kB)
               <% else %>
               <strong>Errore:</strong> dati del file assenti.
               <% end %>
@@ -64,7 +64,7 @@
         </table>
       </td>
       <td align="center"><%=h f.user.username if f.user%></td>
-      <td align="center"><%=timestamp_to_date(f.file_time)%></td>
+      <td align="center"><%=timestamp_to_date(f.file_time) if f.file_time%></td>
       <td align="center">
         <%= submit_to_remote :approve, 'approva',
           :url => { :action => :approve, :id => f } %><br/>

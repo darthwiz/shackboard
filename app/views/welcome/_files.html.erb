@@ -1,7 +1,6 @@
 <%
   nfiles = FiledbFile.count_approved
   latest = FiledbFile.latest(3)
-  url    = 'http://materiali.studentibicocca.it/file/download/'
 %>
 <ul>
   <li>
@@ -10,7 +9,7 @@
     <ul>
       <% latest.each do |i| %>
       <li style="padding-top: 0; padding-bottom: 0;">
-        <%=link_to "#{i.name} (#{i.category.name})", url + i.id.to_s,
+        <%=link_to "#{i.name} (#{i.category.name.strip})", { :controller => :file, :action => :download, :id => i },
           { :style => 'display: block;' }%>
       </li>
       <% end %>

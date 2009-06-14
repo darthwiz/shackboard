@@ -22,7 +22,7 @@
     <ul class="column">
       <li id="files"><%#Materiali %>
         <h2>
-          <%=link_to 'Materiali', 'http://materiali.studentibicocca.it'%>
+          <%=link_to 'Materiali', :controller => :file, :action => :categories%>
         </h2>
         <%#cache('portal/latest_files') do %>
         <%=render :partial => '/welcome/files' %>
