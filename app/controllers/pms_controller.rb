@@ -165,4 +165,19 @@ class PmsController < ApplicationController
     end
   end 
 
+  def backup
+    @skip_anonymize_filter = true
+    redirect_to root_path unless @user.is_a? User
+    @pms = Pm.find(
+      :all,
+      :conditions => [ "(msgfrom = ? OR msgto = ?) AND folder = 'inbox'", @user.username, @user.username ],
+      :order      => 'dateline'
+    )
+    respond_to do |format|
+      format.txt { send_data(render_to_string, :filename => 'pms_backup.txt', :mimetype => 'text/plain') }
+      format.sql { send_data(render_to_string, :filename => 'pms_backup.sql', :mimetype => 'text/plain') }
+      format.xml { send_data(render_to_string(:xml => @posts), :filename => 'pms_backup.xml', :mimetype => 'application/xml') }
+    end
+  end
+
 end

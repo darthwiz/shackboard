@@ -1,0 +1,8 @@
+<%@posts.each do |p|-%>
+================================================================================
+Inviato il <%=p.created_at.strftime('%d/%m/%Y')%> alle <%=p.created_at.strftime('%H.%M')%>
+nella discussione: <%=p.topic.title if p.topic%>
+--------------------------------------------------------------------------------
+<%=word_wrap(p.message, :line_width => 80)%>
+
+<%end-%>

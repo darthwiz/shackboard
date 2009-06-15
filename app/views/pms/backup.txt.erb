@@ -1,0 +1,9 @@
+<%@pms.each do |pm|-%>
+================================================================================
+Da: <%=pm.msgfrom%>
+A: <%=pm.msgto%>
+Inviato il <%=pm.created_at.strftime('%d/%m/%Y')%> alle <%=pm.created_at.strftime('%H.%M')%>
+--------------------------------------------------------------------------------
+<%=word_wrap(pm.message, :line_width => 80)%>
+
+<%end-%>

@@ -65,7 +65,20 @@
         %dt Messaggi inviati:
         %dd= "#{@shown_user.postnum} (#{"%0.2f" % @shown_user.posts_per_day} / giorno)"
 
-
+-if @shown_user == @user
+  #backup
+    %h3 Backup
+    %ul.backup
+      %li
+        Messaggi sul forum:
+        =link_to('txt', backup_posts_path(:format => 'txt'))
+        =link_to('sql', backup_posts_path(:format => 'sql'))
+        =link_to('xml', backup_posts_path(:format => 'xml'))
+      %li
+        Messaggi privati:
+        =link_to('txt', backup_pms_path(:format => 'txt'))
+        =link_to('sql', backup_pms_path(:format => 'sql'))
+        =link_to('xml', backup_pms_path(:format => 'xml'))
 
 -unless @latest_replies.blank?
   #latest_replies{ :class => domid(@shown_user) }

@@ -130,4 +130,21 @@ class PostsController < ApplicationController
     end
   end
 
+  def backup
+    @skip_anonymize_filter = true
+    redirect_to root_path unless @user.is_a? User
+    @posts = Post.find(
+      :all,
+      :conditions => { :uid => @user.id },
+      :include    => :topic,
+      :joins      => [ :topic ],
+      :order      => 'dateline'
+    )
+    respond_to do |format|
+      format.txt { send_data(render_to_string, :filename => 'posts_backup.txt', :mimetype => 'text/plain') }
+      format.sql { send_data(render_to_string, :filename => 'posts_backup.sql', :mimetype => 'text/plain') }
+      format.xml { send_data(render_to_string(:xml => @posts), :filename => 'posts_backup.xml', :mimetype => 'application/xml') }
+    end
+  end
+
 end

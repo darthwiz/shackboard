@@ -10,6 +10,7 @@ class Pm < ActiveRecord::Base
   validates_each :msgfrom, :msgto do |record, attribute, value|
     record.errors.add(attribute, "user not found") unless User.find_by_username(value)
   end
+  alias_attribute :created_at, :dateline
 
   def from
     User.find_by_username(self.msgfrom)
@@ -21,6 +22,10 @@ class Pm < ActiveRecord::Base
 
   def user
     self.from
+  end
+
+  def created_at
+    Time.at(self.dateline.to_i)
   end
 
   def read?
