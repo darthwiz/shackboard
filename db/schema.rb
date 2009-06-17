@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090607160908) do
+ActiveRecord::Schema.define(:version => 20090611185748) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -433,6 +433,7 @@ ActiveRecord::Schema.define(:version => 20090607160908) do
     t.string  "lastvisit",                         :default => "",                :null => false
     t.integer "avatar_width",  :limit => 2,        :default => 0,                 :null => false
     t.integer "avatar_height", :limit => 2,        :default => 0,                 :null => false
+    t.integer "deleted_at"
   end
 
   add_index "xmb_members", ["postnum"], :name => "postnum"

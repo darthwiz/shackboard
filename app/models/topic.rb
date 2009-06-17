@@ -260,9 +260,11 @@ class Topic < ActiveRecord::Base
   def self.fix_post_count!
     ttn = self.table_name
     ptn = Post.table_name
+    utn = User.table_name
     ctn = 'tmp_topic_posts_count'
     q1  = "CREATE TEMPORARY TABLE #{ctn} (
-      SELECT tid, COUNT(1) AS posts_count FROM #{ptn}
+      SELECT tid, COUNT(1) AS posts_count FROM #{ptn} p
+      INNER JOIN #{utn} u ON (u.uid = p.uid AND u.deleted_at IS NULL)
       WHERE deleted_by IS NULL
       GROUP BY tid
     )"

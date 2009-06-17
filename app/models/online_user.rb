@@ -32,7 +32,7 @@ class OnlineUser < ActiveRecord::Base
     users = []
     self.find(
       :all, :joins => 'INNER JOIN xmb_members
-        ON xmb_members.uid = xmb_whosonline.uid',
+        ON xmb_members.uid = xmb_whosonline.uid AND xmb_members.deleted_at IS NULL',
       :order => 'xmb_members.username'
     ).each do |ou|
       users << ou.user
