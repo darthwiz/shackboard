@@ -167,6 +167,16 @@ class User < ActiveRecord::Base
     self.avatar_size[:height]
   end
  
+  def nuke!
+    self.class.nuke!(self.id)
+  end
+
+  def self.nuke!(id)
+    self.with_exclusive_scope do
+      self.update_all("deleted_at = #{Time.now.to_i}", "uid = #{id.to_i}", :limit => 1)
+    end
+  end
+
   def self.max_avatar_width
     150
   end
