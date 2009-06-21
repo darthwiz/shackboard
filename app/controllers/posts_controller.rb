@@ -141,8 +141,8 @@ class PostsController < ApplicationController
       :order      => 'dateline'
     )
     respond_to do |format|
-      format.txt { send_data(render_to_string, :filename => 'posts_backup.txt', :mimetype => 'text/plain') }
-      format.sql { send_data(render_to_string, :filename => 'posts_backup.sql', :mimetype => 'text/plain') }
+      format.txt { send_data(render_to_string.gsub(/([^\r])\n/, "\\1\r\n"), :filename => 'posts_backup.txt', :mimetype => 'text/plain') }
+      format.sql { send_data(render_to_string.gsub(/([^\r])\n/, "\\1\r\n"), :filename => 'posts_backup.sql', :mimetype => 'text/plain') }
       format.xml { send_data(render_to_string(:xml => @posts), :filename => 'posts_backup.xml', :mimetype => 'application/xml') }
     end
   end

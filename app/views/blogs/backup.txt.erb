@@ -1,0 +1,28 @@
+<%@blogs.each do |blog|-%>
+Blog: <%=blog.name%>
+================================================================================
+<%blog.blog_posts.by_time_asc.each do |post|-%>
+Post: <%=post.title%>
+Data: <%=post.created_at.strftime('%d/%m/%Y')%> alle <%=post.created_at.strftime('%H.%M')%>
+
+<%=word_wrap(post.text, :line_width => 80)%>
+
+<%unless post.blog_comments.empty?%>
+----------------------------------------------------------------------
+Commenti:
+<%post.blog_comments.by_time_asc.each do |comment|-%>
+----------------------------------------------------------------------
+Da: <%=comment.user.username%>
+Data: <%=comment.created_at.strftime('%d/%m/%Y')%> alle <%=comment.created_at.strftime('%H.%M')%>
+Titolo: <%=comment.title%>
+
+<%=word_wrap(comment.text, :line_width => 80)%>
+
+<%end-%><%#comment-%>
+<%end-%><%#empty comment-%>
+--------------------------------------------------------------------------------
+
+<%end-%><%#post-%>
+
+================================================================================
+<%end-%><%#blog-%>

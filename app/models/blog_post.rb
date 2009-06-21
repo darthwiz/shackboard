@@ -4,6 +4,7 @@ class BlogPost < ActiveRecord::Base
   has_many :blog_comments
   has_and_belongs_to_many :categories
   default_scope :joins => "INNER JOIN #{User.table_name} u ON u.uid = #{self.table_name}.user_id AND u.deleted_at IS NULL AND u.status != 'Anonymized'"
+  named_scope :by_time_asc, :order => :created_at
 
   def container
     self.blog

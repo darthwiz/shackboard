@@ -174,9 +174,9 @@ class PmsController < ApplicationController
       :order      => 'dateline'
     )
     respond_to do |format|
-      format.txt { send_data(render_to_string, :filename => 'pms_backup.txt', :mimetype => 'text/plain') }
-      format.sql { send_data(render_to_string, :filename => 'pms_backup.sql', :mimetype => 'text/plain') }
-      format.xml { send_data(render_to_string(:xml => @posts), :filename => 'pms_backup.xml', :mimetype => 'application/xml') }
+      format.txt { send_data(render_to_string.gsub(/([^\r])\n/, "\\1\r\n"), :filename => 'pms_backup.txt', :mimetype => 'text/plain') }
+      format.sql { send_data(render_to_string.gsub(/([^\r])\n/, "\\1\r\n"), :filename => 'pms_backup.sql', :mimetype => 'text/plain') }
+      format.xml { send_data(render_to_string(:xml => @pms), :filename => 'pms_backup.xml', :mimetype => 'application/xml') }
     end
   end
 

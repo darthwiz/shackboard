@@ -79,6 +79,11 @@
         =link_to('txt', backup_pms_path(:format => 'txt'))
         =link_to('sql', backup_pms_path(:format => 'sql'))
         =link_to('xml', backup_pms_path(:format => 'xml'))
+      %li
+        Blog:
+        =link_to('txt', blog_backup_path(:username => @user.username, :format => 'txt'))
+        =link_to('sql', blog_backup_path(:username => @user.username, :format => 'sql'))
+        =link_to('xml', blog_backup_path(:username => @user.username, :format => 'xml'))
 
 -unless @latest_replies.blank?
   #latest_replies{ :class => domid(@shown_user) }

@@ -1,0 +1,9 @@
+<%@blogs.each do |blog|-%>
+<%=blog.to_sql%>;
+<%blog.blog_posts.by_time_asc.each do |post|-%>
+<%=post.to_sql%>;
+<%post.blog_comments.by_time_asc.each do |comment|-%>
+<%=comment.to_sql%>;
+<%end-%><%#comment-%>
+<%end-%><%#post-%>
+<%end-%><%#blog-%>

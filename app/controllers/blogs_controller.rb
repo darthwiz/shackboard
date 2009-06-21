@@ -114,4 +114,15 @@ class BlogsController < ApplicationController
     render :nothing => true
   end
 
+  def backup
+    redirect_to root_path and return unless @user.is_a? User
+    @skip_anonymize_filter = true
+    @blogs = @user.blogs
+    respond_to do |format|
+      format.txt { send_data(render_to_string.gsub(/([^\r])\n/, "\\1\r\n"), :filename => 'blogs_backup.txt', :mimetype => 'text/plain') }
+      format.sql { send_data(render_to_string.gsub(/([^\r])\n/, "\\1\r\n"), :filename => 'blogs_backup.sql', :mimetype => 'text/plain') }
+      format.xml { send_data(render_to_string, :filename => 'blogs_backup.xml', :mimetype => 'text/plain') }
+    end
+  end
+
 end
