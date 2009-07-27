@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   alias_attribute :website, :site
   alias_attribute :signature, :sig
   default_scope :conditions => { :deleted_at => nil }
+  named_scope :with_blog, :joins => :blogs, :conditions => "#{Blog.table_name}.user_id IS NOT NULL"
   attr_accessor :ip
   @@supermods = nil
   @@admins    = nil

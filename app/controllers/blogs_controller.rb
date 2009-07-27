@@ -14,7 +14,7 @@ class BlogsController < ApplicationController
       @location = @blog_user
     else
       blogs            = Blog.all(:order => 'user_id, last_post_at DESC')
-      users_with_blogs = User.find(blogs.collect(&:user_id).uniq)
+      users_with_blogs = User.with_blog.uniq
       @blogs_by_user   = []
       users_with_blogs.each do |u|
         @blogs_by_user << [ u, blogs.select { |i| i.user_id == u.id } ]
