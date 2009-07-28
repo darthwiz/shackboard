@@ -50,7 +50,7 @@ ActionController::Routing::Routes.draw do |map|
   map.blog_index    '/blogs', :controller => 'blogs', :action => 'index'
   map.cms_page      '/cms/:slug', :controller => 'cms_pages', :action => 'show'
   map.seo_blog_post 'blogs/:username/:id/:slug', :controller => 'blog_posts', :action => 'show', :requirements => { :id => /[0-9]+/ }
-  map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9]+/, :blog_label => /.*/ }
+  map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9].+/, :blog_label => /.*/ }
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
 
