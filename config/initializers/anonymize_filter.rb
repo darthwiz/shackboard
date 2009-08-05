@@ -1,1 +1,1 @@
-ActionController::Dispatcher.middleware.use AnonymizeFilter
+#ActionController::Dispatcher.middleware.use AnonymizeFilter

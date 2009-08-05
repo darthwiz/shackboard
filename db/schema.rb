@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090611185748) do
+ActiveRecord::Schema.define(:version => 20090805174837) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -465,6 +465,7 @@ ActiveRecord::Schema.define(:version => 20090611185748) do
   add_index "xmb_posts", ["deleted"], :name => "deleted"
   add_index "xmb_posts", ["deleted_by"], :name => "deleted_by"
   add_index "xmb_posts", ["fid", "tid"], :name => "fid"
+  add_index "xmb_posts", ["message"], :name => "message"
   add_index "xmb_posts", ["reply_to_uid"], :name => "reply_to_uid"
   add_index "xmb_posts", ["tid", "fid"], :name => "tid"
   add_index "xmb_posts", ["uid"], :name => "uid"
@@ -586,25 +587,25 @@ ActiveRecord::Schema.define(:version => 20090611185748) do
 
   create_table "xmb_threads", :primary_key => "tid", :force => true do |t|
     t.integer "uid",            :limit => 3
-    t.integer "fid",            :limit => 2,   :default => 0,  :null => false
-    t.string  "subject",        :limit => 100, :default => "", :null => false
-    t.string  "lastpost",       :limit => 30,  :default => "", :null => false
-    t.integer "views",                         :default => 0,  :null => false
-    t.integer "replies",                       :default => 0,  :null => false
-    t.string  "author",         :limit => 40,  :default => "", :null => false
-    t.text    "message",                                       :null => false
-    t.string  "dateline",       :limit => 30,  :default => "", :null => false
+    t.integer "fid",            :limit => 2,        :default => 0,  :null => false
+    t.string  "subject",        :limit => 100,      :default => "", :null => false
+    t.string  "lastpost",       :limit => 30,       :default => "", :null => false
+    t.integer "views",                              :default => 0,  :null => false
+    t.integer "replies",                            :default => 0,  :null => false
+    t.string  "author",         :limit => 40,       :default => "", :null => false
+    t.text    "message",        :limit => 16777215,                 :null => false
+    t.string  "dateline",       :limit => 30,       :default => "", :null => false
     t.string  "icon",           :limit => 50
-    t.string  "usesig",         :limit => 15,  :default => "", :null => false
-    t.string  "closed",         :limit => 15,  :default => "", :null => false
-    t.integer "topped",         :limit => 2,   :default => 0,  :null => false
-    t.string  "useip",          :limit => 40,  :default => "", :null => false
-    t.string  "bbcodeoff",      :limit => 15,  :default => "", :null => false
-    t.string  "smileyoff",      :limit => 15,  :default => "", :null => false
-    t.integer "pollstatus",     :limit => 2,   :default => 0,  :null => false
-    t.text    "pollopts",                                      :null => false
-    t.integer "edituser",                      :default => 0,  :null => false
-    t.integer "editdate",                      :default => 0,  :null => false
+    t.string  "usesig",         :limit => 15,       :default => "", :null => false
+    t.string  "closed",         :limit => 15,       :default => "", :null => false
+    t.integer "topped",         :limit => 2,        :default => 0,  :null => false
+    t.string  "useip",          :limit => 40,       :default => "", :null => false
+    t.string  "bbcodeoff",      :limit => 15,       :default => "", :null => false
+    t.string  "smileyoff",      :limit => 15,       :default => "", :null => false
+    t.integer "pollstatus",     :limit => 2,        :default => 0,  :null => false
+    t.text    "pollopts",       :limit => 16777215,                 :null => false
+    t.integer "edituser",                           :default => 0,  :null => false
+    t.integer "editdate",                           :default => 0,  :null => false
     t.string  "deleted",        :limit => 80
     t.integer "deleted_by"
     t.integer "deleted_on"
