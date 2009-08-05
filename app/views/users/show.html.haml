@@ -36,6 +36,12 @@
           %dt Sito web:
           %dd= link_to(@shown_user.website, @shown_user.website, :target => '_blank')
 
+    -if (!@shown_user.email.blank? && User.is_mod?(@user))
+      %li.email
+        %dl
+          %dt e-mail:
+          %dd= @shown_user.email
+
     -unless @shown_user.msn.blank?
       %li.msn
         %dl

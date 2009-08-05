@@ -65,6 +65,16 @@ class User < ActiveRecord::Base
     return true if User.admin_ids.include? self.id
     User.supermod_ids.include? self.id
   end
+
+  def is_mod?(forum=nil)
+    if forum.is_a? Forum
+      return true if self.moderates.include?(forum)
+    else
+      return true if self.is_supermod?
+      return true unless self.moderates.empty?
+    end
+    false
+  end
  
   def can_edit?(user)
     # Beware, this method really should be called "can_be_edited_by?" but is so
@@ -188,6 +198,11 @@ class User < ActiveRecord::Base
 
   def self.[](id)
     self.with_exclusive_scope { self.find(id) }
+  end
+
+  def self.is_mod?(user)
+    return false unless user.is_a? User
+    user.is_mod?
   end
 
   def self.authenticate(username, password) 
