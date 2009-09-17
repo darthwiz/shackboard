@@ -8,7 +8,7 @@ class Forum < ActiveRecord::Base
   has_many   :topics, :foreign_key => 'fid'
   has_many   :posts,  :foreign_key => 'fid'
   alias_attribute :posts_count, :posts
-  @@tree = nil
+  @@all_forums = {}
 
   def container
     self.forum
@@ -105,33 +105,6 @@ class Forum < ActiveRecord::Base
     users
   end
 
-  def add_child(forum)
-    @children = [] if @children.nil?
-    @children << forum
-    @children.sort! { |a, b| a.displayorder.to_i <=> b.displayorder.to_i }
-  end
-
-  def children_cached
-    @children = [] unless @children
-    @children
-  end
-
-  def children
-    unless @@tree
-      @@tree = {}
-      forums = Forum.find(:all)
-      forums.each do |f|
-        @@tree[f.id] = f
-      end
-      @@tree.each_pair do |id, f|
-        if f.fup.to_i > 0
-          @@tree[f.fup.to_i].add_child(f)
-        end
-      end
-    end
-    @@tree[self.id].children_cached
-  end
-
   def topics(range)
     raise TypeError, 'argument must be a Range' unless range.is_a? Range
     topics  = []
@@ -202,42 +175,33 @@ class Forum < ActiveRecord::Base
     )
   end
 
+  def add_child(forum)
+    @children = [] unless @children.is_a?(Array)
+    @children << forum
+    @children.sort! { |a, b| a.displayorder <=> b.displayorder }
+  end
+
+  def children(depth = 1)
+    ret = []
+    return ret if depth == 0
+    self.class.rebuild_tree! if @@all_forums[self.id].nil?
+    children = @@all_forums[self.id].instance_variable_get(:@children) || []
+    children.each { |f| ret << [ f, f.children(depth - 1) ] }
+    ret.flatten.compact
+  end
+
+  def self.rebuild_tree!
+    @@all_forums = {}
+    Forum.all.each { |f| @@all_forums[f.id] = f }
+    @@all_forums.values.each do |f|
+      @@all_forums[f.fup].add_child(f) if f.fup.to_i > 0
+    end
+    @@all_forums
+  end
+
   def self.latest_topics(id, *args)
     f = Forum.find(id)
     f.latest_topics(*args)
-  end
-
-  def self.reset_cache!
-    @@tree = nil
-  end
-
-  def self.rebuild_flattened_list_seq!
-    self_and_children = lambda do |f|
-      fs = []
-      fs << f
-      f.children.each do |i|
-        fs << self_and_children.call(i)
-      end
-      fs.flatten
-    end
-    forums = []
-    self.find(
-      :all,
-      :conditions => 'fup = 0',
-      :order      => 'displayorder'
-    ).each do |f|
-      forums << self_and_children.call(f)
-    end
-    seq = 0
-    forums.flatten.each do |i|
-      seq += 1
-      i.flattened_list_seq = seq
-      i.save!
-    end
-  end
-
-  def self.flattened_list
-    self.find(:all, :order => 'flattened_list_seq')
   end
 
   def self.fix_post_count!
