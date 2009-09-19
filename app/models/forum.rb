@@ -204,6 +204,15 @@ class Forum < ActiveRecord::Base
     f.latest_topics(*args)
   end
 
+  def self.flattened_list
+    self.rebuild_tree! if @@all_forums.empty?
+    ret = []
+    @@all_forums.values.select { |f| f.fup == 0 }.
+      sort { |a, b| a.displayorder <=> b.displayorder }.
+      each { |f| ret << [ f, f.children(100) ] }
+    ret.flatten.compact
+  end
+
   def self.fix_post_count!
     ftn = self.table_name
     ptn = Post.table_name
