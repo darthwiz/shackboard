@@ -1,6 +1,9 @@
 <div id="login_box">
   <%if @user.is_a? User%>
     Benvenuto <strong><%=h @user.username%></strong>!
+    <%unless @fb_session%>
+    <%=fb_login_and_redirect(root_path)%>
+    <%end%>
     <%if @unread_pms_count > 0 || @unsent_drafts_count > 0 || @unapproved_files_count > 0 || @unread_blog_comments_count > 0%>
     <ul>
       <%=content_tag('li', link_pm_unread(@unread_pms_count))                     if @unread_pms_count           > 0%>

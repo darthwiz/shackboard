@@ -9,6 +9,8 @@
     <%=render :partial => '/common/stylesheets'%>
   </head>
   <body>
+    <%=fb_connect_javascript_tag%>
+    <%=init_fb_connect "XFBML", :app_settings => "{reloadIfSessionStateChanged: true}"%>
     <%=yield%>
     <%=render :partial => '/common/google_analytics'%>
   </body>

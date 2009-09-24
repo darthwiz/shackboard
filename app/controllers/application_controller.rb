@@ -1,8 +1,12 @@
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
-  before_filter :load_defaults, :set_locale, :update_online, :set_stylesheet
+  before_filter :set_facebook_session,
+    :ensure_facebook_session_if_present,
+    :load_defaults, :set_locale, :update_online,
+    :set_stylesheet
   after_filter :update_last_visit
+  helper_method :facebook_session
   @@domain = COOKIE_DOMAIN
 
   private
@@ -50,6 +54,10 @@ class ApplicationController < ActionController::Base
     rescue
       @user = nil
     end
+
+    # Facebook authentication
+    @user = User.find_by_fbid(@fb_session.user.id) if (@fb_session && @user.nil?)
+
     # legacy authentication 
     unless @user
       username         = cookies[:thisuser]
@@ -89,6 +97,12 @@ class ApplicationController < ActionController::Base
       @unread_blog_comments_count = BlogPost.count_unread_for(@user)
       @unsent_drafts_count        = Draft.count_unsent_for(@user)
       @unapproved_files_count     = is_file_adm?(@user) ? FiledbFile.count_unapproved : 0
+    end
+
+    p @fb_session
+    if @user && @fb_session
+      @user.fbid = @fb_session.user.id
+      @user.save
     end
 
     Notifier.delivery_method = :sendmail
@@ -146,6 +160,15 @@ class ApplicationController < ActionController::Base
         :object => @location,
         :ip     => @current_user_ip
       ).save
+    end
+  end
+
+  def ensure_facebook_session_if_present
+    @fb_session = session[:facebook_session]
+    unless session[:tried_facebook_session]
+      session[:tried_facebook_session] = true
+      redirect_to request.request_uri
+      #render '/users/fb_connect' and return
     end
   end
 
