@@ -141,11 +141,15 @@ class ApplicationController < ActionController::Base
   def update_last_visit
     if @user.is_a?(User) && @location.is_a?(ActiveRecord::Base)
       LastVisit.cleanup(@user, @location)
-      LastVisit.new(
-        :user   => @user,
-        :object => @location,
-        :ip     => @current_user_ip
-      ).save
+      begin
+        LastVisit.new(
+          :user   => @user,
+          :object => @location,
+          :ip     => @current_user_ip
+        ).save
+      rescue
+        logger.warn "WARNING: problem saving last visit record with location #{@location.inspect}"
+      end
     end
   end
 
