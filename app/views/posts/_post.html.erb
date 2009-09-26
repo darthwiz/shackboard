@@ -19,10 +19,12 @@ end
                   <%=p.cached_user.rank.title%><br />
                   <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
                   <br />
-                  <%if p.cached_user.avatar%>
-                  <%=image_tag p.cached_user.avatar,
-                    :class => 'avatar', :alt => ''%>
-                  <%end%>
+                  <div class="avatar_box">
+                    <%if p.cached_user.avatar%>
+                    <%=image_tag p.cached_user.avatar,
+                      :class => 'avatar', :alt => ''%>
+                    <%end%>
+                  </div>
                   <br />
                   <br />
                   <%if p.cached_user.postnum > 1000%>
