@@ -61,11 +61,11 @@ class UsersController < ApplicationController
   end
 
   def login
-    session[:intended_action] = request.env['HTTP_REFERER']
+    save_intended_action
   end
 
   def fbconnect
-    session[:intended_action] = request.env['HTTP_REFERER']
+    save_intended_action
     if @user
       redirect_to session[:intended_action] and return
     else
@@ -80,6 +80,7 @@ class UsersController < ApplicationController
     user     = User.find_by_username(username)
     fb_user  = User.find_by_fbid(fbid)
     if !fb_user.nil?
+      # this should never happen, but just in case someone is tampering...
       flash[:error] = "Il tuo account Facebook è già collegato a un utente."
       redirect_to(session[:intended_action] || root_path)
     elsif user && user.auth(password)
@@ -124,7 +125,7 @@ class UsersController < ApplicationController
     cookies[:thispw]   = { :domain => @@domain, :expires => Time.at(0) }
     session[:facebook_session] = nil
     reset_session
-    if request.env["HTTP_REFERER"]
+    if request.referer
       redirect_to :back 
     else
       redirect_to root_path

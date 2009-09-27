@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
   @@domain = COOKIE_DOMAIN
 
   private
+
+  def save_intended_action
+    session[:intended_action] = request.referer unless request.referer == request.url
+  end
+
   def cache_expire(params) 
     case params[:object]
     when :topic 
