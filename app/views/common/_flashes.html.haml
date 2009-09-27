@@ -1,0 +1,13 @@
+#flash
+  -if flash[:error]
+    .error
+      =flash[:error]
+  -if flash[:warning]
+    .warning
+      =flash[:warning]
+  -if flash[:notice]
+    .notice
+      =flash[:notice]
+  -if flash[:success]
+    .success
+      =flash[:success]

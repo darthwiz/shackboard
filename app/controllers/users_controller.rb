@@ -35,7 +35,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    email     = params[:user][:email].strip
+    email     = params[:user][:email]
+    email     = email.strip if email
     username  = params[:user][:username].strip
     password  = User.pwgen
     @new_user = User.new(
@@ -43,11 +44,12 @@ class UsersController < ApplicationController
       :password => password,
       :email    => email,
       :regip    => request.remote_ip,
-      :regdate  => Time.now.to_i
+      :regdate  => Time.now.to_i,
+      :fbid     => params[:user][:fbid]
     )
     respond_to do |format|
       if @new_user.save
-        Notifier.deliver_signup_notification(email, username, password)
+        Notifier.deliver_signup_notification(email, username, password) unless @new_user.email.blank?
         format.html
       else
         format.html do
@@ -60,6 +62,35 @@ class UsersController < ApplicationController
 
   def login
     session[:intended_action] = request.env['HTTP_REFERER']
+  end
+
+  def fbconnect
+    session[:intended_action] = request.env['HTTP_REFERER']
+    if @user
+      redirect_to session[:intended_action] and return
+    else
+      @new_user = User.new(:username => "#{@fb_user.first_name} #{@fb_user.last_name}", :fbid => @fb_user.id)
+    end
+  end
+
+  def fblink
+    username = params[:existing_user][:username]
+    password = params[:existing_user][:password]
+    fbid     = params[:existing_user][:fbid]
+    user     = User.find_by_username(username)
+    fb_user  = User.find_by_fbid(fbid)
+    if !fb_user.nil?
+      flash[:error] = "Il tuo account Facebook è già collegato a un utente."
+      redirect_to(session[:intended_action] || root_path)
+    elsif user && user.auth(password)
+      user.fbid = fbid
+      user.save!
+      flash[:success] = "Il tuo utente è stato colegato all'account Facebook."
+      redirect_to(session[:intended_action] || root_path)
+    else
+      flash[:error] = "L'autenticazione è fallita: riprova."
+      redirect_to :back
+    end
   end
 
   def authenticate
@@ -91,6 +122,7 @@ class UsersController < ApplicationController
   def logout 
     cookies[:thisuser] = { :domain => @@domain, :expires => Time.at(0) }
     cookies[:thispw]   = { :domain => @@domain, :expires => Time.at(0) }
+    session[:facebook_session] = nil
     reset_session
     if request.env["HTTP_REFERER"]
       redirect_to :back 

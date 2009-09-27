@@ -2,7 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   before_filter :set_facebook_session,
-    :ensure_facebook_session_if_present,
     :load_defaults, :set_locale, :update_online,
     :set_stylesheet
   after_filter :update_last_visit
@@ -41,6 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def load_defaults 
+    @fb_support       = true
     @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
     @topic_block_size = 25
@@ -56,7 +56,12 @@ class ApplicationController < ActionController::Base
     end
 
     # Facebook authentication
-    @user = User.find_by_fbid(@fb_session.user.id) if (@fb_session && @user.nil?)
+    @fb_session = session[:facebook_session]
+    @fb_user    = @fb_session.user if @fb_session
+    logger.debug 'trying to authenticate with Facebook'
+    @user       = User.find_by_fbid(@fb_user.id) if (@fb_user && @user.nil?)
+    logger.debug "user is #{@user.inspect}"
+    p @fb_session
 
     # legacy authentication 
     unless @user
@@ -97,12 +102,6 @@ class ApplicationController < ActionController::Base
       @unread_blog_comments_count = BlogPost.count_unread_for(@user)
       @unsent_drafts_count        = Draft.count_unsent_for(@user)
       @unapproved_files_count     = is_file_adm?(@user) ? FiledbFile.count_unapproved : 0
-    end
-
-    p @fb_session
-    if @user && @fb_session
-      @user.fbid = @fb_session.user.id
-      @user.save
     end
 
     Notifier.delivery_method = :sendmail
@@ -155,20 +154,15 @@ class ApplicationController < ActionController::Base
   def update_last_visit
     if @user.is_a?(User) && @location.is_a?(ActiveRecord::Base)
       LastVisit.cleanup(@user, @location)
-      LastVisit.new(
-        :user   => @user,
-        :object => @location,
-        :ip     => @current_user_ip
-      ).save
-    end
-  end
-
-  def ensure_facebook_session_if_present
-    @fb_session = session[:facebook_session]
-    unless session[:tried_facebook_session]
-      session[:tried_facebook_session] = true
-      redirect_to request.request_uri
-      #render '/users/fb_connect' and return
+      begin
+        LastVisit.new(
+          :user   => @user,
+          :object => @location,
+          :ip     => @current_user_ip
+        ).save
+      rescue
+        logger.warn "WARNING: problem saving last visit record with location #{@location.inspect}"
+      end
     end
   end
 

@@ -7,10 +7,13 @@ class User < ActiveRecord::Base
   has_many :categories
   has_many :blogs
   validates_uniqueness_of :username
-  validates_uniqueness_of :email
+  validates_uniqueness_of :email, :allow_nil => true
   validates_length_of :username, :minimum => 1
-  validates_length_of :password, :minimum => 6
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  validates_length_of :password, :minimum => 6, :allow_nil => true
+  validates_each :email do |record, key, value|
+    ok_nil = value.nil? && record.fbid.to_i > 0
+    record.errors.add key, :invalid unless (value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i || ok_nil)
+  end
   validates_each :username do |record, key, value|
     record.errors.add key, :cannot_be_numeric       if value =~ /^[0-9\s]+$/
     record.errors.add key, :cannot_begin_with_space if value =~ /^\s/
