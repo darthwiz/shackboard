@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   before_filter :load_defaults, :set_locale, :update_online, :set_stylesheet
   after_filter :update_last_visit
+  helper :all
   @@domain = COOKIE_DOMAIN
 
   private
