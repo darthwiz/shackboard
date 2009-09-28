@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
     :set_stylesheet
   after_filter :update_last_visit
   helper_method :facebook_session
+  helper :all
   @@domain = COOKIE_DOMAIN
 
   private

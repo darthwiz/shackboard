@@ -2,7 +2,7 @@ module TopicHelper
 
   def page_trail_topic(obj, opts={})
     trail  = []
-    trail << [ obj.subject, {} ]
+    trail << [ cleanup(obj.subject), {} ]
     while(obj = obj.container)
       link = {}
       case obj.class.to_s

@@ -10,9 +10,9 @@ images_url = "http://www.studentibicocca.it/portale/forum/images"
             <tr>
               <td width="4%" class="header">&nbsp;</td>
               <td width="45%" class="header">Forum:</td>
-              <td width="6%" class="header">Threads:</td>
-              <td width="6%" class="header">Posts:</td>
-              <td width="23%" class="header">Ultimo Post:</td>
+              <td width="6%" class="header">Discussioni:</td>
+              <td width="6%" class="header">Messaggi:</td>
+              <td width="23%" class="header">Ultimo messaggio:</td>
               <td width="28%" class="header">Moderatori:</td>
             </tr>
             <%@forums.each do |f|%>
@@ -60,7 +60,9 @@ images_url = "http://www.studentibicocca.it/portale/forum/images"
     <table width="100%" cellspacing="0" cellpadding="0" align="center">
       <tr>
         <td bgcolor="<%=t.bgcolor%>" class="post" align="right">
-          <%=link_to "Nuova discussione", new_forum_topic_path(@forum)%>
+          <div class="new_topic_link">
+            <%=link_to "Nuova discussione", new_forum_topic_path(@forum)%>
+          </div>
         </td>
       </tr>
     </table>
@@ -74,9 +76,9 @@ images_url = "http://www.studentibicocca.it/portale/forum/images"
               <td width="4%" class="header">&nbsp;</td>
               <td width="47%" class="header">Oggetto:</td>
               <td width="14%" class="header">Autore:</td>
-              <td width="6%" class="header">Post:</td>
+              <td width="6%" class="header">Messaggi:</td>
               <td width="6%" class="header">Visite:</td>
-              <td width="19%" class="header">Ultimo Post:</td>
+              <td width="19%" class="header">Ultimo messaggio:</td>
             </tr>
             <%@topics.each do |tp|%>
             <tr>
@@ -121,7 +123,9 @@ images_url = "http://www.studentibicocca.it/portale/forum/images"
     <table width="100%" cellspacing="0" cellpadding="0" align="center">
       <tr>
         <td bgcolor="<%=t.bgcolor%>" class="post" align="right">
-          <%=link_to 'Nuova discussione', new_forum_topic_path(@forum) if @forum.can_post?(@user)%>
+          <div class="new_topic_link">
+            <%=link_to 'Nuova discussione', new_forum_topic_path(@forum) if @forum.can_post?(@user)%>
+          </div>
         </td>
       </tr>
       <tr>
@@ -129,9 +133,8 @@ images_url = "http://www.studentibicocca.it/portale/forum/images"
           <table width="100%" align="center">
             <tr>
               <td class="tablerow">
-                <img src="<%=images_url%>/red_folder.gif" alt="Topic" /> Thread aperto con nuovi post (<img src="<%=images_url%>/hot_red_folder.gif" alt="Hot Topic" /> più di 20 risposte)<br />
-                <img src="<%=images_url%>/folder.gif" alt="Topic" /> Thread aperto (<img src="<%=images_url%>/hot_folder.gif" alt="Hot Topic" /> più di 20 risposte)<br />
-                <img src="<%=images_url%>/lock_folder.gif" alt="Closed Topic" /> Thread chiuso
+                <img src="<%=images_url%>/folder.gif" alt="Topic" /> Discussione aperta (<img src="<%=images_url%>/hot_folder.gif" alt="Hot Topic" /> più di 20 risposte)<br />
+                <img src="<%=images_url%>/lock_folder.gif" alt="Closed Topic" /> Discussione chiusa
               </td>
             </tr>
           </table>

@@ -220,7 +220,7 @@ module ApplicationHelper
     trail = self.send(method_name, loc, opts) if self.respond_to?(method_name)
     s    += ' &gt; ' + trail.collect { |i|
       if i[1].blank?
-        content_tag('span', cleanup(i[0]), :class => 'current_location')
+        content_tag('span', i[0], :class => 'current_location')
       else
         link_to(cleanup(i[0]), i[1])
       end
