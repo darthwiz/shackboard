@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :load_defaults, :set_locale, :update_online, :set_stylesheet
   after_filter :update_last_visit
   helper :all
+  helper_method :is_adm?, :is_supermod?, :is_file_adm?
   @@domain = COOKIE_DOMAIN
 
   private
@@ -32,10 +33,21 @@ class ApplicationController < ActionController::Base
     end
   end 
 
+  def is_adm?(user=@user)
+    return false unless user.is_a? User
+    user.is_adm?
+  end
+
+  def is_supermod?(user=@user)
+    return false unless user.is_a? User
+    user.is_supermod?
+  end
+
   def is_file_adm?(user=@user)
     return false unless user.is_a? User
     FileController.new.send(:is_adm?, user)
   end
+
 
   def load_defaults 
     @settings         = Settings.find(:all)[0]
