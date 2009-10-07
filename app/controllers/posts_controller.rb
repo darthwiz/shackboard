@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate, :except => :show
+  before_filter :authenticate, :except => [ :show, :search ]
   layout 'forum'
 
   def show
@@ -145,6 +145,28 @@ class PostsController < ApplicationController
       format.sql { send_data(render_to_string.gsub(/([^\r])\n/, "\\1\r\n"), :filename => 'posts_backup.sql', :mimetype => 'text/plain') }
       format.xml { send_data(render_to_string(:xml => @posts), :filename => 'posts_backup.xml', :mimetype => 'application/xml') }
     end
+  end
+
+  def search
+    @query_string  = params[:q]
+    qs             = QueryString.new(@query_string).to_mysql
+    after          = params[:after] || 2.year.ago.to_i
+    ppp            = @opts[:ppp]
+    start          = params[:start].to_i - 1
+    start          = 0 if (start <= 0)
+    rstart         = (start/ppp)*ppp
+    rend           = rstart + ppp - 1
+    finder         = Post.after_time(after).with_matching_text(qs)
+    @posts_count   = finder.count
+    @range         = rstart..rend
+    @posts         = finder.range(@range).including_user.including_topic.ordered_by_time_desc
+    @location      = :search_results
+    @page_seq_opts = { :last        => @posts_count,
+                       #:action      => :search,
+                       :ipp         => ppp,
+                       :current     => start + 1,
+                       :get_parms   => [ :q ],
+                       :extra_links => [ :first, :forward, :back, :last ] }
   end
 
 end

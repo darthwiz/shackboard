@@ -1,0 +1,81 @@
+-t            = @opts[:theme]
+-flip         = 0
+-can_moderate = false
+-can_post     = false
+-images_url   = 'http://www.studentibicocca.it/portale/forum/images/'
+-buttons      = false
+#topic_view
+  -form_tag(search_posts_path, :method => :get) do
+    %label(for="q") Cerca:
+    =text_field_tag :q, @query_string, :size => 40
+    =submit_tag 'cerca'
+  #post_list
+    %table{ :bgcolor => t.bordercolor, :cellspacing => 1, :width => "100%", :cellpadding => 3 }
+      -@posts.each do |p|
+        -p.cached_smileys = []
+        -bgcolor = (flip == 0) ? t.altbg1 : t.altbg2
+        %tr{ :bgcolor => bgcolor, :class => domid(p.user) }
+          %td(rowspan="2" valign="top" class="tablerow" width="18%")
+            %a{ :name => "pid#{p.id}", :id => "pid#{p.id}" }
+            -if p == @posts.try(:last)
+              %a(name="last_post")
+              %a(name="bottom")
+            %span(class="postauthor")
+              =p.user.anonymized? ? content_tag(:em, 'utente anonimo') : h(p.user.username)
+            -unless p.user.anonymized?
+              %br
+              .11px
+                =p.user.rank.title
+                %br
+                =image_tag(images_url + 'star.gif', :alt => '*') * p.user.rank.stars
+                %br
+                .avatar_box
+                  -if p.user.avatar
+                    =image_tag p.user.avatar, :class => 'avatar', :alt => ''
+                %br
+                %br
+                -if p.user.postnum > 1000
+                  ='%0.2f' % p.user.posts_per_day
+                  messaggi per giorno
+                  %br
+                -else
+                  =p.user.postnum
+                  messaggi
+                  %br
+                Registrato:
+                =Time.at(p.user.regdate).strftime('%m/%Y')
+                %br
+                .c3
+                  %br
+                  =link_to(image_tag(images_url + 'b_profile.png', :border => 0, :alt => 'profilo'), p.user)
+                  /-if p.user.has_blog?
+                  /  =link_to(image_tag(images_url + 'b_blog.png', :alt => 'blog', :border => 0), blog_list_path(:username => p.user.username))
+                  /=render :partial => '/vote/icons', :partials => { :object => p }
+              %br
+          %td(valign="top" height="1" class="tablerow" width="82%")
+            &nbsp; inviato il
+            =p.created_at.strftime('%d/%m/%Y')
+            alle
+            =p.created_at.strftime('%H.%M')
+          %td
+            %div(style="text-align: center;")
+              =link_to 'permalink', p
+        %tr{ :bgcolor => bgcolor, :class => domid(p.user) }
+          %td(height="120" valign="top" colspan="2")
+            .maxpostwidth
+              =BbText.new(p.message, p.cached_smileys).to_html(:controller => self)
+              -unless p.user.signature.blank? || p.user.anonymized?
+                %p &nbsp;
+                ____________________
+                %br
+                .signature
+                  =cleanup(p.user.signature).gsub("\n", '<br />')
+              -if p.edituser && (p.updated_at - p.created_at > 2.minutes)
+                .post_updated
+                  modificato da
+                  =cleanup(p.updated_by.username)
+                  il
+                  =p.updated_at.strftime('%d/%m/%Y')
+                  alle
+                  =p.updated_at.strftime('%H.%M')
+        -flip = 1 - flip

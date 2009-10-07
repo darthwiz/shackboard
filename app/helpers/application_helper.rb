@@ -211,6 +211,8 @@ module ApplicationHelper
     case loc.class.to_s
     when 'Array'
       method_name = ('page_trail_' + loc.first.class.to_s.underscore.pluralize).to_sym
+    when 'Symbol'
+      method_name = ('page_trail_' + loc.to_s).to_sym
     else
       method_name = ('page_trail_' + loc.class.to_s.underscore).to_sym
     end
@@ -227,6 +229,10 @@ module ApplicationHelper
       end
     }.join(' &gt; ') if trail.is_a? Array
     content_tag('span', s, :class => 'page_trail')
+  end
+
+  def page_trail_search_results(loc, opts)
+    [ [ 'Risultati della ricerca', nil ] ]
   end
 
   def page_title(loc=@location, opts={})

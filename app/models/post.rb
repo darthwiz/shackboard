@@ -10,8 +10,33 @@ class Post < ActiveRecord::Base
     :cached_has_blog, :cached_smileys, :cached_online, :cached_user,
     :cached_edited_by
   alias_attribute :created_at, :dateline
+
   default_scope :conditions => { :deleted_by => nil },
-    :joins => "INNER JOIN #{User.table_name} u ON u.uid = #{self.table_name}.uid AND u.deleted_at IS NULL"
+    :joins => "INNER JOIN #{User.table_name} default_u ON default_u.uid = #{self.table_name}.uid AND default_u.deleted_at IS NULL"
+
+  named_scope :with_matching_text, lambda { |string|
+    tn = self.table_name
+    qs = self.quote_value(string)
+    {
+      :select     => "MATCH(#{tn}.message) AGAINST(#{qs} IN BOOLEAN MODE) AS relevance, #{tn}.*",
+      :conditions => "MATCH(#{tn}.message) AGAINST(#{qs} IN BOOLEAN MODE) > 0",
+      #:order      => "relevance DESC",
+    }
+  }
+
+  named_scope :after_time, lambda { |time|
+    { :conditions => "dateline >= #{time.to_i}" }
+  }
+
+  named_scope :range, lambda { |range|
+    { :offset => range.begin, :limit => range.entries.length }
+  }
+
+  named_scope :including_user,       :include => :user
+  named_scope :including_topic,      :include => :topic
+  named_scope :ordered_by_relevance, :order   => 'relevance DESC'
+  named_scope :ordered_by_time,      :order   => 'dateline'
+  named_scope :ordered_by_time_desc, :order   => 'dateline DESC'
   
   def text
     self.message
