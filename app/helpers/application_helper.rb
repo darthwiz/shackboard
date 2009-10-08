@@ -232,7 +232,7 @@ module ApplicationHelper
   end
 
   def page_trail_search_results(loc, opts)
-    [ [ 'Risultati della ricerca', nil ] ]
+    [ [ 'Ricerca', nil ] ]
   end
 
   def page_title(loc=@location, opts={})

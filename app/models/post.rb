@@ -24,8 +24,19 @@ class Post < ActiveRecord::Base
     }
   }
 
+  named_scope :with_user, lambda { |user|
+    uid = user.is_a?(User) ? user.id : nil
+    { :conditions => { :uid => uid } }
+  }
+
   named_scope :after_time, lambda { |time|
     { :conditions => "dateline >= #{time.to_i}" }
+  }
+
+  named_scope :public_only, lambda {
+    ft = Forum.table_name
+    pt = self.table_name
+    { :joins => "INNER JOIN #{ft} AS po_f ON #{pt}.fid = po_f.fid AND po_f.private = '' AND po_f.userlist = ''" }
   }
 
   named_scope :range, lambda { |range|
