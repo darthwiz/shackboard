@@ -170,7 +170,7 @@ class PostsController < ApplicationController
     @page_seq_opts = { :last        => @posts_count,
                        :ipp         => ppp,
                        :current     => start + 1,
-                       :get_parms   => [ :q ],
+                       :get_parms   => [ :q, :time, :username ],
                        :extra_links => [ :first, :forward, :back, :last ] }
   end
 
