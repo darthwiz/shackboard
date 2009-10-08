@@ -70,12 +70,12 @@ class Topic < ActiveRecord::Base
     self.save
   end
 
-  def update_last_post!
+  def update_last_post!(last=nil)
     last = Post.find(
       :first,
       :conditions => [ 'tid = ? AND deleted_by IS NULL', self.id ],
       :order      => 'dateline DESC'
-    )
+    ) unless last.is_a?(Post)
     self[:lastpost] = "#{last.dateline.to_i}|#{last.user.username}"
     self.save!
   end
