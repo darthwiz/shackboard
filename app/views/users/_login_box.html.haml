@@ -1,0 +1,39 @@
+#login_box
+  -if @user.is_a? User
+    Benvenuto
+    ="#{content_tag(:strong, h(@user.username))}!"
+    -if @unread_pms_count > 0 || @unsent_drafts_count > 0 || @unapproved_files_count > 0 || @unread_blog_comments_count > 0
+      %ul
+        =content_tag('li', link_pm_unread(@unread_pms_count))                     if @unread_pms_count           > 0
+        =content_tag('li', link_blogs_unread(@user, @unread_blog_comments_count)) if @unread_blog_comments_count > 0
+        =content_tag('li', link_draft_unsent(@unsent_drafts_count))               if @unsent_drafts_count        > 0
+        =content_tag('li', link_file_unapproved(@unapproved_files_count))         if @unapproved_files_count     > 0
+    .buttons
+      =link_to 'area personale', user_path(@user)
+      =link_pm_list
+      =link_to 'blog', blog_list_path(@user.username)
+      -if @fb_session
+        =fb_logout_link 'logout', logout_users_path
+      -else
+        =link_to 'logout', logout_users_path
+    .spacer
+  -else
+    .login
+      -form_for :users, :url => authenticate_users_path do |f|
+        .username
+          .label Username
+          =f.text_field :username, :size => 16
+        .password
+          .label Password
+          =f.password_field :password, :size => 16
+        =f.submit 'login'
+      .user_register
+        =link_to 'nuovo utente', new_user_path(:rules => true)
+      .user_recover_password
+        =link_to 'dimenticato la password?', recover_password_users_path
+  .search
+    -form_tag(search_posts_path, :method => :get) do
+      =text_field_tag :q, @query_string, :size => 20
+      =hidden_field_tag :time, 'month'
+      =submit_tag 'cerca'
+
