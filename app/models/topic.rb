@@ -7,6 +7,7 @@ class Topic < ActiveRecord::Base
   belongs_to :user,  :foreign_key => "uid"
   has_many   :posts, :foreign_key => "tid"
   validates_format_of :subject, :with => /^[^\s]/
+  attr_accessor :message
   default_scope :conditions => { :deleted_by => nil }
 
   def pinned
@@ -70,12 +71,12 @@ class Topic < ActiveRecord::Base
     self.save
   end
 
-  def update_last_post!
+  def update_last_post!(last=nil)
     last = Post.find(
       :first,
       :conditions => [ 'tid = ? AND deleted_by IS NULL', self.id ],
       :order      => 'dateline DESC'
-    )
+    ) unless last.is_a?(Post)
     self[:lastpost] = "#{last.dateline.to_i}|#{last.user.username}"
     self.save!
   end

@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate, :except => :show
+  before_filter :authenticate, :except => [ :show, :search ]
   layout 'forum'
 
   def show
@@ -95,8 +95,8 @@ class PostsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to topic_path(@post.topic, :page => 'last', :anchor => 'last_post') }
       end
-      @post.topic.update_last_post!
-      @post.forum.update_last_post!
+      @post.topic.update_last_post!(@post)
+      @post.forum.update_last_post!(@post)
       @post.user.increment!(:postnum)
       cache_expire({:object => :topic, :id => @post.topic.id})
     end
@@ -145,6 +145,33 @@ class PostsController < ApplicationController
       format.sql { send_data(render_to_string.gsub(/([^\r])\n/, "\\1\r\n"), :filename => 'posts_backup.sql', :mimetype => 'text/plain') }
       format.xml { send_data(render_to_string(:xml => @posts), :filename => 'posts_backup.xml', :mimetype => 'application/xml') }
     end
+  end
+
+  def search
+    @query_string  = params[:q].to_s
+    @username      = params[:username]
+    @time          = params[:time] || 'week'
+    time           = { 'all' => 0, 'year' => 1.year.ago, 'month' => 1.month.ago, 'week' => 1.week.ago }
+    after          = time[@time]
+    user           = User.find_by_username(@username)
+    qs             = QueryString.new(@query_string).to_mysql
+    ppp            = @opts[:ppp]
+    start          = params[:start].to_i - 1
+    start          = 0 if (start <= 0)
+    rstart         = (start/ppp)*ppp
+    rend           = rstart + ppp - 1
+    finder         = Post.public_only.after_time(after)
+    finder         = finder.with_matching_text(qs) unless @query_string.blank?
+    finder         = finder.with_user(user) unless @username.blank?
+    @posts_count   = finder.count
+    @range         = rstart..rend
+    @posts         = finder.range(@range).including_user.including_topic.ordered_by_time_desc
+    @location      = :search_results
+    @page_seq_opts = { :last        => @posts_count,
+                       :ipp         => ppp,
+                       :current     => start + 1,
+                       :get_parms   => [ :q, :time, :username ],
+                       :extra_links => [ :first, :forward, :back, :last ] }
   end
 
 end

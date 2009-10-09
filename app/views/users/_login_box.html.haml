@@ -35,3 +35,8 @@
       .fb_connect
         %span.label Accedi con il tuo account Facebook:
         =fb_login_and_redirect(fbconnect_users_path)
+  .search
+    -form_tag(search_posts_path, :method => :get) do
+      =text_field_tag :q, @query_string, :size => 20
+      =hidden_field_tag :time, 'month'
+      =submit_tag 'cerca'

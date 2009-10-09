@@ -27,8 +27,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :collection => { :login => :get, :fbconnect => :get, :logout => :get, :authenticate => :post, :fblink => :post, :recover_password => :get, :send_password => :post }, :has_many => :smileys
   map.resources :pms, :member => { :reply => :get, :post_reply => :get }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get }
   map.resources :drafts, :path_prefix => 'forum', :has_one => [ :post, :pm, :topic ]
-  map.resources :posts, :path_prefix => 'forum', :member => { :reply => :get }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get }
-  map.resources :topics, :path_prefix => 'forum', :has_many => :posts
+  map.resources :posts, :path_prefix => 'forum', :member => { :reply => :get }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get, :search => :get }
+  map.resources :topics, :path_prefix => 'forum', :has_many => :posts, :new => { :save_draft => :post, :draft => :get }
   map.resources :forums, :path_prefix => 'forum', :has_many => [ :topics, :posts ]
   map.resources :blogs, :path_prefix => 'blog', :has_many => :blog_posts
   map.resources :blog_posts, :path_prefix => 'blog', :has_many => :blog_comments
@@ -49,8 +49,8 @@ ActionController::Routing::Routes.draw do |map|
   map.blog_backup   'blogs/:username/backup.:format', :controller => 'blogs', :action => 'backup', :requirements => { :username => /[^0-9]+/ }
   map.blog_index    '/blogs', :controller => 'blogs', :action => 'index'
   map.cms_page      '/cms/:slug', :controller => 'cms_pages', :action => 'show'
-  map.seo_blog_post 'blogs/:username/:id/:slug', :controller => 'blog_posts', :action => 'show', :requirements => { :id => /[0-9]+/ }
-  map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9].+/, :blog_label => /.*/ }
+  map.seo_blog_post 'blogs/:username/:id/:slug', :controller => 'blog_posts', :action => 'show', :requirements => { :username => /[^0-9\/][^\/]+/, :id => /[0-9]+/ }
+  map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9\/][^\/]+/, :blog_label => /.*/ }
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
 

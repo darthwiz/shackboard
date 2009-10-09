@@ -2,7 +2,7 @@
 <div class="primary">
   <div id="blog" class="content_box">
     <div id="blog-header">
-      <%unless @blog.user.avatar.empty?%>
+      <%unless @blog.user.avatar.blank?%>
       <div class="header-image">
         <%=image_tag(@blog.user.avatar, :class => 'avatar')%>
       </div>

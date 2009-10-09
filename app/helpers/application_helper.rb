@@ -37,6 +37,7 @@ module ApplicationHelper
   def slugify(s, length=80)
     s = word_wrap(s.to_s, :line_width => length).split("\n").first.to_s
     s.gsub(/[^[:alnum:]]/, '-').gsub(/-+/, '-').downcase.gsub(/(^-|-$)/, '')
+    s.empty? ? '_' : s
   end
 
   def cleanup(str)
@@ -210,6 +211,8 @@ module ApplicationHelper
     case loc.class.to_s
     when 'Array'
       method_name = ('page_trail_' + loc.first.class.to_s.underscore.pluralize).to_sym
+    when 'Symbol'
+      method_name = ('page_trail_' + loc.to_s).to_sym
     else
       method_name = ('page_trail_' + loc.class.to_s.underscore).to_sym
     end
@@ -226,6 +229,10 @@ module ApplicationHelper
       end
     }.join(' &gt; ') if trail.is_a? Array
     content_tag('span', s, :class => 'page_trail')
+  end
+
+  def page_trail_search_results(loc, opts)
+    [ [ 'Ricerca', nil ] ]
   end
 
   def page_title(loc=@location, opts={})
@@ -434,21 +441,6 @@ module ApplicationHelper
 
   def button_to_remote(name, options = {}, html_options = {})
     button_to_function(name, remote_function(options), html_options)
-  end
-
-  def is_adm?(user=@user)
-    return false unless user.is_a? User
-    user.is_adm?
-  end
-
-  def is_supermod?(user=@user)
-    return false unless user.is_a? User
-    user.is_supermod?
-  end
-
-  def is_file_adm?(user=@user)
-    return false unless user.is_a? User
-    FileController.new.send(:is_adm?, user)
   end
 
   def format_button(tag, image, title='')

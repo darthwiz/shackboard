@@ -48,10 +48,10 @@ class BbText
         </div>"; 
       end
     end
-    s.gsub!(/--/, '&mdash;')
+    s.gsub!(/\[color=([^\]]*)\](.*?)\[\/color\]/im, "<span style=\"color: \\1;\">\\2</span>")
+    s.gsub!(/ -- /, ' &mdash; ')
     s.gsub!(/(^|[>[:space:]\n])([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])([<[:space:]\n]|$)/, "\\1<a href=\"\\2://\\3\\4\" target=\"_blank\">\\2://\\3\\4</a>\\5")
     s.gsub!(/\[url=([^\]]*)\](.*?)\[\/url\]/, "<a href=\"\\1\" title=\"\\1\">\\2</a>")
-    s.gsub!(/\[color=([^\]]*)\](.*?)\[\/color\]/, "<span style=\"color: \\1;\">\\2</span>")
     s.gsub!(/\[cms=([^\]]*)\](.*?)\[\/cms\]/) do |match| 
       if controller
         controller.link_to_cms_page($2, $1)

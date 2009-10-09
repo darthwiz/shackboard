@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090922193211) do
+ActiveRecord::Schema.define(:version => 20091001091422) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -434,32 +434,29 @@ ActiveRecord::Schema.define(:version => 20090922193211) do
     t.integer "avatar_width",  :limit => 2,        :default => 0,                 :null => false
     t.integer "avatar_height", :limit => 2,        :default => 0,                 :null => false
     t.integer "deleted_at"
-    t.integer "fbid",          :limit => 8
-    t.string  "sex",           :limit => 1
   end
 
-  add_index "xmb_members", ["fbid"], :name => "index_xmb_members_on_fbid", :unique => true
   add_index "xmb_members", ["postnum"], :name => "postnum"
   add_index "xmb_members", ["username"], :name => "username", :unique => true
 
   create_table "xmb_posts", :primary_key => "pid", :force => true do |t|
     t.integer "uid",            :limit => 3
-    t.integer "fid",            :limit => 2,  :default => 0,    :null => false
-    t.integer "tid",            :limit => 3,  :default => 0,    :null => false
-    t.string  "author",         :limit => 40, :default => "",   :null => false
-    t.text    "message",                                        :null => false
-    t.integer "dateline",                     :default => 0,    :null => false
+    t.integer "fid",            :limit => 2,        :default => 0,    :null => false
+    t.integer "tid",            :limit => 3,        :default => 0,    :null => false
+    t.string  "author",         :limit => 40,       :default => "",   :null => false
+    t.text    "message",        :limit => 16777215,                   :null => false
+    t.integer "dateline",                           :default => 0,    :null => false
     t.string  "icon",           :limit => 50
-    t.string  "usesig",         :limit => 15, :default => "",   :null => false
-    t.string  "useip",          :limit => 40, :default => "",   :null => false
-    t.string  "bbcodeoff",      :limit => 15, :default => "",   :null => false
-    t.string  "smileyoff",      :limit => 15, :default => "",   :null => false
-    t.integer "edituser",                     :default => 0,    :null => false
-    t.integer "editdate",                     :default => 0,    :null => false
+    t.string  "usesig",         :limit => 15,       :default => "",   :null => false
+    t.string  "useip",          :limit => 40,       :default => "",   :null => false
+    t.string  "bbcodeoff",      :limit => 15,       :default => "",   :null => false
+    t.string  "smileyoff",      :limit => 15,       :default => "",   :null => false
+    t.integer "edituser",                           :default => 0,    :null => false
+    t.integer "editdate",                           :default => 0,    :null => false
     t.string  "deleted",        :limit => 80
-    t.string  "format",         :limit => 16, :default => "bb"
-    t.integer "reply_to_pid",                                   :null => false
-    t.integer "reply_to_uid",                                   :null => false
+    t.string  "format",         :limit => 16,       :default => "bb"
+    t.integer "reply_to_pid",                                         :null => false
+    t.integer "reply_to_uid",                                         :null => false
     t.integer "deleted_by"
     t.integer "deleted_on"
     t.string  "deleted_reason", :limit => 80

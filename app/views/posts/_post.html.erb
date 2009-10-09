@@ -5,6 +5,8 @@ images_url = 'http://www.studentibicocca.it/portale/forum/images/'
 unless defined?(buttons)
   buttons = true
 end
+can_post     = false unless defined?(can_post)
+can_moderate = false unless defined?(can_moderate)
 -%>
             <tr bgcolor="<%=bgcolor%>" class="<%=domid(p.cached_user)%>">
               <td rowspan="2" valign="top" class="tablerow" width="18%">
