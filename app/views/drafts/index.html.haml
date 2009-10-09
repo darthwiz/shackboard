@@ -1,0 +1,17 @@
+-flip = 0 unless flip
+#drafts
+  %ul
+    -@drafts.each do |dr|
+      %li{ :id => domid(dr), :class => "alt_#{flip}" }
+        =render :partial => 'draft', :locals => { :draft => dr, :flip => flip }
+      -flip = 1 - flip
+    -if @drafts.empty?
+      %li.empty_list Non ci sono bozze non inviate.
+  %script(type="text/javascript")
+    function draft_destroy(id) {
+    $('draft_' + id).hide()
+    -url = url_for :controller => :drafts, :action => :destroy, :id => ''
+    = "new Ajax.Request(\"#{url}\" + id)"
+    }
+    -@drafts.each do |dr|
+      = "$('draft_destroy_#{dr.id}').onclick = function() { draft_destroy(#{dr.id}) }"
