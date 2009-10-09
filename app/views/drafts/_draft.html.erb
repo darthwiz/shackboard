@@ -5,35 +5,36 @@ tmp  = Post.new
 tmp  = nil
 begin
   case draft.object_type
-    when 'Pm'
-      draft.object.subject = nil if draft.object.subject.to_s.empty?
-      subj = draft.object.subject || content_tag('em', "senza oggetto")
-      subj = content_tag('strong', subj)
-      link = link_to "Messaggio privato", new_draft_pm_path(draft)
-      u    = draft.object.to
-      if u.is_a? User
-        dst = link_to h(u.username), u
-      else
-        dst = content_tag('em', 'utente sconosciuto')
-      end
-      item[:title] = "#{link} #{subj} per #{dst}"
-    when 'Post'
-      post  = Post.new
-      post  = draft.object
-      topic = post.topic
-      if topic.nil?
-        linktext = "Nuova discussione"
-        subj     = post[:subject] || content_tag('em', "senza oggetto")
-        subj     = content_tag('strong', subj)
-        link     = link_to(linktext, new_forum_topic_path(post.forum, :draft => draft))
-        title    = "#{link} #{subj} nel forum "
-        title   += link_to cleanup(post.forum.name), forum_path(post.forum)
-      else
-        link   = link_to("Nuovo messaggio", new_draft_post_path(draft))
-        title  = "#{link} nella discussione "
-        title += link_to(topic.subject, topic_path(topic))
-      end
-      item[:title] = title
+  when 'Pm'
+    draft.object.subject = nil if draft.object.subject.to_s.empty?
+    subj = draft.object.subject || content_tag('em', "senza oggetto")
+    subj = content_tag('strong', subj)
+    link = link_to "Messaggio privato", new_draft_pm_path(draft)
+    u    = draft.object.to
+    if u.is_a? User
+      dst = link_to h(u.username), u
+    else
+      dst = content_tag('em', 'utente sconosciuto')
+    end
+    item[:title] = "#{link} #{subj} per #{dst}"
+  when 'Post'
+    post  = Post.new
+    post  = draft.object
+    topic = post.topic
+    link   = link_to("Nuovo messaggio", new_draft_post_path(draft))
+    title  = "#{link} nella discussione "
+    title += link_to(topic.subject, topic_path(topic))
+    item[:title] = title
+  when 'Topic'
+    topic    = Topic.new
+    topic    = draft.object
+    linktext = "Nuova discussione"
+    subj     = topic[:subject] || content_tag('em', "senza oggetto")
+    subj     = content_tag('strong', subj)
+    link     = link_to(linktext, new_forum_topic_path(topic.forum, :draft => draft))
+    title    = "#{link} #{subj} nel forum "
+    title   += link_to cleanup(topic.forum.name), forum_path(topic.forum)
+    item[:title] = title
   end
   item[:time]  = timestamp_to_date(draft.updated_at.to_i)
 #rescue

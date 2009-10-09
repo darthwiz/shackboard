@@ -12,7 +12,7 @@ class TopicsController < ApplicationController
     @topic.forum   = @forum
     @topic.message = ''
     if draft_id > 0
-      @draft = Draft.secure_find(params[:draft_id], @user)
+      @draft = Draft.secure_find(draft_id, @user)
       @topic = @draft.object if @draft.object
     else
       @draft = Draft.new(:user => @user, :object => @topic)
