@@ -1,8 +1,9 @@
 module TopicHelper
 
   def page_trail_topic(obj, opts={})
-    trail  = []
-    trail << [ cleanup(obj.subject), {} ]
+    trail   = []
+    caption = obj.new_record? ? 'nuova discussione' : cleanup(obj.subject)
+    trail  << [ caption, {} ]
     while(obj = obj.container)
       link = {}
       case obj.class.to_s

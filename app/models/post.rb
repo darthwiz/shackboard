@@ -113,8 +113,8 @@ class Post < ActiveRecord::Base
     self.deleted_by = by_whom.id
     self.deleted_on = Time.now.to_i
     self.save!
-    self.topic.update_last_post!
-    self.forum.update_last_post!
+    self.topic.update_last_post!       # OPTIMIZE
+    self.forum.update_last_post!       # OPTIMIZE
     self.user.decrement!(:postnum)     # FIXME this doesn't appear to work
     self.topic.decrement!(:replies)
     self.forum.decrement(:posts).save! # NOTE this syntax is needed because the

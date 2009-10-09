@@ -76,7 +76,6 @@ class PmsController < ApplicationController
     end
     @page_title = 'Nuovo messaggio privato'
     @location = @pm
-    render '/posts/new', :layout => 'forum'
   end 
 
   def reply

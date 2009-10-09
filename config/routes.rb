@@ -28,7 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :pms, :member => { :reply => :get, :post_reply => :get }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get }
   map.resources :drafts, :path_prefix => 'forum', :has_one => [ :post, :pm, :topic ]
   map.resources :posts, :path_prefix => 'forum', :member => { :reply => :get }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get, :search => :get }
-  map.resources :topics, :path_prefix => 'forum', :has_many => :posts
+  map.resources :topics, :path_prefix => 'forum', :has_many => :posts, :new => { :save_draft => :post, :draft => :get }
   map.resources :forums, :path_prefix => 'forum', :has_many => [ :topics, :posts ]
   map.resources :blogs, :path_prefix => 'blog', :has_many => :blog_posts
   map.resources :blog_posts, :path_prefix => 'blog', :has_many => :blog_comments

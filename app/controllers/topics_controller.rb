@@ -7,21 +7,18 @@ class TopicsController < ApplicationController
     unless @forum.can_post?(@user)
       redirect_to :action => 'show', :id => @forum.id and return
     end
-    draft_id        = params[:draft].to_i
-    @post           = Post.new
-    @topic          = Topic.new
-    @post.forum     = @forum
-    @topic.forum    = @forum
-    @topic.subject  = ''
+    draft_id       = params[:draft].to_i
+    @topic         = Topic.new
+    @topic.forum   = @forum
+    @topic.message = ''
     if draft_id > 0
       @draft = Draft.secure_find(params[:draft_id], @user)
-      @post  = @draft.object if @draft.object
+      @topic = @draft.object if @draft.object
     else
-      @draft = Draft.new(:user => @user, :object => @post)
+      @draft = Draft.new(:user => @user, :object => @topic)
       @draft.save!
     end
-    @location = @post
-    render '/posts/new', :layout => 'forum' # XXX why is layout necessary here?
+    @location = @topic
   end
 
   def show
@@ -139,6 +136,48 @@ class TopicsController < ApplicationController
         #page.replace_html 'breadcrumbs',         :partial => '/common/breadcrumbs'
         #page.replace_html 'breadcrumbs_bottom',  :partial => '/common/breadcrumbs'
       end
+    end
+  end
+
+  def create
+    @topic = Topic.new(params[:topic])
+    @draft = Draft.secure_find(params[:draft_id], @user)
+    if @topic.forum.can_post?(@user)
+      @topic.dateline = Time.now.to_i
+      @topic.useip    = request.remote_ip
+      @topic.forum    = @topic.forum
+      @topic.user     = @user
+      @topic.replies  = 1
+      @topic.save!
+      @post              = Post.new
+      @post.topic        = @topic
+      @post.dateline     = Time.now.to_i
+      @post.useip        = request.remote_ip
+      @post.usesig       = 'yes'
+      @post.forum        = @topic.forum
+      @post.user         = @user
+      @post.message      = params[:topic][:message]
+      @post.reply_to_pid = 0
+      @post.reply_to_uid = 0
+      @post.save!
+      @draft.destroy
+      respond_to do |format|
+        format.html { redirect_to topic_path(@post.topic, :page => 'last', :anchor => 'last_post') }
+      end
+      @post.topic.update_last_post!(@post)
+      @post.forum.update_last_post!(@post)
+      @post.user.increment!(:postnum)
+      cache_expire({:object => :topic, :id => @post.topic.id})
+    end
+  end
+
+  def save_draft
+    @draft                = Draft.secure_find(params[:draft_id], @user)
+    @draft.object         = Topic.new(params[:topic])
+    @draft.object.message = params[:topic][:message] # must be done explicitly
+    @draft.save!
+    respond_to do |format|
+      format.html { render :partial => '/drafts/save_draft' }
     end
   end
 

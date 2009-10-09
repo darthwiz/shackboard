@@ -1,0 +1,54 @@
+%script(type="text/javascript")
+  form_name = 'new_message'
+  text_name = 'post[message]'
+=javascript_include_tag 'editor.js'
+#new_post
+  -form_for(@pm, :html => { :id => 'new_message' }) do |f|
+    #headers
+      %ul
+        %li
+          .label Invia a:
+          .field
+            =f.text_field :msgto
+        %li
+          .label Oggetto:
+          .field
+            =f.text_field :subject
+    #preview
+      .label
+        %h3 Anteprima
+      .content
+        #post_preview
+          .message
+            =BbText.new(@pm.message, Smiley.all(@user)).to_html(:controller => self)
+    .input_area
+      #message
+        .label
+          %h3 Messaggio
+        .content
+          =f.text_area :message
+          =hidden_field_tag 'draft_id', @draft.id if @draft
+          .control
+            =submit_tag 'Invia'
+            %span#draft_saved(style="display: none;")
+      #format-commands
+        .label
+          %h3 Formattazione
+        .content
+          %ul
+            %li= format_button('b', 'bb_bold.gif', 'grassetto')
+            %li= format_button('i', 'bb_italicize.gif', 'corsivo')
+            %li= format_button('u', 'bb_underline.gif', 'sottolineato')
+            %li= format_button('quote', 'bb_quote.gif', 'citazione')
+            %li= format_button('img', 'bb_image.gif', 'immagine')
+            %li= format_button('list', 'bb_list.gif', 'lista')
+            %li= format_button('code', 'bb_code.gif', 'codice')
+      #smiley_list
+        .label
+          %h3 Faccine
+        .content
+          =render :partial => '/smileys/list'
+          .smileys_link
+            =link_to("Modifica", user_smileys_path(@user), :target => '_blank')
+  =observe_form 'new_message', :frequency => 5, :update => "post_preview", :url => { :controller => :text_preview, :action => :text_to_html }
+  =observe_form 'new_message', :frequency => 10, :update => 'draft_saved', :url => save_draft_new_pm_path if @pm.new_record?

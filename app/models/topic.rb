@@ -7,6 +7,7 @@ class Topic < ActiveRecord::Base
   belongs_to :user,  :foreign_key => "uid"
   has_many   :posts, :foreign_key => "tid"
   validates_format_of :subject, :with => /^[^\s]/
+  attr_accessor :message
   default_scope :conditions => { :deleted_by => nil }
 
   def pinned
