@@ -69,6 +69,7 @@ class UsersController < ApplicationController
     if @user
       redirect_to session[:intended_action] and return
     else
+      @rules    = Settings.find(:first).bbrulestxt
       @new_user = User.new(:username => "#{@fb_user.first_name} #{@fb_user.last_name}", :fbid => @fb_user.id)
     end
   end

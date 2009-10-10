@@ -1,29 +1,35 @@
-#fb_connect
+#fbconnect
   .title
     %h1 Accesso con Facebook
   -if @user
     .redirect
   -else
     .login
-      .message
-        Hai richiesto l'accesso con Facebook ma non abbiamo trovato il tuo
-        utente.
+      %p.message
+        Hai richiesto l'accesso con Facebook ma non abbiamo trovato la tua
+        utenza.
       .register
-        Se sei un nuovo utente, puoi registrarti ora con un solo click:
+        %p Se sei un nuovo utente, puoi registrarti ora con un solo click:
         .form
           -form_for @new_user do |f|
             =f.hidden_field :fbid
             .username
               %span.label nome utente:
               =f.text_field :username
-            =f.submit 'crea nuovo utente'
-        .note
-          (potrai completare il tuo profilo con ulteriori dettagli in seguito)
+              =f.submit 'crea nuovo utente'
+            %p.note
+              (potrai completare il tuo profilo con ulteriori dettagli in seguito)
+            .rules
+              %p La tua iscrizione implica l'accettazione del regolamento qui di seguito:
+              .rules_scroller
+                .rules_text
+                  =@rules
       .alternative
         oppure
       .connect
-        Se sei un utente già registrato, puoi collegare il tuo account a quello
-        di Facebook. Per questo sarà necessario autenticarti:
+        %p
+          Se sei un utente già registrato, puoi collegare il tuo accesso a quello
+          di Facebook. Per questo sarà necessario autenticarti:
         .form
           -form_for :existing_user, :url => fblink_users_path do |f|
             =f.hidden_field :fbid, :value => @fb_user.id
@@ -33,4 +39,4 @@
             .password
               %span.label password:
               =f.password_field :password
-            =f.submit 'collega account'
+              =f.submit 'collega utenza'

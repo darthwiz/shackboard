@@ -88,7 +88,7 @@ class PmsController < ApplicationController
     @draft = Draft.new(:object => @pm, :user => @user)
     @draft.save!
     respond_to do |format|
-      format.html { render '/posts/new', :layout => 'forum' }
+      format.html { render :action => :new, :layout => 'forum' }
     end
   end
 
@@ -102,7 +102,7 @@ class PmsController < ApplicationController
     @draft = Draft.new(:object => @pm, :user => @user)
     @draft.save!
     respond_to do |format|
-      format.html { render '/posts/new', :layout => 'forum' }
+      format.html { render :action => :new, :layout => 'forum' }
     end
   end
 
