@@ -1,0 +1,34 @@
+-t          = @opts[:theme]
+-images_url = "http://www.studentibicocca.it/portale/forum/images"
+#announcements_index
+  -unless @announcements.blank?
+    %table(cellspacing="0" cellpadding="0" border="0" width="100%" align="center")
+      %tr
+        %td{ :bgcolor => t.bordercolor }
+          %table(border="0" cellspacing="1" cellpadding="6" width="100%")
+            %tr
+              %td(width="4%" class="header") &nbsp;
+              %td(width="4%" class="header") &nbsp;
+              %td(width="47%" class="header") Oggetto:
+              %td(width="14%" class="header") Autore:
+              %td(width="6%" class="header") Messaggi:
+              %td(width="6%" class="header") Visite:
+              %td(width="19%" class="header") Pubblicato il:
+            -@announcements.each do |a|
+              %tr
+                %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
+                  %img{ :src => "#{images_url}/smilies/exclamation.gif", :alt => "!" }
+                %td{ :bgcolor => t.altbg1, :align => "center", :class => "tablerow" }
+                  &nbsp;
+                %td{ :bgcolor => "#{t.altbg2}", :class => "tablerow c2", :onmouseover => "this.style.backgroundColor='#{t.altbg1}'; this.style.cursor='pointer';", :onmouseout => "this.style.backgroundColor='#{t.altbg2}'; this.style.cursor='auto';", :onclick => "window.location.href='#{announcement_path(a)}';" }
+                  %span.announcement
+                    =link_to(cleanup(a.title), a)
+                %td{ :bgcolor => t.altbg1, :class => "tablerow" }
+                  =link_to(a.user.username, a.user) unless a.user.blank?
+                %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
+                  %span -
+                %td{ :bgcolor => t.altbg1, :align => "center", :class => "tablerow" }
+                  %span= a.num_views
+                %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
+                  %span.c3
+                    = "#{a.time.strftime('%d/%m/%Y')} alle #{a.time.strftime('%H.%M')}"

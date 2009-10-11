@@ -1,1 +1,0 @@
-page.replace_html('announcement', bb_to_html(@announcement.message))

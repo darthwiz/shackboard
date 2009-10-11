@@ -10,4 +10,12 @@ class Announcement < ActiveRecord::Base
                       :limit => n)
   end
 
+  def user
+    User.find_by_username(self.poster)
+  end
+
+  def time
+    Time.at(self.date)
+  end
+
 end

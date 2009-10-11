@@ -61,10 +61,15 @@
   <div id="portal_right">
     <ul class="column">
       <li><%#Avvisi %>
-        <h2><%=link_to 'Avvisi',
-            'http://asb.studentibicocca.it/avvisi/'%></h2>
+        <h2><%=link_to 'Avvisi', announcements_path%></h2>
         <%#cache('portal/latest_announcements') do %>
-        <%=render :partial => '/announcement/latest' %>
+        <ul class="announcement">
+          <%Announcement.find_latest(5).each do |i|%>
+          <li>
+            <%=link_to cleanup(i.title), i%>
+          </li>
+          <%end%>
+        </ul>
         <%#end %>
       </li>
       <li><%#Blog%>

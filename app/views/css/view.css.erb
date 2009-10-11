@@ -351,6 +351,25 @@ div#login_box div.user_register {
 }
 
 
+/* ANNOUNCEMENTS */
+
+div#announcement {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding: 0 1em 2em 1em;
+}
+div#announcement .text {
+  max-width: 70em;
+  margin-bottom: 3em;
+}
+div#announcement .author {
+  font-size: 11px;
+  font-style: italic;
+  text-align: right;
+}
+div#announcement .author a {
+  font-weight: bold;
+}
 
 
 /* FORUM-SPECIFIC                           */
@@ -373,6 +392,9 @@ div#forum div#content_box { /* this is where the main content goes */
   padding-left: 1em;
   padding-right: 1em;
   */
+}
+div#forum span.announcement a {
+  font-weight: bold;
 }
 div#forum div.new_topic_link {
   font-weight: bold;
