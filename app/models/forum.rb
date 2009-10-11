@@ -42,6 +42,7 @@ class Forum < ActiveRecord::Base
     perms.each_with_index { |i, j| perms[j] = i.to_i }
     return true if (perms[0] == 1 && user.is_a?(User))
     return true if (perms[0] == 2 && self.can_moderate?(user))
+    return true if (perms[0] == 3 && user.is_supermod?)
     return false
   end
 
