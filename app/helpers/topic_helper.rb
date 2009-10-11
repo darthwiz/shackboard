@@ -8,11 +8,7 @@ module TopicHelper
       link = {}
       case obj.class.to_s
       when 'Forum'
-        if @legacy_mode == :old
-          link = (obj.type == 'group') ? nil : "/portale/forum/forumdisplay.php?fid=#{obj.id}"
-        else
-          link = forum_path(obj)
-        end
+        link = forum_path(obj)
       end
       trail << [ obj.name, link ] unless link.nil?
     end

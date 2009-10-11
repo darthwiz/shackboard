@@ -1,8 +1,8 @@
 <%
-  link_forum    = (@legacy_mode == :old) ? '/portale/forum'                   : url_for(:controller => :forum, :action => :index)
-  link_channels = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=24'  : url_for(:controller => :forum, :action => :show, :id => 24)
-  link_boards   = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=51'  : url_for(:controller => :forum, :action => :show, :id => 51)
-  link_market   = (@legacy_mode == :old) ? '/portale/forum/index.php?gid=108' : url_for(:controller => :forum, :action => :show, :id => 108)
+  link_forum    = forum_root_path
+  link_channels = forum_path(24)
+  link_boards   = forum_path(51)
+  link_market   = forum_path(108)
 %>
 <div id="portal_main">
   <div id="header"><%#Header %>
@@ -39,7 +39,7 @@
   <div id="portal_center">
     <ul class="column">
       <li><%#Forum %>
-        <h2><%=link_to 'Forum', link_forum %></h2>
+        <h2><%=link_to 'Forum', forum_root_path %></h2>
         <% cache('portal/25') do %>
         <%=render :partial => '/welcome/forums'%>
         <% end %>

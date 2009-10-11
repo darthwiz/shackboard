@@ -6,7 +6,6 @@ class ForumsController < ApplicationController
     @topics     = []
     @page_title = "Indice dei forum"
     @location   = @forums
-    render :action => :show
   end
 
   def show
