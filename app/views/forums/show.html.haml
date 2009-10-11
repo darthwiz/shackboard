@@ -1,6 +1,6 @@
 -t          = @opts[:theme]
 -images_url = "http://www.studentibicocca.it/portale/forum/images"
-#forums_index
+#forums_list
   -unless @forums.blank?
     %table(cellspacing="0" cellpadding="0" border="0" width="100%" align="center")
       %tr
@@ -43,7 +43,7 @@
     %td{ :bgcolor => t.bgcolor, :class => "post", :align => "right" }
       .new_topic_link
         =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum && @forum.can_post?(@user)
-#topics_index
+#topics_list
   -unless @topics.blank? && @announcements.blank?
     %table(cellspacing="0" cellpadding="0" border="0" width="100%" align="center")
       %tr
