@@ -1,0 +1,8 @@
+#announcement
+  %h1= cleanup(@announcement.title)
+  .text
+    =BbText.new(@announcement.message, @announcement.user.smileys).to_html(:controller => self)
+  .author
+    pubblicato da
+    =link_to(@announcement.user.username, @announcement.user)
+    ="il #{@announcement.time.strftime('%d/%m/%Y')} alle #{@announcement.time.strftime('%H.%M')}"

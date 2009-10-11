@@ -34,8 +34,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :blog_posts, :path_prefix => 'blog', :has_many => :blog_comments
   map.resources :blog_comments, :path_prefix => 'blog'
   map.resources :smileys
+  map.resources :announcements
   map.namespace(:admin) do |admin|
     admin.resources :cms_pages 
+    admin.resources :announcements
   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.

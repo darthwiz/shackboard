@@ -139,12 +139,13 @@ table.themed td.themed {
   max-width: 70em;
 }
 #fbconnect .rules_text h1 {
-  display: none;
+  display: none; /* XXX */
 }
 #fbconnect .rules_text * {
   font-size: 12px;
 }
-#fbconnect .register, #fbconnect .connect {
+#fbconnect .register,
+#fbconnect .connect {
   background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
   margin: 1em;
@@ -407,6 +408,25 @@ div#login_box div.user_register {
 }
 
 
+/* ANNOUNCEMENTS */
+
+div#announcement {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding: 0 1em 2em 1em;
+}
+div#announcement .text {
+  max-width: 70em;
+  margin-bottom: 3em;
+}
+div#announcement .author {
+  font-size: 11px;
+  font-style: italic;
+  text-align: right;
+}
+div#announcement .author a {
+  font-weight: bold;
+}
 
 
 /* FORUM-SPECIFIC                           */
@@ -429,6 +449,9 @@ div#forum div#content_box { /* this is where the main content goes */
   padding-left: 1em;
   padding-right: 1em;
   */
+}
+div#forum span.announcement a {
+  font-weight: bold;
 }
 div#forum div.new_topic_link {
   font-weight: bold;
@@ -1232,6 +1255,14 @@ div.fieldWithErrors textarea,
 input.fieldWithErrors,
 textarea.fieldWithErrors {
   border: 1px solid red;
+}
+div.warning {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 1px solid yellow;
+  background-color: #ffffc0;
+  color: black;
+  padding: 1em;
 }
 div.errors {
   margin-top: 1em;

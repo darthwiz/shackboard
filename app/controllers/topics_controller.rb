@@ -5,7 +5,8 @@ class TopicsController < ApplicationController
   def new
     @forum = Forum.find(params[:forum_id])
     unless @forum.can_post?(@user)
-      redirect_to :action => 'show', :id => @forum.id and return
+      flash[:warning] = "Non hai il permesso di aprire una nuova discussione in questo forum."
+      redirect_to @forum and return
     end
     draft_id       = params[:draft].to_i
     @topic         = Topic.new
