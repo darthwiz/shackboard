@@ -31,7 +31,7 @@
         =link_to 'nuovo utente', new_user_path(:rules => true)
       .user_recover_password
         =link_to 'dimenticato la password?', recover_password_users_path
-    -if @fb_support && !@fb_session && !@user
+    -if !@user
       .fb_connect
         %span.label Accedi con il tuo account Facebook:
         =fb_login_and_redirect(fbconnect_users_path)

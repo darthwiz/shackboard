@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   before_filter :set_facebook_session,
     :load_defaults, :set_locale, :update_online,
+    #:clear_stale_fb_session,
     :set_stylesheet
   after_filter :update_last_visit
   helper_method :facebook_session
@@ -154,6 +155,13 @@ class ApplicationController < ActionController::Base
   def is_authenticated? 
     session[:userid] && User.find(session[:userid]).is_a?(User)
   end 
+
+  def clear_stale_fb_session
+    unless @user
+      session[:facebook_session] = nil
+      reset_session
+    end
+  end
 
   def forum_cache 
     if (session[:forum_tree])

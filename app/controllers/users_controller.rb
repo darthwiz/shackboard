@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   layout 'forum'
+  skip_before_filter :clear_stale_fb_session, :only => [ :create, :fbconnect ]
 
   def index
     redirect_to root_path
@@ -50,11 +51,20 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @new_user.save
         Notifier.deliver_signup_notification(email, username, password) unless @new_user.email.blank?
-        format.html
+        if @new_user.fbid
+          flash[:success] = "La registrazione è avvenuta con successo."
+        else
+          flash[:success] = "La registrazione è avvenuta con successo. Riceverai a breve un e-mail con la tua password."
+        end
+        format.html { redirect_to root_path }
       else
         format.html do
-          @model_errors = @new_user.errors
-          render :action => "new"
+          flash[:model_errors] = @new_user.errors
+          if @new_user.fbid
+            redirect_to :back
+          else
+            render :action => "new"
+          end
         end
       end
     end
@@ -157,13 +167,13 @@ class UsersController < ApplicationController
           end
           format.html do
             redirect_to(@edit_user) and return if @edit_user.errors.blank?
-            @model_errors = @edit_user.errors
+            flash[:model_errors] = @edit_user.errors
             render :action => "edit"
           end
           #format.xml  { head :ok }
         else
           format.html do
-            @model_errors = @edit_user.errors
+            flash[:model_errors] = @edit_user.errors
             render :action => "edit"
           end
           #format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }

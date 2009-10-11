@@ -12,6 +12,7 @@
     <%=fb_connect_javascript_tag%>
     <%#init_fb_connect "XFBML", :app_settings => "{reloadIfSessionStateChanged: true}"%>
     <%=init_fb_connect "XFBML"%>
+    <%#render :partial => '/common/flashes'%><%#XXX%>
     <%=yield%>
     <%=render :partial => '/common/google_analytics'%>
   </body>
