@@ -30,9 +30,10 @@
                     %tr(align="right")
                       %td(width="85%")
                         %span(class="c3")
-                          = "il #{f.last_post(:time).strftime('%d/%m/%Y')} alle #{f.last_post(:time).strftime('%H.%M')}"
-                          %br
-                          = "di #{link_to f.last_post(:username), f.last_post(:user)}"
+                          -if f.last_post(:time).to_i > 0
+                            = "il #{f.last_post(:time).strftime('%d/%m/%Y')} alle #{f.last_post(:time).strftime('%H.%M')}"
+                            %br
+                            = "di #{link_to f.last_post(:username), f.last_post(:user)}"
                 %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
                   %span
                     =f.moderators.collect { |i| link_to(cleanup(i.username), i) }.join(', ')
@@ -41,7 +42,7 @@
   %tr
     %td{ :bgcolor => t.bgcolor, :class => "post", :align => "right" }
       .new_topic_link
-        =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum.can_post?(@user)
+        =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum && @forum.can_post?(@user)
 #topics_index
   -unless @topics.blank? && @announcements.blank?
     %table(cellspacing="0" cellpadding="0" border="0" width="100%" align="center")
@@ -106,7 +107,7 @@
   %tr
     %td{ :bgcolor => t.bgcolor, :class => "post", :align => "right" }
       .new_topic_link
-        =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum.can_post?(@user)
+        =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum && @forum.can_post?(@user)
   %tr
     %td
       %table(width="100%" align="center")

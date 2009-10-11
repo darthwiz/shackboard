@@ -53,17 +53,14 @@ module ApplicationHelper
     icon
   end
 
+  # XXX this could be useless stuff
   def link_user_edit
     return nil unless @user.is_a? User
     msg = 'impostazioni'
-    if @legacy_mode == :old
-      s = link_to msg, '/portale/forum/usercp.php'
-    else
-      link             = { :controller => 'user', :action => 'edit' }
-      link[:host]      = @host_forum if @host_forum
-      link[:only_path] = false if @host_forum
-      s                = link_to msg, link
-    end
+    link             = { :controller => 'user', :action => 'edit' }
+    link[:host]      = @host_forum if @host_forum
+    link[:only_path] = false if @host_forum
+    s                = link_to msg, link
     content_tag('span', s, :class => 'profile')
   end
 
@@ -449,22 +446,6 @@ module ApplicationHelper
       "javascript:bbfontstyle('[#{tag}]', '[/#{tag}]');",
       :title => title
     )
-  end
-
-  def link_legacy(params={})
-    msg        = params[:caption]
-    old_url    = params[:old]
-    new_url    = params[:new]
-    html_class = params[:class]
-    if @legacy_mode == :old
-      s                = link_to msg, old_url
-    else
-      link             = new_url
-      link[:host]      = @host_forum if @host_forum
-      link[:only_path] = false if @host_forum
-      s                = link_to msg, link
-    end
-    content_tag('span', s, :class => html_class)
   end
 
 end

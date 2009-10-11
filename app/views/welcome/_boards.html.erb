@@ -62,21 +62,19 @@
 <ul>
   <%boards.each do |i|%>
   <li>
-    <%url = @legacy_mode == :old ? fdisplay + i[:forum].to_s : forum_path(i[:forum])%>
     <%if i[:icon]%>
       <%img = image_tag i[:icon], :alt => i[:name], :style => 'float: left; margin-right: 10px; margin-left: .5em; border: none;'%>
-      <%=link_to img, url%>
+      <%=link_to img, forum_path(i[:forum])%>
     <%end%>
-    <h3><%=link_to i[:name], url%></h3>
+    <h3><%=link_to i[:name], forum_path(i[:forum])%></h3>
     <%if i[:site]%>
         <%=link_to 'Sito degli Studenti', i[:site],
           { :style => 'display: block;' }%>
     <%end%>
     <%if i[:books]%>
-        <%url = fdisplay + i[:books].to_s%>
         <%img = image_tag book_icon%>
-        <%=link_to img, url, { :style => 'float: left; margin-left: 1em; margin-right: .5em' } %>
-        <strong><%=link_to 'Libri', url%></strong>
+        <%=link_to img, forum_path(i[:books]), { :style => 'float: left; margin-left: 1em; margin-right: .5em' } %>
+        <strong><%=link_to 'Libri', forum_path(i[:books])%></strong>
     <%end%>
     <div class="spacer"></div>
     <%=render :partial => '/forum/latest_topics',

@@ -44,6 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   # map.root :controller => "welcome"
   map.root :controller => 'welcome'
 
+  map.forum_root '/forum', :controller => 'forums', :action => 'index'
   map.full_topic '/forum/topics/full/:id.:format', :controller => 'topics', :action => 'full'
   map.css        '/css/:name.:format', :controller => 'css', :action => 'view'
 

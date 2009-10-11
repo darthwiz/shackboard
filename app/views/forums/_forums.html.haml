@@ -1,0 +1,17 @@
+-unless forums.blank?
+  %ul.forum_list
+    -forums.each do |f|
+      -if f.can_read?(@user)
+        %li.forum
+          .name= link_to(cleanup(f.name), f, :class => 'forum_name')
+          .description= cleanup(f.description)
+          -unless f.moderators.blank?
+            .moderators
+              Moderato da:
+              =f.moderators.collect { |i| link_to(cleanup(i.username), i) }.join(', ')
+          -if f.last_post(:time).to_i > 0
+            .last_post
+              Ultimo messaggio:
+              = "il #{f.last_post(:time).strftime('%d/%m/%Y')} alle #{f.last_post(:time).strftime('%H.%M')}"
+              = "di #{link_to f.last_post(:username), f.last_post(:user)}"
+          =render :partial => 'forums', :object => f.children
