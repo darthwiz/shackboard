@@ -143,11 +143,12 @@ class ApplicationController < ActionController::Base
   end 
 
   def authenticate 
-    if (session[:userid])
+    if session[:userid]
       @user = User.find(session[:userid])
+    elsif session[:facebook_session]
+      @user = User.find_by_fbid(session[:facebook_session].user.id)
     else
-      session[:intended_action] = { :controller => controller_name, 
-                                    :action     => action_name }
+      save_intended_action
       redirect_to login_users_path
     end
   end 
