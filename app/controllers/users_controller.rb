@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   layout 'forum'
+  skip_before_filter :clear_stale_fb_session, :only => [ :create, :fbconnect ]
 
   def index
     redirect_to root_path
@@ -35,7 +36,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    email     = params[:user][:email].strip
+    email     = params[:user][:email]
+    email     = email.strip if email
     username  = params[:user][:username].strip
     password  = User.pwgen
     @new_user = User.new(
@@ -43,23 +45,64 @@ class UsersController < ApplicationController
       :password => password,
       :email    => email,
       :regip    => request.remote_ip,
-      :regdate  => Time.now.to_i
+      :regdate  => Time.now.to_i,
+      :fbid     => params[:user][:fbid]
     )
     respond_to do |format|
       if @new_user.save
-        Notifier.deliver_signup_notification(email, username, password)
-        format.html
+        Notifier.deliver_signup_notification(email, username, password) unless @new_user.email.blank?
+        if @new_user.fbid
+          flash[:success] = "La registrazione è avvenuta con successo."
+        else
+          flash[:success] = "La registrazione è avvenuta con successo. Riceverai a breve un e-mail con la tua password."
+        end
+        format.html { redirect_to root_path }
       else
         format.html do
-          @model_errors = @new_user.errors
-          render :action => "new"
+          flash[:model_errors] = @new_user.errors
+          if @new_user.fbid
+            redirect_to :back
+          else
+            render :action => "new"
+          end
         end
       end
     end
   end
 
   def login
-    session[:intended_action] = request.env['HTTP_REFERER']
+    save_intended_action
+  end
+
+  def fbconnect
+    save_intended_action
+    if @user
+      redirect_to session[:intended_action] and return
+    else
+      @rules    = Settings.find(:first).bbrulestxt
+      @new_user = User.new(:username => "#{@fb_user.first_name} #{@fb_user.last_name}", :fbid => @fb_user.id)
+    end
+  end
+
+  def fblink
+    username = params[:existing_user][:username]
+    password = params[:existing_user][:password]
+    fbid     = params[:existing_user][:fbid]
+    user     = User.find_by_username(username)
+    fb_user  = User.find_by_fbid(fbid)
+    if !fb_user.nil?
+      # this should never happen, but just in case someone is tampering...
+      flash[:error] = "Il tuo account Facebook è già collegato a un utente."
+      redirect_to(session[:intended_action] || root_path)
+    elsif user && user.auth(password)
+      user.fbid = fbid
+      user.save!
+      flash[:success] = "Il tuo utente è stato colegato all'account Facebook."
+      redirect_to(session[:intended_action] || root_path)
+    else
+      flash[:error] = "L'autenticazione è fallita: riprova."
+      redirect_to :back
+    end
   end
 
   def authenticate
@@ -91,8 +134,9 @@ class UsersController < ApplicationController
   def logout 
     cookies[:thisuser] = { :domain => @@domain, :expires => Time.at(0) }
     cookies[:thispw]   = { :domain => @@domain, :expires => Time.at(0) }
+    session[:facebook_session] = nil
     reset_session
-    if request.env["HTTP_REFERER"]
+    if request.referer
       redirect_to :back 
     else
       redirect_to root_path
@@ -123,13 +167,13 @@ class UsersController < ApplicationController
           end
           format.html do
             redirect_to(@edit_user) and return if @edit_user.errors.blank?
-            @model_errors = @edit_user.errors
+            flash[:model_errors] = @edit_user.errors
             render :action => "edit"
           end
           #format.xml  { head :ok }
         else
           format.html do
-            @model_errors = @edit_user.errors
+            flash[:model_errors] = @edit_user.errors
             render :action => "edit"
           end
           #format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }

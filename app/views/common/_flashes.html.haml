@@ -2,6 +2,12 @@
   -if flash[:error]
     .error
       =flash[:error]
+  -if flash[:model_errors]
+    .errors
+      %strong Attenzione:
+      %ul
+        -flash[:model_errors].each do |field, message|
+          %li= "#{message}"
   -if flash[:warning]
     .warning
       =flash[:warning]

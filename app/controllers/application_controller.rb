@@ -1,13 +1,22 @@
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
-  before_filter :load_defaults, :set_locale, :update_online, :set_stylesheet
+  before_filter :set_facebook_session,
+    :load_defaults, :set_locale, :update_online,
+    #:clear_stale_fb_session,
+    :set_stylesheet
   after_filter :update_last_visit
+  helper_method :facebook_session
   helper :all
   helper_method :is_adm?, :is_supermod?, :is_file_adm?
   @@domain = COOKIE_DOMAIN
 
   private
+
+  def save_intended_action
+    session[:intended_action] = request.referer unless request.referer == request.url
+  end
+
   def cache_expire(params) 
     case params[:object]
     when :topic 
@@ -50,6 +59,7 @@ class ApplicationController < ActionController::Base
 
 
   def load_defaults 
+    @fb_support       = true
     @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
     @topic_block_size = 25
@@ -63,6 +73,15 @@ class ApplicationController < ActionController::Base
     rescue
       @user = nil
     end
+
+    # Facebook authentication
+    @fb_session = session[:facebook_session]
+    @fb_user    = @fb_session.user if @fb_session
+    logger.debug 'trying to authenticate with Facebook'
+    @user       = User.find_by_fbid(@fb_user.id) if (@fb_user && @user.nil?)
+    logger.debug "user is #{@user.inspect}"
+    p @fb_session
+
     # legacy authentication 
     unless @user
       username         = cookies[:thisuser]
@@ -124,11 +143,12 @@ class ApplicationController < ActionController::Base
   end 
 
   def authenticate 
-    if (session[:userid])
+    if session[:userid]
       @user = User.find(session[:userid])
+    elsif session[:facebook_session]
+      @user = User.find_by_fbid(session[:facebook_session].user.id)
     else
-      session[:intended_action] = { :controller => controller_name, 
-                                    :action     => action_name }
+      save_intended_action
       redirect_to login_users_path
     end
   end 
@@ -136,6 +156,13 @@ class ApplicationController < ActionController::Base
   def is_authenticated? 
     session[:userid] && User.find(session[:userid]).is_a?(User)
   end 
+
+  def clear_stale_fb_session
+    unless @user
+      session[:facebook_session] = nil
+      reset_session
+    end
+  end
 
   def forum_cache 
     if (session[:forum_tree])

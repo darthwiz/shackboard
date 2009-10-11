@@ -1,7 +1,7 @@
 -lfu = @legacy_forum_uri
 -t   = @opts[:theme]
 !!!
-%html(xmlns="http://www.w3.org/1999/xhtml")
+%html(xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml")
   %head
     %meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
     %link(rel="shortcut icon" href="http://asb.studentibicocca.it/images/favicon.ico")
@@ -10,6 +10,8 @@
     =render :partial => '/common/annoyances_01'
     %title= page_title || "Forum degli Studenti della Bicocca"
   %body
+    =fb_connect_javascript_tag
+    =init_fb_connect "XFBML"
     %script(src="http://www.studentibicocca.it/portale/include/bannerad3.js" type="text/javascript")
     #main
       #forum
@@ -22,7 +24,6 @@
               =page_trail
           .page-seq
             =page_seq
-          =render :partial => '/common/errors'
           =render :partial => '/common/flashes'
           =yield
           .page-seq

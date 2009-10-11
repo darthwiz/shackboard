@@ -112,7 +112,59 @@ table.themed td.themed {
   font-size: 13px;
 }
 
-
+/* sign-up */
+#signup h1, #fbconnect h1 {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 0.5em;
+}
+#fbconnect .login {
+  background-color: <%=t.altbg1%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 1em;
+}
+#fbconnect .message {
+  font-weight: bold;
+}
+#fbconnect .rules_scroller {
+  height: 18em;
+  overflow: auto;
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg1%>;
+  padding-left: 2em;
+  padding-right: 2em;
+  margin-bottom: 2em;
+}
+#fbconnect .rules_text {
+  max-width: 70em;
+}
+#fbconnect .rules_text h1 {
+  display: none; /* XXX */
+}
+#fbconnect .rules_text * {
+  font-size: 12px;
+}
+#fbconnect .register,
+#fbconnect .connect {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  margin: 1em;
+  padding: 1em;
+}
+#fbconnect .alternative {
+  font-weight: bold;
+  text-align: center;
+}
+#fbconnect .connect .form {
+  margin-bottom: 2em;
+}
+#fbconnect .login .form .label {
+  display: block;
+  float: left;
+  clear: left;
+  width: 8.5em;
+  font-weight: bold;
+}
 
 /* HOME PAGE */
 
@@ -158,6 +210,11 @@ div#asb_icon {
 #portal_main div#login_box {
   float: right;
   margin-right: .5em;
+}
+#login_box .fb_connect .label {
+  width: 110px;
+  display: block;
+  float: left;
 }
 div#icons,
 #portal_main div#login_box,
@@ -1242,7 +1299,18 @@ div.warning {
   color: black;
   padding: 1em;
 }
-div.errors {
+#portal_main div.success {
+  margin: 0.5em;
+}
+div.success {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 1px solid green;
+  background-color: #c0ffc0;
+  color: black;
+  padding: 1em;
+}
+div.errors, div.error {
   margin-top: 1em;
   margin-bottom: 1em;
   border: 1px solid red;

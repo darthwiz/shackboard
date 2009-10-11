@@ -1,6 +1,0 @@
--unless @model_errors.blank?
-  .errors
-    %strong Attenzione:
-    %ul
-      -@model_errors.each do |field, message|
-        %li= "#{message}"
