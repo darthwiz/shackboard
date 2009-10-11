@@ -80,7 +80,6 @@ class ApplicationController < ActionController::Base
     logger.debug 'trying to authenticate with Facebook'
     @user       = User.find_by_fbid(@fb_user.id) if (@fb_user && @user.nil?)
     logger.debug "user is #{@user.inspect}"
-    p @fb_session
 
     # legacy authentication 
     unless @user
@@ -106,7 +105,8 @@ class ApplicationController < ActionController::Base
         @opts[:theme] = Theme.find_by_name(@settings.theme)
         @opts[:theme].css = @user.theme
       else
-        @opts[:theme] = Theme.find_by_name(@user.theme)
+        theme_name = @user.theme.blank? ? @settings.theme : @user.theme
+        @opts[:theme] = Theme.find_by_name(theme_name)
       end
     else
       # Default settings

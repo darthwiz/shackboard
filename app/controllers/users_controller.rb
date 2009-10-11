@@ -46,6 +46,7 @@ class UsersController < ApplicationController
       :email    => email,
       :regip    => request.remote_ip,
       :regdate  => Time.now.to_i,
+      :theme    => Settings.first.theme,
       :fbid     => params[:user][:fbid]
     )
     respond_to do |format|
