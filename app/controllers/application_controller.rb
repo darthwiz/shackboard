@@ -17,6 +17,12 @@ class ApplicationController < ActionController::Base
     session[:intended_action] = request.referer unless request.referer == request.url
   end
 
+  def redirect_to_intended_action
+    destination = session[:intended_action]
+    destination = root_path if !destination || destination == request.url
+    redirect_to destination
+  end
+
   def cache_expire(params) 
     case params[:object]
     when :topic 
