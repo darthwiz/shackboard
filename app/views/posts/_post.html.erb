@@ -73,7 +73,7 @@ can_moderate = false unless defined?(can_moderate)
                   <%end%>
                   <%if p.edituser && (p.updated_at - p.created_at > 2.minutes)%>
                   <div class="post_updated">
-                    modificato da <%=cleanup(p.updated_by.username)%> il <%=p.updated_at.strftime('%d/%m/%Y')%>
+                    modificato da <%=p.updated_by ? cleanup(p.updated_by.username) : 'utente sconosciuto'%> il <%=p.updated_at.strftime('%d/%m/%Y')%>
                     alle <%=p.updated_at.strftime('%H.%M')%>
                   </div>
                   <%end%>

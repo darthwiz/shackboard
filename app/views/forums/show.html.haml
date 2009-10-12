@@ -92,8 +92,12 @@
                     =link_to(cleanup(tp.subject), tp)
                     -if tp.pinned?
                       %span.11px (in evidenza)
+                    -if tp.replies > @opts[:tpp]
+                      .page_seq
+                        pagine:
+                        =page_seq({ :controller => :topics, :action => :show, :id => tp.id, :first => 1, :last => tp.replies, :ipp => @opts[:tpp], :extra_links => [ :last ] })
                 %td{ :bgcolor => t.altbg1, :class => "tablerow" }
-                  =link_to(tp.last_post(:username), tp.last_post(:user))
+                  =link_to(tp.user.username, tp.user) if tp.user
                 %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
                   %span= tp.replies
                 %td{ :bgcolor => t.altbg1, :align => "center", :class => "tablerow" }

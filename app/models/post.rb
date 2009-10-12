@@ -154,7 +154,11 @@ class Post < ActiveRecord::Base
 
   def updated_by
     return nil unless self[:edituser] > 0
-    User.find(self[:edituser])
+    begin
+      User.find(self[:edituser])
+    rescue
+      nil
+    end
   end
 
   def timestamp
