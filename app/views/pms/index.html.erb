@@ -26,8 +26,8 @@
     function pm_reveal(id) {
       $('pm_' + id + '_hidden_line').hide()
       $('pm_' + id + '_pm').show()
-      <%url = url_for :controller => :pms, :action => :show
-      %>new Ajax.Request('<%=url%>/' + id)
+      <%#url = url_for :controller => :pms, :action => :show
+      %><%url = '/pms/show'%>new Ajax.Request('<%=url%>/' + id)
     }
 
     function pm_hide(id) {
@@ -37,14 +37,14 @@
 
     function pm_destroy(id) {
       $('pm_' + id).hide()
-      <%url = url_for :controller => :pms, :action => :destroy
-      %>new Ajax.Request('<%=url%>/' + id)
+      <%#url = url_for :controller => :pms, :action => :destroy
+      %><%url = '/pms/destroy'%>new Ajax.Request('<%=url%>/' + id)
     }
 
     function pm_undelete(id) {
       $('pm_' + id).hide()
-      <%url = url_for :controller => :pms, :action => :undelete
-      %>new Ajax.Request('<%=url%>/' + id)
+      <%#url = url_for :controller => :pms, :action => :undelete
+      %><%url = '/pms/undelete'%>new Ajax.Request('<%=url%>/' + id)
     }
 
     <%@pms.each do |pm|%>

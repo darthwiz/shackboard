@@ -12,6 +12,7 @@ module TopicHelper
       end
       trail << [ obj.name, link ] unless link.nil?
     end
+    trail << [ "Forum", forum_root_path ]
     trail.reverse
   end
 

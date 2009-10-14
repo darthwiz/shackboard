@@ -57,6 +57,8 @@ ActionController::Routing::Routes.draw do |map|
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
   # legacy routes
+  map.connect 'static_content/:action/:id', :controller => 'static_content'
+  map.connect 'static_content/:action/:id.:format', :controller => 'static_content'
   map.connect 'file/:action/:id', :controller => 'file'
   map.connect 'file/:action/:id.:format', :controller => 'file'
 

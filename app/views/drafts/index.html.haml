@@ -10,7 +10,8 @@
   %script(type="text/javascript")
     function draft_destroy(id) {
     $('draft_' + id).hide()
-    -url = url_for :controller => :drafts, :action => :destroy, :id => ''
+    /-url = url_for :controller => :drafts, :action => :destroy, :id => ''
+    -url = '/drafts/destroy/'
     = "new Ajax.Request(\"#{url}\" + id)"
     }
     -@drafts.each do |dr|
