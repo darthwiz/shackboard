@@ -56,10 +56,12 @@ ActionController::Routing::Routes.draw do |map|
   map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9\/][^\/]+/, :blog_label => /.*/ }
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
+  # legacy routes
+  map.connect 'file/:action/:id', :controller => 'file'
+  map.connect 'file/:action/:id.:format', :controller => 'file'
 
   # See how all your routes lay out with "rake routes"
-
   # Install the default routes as the lowest priority.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  #map.connect ':controller/:action/:id'
+  #map.connect ':controller/:action/:id.:format'
 end

@@ -141,11 +141,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_stylesheet 
-    @stylesheet = url_for(
-      :controller => controller_name,
-      :action     => 'css',
-      :id         => @opts[:theme].name
-    )
+    @stylesheet = css_path(:name => @opts[:theme].name)
   end 
 
   def authenticate 

@@ -1,8 +1,9 @@
+-level = 1 unless defined?(level) && level.is_a?(Fixnum)
 -unless forums.blank?
-  %ul.forum_list
+  %ul{ :class => "forum_list level_#{level}" }
     -forums.each do |f|
       -if f.can_read?(@user)
-        %li.forum
+        %li{ :class => "forum level_#{level}" }
           .name= link_to(cleanup(f.name), f, :class => 'forum_name')
           .description= cleanup(f.description)
           -unless f.moderators.blank?
@@ -14,4 +15,4 @@
               Ultimo messaggio:
               = "il #{f.last_post(:time).strftime('%d/%m/%Y')} alle #{f.last_post(:time).strftime('%H.%M')}"
               = "di #{link_to f.last_post(:username), f.last_post(:user)}"
-          =render :partial => 'forums', :object => f.children
+          =render :partial => 'forums', :object => f.children, :locals => { :level => level + 1 }

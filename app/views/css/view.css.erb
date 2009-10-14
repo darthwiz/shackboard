@@ -442,6 +442,12 @@ div#announcement .author a {
 #forums_index ul.forum_list li {
   margin: 0.5em 0.5em 0.5em 1.5em;
 }
+#forums_index ul.forum_list li.level_1 {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg2%>;
+  padding: 1em;
+  margin-bottom: 2em;
+}
 #forums_index ul.forum_list li .name {
   font-weight: bold;
 }
@@ -462,6 +468,30 @@ div#announcement .author a {
 #topics_list td.tablerow div.page_seq {
   margin-top: 0.5em;
   font-size: 11px;
+}
+#forums_index ul.forum_list ul.level_3 {
+  margin-top: 0.5em;
+  margin-bottom: 1.2em;
+  overflow: auto;
+  clear: both;
+}
+#forums_index ul.forum_list li.level_3 {
+  float: left;
+  width: auto;
+  margin: 0 0 0 0.5em;
+}
+#forums_index ul.forum_list li.level_3 a {
+  font-size: 11px;
+  font-weight: normal;
+}
+#forums_index ul.forum_list li.level_3 a:before {
+  content: "• ";
+}
+#forums_index ul.forum_list li.level_3 .description,
+#forums_index ul.forum_list li.level_3 .moderators,
+#forums_index ul.forum_list li.level_3 .last_post,
+#forums_index ul.forum_list li.level_3 ul {
+  display: none;
 }
 
 

@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :smileys
   has_many :categories
   has_many :blogs
+  has_many :topics, :foreign_key => :uid
+  has_many :posts, :foreign_key => :uid
   validates_uniqueness_of :username
   validates_uniqueness_of :email, :allow_nil => true
   validates_length_of :username, :minimum => 1
@@ -21,11 +23,13 @@ class User < ActiveRecord::Base
   alias_attribute :created_at, :regdate
   alias_attribute :website, :site
   alias_attribute :signature, :sig
-  default_scope :conditions => { :deleted_at => nil }
-  named_scope :with_blog, :joins => :blogs, :conditions => "#{Blog.table_name}.user_id IS NOT NULL"
   attr_accessor :ip
   @@supermods = nil
   @@admins    = nil
+  default_scope :conditions => { :deleted_at => nil }
+  named_scope :registered_after, lambda { |time| { :conditions => [ 'regdate >= ?', time.to_i ] } }
+  named_scope :registered_before, lambda { |time| { :conditions => [ 'regdate < ?', time.to_i ] } }
+  named_scope :with_blog, :joins => :blogs, :conditions => "#{Blog.table_name}.user_id IS NOT NULL"
 
   def rank 
     Rank.evaluate(self.postnum)
