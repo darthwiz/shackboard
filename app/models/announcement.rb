@@ -5,9 +5,7 @@ class Announcement < ActiveRecord::Base
   establish_connection ANNOUNCEDB_CONN_PARAMS
 
   def Announcement.find_latest(n=5)
-    Announcement.find(:all,
-                      :order => 'date DESC',
-                      :limit => n)
+    Announcement.find(:all, :order => 'date DESC', :limit => n)
   end
 
   def user
@@ -16,6 +14,10 @@ class Announcement < ActiveRecord::Base
 
   def time
     Time.at(self.date)
+  end
+
+  def can_edit?(user)
+    user.is_adm?
   end
 
 end

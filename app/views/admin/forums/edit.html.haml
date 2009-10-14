@@ -1,0 +1,13 @@
+#admin_forum_edit
+  -form_for [ :admin, @forum ] do |f|
+    .name
+      =label(:forum, :name, "Nome")
+      =f.text_field :name
+    .description
+      =label(:forum, :description, "Descrizione")
+      =f.text_area :description
+    .moderators
+      =label(:forum, :moderator, "Moderatori")
+      =f.text_field :moderator
+    .submit
+      =f.submit 'modifica'

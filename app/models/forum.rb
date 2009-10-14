@@ -54,6 +54,10 @@ class Forum < ActiveRecord::Base
     return false
   end
 
+  def can_edit?(user)
+    self.can_moderate?(user)
+  end
+
   def banned?(user)
     user.banned?
   end

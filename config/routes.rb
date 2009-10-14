@@ -38,12 +38,14 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace(:admin) do |admin|
     admin.resources :cms_pages 
     admin.resources :announcements
+    admin.resources :forums
   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   # map.root :controller => "welcome"
   map.root :controller => 'welcome'
 
+  map.admin      '/admin', :controller => 'admin', :action => 'index'
   map.forum_root '/forum', :controller => 'forums', :action => 'index'
   map.full_topic '/forum/topics/full/:id.:format', :controller => 'topics', :action => 'full'
   map.css        '/css/:name.:format', :controller => 'css', :action => 'view'
@@ -57,6 +59,8 @@ ActionController::Routing::Routes.draw do |map|
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
   # legacy routes
+  map.connect 'text_preview/:action/:id', :controller => 'text_preview'
+  map.connect 'text_preview/:action/:id.:format', :controller => 'text_preview'
   map.connect 'static_content/:action/:id', :controller => 'static_content'
   map.connect 'static_content/:action/:id.:format', :controller => 'static_content'
   map.connect 'file/:action/:id', :controller => 'file'

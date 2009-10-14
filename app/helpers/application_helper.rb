@@ -158,8 +158,7 @@ module ApplicationHelper
   def link_pm_list
     return nil unless @user.is_a? User
     msg  = 'messaggi privati'
-    link = { :controller => :pms, :action => :index }
-    s    = link_to msg, link
+    s    = link_to msg, pms_path
     content_tag('span', s, :class => 'pm_list')
   end
 
@@ -192,9 +191,7 @@ module ApplicationHelper
   def link_file_unapproved(count)
     msg  = "C'è un nuovo file in attesa di approvazione."           if count == 1
     msg  = "Ci sono #{count} nuovi file in attesa di approvazione." if count > 1
-    link = { :controller => 'file', :action => 'review' }
-    link[:host]      = @host_filedb if @host_filedb
-    link[:only_path] = false if @host_filedb
+    link = { :controller => '/file', :action => 'review' }
     msg ? link_to(msg, link) : nil
   end
 
@@ -204,17 +201,20 @@ module ApplicationHelper
   end
 
   def page_trail(loc=@location, opts={})
-    s = link_to('Portale', root_path)
+    s       = link_to('Portale', root_path)
+    prefix  = 'page_trail_'
+    prefix += opts[:prefix].to_s + '_' if opts[:prefix]
     case loc.class.to_s
     when 'Array'
-      method_name = ('page_trail_' + loc.first.class.to_s.underscore.pluralize).to_sym
+      return page_trail(loc.second, :prefix => loc.first) if loc.first.is_a?(Symbol)
+      method_name = (prefix + loc.first.class.to_s.underscore.pluralize).to_sym
     when 'Symbol'
-      method_name = ('page_trail_' + loc.to_s).to_sym
+      method_name = (prefix + loc.to_s).to_sym
     else
-      method_name = ('page_trail_' + loc.class.to_s.underscore).to_sym
+      method_name = (prefix + loc.class.to_s.underscore).to_sym
     end
     if ENV['RAILS_ENV'] == 'development'
-      logger.info "** breadcrumb helper: calling #{method_name}"
+      logger.debug "** breadcrumb helper: calling #{method_name}"
     end
     trail = nil
     trail = self.send(method_name, loc, opts) if self.respond_to?(method_name)
