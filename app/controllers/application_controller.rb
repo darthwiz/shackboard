@@ -65,7 +65,6 @@ class ApplicationController < ActionController::Base
 
 
   def load_defaults 
-    @fb_support       = true
     @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
     @topic_block_size = 25

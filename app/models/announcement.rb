@@ -1,11 +1,8 @@
 class Announcement < ActiveRecord::Base
-  require 'magic_fixes.rb'
-  include ActiveRecord::MagicFixes
-  set_table_name       ANNOUNCEDB_PREFIX + 'posts'
-  establish_connection ANNOUNCEDB_CONN_PARAMS
+  validates_length_of :title, :minimum => 3
 
-  def Announcement.find_latest(n=5)
-    Announcement.find(:all, :order => 'date DESC', :limit => n)
+  def self.find_latest(n=5)
+    self.find(:all, :order => 'date DESC', :limit => n)
   end
 
   def user

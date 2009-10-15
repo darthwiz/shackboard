@@ -18,13 +18,5 @@ config.action_view.cache_template_loading            = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
-ANNOUNCEDB_CONN_PARAMS = {
-  :adapter  => 'mysql',
-  :host     => 'dbase',
-  :username => 'ciao',
-  :password => 'ciao123',
-  :database => 'news',
-  :encoding => 'utf8'
-}
-LEGACY_MODE      = :old
+LEGACY_MODE      = :new
 LEGACY_FORUM_URI = 'http://www.studentibicocca.it/portale/forum'

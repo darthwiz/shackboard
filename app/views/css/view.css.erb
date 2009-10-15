@@ -434,12 +434,14 @@ div#announcement .author a {
 
 /* FORUM INDEX */
 
-#forums_index {
+#forums_index,
+#admin_forums_index {
   border: 1px solid <%=t.bordercolor%>;
   background-color: <%=t.altbg1%>;
   padding: 1em;
 }
-#forums_index ul.forum_list li {
+#forums_index ul.forum_list li,
+#admin_forums_index ul.forum_list li {
   margin: 0.5em 0.5em 0.5em 1.5em;
 }
 #forums_index ul.forum_list li.level_1 {
@@ -451,7 +453,8 @@ div#announcement .author a {
 #forums_index ul.forum_list li .name {
   font-weight: bold;
 }
-#forums_index ul.forum_list li a.forum_name {
+#forums_index ul.forum_list li a.forum_name,
+#admin_forums_index ul.forum_list li a.forum_name {
   font-size: 14px;
   display: block;
 }
@@ -495,6 +498,50 @@ div#announcement .author a {
 }
 
 
+/* FORUM ADMIN */
+#admin_forum_edit {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg2%>;
+  padding: 1em;
+}
+#admin_forum_edit label {
+  display: block;
+  float: left;
+  width: 8em;
+}
+#admin_forum_edit .description textarea {
+  height: 6em;
+  width: 40em;
+}
+
+
+
+
+/* ANNOUNCEMENTS */
+#admin_announcements_index,
+#admin_announcement_edit {
+  border: 1px solid <%=t.bordercolor%>;
+  background-color: <%=t.altbg2%>;
+  padding: 1em;
+}
+#admin_announcements_index .new {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+#admin_announcements_index dt,
+#admin_announcements_index dd {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+#admin_announcement_edit dt,
+#admin_announcement_edit dd {
+  margin: 0;
+  padding: 0;
+}
+#admin_announcement_edit dd {
+  clear: right;
+}
 
 
 

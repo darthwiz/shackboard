@@ -3,8 +3,8 @@
   %ul{ :class => "forum_list level_#{level}" }
     -forums.each do |f|
       -if f.can_read?(@user)
-        %li{ :class => "forum level_#{level}" }
-          .name= link_to(cleanup(f.name), f, :class => 'forum_name')
+        %li.forum[f]{ :class => "level_#{level}" }
+          .name= link_to(cleanup(f.name), f, :class => 'forum_name', :name => domid(f))
           .description= cleanup(f.description)
           -unless f.moderators.blank?
             .moderators

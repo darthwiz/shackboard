@@ -1,0 +1,9 @@
+#admin_announcements_index
+  .new
+    =link_to("Nuovo annuncio", new_admin_announcement_path)
+  %ul.announcements
+    -@announcements.each do |a|
+      %li[a]
+        %dl
+          %dt.title= link_to(cleanup(a.title), edit_admin_announcement_path(a))
+          %dd.date= a.time.strftime('%d/%m/%y')

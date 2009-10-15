@@ -1,0 +1,11 @@
+#admin_announcement_edit
+  -form_for [ :admin, @announcement ] do |f|
+    %dl
+      %dt.title
+        =label(:announcement, :title, "Titolo")
+        =f.text_field :title
+      %dd.text
+        =label(:announcement, :message, "Testo")
+        =f.text_area :message
+      %dd.submit
+        =f.submit 'salva'

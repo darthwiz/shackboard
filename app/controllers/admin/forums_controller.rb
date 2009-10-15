@@ -14,7 +14,8 @@ class Admin::ForumsController < Admin::ApplicationController
   def edit
     @forum = Forum.find(params[:id])
     ensure_can_edit(@forum)
-    @location = [ :admin, @forum ]
+    @page_title = "Amministrazione forum - #{@forum.name}"
+    @location   = [ :admin, @forum ]
   end
 
   def create
@@ -23,6 +24,8 @@ class Admin::ForumsController < Admin::ApplicationController
   def update
     @forum = Forum.find(params[:id])
     ensure_can_edit(@forum)
+    @forum.description = params[:forum][:description]
+    @forum.moderator   = params[:forum][:moderator]
     if @forum.update_attributes(params[:forum])
       flash[:success] = "Forum modificato con successo."
     else
