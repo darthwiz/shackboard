@@ -5,7 +5,7 @@
     <%=link_to(
       image_tag(sm.url, :title => sm.code, :border => 0),
       'javascript:;',
-      :onclick => "insert_text('#{sm.code}', true); return false"
+      :onclick => "insert_text('[img]#{sm.url}[/img]', true); return false"
     )%>
   </li>
 <% end %>

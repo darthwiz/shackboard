@@ -1,6 +1,6 @@
 %script(type="text/javascript")
   form_name = 'new_message'
-  text_name = 'post[message]'
+  text_name = 'pm[message]'
 =javascript_include_tag 'editor.js'
 #new_post
   -form_for(@pm, :html => { :id => 'new_message' }) do |f|
