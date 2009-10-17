@@ -4,7 +4,13 @@
   link_boards   = forum_path(51)
   link_market   = forum_path(108)
 %>
-<div id="portal_main">
+<div id="full_page_banner">
+  <p>
+    Clicca sull'immagine per entrare nel portale.
+  </p>
+  <a href="javascript:switch_page();"><img src="http://asb.studentibicocca.it/volantini/ASBDAY.JPG"/></a>
+</div>
+<div id="portal_main" style="display: none;">
   <div id="header"><%#Header %>
     <div id="title">
       <h1>StudentiBicocca.it</h1>
@@ -95,4 +101,12 @@
   </div>
   <div class="spacer"></div>
   <%=render :partial => '/users/online'%>
+  <script type="text/javascript">
+  <!--
+    function switch_page() {
+      document.getElementById('full_page_banner').style.display = 'none'
+      document.getElementById('portal_main').style.display = ''
+    }
+  // -->
+  </script>
 </div>
