@@ -1,0 +1,19 @@
+-t                     = @opts[:theme]
+-@topic                = @post.topic
+-@post.cached_user     = @post.user
+-@post.cached_smileys  = Smiley.all(@user)
+-@post.cached_can_edit = @post.can_edit?(@user)
+#report_post_form
+  .note
+    La segnalazione verrà inviata ai seguenti moderatori:
+    =@post.topic.forum.moderators.collect { |u| link_to(u.username, u) }.join(', ')
+  -form_for :report, :url => send_report_post_path(@post), :method => :post do |f|
+    .text
+      =label(:report, :text, "Motivo della segnalazione")
+      =f.text_area :text
+    .submit
+      =f.submit 'invia'
+#topic_view
+  #post_list
+    %table{ :bgcolor => t.bordercolor, :cellspacing => 1, :width => "100%", :cellpadding => 6 }
+      =render :partial => '/posts/post', :locals => { :p => @post, :flip => 0 }

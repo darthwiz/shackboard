@@ -3,8 +3,8 @@ class PostsController < ApplicationController
   layout 'forum'
 
   def show
-    @post = Post.secure_find(params[:id], @user)
-    @page_title = @post.topic.title
+    @post         = Post.secure_find(params[:id], @user)
+    @page_title   = @post.topic.title
     @post.message = '[ messaggio cancellato ]' if @post.deleted_by && !@user.is_adm?
     respond_to do |format|
       format.html do
@@ -172,6 +172,34 @@ class PostsController < ApplicationController
                        :current     => start + 1,
                        :get_parms   => [ :q, :time, :username ],
                        :extra_links => [ :first, :forward, :back, :last ] }
+  end
+
+  def report
+    @post       = Post.secure_find(params[:id])
+    @location   = [ :report, @post ]
+    @page_title = "Segnalazione messaggio"
+    save_intended_action
+  end
+
+  def send_report
+    @post    = Post.secure_find(params[:id])
+    text     = params[:report][:text]
+    username = @user ? @user.username : nil
+    title    = "Segnalazione messaggio nella discussione \"#{@post.topic.title}\""
+    message  = post_url(@post) + "\n\n" + text
+    @post.topic.forum.moderators.each do |mod|
+      Pm.new(
+        :msgfrom  => username,
+        :msgto    => mod.username,
+        :subject  => title,
+        :message  => message,
+        :dateline => Time.now.to_i,
+        :folder   => 'inbox',
+        :status   => 'new'
+      ).save!
+    end
+    flash[:success] = "La tua segnalazione è stata inviata ai moderatori."
+    redirect_to_intended_action
   end
 
 end
