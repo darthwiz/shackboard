@@ -27,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :collection => { :login => :get, :fbconnect => :get, :logout => :get, :authenticate => :post, :fblink => :post, :recover_password => :get, :send_password => :post }, :has_many => :smileys
   map.resources :pms, :member => { :reply => :get, :post_reply => :get }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get }
   map.resources :drafts, :path_prefix => 'forum', :has_one => [ :post, :pm, :topic ]
-  map.resources :posts, :path_prefix => 'forum', :member => { :reply => :get }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get, :search => :get }
+  map.resources :posts, :path_prefix => 'forum', :member => { :reply => :get, :report => :get, :send_report => :post }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get, :search => :get }
   map.resources :topics, :path_prefix => 'forum', :has_many => :posts, :new => { :save_draft => :post, :draft => :get }
   map.resources :forums, :path_prefix => 'forum', :has_many => [ :topics, :posts ]
   map.resources :blogs, :path_prefix => 'blog', :has_many => :blog_posts
@@ -58,7 +58,11 @@ ActionController::Routing::Routes.draw do |map|
   map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9\/][^\/]+/, :blog_label => /.*/ }
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
-  # legacy routes
+  # legacy routes - these have to go sooner or later
+  map.connect 'drafts/:action/:id', :controller => 'drafts'
+  map.connect 'drafts/:action/:id.:format', :controller => 'drafts'
+  map.connect 'pms/:action/:id', :controller => 'pms'
+  map.connect 'pms/:action/:id.:format', :controller => 'pms'
   map.connect 'text_preview/:action/:id', :controller => 'text_preview'
   map.connect 'text_preview/:action/:id.:format', :controller => 'text_preview'
   map.connect 'static_content/:action/:id', :controller => 'static_content'
