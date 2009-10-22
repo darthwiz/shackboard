@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091001091422) do
+ActiveRecord::Schema.define(:version => 20091015214242) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -210,6 +210,29 @@ ActiveRecord::Schema.define(:version => 20091001091422) do
     t.text   "announcement",                               :null => false
     t.string "forumid",      :limit => 6
   end
+
+  create_table "xmb_announcements", :force => true do |t|
+    t.string  "poster"
+    t.integer "date",                          :default => 0,     :null => false
+    t.text    "message",   :limit => 16777215
+    t.integer "num_views",                     :default => 0,     :null => false
+    t.string  "says"
+    t.string  "title"
+    t.string  "cat",                           :default => "",    :null => false
+    t.boolean "status",                        :default => false, :null => false
+    t.boolean "special",                       :default => true,  :null => false
+    t.float   "avr",       :limit => 4,        :default => 0.0,   :null => false
+    t.integer "total",                         :default => 0,     :null => false
+  end
+
+  add_index "xmb_announcements", ["avr"], :name => "avr"
+  add_index "xmb_announcements", ["cat"], :name => "cat"
+  add_index "xmb_announcements", ["date"], :name => "date"
+  add_index "xmb_announcements", ["num_views"], :name => "num_views"
+  add_index "xmb_announcements", ["special"], :name => "special"
+  add_index "xmb_announcements", ["status"], :name => "status"
+  add_index "xmb_announcements", ["title", "message"], :name => "title"
+  add_index "xmb_announcements", ["total"], :name => "total"
 
   create_table "xmb_ban_records", :force => true do |t|
     t.integer "moderator_id",                    :null => false

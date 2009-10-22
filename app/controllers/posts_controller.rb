@@ -37,6 +37,8 @@ class PostsController < ApplicationController
   def new
     draft_id = params[:draft_id].to_i
     topic_id = params[:topic_id].to_i
+    Post.new
+    Topic.new
     if draft_id > 0
       @draft = Draft.secure_find(draft_id, @user)
       @topic = @draft.object.topic if @draft.object.topic_id > 0

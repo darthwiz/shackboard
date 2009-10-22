@@ -59,6 +59,10 @@ ActionController::Routing::Routes.draw do |map|
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
   # legacy routes - these have to go sooner or later
+  map.connect 'blog_comments/:action/:id', :controller => 'blog_comments'
+  map.connect 'blog_comments/:action/:id.:format', :controller => 'blog_comments'
+  map.connect 'blog_posts/:action/:id', :controller => 'blog_posts'
+  map.connect 'blog_posts/:action/:id.:format', :controller => 'blog_posts'
   map.connect 'drafts/:action/:id', :controller => 'drafts'
   map.connect 'drafts/:action/:id.:format', :controller => 'drafts'
   map.connect 'pms/:action/:id', :controller => 'pms'

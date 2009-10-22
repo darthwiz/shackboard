@@ -33,6 +33,10 @@ class Post < ActiveRecord::Base
     { :conditions => "dateline >= #{time.to_i}" }
   }
 
+  named_scope :before_time, lambda { |time|
+    { :conditions => "dateline < #{time.to_i}" }
+  }
+
   named_scope :public_only, lambda {
     ft = Forum.table_name
     pt = self.table_name
