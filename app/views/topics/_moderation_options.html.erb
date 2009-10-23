@@ -1,8 +1,9 @@
 <%
   # vim: set ft=eruby nowrap: 
-  update_id = "moderation_options_#{@topic.id}"
-  hidden    = false unless hidden
-  style     = hidden ? 'display: none;' : ''
+  update_id    = "moderation_options_#{@topic.id}"
+  hidden       = false unless hidden
+  style        = hidden ? 'display: none;' : ''
+  #can_moderate = false unless defined?(can_moderate)
 %>
 <div id="<%=update_id%>" class="only_mod" style="<%=style%>">
   <%remote_form_for @topic do |f|%>
@@ -10,6 +11,7 @@
     <span class="label">Titolo:</span>
     <%=f.text_field :title, :value => @topic.title%>
   </div>
+  <%if can_moderate%>
   <div class="pinned">
     <%=radio_button 'topic', 'pinned', 'false'%>
     <span class="not_pinned">Normale</span>
@@ -22,6 +24,7 @@
     <%=radio_button 'topic', 'locked', 'true'%>
     <span class="locked">Chiusa</span>
   </div>
+  <%end%>
   <div class="post_icon">
     Icona:
     <%=radio_button 'topic', 'icon', nil, :id => 'topic_icon_radio_null'%> (nessuna)
@@ -29,17 +32,21 @@
     <%=radio_button 'topic', 'icon', i[:url], :id => "topic_icon_radio_#{i.id}"%> <%=image_tag(i.url, :alt => '')%>
     <%end%>
   </div>
+  <%if can_moderate%>
   <div class="move_to">
     <span class="label">Sposta in</span>
     <%=f.select :fid, Forum.flattened_list.collect { |i| [ Sanitizer.sanitize_html(i.name, ''), i.id ] }%>
   </div>
+  <%end%>
   <div class="commit">
     <%=f.submit 'Aggiorna', :disabled => true%>
   </div>
   <%end%>
+  <%=button_to 'Elimina', @topic, :method => :delete, :confirm => "Vuoi veramente cancellare questa discussione?"%>
   <script type="text/javascript">
     <%
-    watch_ids  = [ 'topic_pinned_true', 'topic_pinned_false', 'topic_locked_true', 'topic_locked_false', 'topic_fid' ]
+    watch_ids  = []
+    watch_ids += [ 'topic_pinned_true', 'topic_pinned_false', 'topic_locked_true', 'topic_locked_false', 'topic_fid' ] if can_moderate
     watch_ids += @post_icons.collect { |i| "topic_icon_radio_#{i.id}" }
     watch_ids += [ 'topic_icon_radio_null' ]
     %>

@@ -1,14 +1,15 @@
 <%
 t            = @opts[:theme]
 flip         = 0
+can_edit     = @topic.can_edit?(@user)
 can_moderate = @topic.can_moderate?(@user)
 can_post     = @topic.can_post?(@user)
 %>
-    <%if can_moderate%>
+    <%if can_edit%>
     <div id="moderator-panel-top">
-      <h4><a href="javascript:;" onclick="Effect.toggle($('moderator-panel-options'), 'slide')">Opzioni di moderazione</a></h4>
+      <h4><a href="javascript:;" onclick="Effect.toggle($('moderator-panel-options'), 'slide')">Modifica discussione</a></h4>
       <div id="moderator-panel-options" style="display: none;">
-        <%=render :partial => 'moderation_options'%>
+        <%=render :partial => 'moderation_options', :locals => { :can_moderate => can_moderate }%>
       </div>
     </div>
     <%end%>

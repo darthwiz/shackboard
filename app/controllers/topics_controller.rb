@@ -52,7 +52,8 @@ class TopicsController < ApplicationController
       @topic = Topic.find(tid)
       fid    = @topic.fid
     rescue
-      render :partial => "not_found" and return
+      flash[:error] = "La discussione non è stata trovata."
+      redirect_to forum_root_path and return
     end
 
     # redirect if the topic has moved
@@ -109,20 +110,24 @@ class TopicsController < ApplicationController
   def update
     @topic = Topic.find(params[:id].to_i)
     if request.xhr?
+      if @topic.can_edit? @user
+        if params['topic']
+          @topic.title  = params['topic']['title']
+          @topic.icon   = params['topic']['icon'] == 'on' ? nil : params['topic']['icon']
+        end
+      end
       if @topic.can_moderate? @user
         if params['topic']
           @topic.pinned = params['topic']['pinned'] == 'true' ? true : false
           @topic.locked = params['topic']['locked'] == 'true' ? true : false
-          @topic.title  = params['topic']['title']
-          @topic.icon   = params['topic']['icon'] == 'on' ? nil : params['topic']['icon']
           new_fid       = params['topic']['fid'].to_i
-          if @topic.fid != new_fid
+          if new_fid > 0 && @topic.fid != new_fid
             forum = Forum.find(new_fid)
             @topic.move_to(forum)
           end
         end
-        @topic.save!
       end
+      @topic.save!
       ppp            = ((@opts[:ppp] - 1) / @post_block_size + 1) * @post_block_size
       @location      = @topic
       @post_icons    = Smiley.post_icons
@@ -133,7 +138,7 @@ class TopicsController < ApplicationController
                          :id          => @topic.id,
                          :extra_links => [ :first, :forward, :back, :last ] }
       render :update do |page|
-        page.replace_html 'moderator-panel-top', :partial => 'moderation_options'
+        page.replace_html 'moderator-panel-top', :partial => 'moderation_options', :locals => { :can_moderate => @topic.can_moderate?(@user) }
         #page.replace_html 'breadcrumbs',         :partial => '/common/breadcrumbs'
         #page.replace_html 'breadcrumbs_bottom',  :partial => '/common/breadcrumbs'
       end
@@ -162,16 +167,34 @@ class TopicsController < ApplicationController
       @post.reply_to_uid = 0
       @post.save!
       @draft.destroy
-      respond_to do |format|
-        format.html { redirect_to topic_path(@post.topic, :page => 'last', :anchor => 'last_post') }
-      end
       @post.topic.update_last_post!(@post)
       @post.forum.update_last_post!(@post)
       @post.user.increment!(:postnum)
       cache_expire({:object => :topic, :id => @post.topic.id})
+      respond_to do |format|
+        format.html { redirect_to topic_path(@post.topic, :page => 'last', :anchor => 'last_post') }
+      end
     end
   end
 
+  def destroy
+    begin
+      @topic = Topic.find(params[:id])
+    rescue
+      flash[:error] = "La discussione non è stata trovata."
+      redirect_to forum_root_path and return
+    end
+    if @topic.can_delete?(@user)
+      @topic.delete(@user)
+      flash[:warning] = "La discussione è stata cancellata."
+      cache_expire({:object => :topic, :id => @topic.id})
+      redirect_to @topic.forum
+    else
+      flash[:error] = "Non hai il permesso di cancellare questa discussione."
+      redirect_to :back
+    end
+  end
+ 
   def save_draft
     @draft                = Draft.secure_find(params[:draft_id], @user)
     @draft.object         = Topic.new(params[:topic])

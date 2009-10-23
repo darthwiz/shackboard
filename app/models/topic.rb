@@ -1,6 +1,4 @@
 class Topic < ActiveRecord::Base
-  require 'magic_fixes.rb'
-  include ActiveRecord::MagicFixes
   set_table_name table_name_prefix + "threads"
   set_primary_key "tid"
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :threads
@@ -64,6 +62,43 @@ class Topic < ActiveRecord::Base
 
   def can_moderate?(user)
     self.forum.can_moderate?(user)
+  end
+
+  def can_edit?(user)
+    return false unless user.is_a? User
+    return true if self.forum.can_moderate?(user)
+    return true if (self.uid == user.id) && (Time.now.to_i - self.dateline.to_i < Settings.edit_time_limit)
+    return false
+  end
+
+  def can_delete?(user)
+    return false unless user.is_a? User
+    return true if self.forum.can_moderate?(user)
+    can_edit = self.can_edit?(user)
+    return false unless can_edit
+    tn            = Post.table_name
+    distinct_uids = self.posts.find(:all, :select => "#{tn}.uid", :group => :uid).collect(&:uid)
+    only_poster   = distinct_uids.length == 1 && distinct_uids.first == user.id
+    return can_edit && only_poster
+  end
+
+  def delete(by_whom)
+    raise TypeError unless by_whom.is_a? User
+    self.deleted_by = by_whom.id
+    self.deleted_on = Time.now.to_i
+    # NOTE what follows is a dirty trick to piggyback the number of posts
+    # deleted for every user, in order to keep the counters in sync.
+    tn            = Post.table_name
+    distinct_uids = self.posts.find(:all, :select => "COUNT(1) AS pid, #{tn}.uid", :group => :uid)
+    distinct_uids.each do |i|
+      User.update_all("postnum = postnum - #{i.pid}", "uid = #{i.uid}", :limit => 1)
+    end
+    Post.update_all("deleted_on = #{self.deleted_on}, deleted_by = #{self.deleted_by}", "tid = #{self.tid}")
+    self.save!
+    forum = self.forum
+    forum[:posts] -= distinct_uids.inject(0) { |sum, i| sum += i.pid }
+    forum.save!
+    forum.update_last_post! # OPTIMIZE
   end
 
   def fix_counters!
