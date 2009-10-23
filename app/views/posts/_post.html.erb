@@ -7,6 +7,7 @@ unless defined?(buttons)
 end
 can_post     = false unless defined?(can_post)
 can_moderate = false unless defined?(can_moderate)
+moderators   = p.topic.forum.moderators
 -%>
             <tr bgcolor="<%=bgcolor%>" class="<%=domid(p.cached_user)%>">
               <td rowspan="2" valign="top" class="tablerow" width="18%">
@@ -21,6 +22,10 @@ can_moderate = false unless defined?(can_moderate)
                   <%=p.cached_user.rank.title%><br />
                   <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
                   <br />
+                  <%if moderators.include?(p.cached_user)%>
+                  <span class="moderator">Moderatore</span>
+                  <br />
+                  <%end%>
                   <div class="avatar_box">
                     <%if p.cached_user.avatar%>
                     <%=image_tag p.cached_user.avatar,
