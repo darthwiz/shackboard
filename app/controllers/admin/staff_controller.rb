@@ -51,8 +51,10 @@ class Admin::StaffController < Admin::ApplicationController
     params[:moderators].each_pair do |fid, mods|
       forum           = Forum.find(fid)
       new_mods        = User.find_all_by_username(mods.split(/,\s*/)).collect(&:username).sort.join(', ')
-      forum.moderator = new_mods
-      forum.save!
+      if forum.can_moderate?(@user)
+        forum.moderator = new_mods
+        forum.save_without_validation
+      end
     end
     flash[:success] = "Le modifiche sono state salvate correttamente."
     redirect_to :back
