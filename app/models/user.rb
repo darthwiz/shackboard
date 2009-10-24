@@ -93,9 +93,7 @@ class User < ActiveRecord::Base
   end
 
   def moderates
-    Forum.find(:all, :conditions => [ 'moderator LIKE ?', "%#{self.username}%" ], :order => 'name').select do |f|
-      f.moderator_usernames.include? self.username
-    end
+    Forum.all.select { |f| f.moderator_usernames.include?(self.username) }
   end
 
   def banned?
