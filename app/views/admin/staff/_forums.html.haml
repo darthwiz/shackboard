@@ -1,0 +1,15 @@
+-level = 1 unless defined?(level) && level.is_a?(Fixnum)
+-unless forums.blank?
+  %ul{ :class => "forum_list level_#{level}" }
+    -forums.each do |f|
+      -if f.can_read?(@user)
+        %li.forum[f]{ :class => "level_#{level}" }
+          %dl.forum
+            %dt.forum
+              =link_to(cleanup(f.name), [ :admin, f ], :class => 'forum_name', :name => domid(f))
+            %dd.moderators
+              -if f.can_moderate?(@user)
+                =text_field_tag "moderators[#{f.id}]", f.moderators.collect(&:username).join(', ')
+              -else
+                =f.moderators.collect(&:username).join(', ')
+              =render :partial => 'forums', :object => f.children, :locals => { :level => level + 1 }

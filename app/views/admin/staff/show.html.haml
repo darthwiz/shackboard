@@ -1,0 +1,26 @@
+#admin_staff
+  -form_tag admin_staff_path, :method => :put do
+    #admin_admins_index
+      %h2 Amministratori
+      -names = @admins.collect(&:username).sort.join(', ')
+      -if @user.is_adm?
+        =text_field_tag :administrators, names
+      -else
+        =names
+    #admin_supermods_index
+      %h2 Super-moderatori
+      -names = @supermods.select { |i| i.status == 'Super Moderator' }.collect(&:username).sort.join(', ')
+      -if @user.is_supermod?
+        =text_field_tag :supermods, names
+      -else
+        =names
+    #admin_moderators_index
+      %h2 Moderatori
+      .list
+        %span.label Lista completa:
+        =@all_mods.collect { |u| link_to(cleanup(u.username), u) }.join(', ')
+      .forums
+        %span.label Per forum:
+        =render :partial => 'forums', :object => @forums
+    .submit
+      =submit_tag 'salva modifiche'

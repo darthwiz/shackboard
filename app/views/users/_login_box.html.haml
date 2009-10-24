@@ -11,6 +11,7 @@
     .buttons
       =link_to 'area personale', user_path(@user)
       =link_pm_list
+      =link_to 'amministrazione', admin_path if @user.is_adm?
       =link_to 'blog', blog_list_path(@user.username)
       -if @fb_session
         =fb_logout_link 'logout', logout_users_path
