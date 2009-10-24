@@ -154,6 +154,7 @@ class TopicsController < ApplicationController
       @topic.forum    = @topic.forum
       @topic.user     = @user
       @topic.replies  = 1
+      @topic.subject  = @topic.subject =~ /[a-z]/ ? @topic.subject : @topic.subject.split(/\s/).collect(&:capitalize).join(' ')
       @topic.save!
       @post              = Post.new
       @post.topic        = @topic
@@ -187,7 +188,7 @@ class TopicsController < ApplicationController
     if @topic.can_delete?(@user)
       @topic.delete(@user)
       flash[:warning] = "La discussione è stata cancellata."
-      cache_expire({:object => :topic, :id => @topic.id})
+      cache_expire({:object => :forum, :id => @topic.forum.id})
       redirect_to @topic.forum
     else
       flash[:error] = "Non hai il permesso di cancellare questa discussione."
