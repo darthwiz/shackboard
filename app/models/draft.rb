@@ -6,7 +6,7 @@ class Draft < ActiveRecord::Base
   def object
     # FIXME it would be nice to make this hack work here instead of outside
     Module.const_get(self.object_type.classify).new unless self.object_type.nil?
-    self[:object][0]
+    self[:object] ? self[:object][0] : nil
   end
 
   def object=(obj)

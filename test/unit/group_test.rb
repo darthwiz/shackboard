@@ -1,19 +1,22 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'group'
 class GroupTest < ActiveSupport::TestCase
-  fixtures :groups, :group_memberships, :members
-  def test_reality_check # {{{
+  fixtures :groups, :group_memberships, :users
+
+  def test_reality_check
     assert_equal("mod_agora", Group.find(1).name)
-  end # }}}
-  def test_group_include? # {{{
+  end
+
+  def test_group_include?
     ark    = User.find_by_username("Ark Intruso")
     kaworu = User.find_by_username("Kaworu")
     runner = User.find_by_username("runner")
     assert Group.include?(['Group', 'mod_agora'], ark)
     assert Group.include?(['Group', 'mod_agora'], kaworu)
     assert Group.include?(['Group', 'mod_agora'], runner)
-  end # }}}
-  def test_membership # {{{
+  end
+
+  def test_membership
     ark    = User.find_by_username("Ark Intruso")
     kaworu = User.find_by_username("Kaworu")
     runner = User.find_by_username("runner")
@@ -21,8 +24,9 @@ class GroupTest < ActiveSupport::TestCase
     assert agora.users.include?(ark)
     assert agora.users.include?(kaworu)
     assert agora.users.include?(runner)
-  end # }}}
-  def test_creation # {{{
+  end
+
+  def test_creation
     g1 = Group.new
     g2 = Group.new
     g1.name = "test"
@@ -31,8 +35,9 @@ class GroupTest < ActiveSupport::TestCase
     assert !g2.save # this is not: name is not unique
     assert Group.find_by_name("test")
     assert Group.find_by_name("test").destroy
-  end # }}}
-  def test_association # {{{
+  end
+
+  def test_association
     assert wiz = User.find_by_username("wiz")
     assert Group.new { |g| g.name = "test" }.save
     assert g = Group.find_by_name("test")
@@ -42,8 +47,9 @@ class GroupTest < ActiveSupport::TestCase
     assert g.destroy
     assert GroupMembership.find_all_by_group_id(g.id).empty?
     assert g.users.empty?
-  end # }}}
-  def test_removal # {{{
+  end
+
+  def test_removal
     wiz = User.find_by_username("wiz")
     assert Group.new { |g| g.name = "test" }.save
     assert g = Group.find_by_name("test")
@@ -55,5 +61,6 @@ class GroupTest < ActiveSupport::TestCase
     assert_equal(GroupMembership, g.remove!(['User', wiz.id]).class)
     assert g.users.empty?
     assert g.destroy
-  end # }}}
+  end
+
 end

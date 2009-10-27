@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  set_table_name table_name_prefix + "members"
   set_primary_key "uid"
   has_many :group_memberships
   has_many :groups, :through => :group_memberships

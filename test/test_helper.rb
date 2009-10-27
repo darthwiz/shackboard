@@ -35,4 +35,15 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  # Time warp to the specified time for the duration of the passed block
+  def pretend_now_is(time)
+    begin
+      Time.testing_offset = Time.now - time
+      yield
+    ensure
+      Time.testing_offset = 0
+    end
+  end
+
 end

@@ -1,5 +1,4 @@
 class Topic < ActiveRecord::Base
-  set_table_name table_name_prefix + "threads"
   set_primary_key "tid"
   belongs_to :forum, :foreign_key => "fid", :counter_cache => :threads
   belongs_to :user,  :foreign_key => "uid"

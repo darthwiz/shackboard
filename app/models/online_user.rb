@@ -30,10 +30,11 @@ class OnlineUser < ActiveRecord::Base
 
   def self.online
     users = []
+    ut = User.table_name
     self.find(
-      :all, :joins => 'INNER JOIN xmb_members
-        ON xmb_members.uid = xmb_whosonline.uid AND xmb_members.deleted_at IS NULL',
-      :order => 'xmb_members.username'
+      :all, :joins => "INNER JOIN #{ut}
+        ON #{ut}.uid = xmb_whosonline.uid AND #{ut}.deleted_at IS NULL",
+      :order => "#{ut}.username"
     ).each do |ou|
       users << ou.user
       users.last.ip = ou.ip

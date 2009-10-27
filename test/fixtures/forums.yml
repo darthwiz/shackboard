@@ -14,12 +14,36 @@ agora:
   type: forum
   postperm: 1|1
   moderator: Ark Intruso, Kaworu, runner
-  description: "Spazio dedicato a discussioni su Cultura e Societ\xE0"
+  description: "Spazio dedicato a discussioni su Cultura e Società"
   allowimgcode: ""
   posts: "102461"
   allowhtml: ""
   pollstatus: "off"
   allowsmilies: "yes"
+
+qdoa:
+  userlist: ""
+  allowhtml: ""
+  name: "Il quarto d'ora accademico"
+  fup: "25"
+  displayorder: "2"
+  fid: "171"
+  threads: "1694"
+  theme: studentibicocca
+  allowbbcode: "yes"
+  lastpost: 1248784194|$
+  postperm: 1|1
+  guestposting: ""
+  private: ""
+  moderator: valentinal84, -_Eirene_-
+  flattened_list_seq: "4"
+  type: forum
+  allowimgcode: "yes"
+  posts: "140212"
+  allowsmilies: "yes"
+  description: "Spazio per le discussioni... ma senza prenderci troppo sul serio."
+  status: "on"
+  pollstatus: "off"
 
 bin:
   lastpost: 1163146799|stellarossa86
