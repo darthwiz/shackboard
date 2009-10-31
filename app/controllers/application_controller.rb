@@ -68,9 +68,6 @@ class ApplicationController < ActionController::Base
     @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
     @topic_block_size = 25
-    @legacy_forum_uri = LEGACY_FORUM_URI
-    @legacy_mode      = LEGACY_MODE
-    @host_forum       = @legacy_forum_uri.sub(/http:\/\/([^\/]+)\/.*/, "\\1")
     @online_users     = OnlineUser.online
     @guests_count     = OnlineUser.guests_count
     begin

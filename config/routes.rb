@@ -40,6 +40,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :announcements
     admin.resources :forums
     admin.resources :banners
+    admin.resources :bans
     admin.resource  :staff, :controller => 'staff'
   end
 

@@ -1,0 +1,29 @@
+#admin_ban
+  .edit
+    -form_for [ :admin, @ban ] do |f|
+      .ban[@ban]
+        %dl{ :class => domid(@ban.user) }
+          %dt.user
+            %span.label utente
+            %span.data= cleanup(@ban.user.username)
+          %dd.moderator
+            %span.label espulso da
+            %span.data= cleanup(@ban.moderator.username)
+          %dd.forum
+            %span.label dal forum
+            %span.data= cleanup(@ban.forum.name)
+          %dd.date
+            %span.label il
+            %span.data= @ban.created_at.strftime('%d/%m/%Y, %H.%M')
+          %dd.until
+            %span.label ancora per
+            %span.data
+              =text_field_tag :days, @remaining_days, :size => 2
+              giorni e
+              =text_field_tag :hours, @remaining_hours, :size => 2
+              ore
+          %dd.reason
+            %span.label motivo
+            .data= f.text_area :reason
+        .submit
+          =f.submit 'salva'

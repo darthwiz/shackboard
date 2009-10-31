@@ -1,0 +1,27 @@
+#admin_ban
+  .new
+    -form_for [ :admin, @ban ] do |f|
+      .ban[@ban]
+        %dl
+          %dt.user
+            %span.label utente
+            %span.data= text_field_tag :username
+          %dd.moderator
+            %span.label espulso da
+            %span.data= cleanup(@ban.moderator.username)
+          %dd.forum
+            %span.label dal forum
+            %span.data= f.select :forum, @forums.collect { |i| [ cleanup(i.name), i.id ] }
+          %dd.until
+            %span.label per
+            %span.data
+              =text_field_tag :days, @days, :size => 2
+              giorni e
+              =text_field_tag :hours, @hours, :size => 2
+              ore
+          %dd.reason
+            %span.label motivo
+            .data= f.text_area :reason
+        .submit
+          =f.submit 'salva'
+

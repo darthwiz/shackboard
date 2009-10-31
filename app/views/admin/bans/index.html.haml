@@ -1,0 +1,39 @@
+#admin_ban
+  .new
+    =link_to('nuova espulsione', new_admin_ban_path)
+  .index
+    -unless @active_bans.blank?
+      %ul.bans
+        -@active_bans.each do |ban|
+          %li[ban]
+            %dl{ :class => domid(ban.user) }
+              %dt.user
+                %span.label utente
+                %span.data= link_to(cleanup(ban.user.username), ban.user)
+              %dd.moderator
+                %span.label espulso da
+                %span.data= link_to(cleanup(ban.moderator.username), ban.moderator)
+              %dd.forum
+                %span.label dal forum
+                %span.data= link_to(cleanup(ban.forum.name), ban.forum)
+              %dd.date
+                %span.label il
+                %span.data= ban.created_at.strftime('%d/%m/%Y, %H.%M')
+              -if ban.expires_at
+                %dd.until
+                  %span.label fino al
+                  %span.data= ban.expires_at.strftime('%d/%m/%Y, %H.%M')
+              -else
+                %dd.until
+                  %span.label fino a
+                  %span.data data da destinarsi
+              -unless ban.reason.blank?
+                %dd.reason
+                  %span.label motivo
+                  .data= BbText.new(ban.reason).to_html
+              -if ban.can_edit?(@user)
+                %dd.edit
+                  =link_to('modifica', edit_admin_ban_path(ban))
+    -else
+      .no_bans
+        Non ci sono espulsioni in corso.

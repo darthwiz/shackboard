@@ -49,6 +49,7 @@ class Forum < ActiveRecord::Base
 
   def can_moderate?(user)
     return false unless user.is_a? User
+    return false if self.banned? user
     return true if self.moderator_ids.include? user.id
     return true if User.supermod_ids.include? user.id
     return true if User.admin_ids.include? user.id
@@ -60,7 +61,9 @@ class Forum < ActiveRecord::Base
   end
 
   def banned?(user)
-    user.banned?
+    return true if user.banned?
+    return true unless Ban.with_user(user).active_at(Time.now).with_forum(self).empty?
+    false
   end
 
   def topics_range(range, seen_by_user=nil)
