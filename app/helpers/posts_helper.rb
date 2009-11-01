@@ -5,7 +5,11 @@ module PostsHelper
     trail = page_trail_topic(topic)
     trail.pop
     trail << [ cleanup(topic.title), topic ]
-    trail << [ "messaggio #{obj.find_seq}", {} ]
+    if obj.new_record?
+      trail << [ "nuovo messaggio", nil ]
+    else
+      trail << [ "messaggio #{obj.find_seq}", nil ]
+    end
   end
 
   def page_trail_report_post(obj, opts={})

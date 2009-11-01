@@ -56,6 +56,8 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.html do
         @latest_posts = @topic.latest_posts(10).reverse
+        @location     = @post
+        @page_title   = "Nuovo messaggio in \"#{@post.topic.title}\""
       end
     end
   end

@@ -66,11 +66,12 @@ class PmsController < ApplicationController
   def new 
     reply_id = params[:pm_id].to_i
     draft_id = params[:draft_id].to_i
+    username = params[:username]
     if draft_id > 0
       @draft = Draft.secure_find(draft_id, @user)
       @pm    = @draft.object
     else
-      @pm    = Pm.new
+      @pm    = Pm.new(:msgto => username)
       @draft = Draft.new(:user => @user, :object => @pm)
       @draft.save!
     end
@@ -88,6 +89,8 @@ class PmsController < ApplicationController
     @draft = Draft.new(:object => @pm, :user => @user)
     @draft.save!
     respond_to do |format|
+      @page_title = 'Nuovo messaggio privato'
+      @location   = @pm
       format.html { render :action => :new, :layout => 'forum' }
     end
   end
@@ -102,6 +105,8 @@ class PmsController < ApplicationController
     @draft = Draft.new(:object => @pm, :user => @user)
     @draft.save!
     respond_to do |format|
+      @page_title = 'Nuovo messaggio privato'
+      @location   = @pm
       format.html { render :action => :new, :layout => 'forum' }
     end
   end

@@ -7,7 +7,7 @@ t      = @opts[:theme]
 %>
 <div id="topic_view">
   <div id="post_list" class="<%=domid(@post.topic)%>">
-    <table bgcolor="<%=t.bordercolor%>" cellspacing="1" width="100%" cellpadding="3">
+    <table bgcolor="<%=t.bordercolor%>" cellspacing="1" width="100%" cellpadding="6">
       <%=render :partial => '/posts/post',
         :locals => { :p => @post, :flip => 0, :can_moderate => @topic.can_moderate?(@user), :can_post => @topic.can_post?(@user) }-%>
     </table>

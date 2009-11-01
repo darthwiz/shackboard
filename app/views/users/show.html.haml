@@ -2,6 +2,8 @@
   -if @shown_user.can_edit?(@user)
     .edit_link
       %a{ :href => edit_user_path(@shown_user) } Modifica profilo
+  .pm_link
+    %a{ :href => new_pm_path(:username => @shown_user.username) } Invia un messaggio privato
   %ul
     %li.username
       %dl
