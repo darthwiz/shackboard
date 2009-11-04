@@ -23,7 +23,7 @@ moderators   = p.topic.forum.moderators
                   <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
                   <br />
                   <%if moderators.include?(p.cached_user)%>
-                  <span class="moderator">Moderatore</span>
+                  <span class="moderator"><%=t(sexified(:Moderator, p.cached_user.sex))%></span>
                   <br />
                   <%end%>
                   <div class="avatar_box">

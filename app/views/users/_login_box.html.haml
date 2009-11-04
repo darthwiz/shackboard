@@ -1,6 +1,6 @@
 #login_box
   -if @user.is_a? User
-    Benvenuto
+    =t(sexified(:Welcome, @user.sex))
     ="#{content_tag(:strong, h(@user.username))}!"
     -if @unread_pms_count > 0 || @unsent_drafts_count > 0 || @unapproved_files_count > 0 || @unread_blog_comments_count > 0
       %ul

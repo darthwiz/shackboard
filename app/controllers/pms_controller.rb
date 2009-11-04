@@ -76,7 +76,7 @@ class PmsController < ApplicationController
       @draft.save!
     end
     @page_title = 'Nuovo messaggio privato'
-    @location = @pm
+    @location   = @pm
   end 
 
   def reply

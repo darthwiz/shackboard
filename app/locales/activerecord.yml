@@ -8,6 +8,7 @@ it-IT:
         username: "Nome utente"
         password: "Password"
         email:    "e-mail"
+        sex:      "Sesso"
         site:     "Sito web"
         msn:      "MSN"
         icq:      "ICQ"

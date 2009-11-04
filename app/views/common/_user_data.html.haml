@@ -30,6 +30,10 @@
   %fieldset#user-optional
     %legend Dati facoltativi
     %ul
+      %li.sex
+        %dl
+          %dt= "#{f.label :sex}:"
+          %dd= f.select :sex, [ [ 'non specificato', nil ], [ 'F', 'F' ], [ 'M', 'M' ] ]
       %li.website
         %dl
           %dt= "#{f.label :site}:"

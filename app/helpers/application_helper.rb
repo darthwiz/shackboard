@@ -448,6 +448,11 @@ module ApplicationHelper
     )
   end
 
+  def sexified(symbol, sex=nil)
+    suffix = sex.to_s =~ /f/i ? '_f' : '_m'
+    "#{symbol.to_s}#{suffix}".to_sym
+  end
+
 end
 
 
