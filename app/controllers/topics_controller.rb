@@ -149,17 +149,18 @@ class TopicsController < ApplicationController
     @topic = Topic.new(params[:topic])
     @draft = Draft.secure_find(params[:draft_id], @user)
     if @topic.forum.can_post?(@user)
-      @topic.dateline = Time.now.to_i
-      @topic.useip    = request.remote_ip
+      time    = Time.now.to_i
+      ip_addr = request.remote_ip
+      @topic.dateline = time
+      @topic.useip    = ip_addr
       @topic.forum    = @topic.forum
       @topic.user     = @user
-      @topic.replies  = 1
       @topic.subject  = @topic.subject =~ /[a-z]/ ? @topic.subject : @topic.subject.split(/\s/).collect(&:capitalize).join(' ')
       @topic.save!
       @post              = Post.new
       @post.topic        = @topic
-      @post.dateline     = Time.now.to_i
-      @post.useip        = request.remote_ip
+      @post.dateline     = time
+      @post.useip        = ip_addr
       @post.usesig       = 'yes'
       @post.forum        = @topic.forum
       @post.user         = @user

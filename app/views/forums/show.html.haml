@@ -67,7 +67,7 @@
                   %span.announcement
                     =link_to(cleanup(a.title), a)
                 %td{ :bgcolor => t.altbg1, :class => "tablerow" }
-                  =link_to(a.user.username, a.user)
+                  =link_to(a.user.username, a.user) if a.user
                 %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
                   %span -
                 %td{ :bgcolor => t.altbg1, :align => "center", :class => "tablerow" }

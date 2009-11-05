@@ -178,6 +178,7 @@ class ApplicationController < ActionController::Base
 
   def update_last_visit
     if @user.is_a?(User) && @location.is_a?(ActiveRecord::Base)
+      return if @location.new_record? # XXX prevents saving an incomplete object, which triggers bugs
       LastVisit.cleanup(@user, @location)
       begin
         LastVisit.new(
