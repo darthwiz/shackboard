@@ -7,7 +7,7 @@
     %link(rel="shortcut icon" href="http://asb.studentibicocca.it/images/favicon.ico")
     =render :partial => '/common/stylesheets'
     =javascript_include_tag :defaults
-    -#=render :partial => '/common/annoyances_01'
+    =render :partial => '/common/annoyances_01'
     %title= page_title || "Forum degli Studenti della Bicocca"
   %body
     =fb_connect_javascript_tag
@@ -17,9 +17,7 @@
       #forum
         #content_box
           =render :partial => '/users/login_box'
-          -#=render :partial => '/common/annoyances_02'
-          #topmenu
-            =link_to(image_tag('http://img251.imageshack.us/img251/6844/bannerir.jpg'), 'http://www.listedisinistra.org/', :target => '_blank')
+          =render :partial => '/common/annoyances_02'
           .spacer
           -if @location
             #breadcrumbs.breadcrumbs
