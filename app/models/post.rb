@@ -26,7 +26,12 @@ class Post < ActiveRecord::Base
 
   named_scope :with_user, lambda { |user|
     uid = user.is_a?(User) ? user.id : nil
-    { :conditions => { :uid => uid } }
+    ut  = User.table_name
+    pt  = self.table_name
+    { 
+      :conditions => { :uid => uid },
+      :joins      => "INNER JOIN #{ut} AS wu_u ON #{pt}.uid = wu_u.uid AND wu_u.status != 'Anonymized'"
+    }
   }
 
   named_scope :after_time, lambda { |time|

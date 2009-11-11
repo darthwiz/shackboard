@@ -23,3 +23,49 @@ orphan:
     nella sezione corsi - orari.
   smileyoff: ""
   usesig: "yes"
+
+anonymized_post:
+  pid: 1
+  format: bb
+  edituser: 0
+  fid: 171
+  editdate: nil
+  author: nil
+  deleted_reason:
+  useip: '192.168.1.1'
+  reply_to_pid: 0
+  dateline: 1257973090
+  tid: 27381
+  deleted_on:
+  deleted:
+  icon: ""
+  uid: 14286
+  bbcodeoff: ""
+  deleted_by:
+  reply_to_uid: 0
+  message: "Questo messaggio non si dovrebbe vedere tra i risultati di ricerca."
+  smileyoff: ""
+  usesig: "yes"
+
+regular_post:
+  pid: 2
+  uid: 182
+  format: bb
+  edituser: 0
+  fid: 171
+  editdate: nil
+  author: nil
+  deleted_reason:
+  useip: '192.168.1.1'
+  reply_to_pid: 0
+  dateline: 1257973091
+  tid: 27381
+  deleted_on:
+  deleted:
+  icon: ""
+  bbcodeoff: ""
+  deleted_by:
+  reply_to_uid: 0
+  message: "Questo messaggio si dovrebbe vedere tra i risultati di ricerca."
+  smileyoff: ""
+  usesig: "yes"
