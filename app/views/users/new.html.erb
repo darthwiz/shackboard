@@ -5,7 +5,7 @@
     <%=@rules%>
   </div>
   <div id="rules-accept">
-    <%=button_to 'Accetta', new_user_path%>
+    <%=button_to 'Accetta', new_user_path, :method => :get%>
   </div>
 <%else%>
   <h1>Registrazione nuovo utente</h1>
