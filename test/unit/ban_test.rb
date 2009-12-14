@@ -79,4 +79,16 @@ class BanTest < ActiveSupport::TestCase
     assert(!ban.can_edit?(users(:runner)))
   end
 
+  test "sane limit" do
+    ban            = Ban.new
+    now            = Time.now
+    ban.expires_at = now + 3.years
+    ban.moderator  = users(:ark_intruso)
+    ban.user       = users(:runner)
+    ban.forum      = forums(:agora)
+    ban.save!
+    ban = Ban.find(ban.id)
+    # looks like we have to round to 1-second resolution
+    assert_equal((now + 2.years).to_i, ban.expires_at.to_i)
+  end
 end

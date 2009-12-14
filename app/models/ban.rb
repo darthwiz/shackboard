@@ -2,6 +2,7 @@ class Ban < ActiveRecord::Base
   belongs_to :user
   belongs_to :moderator, :class_name => 'User'
   belongs_to :forum
+  @@sane_limit = 2.years
 
   named_scope :active_at, lambda { |time|
     raise TypeError unless time.is_a?(Time)
@@ -28,6 +29,15 @@ class Ban < ActiveRecord::Base
     raise TypeError unless moderator.is_a?(User)
     { :conditions => { :moderator_id => moderator.id } }
   }
+
+  before_save do |ban|
+    if ban.created_at.nil?
+      now = Time.now
+      ban.expires_at = now + @@sane_limit if ban.expires_at > now + @@sane_limit
+    else
+      ban.expires_at = ban.created_at + @@sane_limit if ban.expires_at > ban.created_at + @@sane_limit
+    end
+  end
 
   def can_edit?(user)
     return false unless user.is_a?(User)
