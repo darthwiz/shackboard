@@ -27,7 +27,9 @@ class Topic < ActiveRecord::Base
     { 
       :select     => "#{tt}.*, MAX(at_p.dateline) AS last_post_time",
       :conditions => "#{tt}.dateline <= #{time.to_i}",
-      :joins      => "INNER JOIN #{pt} AS at_p ON at_p.tid = #{tt}.tid AND at_p.dateline <= #{time.to_i}",
+      :joins      => "INNER JOIN #{pt} AS at_p ON at_p.tid = #{tt}.tid
+                        AND at_p.dateline <= #{time.to_i}
+                        AND at_p.dateline >= #{(time - 1.month).to_i}",
       :group      => "at_p.tid",
     }
   }
@@ -36,7 +38,7 @@ class Topic < ActiveRecord::Base
     { :offset => range.begin, :limit => range.entries.length }
   }
 
-  named_scope :ordered_by_real_last_post_time_desc, :order => :last_post_time
+  named_scope :ordered_by_real_last_post_time_desc, :order => "last_post_time DESC"
 
   def pinned
     self[:topped] == 1
