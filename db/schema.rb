@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091027203514) do
+ActiveRecord::Schema.define(:version => 20091122121119) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(:version => 20091027203514) do
   add_index "xmb_announcements", ["num_views"], :name => "num_views"
   add_index "xmb_announcements", ["special"], :name => "special"
   add_index "xmb_announcements", ["status"], :name => "status"
-  add_index "xmb_announcements", ["title"], :name => "title"
+  #add_index "xmb_announcements", ["title", "message"], :name => "title"
   add_index "xmb_announcements", ["total"], :name => "total"
 
   create_table "xmb_ban_records", :force => true do |t|
@@ -594,37 +594,37 @@ ActiveRecord::Schema.define(:version => 20091027203514) do
   add_index "xmb_uid2jid", ["localjid"], :name => "jid"
 
   create_table "xmb_users", :primary_key => "uid", :force => true do |t|
-    t.string  "username",      :limit => 25,       :default => "", :null => false
-    t.string  "password",      :limit => 18,       :default => "", :null => false
-    t.integer "regdate",                           :default => 0,  :null => false
-    t.integer "postnum",       :limit => 2,        :default => 0,  :null => false
+    t.string  "username",      :limit => 25,       :default => "",                :null => false
+    t.string  "password",      :limit => 18,       :default => "",                :null => false
+    t.integer "regdate",                           :default => 0,                 :null => false
+    t.integer "postnum",       :limit => 2,        :default => 0,                 :null => false
     t.string  "email",         :limit => 60
     t.string  "site",          :limit => 75
     t.string  "aim",           :limit => 40
-    t.string  "status",        :limit => 35,       :default => "", :null => false
+    t.string  "status",        :limit => 35,       :default => "Member",          :null => false
     t.string  "location",      :limit => 50
     t.text    "bio",           :limit => 16777215
     t.text    "sig",           :limit => 16777215
-    t.string  "showemail",     :limit => 15,       :default => "", :null => false
-    t.integer "timeoffset",                        :default => 0,  :null => false
-    t.string  "icq",           :limit => 30,       :default => "", :null => false
+    t.string  "showemail",     :limit => 15,       :default => "",                :null => false
+    t.integer "timeoffset",                        :default => 0,                 :null => false
+    t.string  "icq",           :limit => 30,       :default => "",                :null => false
     t.string  "avatar",        :limit => 90
-    t.string  "yahoo",         :limit => 40,       :default => "", :null => false
-    t.string  "customstatus",  :limit => 100,      :default => "", :null => false
-    t.string  "theme",         :limit => 30,       :default => "", :null => false
+    t.string  "yahoo",         :limit => 40,       :default => "",                :null => false
+    t.string  "customstatus",  :limit => 100,      :default => "",                :null => false
+    t.string  "theme",         :limit => 30,       :default => "studentibicocca", :null => false
     t.string  "bday",          :limit => 50
-    t.string  "langfile",      :limit => 40,       :default => "", :null => false
-    t.integer "tpp",           :limit => 2,        :default => 25, :null => false
-    t.integer "ppp",           :limit => 2,        :default => 25, :null => false
-    t.string  "newsletter",    :limit => 3,        :default => "", :null => false
-    t.string  "regip",         :limit => 40,       :default => "", :null => false
-    t.integer "timeformat",                        :default => 24, :null => false
-    t.string  "msn",           :limit => 40,       :default => "", :null => false
-    t.string  "dateformat",    :limit => 10,       :default => "", :null => false
+    t.string  "langfile",      :limit => 40,       :default => "italian",         :null => false
+    t.integer "tpp",           :limit => 2,        :default => 25,                :null => false
+    t.integer "ppp",           :limit => 2,        :default => 25,                :null => false
+    t.string  "newsletter",    :limit => 3,        :default => "",                :null => false
+    t.string  "regip",         :limit => 40,       :default => "",                :null => false
+    t.integer "timeformat",                        :default => 24,                :null => false
+    t.string  "msn",           :limit => 40,       :default => "",                :null => false
+    t.string  "dateformat",    :limit => 10,       :default => "",                :null => false
     t.text    "ignoreu2u",     :limit => 16777215
-    t.string  "lastvisit",                         :default => "", :null => false
-    t.integer "avatar_width",  :limit => 2,        :default => 0,  :null => false
-    t.integer "avatar_height", :limit => 2,        :default => 0,  :null => false
+    t.string  "lastvisit",                         :default => "",                :null => false
+    t.integer "avatar_width",  :limit => 2,        :default => 0,                 :null => false
+    t.integer "avatar_height", :limit => 2,        :default => 0,                 :null => false
     t.integer "deleted_at"
     t.integer "fbid",          :limit => 8
     t.string  "sex",           :limit => 1

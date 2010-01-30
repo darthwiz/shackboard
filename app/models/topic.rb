@@ -5,7 +5,38 @@ class Topic < ActiveRecord::Base
   has_many   :posts, :foreign_key => "tid"
   validates_format_of :subject, :with => /^[^\s]/
   attr_accessor :message
-  default_scope :conditions => { :deleted_by => nil }
+  default_scope :conditions => "#{self.table_name}.deleted_by IS NULL"
+
+  named_scope :before_time, lambda { |time|
+    { :conditions => "dateline < #{time.to_i}" }
+  }
+
+  named_scope :with_last_post_time, lambda {
+    pt = Post.table_name
+    tt = self.table_name
+    { 
+      :select => "#{tt}.*, MAX(wlpt_p.dateline) AS last_post_time",
+      :joins  => "INNER JOIN #{pt} AS wlpt_p ON wlpt_p.tid = #{tt}.tid",
+      :group  => "wlpt_p.tid",
+    }
+  }
+
+  named_scope :at_time, lambda { |time|
+    pt = Post.table_name
+    tt = self.table_name
+    { 
+      :select     => "#{tt}.*, MAX(at_p.dateline) AS last_post_time",
+      :conditions => "#{tt}.dateline <= #{time.to_i}",
+      :joins      => "INNER JOIN #{pt} AS at_p ON at_p.tid = #{tt}.tid AND at_p.dateline <= #{time.to_i}",
+      :group      => "at_p.tid",
+    }
+  }
+
+  named_scope :range, lambda { |range|
+    { :offset => range.begin, :limit => range.entries.length }
+  }
+
+  named_scope :ordered_by_real_last_post_time_desc, :order => :last_post_time
 
   def pinned
     self[:topped] == 1
@@ -244,15 +275,16 @@ class Topic < ActiveRecord::Base
   end
 
   def self.find(*args)
+    tt    = self.table_name
     opts  = args.extract_options!
     conds = opts[:conditions] ? opts[:conditions] : ''
     unless (opts[:with_deleted] || opts[:only_deleted])
-      conds    += ' AND deleted_by IS NULL' if conds.is_a? String
-      conds[0] += ' AND deleted_by IS NULL' if conds.is_a? Array
+      conds    += " AND #{tt}.deleted_by IS NULL" if conds.is_a? String
+      conds[0] += " AND #{tt}.deleted_by IS NULL" if conds.is_a? Array
     end
     if (opts[:only_deleted])
-      conds    += ' AND deleted_by IS NOT NULL' if conds.is_a? String
-      conds[0] += ' AND deleted_by IS NOT NULL' if conds.is_a? Array
+      conds    += " AND #{tt}.deleted_by IS NOT NULL" if conds.is_a? String
+      conds[0] += " AND #{tt}.deleted_by IS NOT NULL" if conds.is_a? Array
     end
     conds.sub!(/^ AND /, '') if conds.is_a? String
     conds = nil if conds.empty?

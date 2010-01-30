@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
     :cached_edited_by
   alias_attribute :created_at, :dateline
 
-  default_scope :conditions => { :deleted_by => nil },
+  default_scope :conditions => "#{self.table_name}.deleted_by IS NULL",
     :joins => "INNER JOIN #{User.table_name} default_u ON default_u.uid = #{self.table_name}.uid AND default_u.deleted_at IS NULL"
 
   named_scope :with_matching_text, lambda { |string|

@@ -91,4 +91,5 @@ class BanTest < ActiveSupport::TestCase
     # looks like we have to round to 1-second resolution
     assert_equal((now + 2.years).to_i, ban.expires_at.to_i)
   end
+
 end
