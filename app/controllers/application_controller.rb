@@ -65,6 +65,7 @@ class ApplicationController < ActionController::Base
 
 
   def load_defaults 
+    @time_machine     = TimeMachine.new
     @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
     @topic_block_size = 25
