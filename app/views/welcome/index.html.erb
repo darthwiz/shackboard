@@ -14,7 +14,7 @@
 <div id="portal_main" style="display: none;">
 %>
 <div id="portal_main">
-  <div id="header"><%#Header %>
+  <div id="header"><%#Header%>
     <div id="title">
       <h1>StudentiBicocca.it</h1>
       <span id="subtitle">
@@ -27,52 +27,54 @@
     <%=render :partial => '/users/login_box'%>
     <div class="spacer"></div>
     <%=render :partial => '/common/flashes'%>
+    <%#slider_stylesheet%>
+    <%#slider_field :time_machine, :time_i, :range => @time_machine.range%>
   </div>
   <div id="portal_left">
     <ul class="column">
-      <li id="files"><%#Materiali %>
+      <li id="files"><%#Materiali%>
         <h2>
           <%=link_to 'Materiali', :controller => :file, :action => :categories%>
         </h2>
-        <%#cache('portal/latest_files') do %>
-        <%=render :partial => '/welcome/files' %>
-        <%#end %>
+        <%#cache('portal/latest_files') do%>
+        <%=render :partial => '/welcome/files'%>
+        <%#end%>
       </li>
-      <li id="boards"><%#Bacheche %>
+      <li id="boards"><%#Bacheche%>
         <h2><%=link_to 'Bacheche', link_boards%></h2>
-        <% cache('portal/51') do %>
-        <%=render :partial => '/welcome/boards' %>
-        <% end %>
+        <%cache('portal/51') do%>
+        <%=render :partial => '/welcome/boards'%>
+        <%end%>
       </li>
     </ul>
   </div>
   <div id="portal_center">
     <ul class="column">
-      <li><%#Forum %>
-        <h2><%=link_to 'Forum', forum_root_path %></h2>
-        <% cache('portal/25') do %>
+      <li><%#Forum%>
+        <h2><%=link_to 'Forum', forum_root_path%></h2>
+        <%cache('portal/25') do%>
         <%=render :partial => '/welcome/forums'%>
-        <% end %>
+        <%end%>
       </li>
-      <li><%#Canali tematici %>
+      <li><%#Canali tematici%>
         <h2><%=link_to 'Canali tematici', link_channels%></h2>
-        <% cache('portal/24') do %>
+        <%cache('portal/24') do%>
         <%=render :partial => '/welcome/channels'%>
-        <% end %>
+        <%end%>
       </li>
-      <li><%#Cerco/Offro %>
+      <li><%#Cerco/Offro%>
         <h2><%=link_to 'Cerco/Offro', link_market%></h2>
-        <% cache('portal/108') do %>
+        <%cache('portal/108') do%>
         <%=render :partial => '/welcome/market'%>
-        <% end %>
+        <%end%>
       </li>
     </ul>
   </div>
   <div id="portal_right">
     <ul class="column">
-      <li><%#Avvisi %>
+      <li><%#Avvisi%>
         <h2><%=link_to 'Avvisi', announcements_path%></h2>
-        <%#cache('portal/latest_announcements') do %>
+        <%#cache('portal/latest_announcements') do%>
         <ul class="announcement">
           <%Announcement.find_latest(5).each do |i|%>
           <li>
@@ -80,11 +82,11 @@
           </li>
           <%end%>
         </ul>
-        <%#end %>
+        <%#end%>
       </li>
       <li><%#Blog%>
         <h2><%=link_to 'Blog', blog_index_path%></h2>
-        <%=render :partial => 'latest_blog_posts' %>
+        <%=render :partial => 'latest_blog_posts'%>
       </li>
       <% 
       contents = []

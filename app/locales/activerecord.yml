@@ -10,6 +10,7 @@ it-IT:
         email:    "e-mail"
         sex:      "Sesso"
         site:     "Sito web"
+        theme:    "Tema grafico"
         msn:      "MSN"
         icq:      "ICQ"
         aim:      "AIM"

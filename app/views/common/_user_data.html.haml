@@ -38,6 +38,10 @@
         %dl
           %dt= "#{f.label :site}:"
           %dd= f.text_field :site
+      %li.theme
+        %dl
+          %dt= "#{f.label :theme}:"
+          %dd= f.select :theme, Theme.all.collect { |t| [ t.name, t.name ] }
       %li.msn
         %dl
           %dt= "#{f.label :msn}:"
