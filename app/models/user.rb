@@ -250,6 +250,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.reset_cache!
+    @@admins    = nil
+    @@supermods = nil
+  end
+
   def self.pwgen
     `pwgen -1 --capitalize --numerals --ambiguous`.strip
   end

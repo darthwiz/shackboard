@@ -1,6 +1,7 @@
 #admin_announcements_index
-  .new
-    =link_to("Nuovo annuncio", new_admin_announcement_path)
+  -if Announcement.can_create?(@user)
+    .new
+      =link_to("Nuovo annuncio", new_admin_announcement_path)
   %ul.announcements
     -@announcements.each do |a|
       %li[a]

@@ -8,7 +8,7 @@ module Admin::AnnouncementsHelper
     [
       [ "Amministrazione", admin_path ],
       [ "Annunci", admin_announcements_path ],
-      [ cleanup(obj.title), nil ]
+      obj.new_record? ? [ "nuovo annuncio", nil ] : [ cleanup(obj.title), nil ]
     ]
   end
 

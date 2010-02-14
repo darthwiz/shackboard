@@ -10,6 +10,7 @@
     =render :partial => '/common/annoyances_01'
     %title= page_title || "Forum degli Studenti della Bicocca"
   %body
+    =calendar_date_select_includes nil
     =fb_connect_javascript_tag
     =init_fb_connect "XFBML"
     %script(src="http://www.studentibicocca.it/portale/include/bannerad3.js" type="text/javascript")

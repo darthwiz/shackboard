@@ -64,6 +64,8 @@ Rails::Initializer.run do |config|
   config.active_record.table_name_prefix = "xmb_"
 
   config.load_paths += %W(#{RAILS_ROOT}/app/middleware)
+  config.gem 'haml'
+  config.gem 'calendar_date_select'
 end
 
 # Include your application configuration below

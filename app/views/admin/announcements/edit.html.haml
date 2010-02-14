@@ -2,10 +2,13 @@
   -form_for [ :admin, @announcement ] do |f|
     %dl
       %dt.title
-        =label(:announcement, :title, "Titolo")
+        =label(:announcement, :title)
         =f.text_field :title
       %dd.text
-        =label(:announcement, :message, "Testo")
+        =label(:announcement, :message)
         =f.text_area :message
+      %dd.expiration
+        =label(:announcement, :expires_at)
+        =f.calendar_date_select :expires_at
       %dd.submit
         =f.submit 'salva'

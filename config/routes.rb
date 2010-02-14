@@ -74,6 +74,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'text_preview/:action/:id.:format', :controller => 'text_preview'
   map.connect 'static_content/:action/:id', :controller => 'static_content'
   map.connect 'static_content/:action/:id.:format', :controller => 'static_content'
+  map.connect 'group/:action/:id', :controller => 'group'
   map.connect 'file/:action/:id', :controller => 'file'
   map.connect 'file/:action/:id.:format', :controller => 'file'
 

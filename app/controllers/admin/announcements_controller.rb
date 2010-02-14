@@ -9,21 +9,21 @@ class Admin::AnnouncementsController < Admin::ApplicationController
   end
 
   def new
-    @announcement = Announcement.new
-    ensure_can_edit(@announcement)
+    @announcement = Announcement.new(:expires_at => 1.month.from_now)
+    return if prevent_unauthorized_edit(@announcement)
     @location = [ :admin, @announcement ]
     render :action => :edit
   end
 
   def edit
     @announcement = Announcement.find(params[:id])
-    ensure_can_edit(@announcement)
+    return if prevent_unauthorized_edit(@announcement)
     @location = [ :admin, @announcement ]
   end
 
   def create
     @announcement = Announcement.new(params[:announcement])
-    ensure_can_edit(@announcement)
+    return if prevent_unauthorized_edit(@announcement)
     @announcement.poster = @user.username
     @announcement.date   = Time.now.to_i
     if @announcement.save
@@ -38,7 +38,7 @@ class Admin::AnnouncementsController < Admin::ApplicationController
 
   def update
     @announcement = Announcement.find(params[:id])
-    ensure_can_edit(@announcement)
+    return if prevent_unauthorized_edit(@announcement)
     if @announcement.update_attributes(params[:announcement])
       flash[:success] = "Annuncio modificato con successo."
     else
@@ -52,13 +52,16 @@ class Admin::AnnouncementsController < Admin::ApplicationController
 
   private
 
-  def ensure_can_edit(announcement)
-    unless announcement.can_edit?(@user)
+  def prevent_unauthorized_edit(announcement)
+    if announcement.can_edit?(@user)
+      return false
+    else announcement.can_edit?(@user)
       msg = "Non sei autorizzato a modificare questo annuncio."
       msg = "Non sei autorizzato a creare un nuovo annuncio." if announcement.new_record?
       flash[:warning] = msg
       redirect_to :action => :index
     end
+    return true
   end
 
 end

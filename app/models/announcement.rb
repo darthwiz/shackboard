@@ -1,8 +1,12 @@
 class Announcement < ActiveRecord::Base
   validates_length_of :title, :minimum => 3
 
+  named_scope :not_expired, lambda {
+    { :conditions => [ 'expires_at < ?', Time.now ] }
+  }
+
   def self.find_latest(n=5)
-    self.find(:all, :order => 'date DESC', :limit => n)
+    self.not_expired.find(:all, :order => 'date DESC', :limit => n)
   end
 
   def user
@@ -14,7 +18,11 @@ class Announcement < ActiveRecord::Base
   end
 
   def can_edit?(user)
-    user.is_adm?
+    user.is_supermod?
+  end
+
+  def self.can_create?(user)
+    user.is_supermod?
   end
 
 end

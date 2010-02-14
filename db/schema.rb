@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091122121119) do
+ActiveRecord::Schema.define(:version => 20100213213745) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -130,27 +130,17 @@ ActiveRecord::Schema.define(:version => 20091122121119) do
   end
 
   create_table "xmb_announcements", :force => true do |t|
-    t.string  "poster"
-    t.integer "date",                          :default => 0,     :null => false
-    t.text    "message",   :limit => 16777215
-    t.integer "num_views",                     :default => 0,     :null => false
-    t.string  "says"
-    t.string  "title"
-    t.string  "cat",                           :default => "",    :null => false
-    t.boolean "status",                        :default => false, :null => false
-    t.boolean "special",                       :default => true,  :null => false
-    t.float   "avr",       :limit => 4,        :default => 0.0,   :null => false
-    t.integer "total",                         :default => 0,     :null => false
+    t.string   "poster"
+    t.integer  "date",                           :default => 0, :null => false
+    t.text     "message",    :limit => 16777215
+    t.integer  "num_views",                      :default => 0, :null => false
+    t.string   "title"
+    t.datetime "expires_at"
   end
 
-  add_index "xmb_announcements", ["avr"], :name => "avr"
-  add_index "xmb_announcements", ["cat"], :name => "cat"
   add_index "xmb_announcements", ["date"], :name => "date"
   add_index "xmb_announcements", ["num_views"], :name => "num_views"
-  add_index "xmb_announcements", ["special"], :name => "special"
-  add_index "xmb_announcements", ["status"], :name => "status"
-  #add_index "xmb_announcements", ["title", "message"], :name => "title"
-  add_index "xmb_announcements", ["total"], :name => "total"
+  add_index "xmb_announcements", ["title", "message"], :name => "title"
 
   create_table "xmb_ban_records", :force => true do |t|
     t.integer "moderator_id",                    :null => false
@@ -424,7 +414,7 @@ ActiveRecord::Schema.define(:version => 20091122121119) do
   add_index "xmb_posts", ["deleted"], :name => "deleted"
   add_index "xmb_posts", ["deleted_by"], :name => "deleted_by"
   add_index "xmb_posts", ["fid", "tid"], :name => "fid"
-  #add_index "xmb_posts", ["message"], :name => "message"
+  add_index "xmb_posts", ["message"], :name => "message"
   add_index "xmb_posts", ["reply_to_uid"], :name => "reply_to_uid"
   add_index "xmb_posts", ["tid", "fid"], :name => "tid"
   add_index "xmb_posts", ["uid"], :name => "uid"

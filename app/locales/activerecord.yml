@@ -22,6 +22,11 @@ it-IT:
         tpp:      "Discussioni per pagina"
         ppp:      "Messaggi per pagina"
 
+      announcement:
+        title:      "Titolo"
+        message:    "Testo"
+        expires_at: "Scadenza"
+
     errors:
       models:
         user:
