@@ -8,6 +8,14 @@ class Admin::BansController < Admin::ApplicationController
     @location    = [ :admin, :bans ]
   end
 
+  def show
+    @ban         = Ban.find(params[:id])
+    @active_bans = [ @ban ]
+    @page_title  = "Espulsioni"
+    @location    = [ :admin, @ban ]
+    render :action => 'index'
+  end
+
   def new
     if @user.is_mod?
       @forums   = @user.is_supermod? ? Forum.flattened_list : @user.moderates

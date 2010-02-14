@@ -1,6 +1,7 @@
 #admin_ban
-  .new
-    =link_to('nuova espulsione', new_admin_ban_path)
+  -if controller.action_name == 'index'
+    .new
+      =link_to('nuova espulsione', new_admin_ban_path)
   .index
     -unless @active_bans.blank?
       %ul.bans

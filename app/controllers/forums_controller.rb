@@ -42,6 +42,7 @@ class ForumsController < ApplicationController
     @forums        = Forum.find(:all, :conditions => [ 'fup = ?', params[:id] ], :order => 'displayorder')
     @announcements = Announcement.find_latest(2)
     @topics        = @forum.topics_range(@range)
+    @banned_users  = User.banned_from_forum_at_time(@forum, Time.now)
     @page_title    = @forum.name
     @location      = @forum
     @page_seq_opts = { :last    => @forum.topics_count_cached,

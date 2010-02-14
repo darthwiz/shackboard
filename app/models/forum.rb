@@ -7,6 +7,7 @@ class Forum < ActiveRecord::Base
   belongs_to :forum,  :foreign_key => 'fup'
   has_many   :topics, :foreign_key => 'fid'
   has_many   :posts,  :foreign_key => 'fid'
+  has_many   :bans
   validates_length_of :name, :minimum => 3
   alias_attribute :posts_count, :posts
   @@all_forums = {}

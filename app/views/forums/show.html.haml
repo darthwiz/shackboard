@@ -115,6 +115,12 @@
   %tr
     %td
       %table(width="100%" align="center")
+        -unless @banned_users.blank?
+          %tr
+            %td
+              %p
+                Utenti espulsi da questo forum:
+                =@banned_users.collect { |u| link_to(u.username, admin_ban_path(u.ban_id)) }.join(', ')
         %tr
           %td.tablerow
             %img{ :src => "#{images_url}/folder.gif", :alt => "Topic" }

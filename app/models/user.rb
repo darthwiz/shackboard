@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :blogs
   has_many :topics, :foreign_key => :uid
   has_many :posts, :foreign_key => :uid
+  has_many :bans
   validates_uniqueness_of :username
   validates_uniqueness_of :email, :allow_nil => true
   validates_length_of :username, :minimum => 1
@@ -29,6 +30,19 @@ class User < ActiveRecord::Base
   named_scope :registered_after, lambda { |time| { :conditions => [ 'regdate >= ?', time.to_i ] } }
   named_scope :registered_before, lambda { |time| { :conditions => [ 'regdate < ?', time.to_i ] } }
   named_scope :with_blog, :joins => :blogs, :conditions => "#{Blog.table_name}.user_id IS NOT NULL"
+
+  named_scope :banned_from_forum_at_time, lambda { |forum, time|
+    raise TypeError unless forum.is_a?(Forum)
+    raise TypeError unless time.is_a?(Time)
+    ft = Forum.table_name
+    bt = Ban.table_name
+    ut = self.table_name
+    {
+      :select     => "#{ut}.uid, #{ut}.username, bf_b.id AS ban_id",
+      :joins      => "INNER JOIN #{bt} AS bf_b ON #{ut}.uid = bf_b.user_id AND bf_b.forum_id = #{forum.id}",
+      :conditions => [ "bf_b.created_at <= ? AND bf_b.expires_at >= ?", time, time ],
+    }
+  }
 
   def rank 
     Rank.evaluate(self.postnum)
