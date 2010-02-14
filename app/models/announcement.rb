@@ -2,7 +2,7 @@ class Announcement < ActiveRecord::Base
   validates_length_of :title, :minimum => 3
 
   named_scope :not_expired, lambda {
-    { :conditions => [ 'expires_at < ?', Time.now ] }
+    { :conditions => [ 'expires_at > ?', Time.now ] }
   }
 
   def self.find_latest(n=5)

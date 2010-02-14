@@ -76,10 +76,16 @@
         <h2><%=link_to 'Avvisi', announcements_path%></h2>
         <%#cache('portal/latest_announcements') do%>
         <ul class="announcement">
-          <%Announcement.find_latest(5).each do |i|%>
-          <li>
-            <%=link_to cleanup(i.title), i%>
-          </li>
+          <%if @announcements.blank?%>
+            <li>
+              Non ci sono avvisi al momento.
+            </li>
+          <%else%>
+            <%@announcements.each do |i|%>
+            <li>
+              <%=link_to cleanup(i.title), i%>
+            </li>
+            <%end%>
           <%end%>
         </ul>
         <%#end%>
