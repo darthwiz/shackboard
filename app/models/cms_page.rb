@@ -52,6 +52,10 @@ class CmsPage < ActiveRecord::Base
     nil
   end
 
+  def tags
+    Tag.find_by_object(self)
+  end
+
   def can_edit?(user)
     Group.find_by_name('portale_w').include?(user)
   end

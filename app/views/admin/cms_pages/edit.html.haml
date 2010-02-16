@@ -16,4 +16,7 @@
     =f.label :text, 'Testo:'
     =f.text_area :text
   .row
+    %label(for='tags') tags:
+    =text_field_tag :tags, @cms_page.tags.collect(&:tag).join(', ')
+  .row
     =f.submit 'Salva'

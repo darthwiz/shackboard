@@ -14,12 +14,16 @@ class Admin::CmsPagesController < Admin::ApplicationController
 
   def edit
     @cms_page = CmsPage.find(params[:id])
+    @tags     = @cms_page.tags
+    @location = @cms_page
   end
 
   def create
     @cms_page            = CmsPage.new(params[:cms_page])
     @cms_page.created_by = @user.id
     @cms_page.updated_by = @user.id
+    @tags                = []
+    @location            = @cms_page
     if @cms_page.save
       redirect_to cms_page_path(@cms_page.slug)
     else
@@ -32,6 +36,7 @@ class Admin::CmsPagesController < Admin::ApplicationController
     params[:cms_page][:updated_by] = @user.id
     logger.debug params.inspect
     if @cms_page.update_attributes(params[:cms_page])
+      @cms_page.tag_with(params[:tags], :absolute => true)
       redirect_to cms_page_path(@cms_page.slug)
     else
       render :action => :edit
