@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100213213745) do
+ActiveRecord::Schema.define(:version => 20100216114706) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20100213213745) do
 
   add_index "xmb_announcements", ["date"], :name => "date"
   add_index "xmb_announcements", ["num_views"], :name => "num_views"
+  add_index "xmb_announcements", ["title", "message"], :name => "title"
 
   create_table "xmb_ban_records", :force => true do |t|
     t.integer "moderator_id",                    :null => false
@@ -413,6 +414,7 @@ ActiveRecord::Schema.define(:version => 20100213213745) do
   add_index "xmb_posts", ["deleted"], :name => "deleted"
   add_index "xmb_posts", ["deleted_by"], :name => "deleted_by"
   add_index "xmb_posts", ["fid", "tid"], :name => "fid"
+  add_index "xmb_posts", ["message"], :name => "message"
   add_index "xmb_posts", ["reply_to_uid"], :name => "reply_to_uid"
   add_index "xmb_posts", ["tid", "fid"], :name => "tid"
   add_index "xmb_posts", ["uid"], :name => "uid"
@@ -503,6 +505,14 @@ ActiveRecord::Schema.define(:version => 20100213213745) do
   end
 
   add_index "xmb_static_contents", ["label"], :name => "label", :unique => true
+
+  create_table "xmb_tags", :force => true do |t|
+    t.string  "obj_class", :limit => 40, :default => "", :null => false
+    t.integer "obj_id",                                  :null => false
+    t.string  "tag",       :limit => 40, :default => "", :null => false
+  end
+
+  add_index "xmb_tags", ["obj_class", "obj_id", "tag"], :name => "unique_tags", :unique => true
 
   create_table "xmb_themes", :force => true do |t|
     t.string "name",        :limit => 30,       :default => "", :null => false
