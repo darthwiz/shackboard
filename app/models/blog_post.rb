@@ -11,15 +11,20 @@ class BlogPost < ActiveRecord::Base
   end
 
   def self.find_latest(what=:posts, n=5, opts={})
-    n = n.to_i > 0 ? n.to_i : 5
+    n     = n.to_i > 0 ? n.to_i : 5
+    now   = Time.now.strftime('%Y-%m-%d %H:%M:%S')
     posts = self.find_by_sql("
       SELECT p.* FROM xmb_blog_posts p
       INNER JOIN #{User.table_name} u 
         ON (p.user_id = u.uid AND u.deleted_at IS NULL AND u.status != 'Anonymized')
+      LEFT JOIN #{Ban.table_name} b
+        ON b.user_id = p.user_id AND b.created_at <= '#{now}' AND '#{now}' <= b.expires_at
       WHERE p.created_at = (
         SELECT MAX(created_at) FROM xmb_blog_posts p2
           WHERE user_id = p.user_id
         )
+        AND b.moderator_id IS NULL
+      GROUP BY p.id
       ORDER BY p.created_at DESC
       LIMIT #{n}"
     )
