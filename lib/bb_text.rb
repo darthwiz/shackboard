@@ -48,6 +48,7 @@ class BbText
         </div>"; 
       end
     end
+    s.gsub!(/\[block=([^\]]*)\](.*?)\[\/block\]/im, "<div class=\"\\1\">\\2</div>")
     s.gsub!(/\[color=([^\]]*)\](.*?)\[\/color\]/im, "<span style=\"color: \\1;\">\\2</span>")
     s.gsub!(/ -- /, ' &mdash; ')
     s.gsub!(/(^|[>[:space:]\n])([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])([<[:space:]\n]|$)/, "\\1<a href=\"\\2://\\3\\4\" target=\"_blank\">\\2://\\3\\4</a>\\5")
@@ -58,6 +59,25 @@ class BbText
       else
         $2
       end
+    end
+    s.gsub!(/\[index ([^\]]*)\](.*?)\[\/index\]/) do |match| 
+      params_string = $1
+      title         = $2
+      param_hash    = {}
+      params_string.split(/\s+/).each do |pair|
+        key, value             = pair.split('=', 2)
+        param_hash[key.to_sym] = value
+      end
+      ret   = "<div class=\"index\"><span class=\"title\">#{title}</span>\n"
+      pages = CmsPage.tagged_with(param_hash[:tags])
+      unless pages.empty?
+        ret += "<ul>\n"
+        pages.each do |p|
+          ret += "<li>" + controller.link_to_cms_page(p.title, p.slug) + "</li>\n"
+        end
+        ret += "</ul>\n"
+      end
+      ret += "</div>"
     end
     @smileys.each do |sm|
       s.gsub!(/#{Regexp.escape(sm.code)}/, " <img src=\"#{sm.url}\" alt=\"\" /> ") unless sm.code.empty?

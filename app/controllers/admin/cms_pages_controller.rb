@@ -22,9 +22,9 @@ class Admin::CmsPagesController < Admin::ApplicationController
     @cms_page            = CmsPage.new(params[:cms_page])
     @cms_page.created_by = @user.id
     @cms_page.updated_by = @user.id
-    @tags                = []
     @location            = @cms_page
     if @cms_page.save
+      @cms_page.tag_with(params[:tags], :absolute => true)
       redirect_to cms_page_path(@cms_page.slug)
     else
       render :action => :edit
