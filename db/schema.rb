@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100216114706) do
+ActiveRecord::Schema.define(:version => 20100218084528) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -291,6 +291,14 @@ ActiveRecord::Schema.define(:version => 20100216114706) do
   end
 
   add_index "xmb_cms_pages", ["slug"], :name => "slug", :unique => true
+
+  create_table "xmb_custom_stylesheets", :force => true do |t|
+    t.string  "obj_class", :limit => 40, :default => "", :null => false
+    t.integer "obj_id",                                  :null => false
+    t.text    "css"
+  end
+
+  add_index "xmb_custom_stylesheets", ["obj_class", "obj_id"], :name => "index_xmb_custom_stylesheets_on_obj_class_and_obj_id", :unique => true
 
   create_table "xmb_drafts", :force => true do |t|
     t.integer "user_id"

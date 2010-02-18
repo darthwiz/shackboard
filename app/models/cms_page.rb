@@ -56,6 +56,20 @@ class CmsPage < ActiveRecord::Base
     Tag.find_by_object(self)
   end
 
+  def css
+    CustomStylesheet.find_by_object(self)
+  end
+
+  def css=(css_text)
+    css_obj = self.css || CustomStylesheet.new
+    return nil if css_text.blank? && css_obj.new_record?
+    # XXX assuming current page is already persisted
+    css_obj.obj_class = self.class.to_s
+    css_obj.obj_id    = self.id
+    css_obj.css       = css_text
+    css_obj.save
+  end
+
   def can_edit?(user)
     Group.find_by_name('portale_w').include?(user)
   end

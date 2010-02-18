@@ -25,6 +25,7 @@ class Admin::CmsPagesController < Admin::ApplicationController
     @location            = @cms_page
     if @cms_page.save
       @cms_page.tag_with(params[:tags], :absolute => true)
+      @cms_page.css = params[:css].strip
       redirect_to cms_page_path(@cms_page.slug)
     else
       render :action => :edit
@@ -37,6 +38,7 @@ class Admin::CmsPagesController < Admin::ApplicationController
     logger.debug params.inspect
     if @cms_page.update_attributes(params[:cms_page])
       @cms_page.tag_with(params[:tags], :absolute => true)
+      @cms_page.css = params[:css].strip
       redirect_to cms_page_path(@cms_page.slug)
     else
       render :action => :edit

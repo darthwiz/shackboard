@@ -19,4 +19,8 @@
     %label(for='tags') tags:
     =text_field_tag :tags, @cms_page.tags.collect(&:tag).join(', ')
   .row
+    %label(for='css') CSS:
+    -css = @cms_page.css
+    =text_area_tag :css, css.nil? ? nil : css.css, :rows => 10
+  .row
     =f.submit 'Salva'

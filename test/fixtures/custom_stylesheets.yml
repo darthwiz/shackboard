@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  obj_class: MyString
+  obj_id: 1
+  css: MyText
+
+two:
+  obj_class: MyString
+  obj_id: 1
+  css: MyText

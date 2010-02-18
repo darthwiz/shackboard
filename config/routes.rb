@@ -51,6 +51,7 @@ ActionController::Routing::Routes.draw do |map|
   map.admin      '/admin', :controller => 'admin', :action => 'index'
   map.forum_root '/forum', :controller => 'forums', :action => 'index'
   map.full_topic '/forum/topics/full/:id.:format', :controller => 'topics', :action => 'full'
+  map.custom_css '/custom_css/:obj_class/:obj_id.css', :controller => 'custom_stylesheets', :action => 'show'
   map.css        '/css/:name.:format', :controller => 'css', :action => 'view'
 
   # SEO routes
