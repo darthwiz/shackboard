@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100218084528) do
+ActiveRecord::Schema.define(:version => 20100218221653) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -293,12 +293,12 @@ ActiveRecord::Schema.define(:version => 20100218084528) do
   add_index "xmb_cms_pages", ["slug"], :name => "slug", :unique => true
 
   create_table "xmb_custom_stylesheets", :force => true do |t|
-    t.string  "obj_class", :limit => 40, :default => "", :null => false
-    t.integer "obj_id",                                  :null => false
+    t.string  "stylable_type", :limit => 40, :default => "", :null => false
+    t.integer "stylable_id",                                 :null => false
     t.text    "css"
   end
 
-  add_index "xmb_custom_stylesheets", ["obj_class", "obj_id"], :name => "index_xmb_custom_stylesheets_on_obj_class_and_obj_id", :unique => true
+  add_index "xmb_custom_stylesheets", ["stylable_type", "stylable_id"], :name => "index_xmb_custom_stylesheets_on_obj_class_and_obj_id", :unique => true
 
   create_table "xmb_drafts", :force => true do |t|
     t.integer "user_id"
@@ -515,12 +515,12 @@ ActiveRecord::Schema.define(:version => 20100218084528) do
   add_index "xmb_static_contents", ["label"], :name => "label", :unique => true
 
   create_table "xmb_tags", :force => true do |t|
-    t.string  "obj_class", :limit => 40, :default => "", :null => false
-    t.integer "obj_id",                                  :null => false
-    t.string  "tag",       :limit => 40, :default => "", :null => false
+    t.string  "taggable_type", :limit => 40, :default => "", :null => false
+    t.integer "taggable_id",                                 :null => false
+    t.string  "tag",           :limit => 40, :default => "", :null => false
   end
 
-  add_index "xmb_tags", ["obj_class", "obj_id", "tag"], :name => "unique_tags", :unique => true
+  add_index "xmb_tags", ["taggable_type", "taggable_id", "tag"], :name => "unique_tags", :unique => true
 
   create_table "xmb_themes", :force => true do |t|
     t.string "name",        :limit => 30,       :default => "", :null => false

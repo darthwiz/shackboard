@@ -11,6 +11,7 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
 
   module ClassMethods
     def acts_as_simply_taggable
+      has_many :tags, :as => :taggable
       send :include, InstanceMethods
       named_scope :tagged_with, lambda { |tags|
         tags = tags.split(/,/).collect(&:slugify) if tags.is_a?(String)
@@ -24,12 +25,12 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
           tags_cond  = 'tw_t.tag IS NULL'
           tags_count = 1
         else
-          tags_cond  = "tw_t.obj_class = '#{cn}' AND tw_t.tag IN (" + tags.collect { |i| "'#{i}'" }.join(', ') + ')'
+          tags_cond  = "tw_t.taggable_type = '#{cn}' AND tw_t.tag IN (" + tags.collect { |i| "'#{i}'" }.join(', ') + ')'
           tags_count = tags.size
         end
         {
           :select     => "#{cct}.*, COUNT(*) AS tag_count",
-          :joins      => "LEFT JOIN #{tt} AS tw_t ON #{cct}.#{ccpk} = tw_t.obj_id",
+          :joins      => "LEFT JOIN #{tt} AS tw_t ON #{cct}.#{ccpk} = tw_t.taggable_id",
           :conditions => tags_cond,
           :group      => "#{cct}.#{ccpk}",
           :having     => "tag_count = #{tags_count}",
@@ -46,12 +47,11 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
       absolute = !!options[:absolute]
       tags     = tags.split(/,/).collect(&:slugify) if tags.is_a?(String)
       raise TypeError unless tags.is_a?(Array)
-      obj_class    = self.class.to_s
-      tag_objects  = Tag.find(:all, :conditions => [ 'obj_class = ? AND obj_id = ?', obj_class, self.id ])
+      tag_objects  = self.tags
       present_tags = tag_objects.collect(&:tag)
       tags.each do |t|
         if !present_tags.include?(t)
-          Tag.new(:obj_class => obj_class, :obj_id => self.id, :tag => t).save!
+          Tag.new(:taggable => self, :tag => t).save!
         end
       end
       if absolute
@@ -60,10 +60,6 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
         end
       end
       nil
-    end
-
-    def tags
-      Tag.find_by_object(self)
     end
   end
 
