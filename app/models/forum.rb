@@ -11,6 +11,8 @@ class Forum < ActiveRecord::Base
   validates_length_of :name, :minimum => 3
   alias_attribute :posts_count, :posts
   @@all_forums = {}
+  acts_as_simply_taggable
+  acts_as_stylable
 
   def container
     self.forum
