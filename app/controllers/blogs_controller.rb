@@ -29,10 +29,8 @@ class BlogsController < ApplicationController
     label      = params[:blog_label]
     @blog_user = User.find_by_username(username)
     if @blog_user.is_a? User
-      conds       = [ 'user_id = ? AND label = ?', @blog_user.id, label ]
-      @blog       = Blog.find(:first, :conditions => conds)
-      conds       = [ 'user_id = ? AND owner_class = ? AND owner_id = ?', @blog_user.id, 'Blog', @blog.id ]
-      @categories = Category.find(:all, :conditions => conds, :order => :name)
+      conds = [ 'user_id = ? AND label = ?', @blog_user.id, label ]
+      @blog = Blog.find(:first, :conditions => conds)
     end
     if @blog.is_a? Blog
       @posts = BlogPost.find(

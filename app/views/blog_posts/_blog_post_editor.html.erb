@@ -5,7 +5,7 @@
       Titolo: <%=f.text_field :title, :value => p.title%>
     </div>
     <div>
-      <%=f.select :category_ids, p.blog.categories.collect { |c| [ c.name, c.id ] } if p.is_a?(BlogPost)%>
+      Tags: <%=f.text_field :tags_as_text%>
     </div>
     <div>
       <%=f.text_area :text, :value => p.text%>

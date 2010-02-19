@@ -27,6 +27,7 @@ class BlogPostsController < ApplicationController
         end
         if post.user == post.blog.user || post.blog_post_id > 0
           if post.save
+            post.tag_with(post.instance_variable_get(:@tags_as_text), @user, :absolute => true)
             post.blog.last_post_id = post.id
             post.blog.last_post_at = post.created_at
             post.blog.save
@@ -48,9 +49,8 @@ class BlogPostsController < ApplicationController
     if request.xhr?
       if @user.is_a? User
         post_id = params[:id]
-        post = BlogPost.find(post_id)
-        conds       = [ 'user_id = ? AND owner_class = ? AND owner_id = ?', @user.id, 'Blog', post.blog.id ]
-        @categories = Category.find(:all, :conditions => conds, :order => :name)
+        post  = BlogPost.find(post_id)
+        conds = [ 'user_id = ? AND owner_class = ? AND owner_id = ?', @user.id, 'Blog', post.blog.id ]
         render :partial => 'blog_post_editor',
                :locals  => { :p => post } and return
       end
@@ -70,6 +70,7 @@ class BlogPostsController < ApplicationController
           end
           post.modified_by = @user.id
           if post.save
+            post.tag_with(post.instance_variable_get(:@tags_as_text), @user, :absolute => true)
             render :partial => 'editable_blog_post',
                    :locals  => { :p => post } and return
           end

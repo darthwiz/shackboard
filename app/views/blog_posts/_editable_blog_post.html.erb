@@ -1,8 +1,15 @@
 <%# vim: set ft=eruby nowrap autoindent: -%>
 <%
 username = p.user.username
+tags     = p.tags_as_text
 -%>
 <%unless p.title.to_s.empty?%><h2><%=cleanup(p.title)%></h2><%end%>
+<%unless tags.blank?%>
+<div class="tags">
+  <span class="label">tags:</span>
+  <span class="tags"><%=tags%></span>
+</div>
+<%end%>
 <div class="text">
   <%=BbText.new(p.text, Smiley.all(p.user)).to_html(:controller => self)%>
 </div>

@@ -22,11 +22,9 @@ form_url    = { :controller => object.class.to_s.underscore.pluralize, :action =
       <div>
         Titolo: <%=f.text_field :title%>
       </div>
-      <%if parent_post_id == 0%>
       <div>
-        <%=f.select :category_ids, @blog.categories.collect { |c| [ c.name, c.id ] }%>
+        Tags: <%=f.text_field :tags_as_text%>
       </div>
-      <%end%>
       <div>
         <%=f.text_area :text%>
       </div>

@@ -1,5 +1,6 @@
 class Announcement < ActiveRecord::Base
   validates_length_of :title, :minimum => 3
+  acts_as_simply_taggable
 
   named_scope :not_expired, lambda {
     { :conditions => [ 'expires_at > ?', Time.now ] }

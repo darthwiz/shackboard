@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
   has_many :smileys
-  has_many :categories
   has_many :blogs
   has_many :topics, :foreign_key => :uid
   has_many :posts, :foreign_key => :uid

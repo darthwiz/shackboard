@@ -43,6 +43,14 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
   end
 
   module InstanceMethods
+    def tags_as_text=(tags)
+      @tags_as_text = tags.to_s
+    end
+
+    def tags_as_text
+      self.tags.collect(&:tag).join(', ')
+    end
+
     def tag_with(tags, user, options={})
       absolute = !!options[:absolute]
       tags     = tags.split(/,/).collect(&:slugify) if tags.is_a?(String)
