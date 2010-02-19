@@ -1,11 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  obj_class: MyString
-  obj_id: 1
+  taggable_type: MyString
+  taggable_id: 1
   tag: MyString
 
 two:
-  obj_class: MyString
-  obj_id: 1
+  taggable_type: MyString
+  taggable_id: 2
   tag: MyString

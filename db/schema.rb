@@ -140,7 +140,6 @@ ActiveRecord::Schema.define(:version => 20100219080208) do
 
   add_index "xmb_announcements", ["date"], :name => "date"
   add_index "xmb_announcements", ["num_views"], :name => "num_views"
-  add_index "xmb_announcements", ["title", "message"], :name => "title"
 
   create_table "xmb_ban_records", :force => true do |t|
     t.integer "moderator_id",                    :null => false
@@ -422,7 +421,6 @@ ActiveRecord::Schema.define(:version => 20100219080208) do
   add_index "xmb_posts", ["deleted"], :name => "deleted"
   add_index "xmb_posts", ["deleted_by"], :name => "deleted_by"
   add_index "xmb_posts", ["fid", "tid"], :name => "fid"
-  add_index "xmb_posts", ["message"], :name => "message"
   add_index "xmb_posts", ["reply_to_uid"], :name => "reply_to_uid"
   add_index "xmb_posts", ["tid", "fid"], :name => "tid"
   add_index "xmb_posts", ["uid"], :name => "uid"
