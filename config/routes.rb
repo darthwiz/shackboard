@@ -41,6 +41,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :forums
     admin.resources :banners
     admin.resources :bans
+    admin.resources :custom_stylesheets
     admin.resource  :staff, :controller => 'staff'
   end
 

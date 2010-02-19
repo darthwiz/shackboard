@@ -11,6 +11,10 @@
     <span class="label">Titolo:</span>
     <%=f.text_field :title, :value => @topic.title%>
   </div>
+  <div class="tags">
+    <span class="label">Tag:</span>
+    <%=text_field_tag :topic_tags, Tag.find_all_by_object(@topic).collect(&:tag).join(', '), :name => :topic_tags%>
+  </div>
   <%if can_moderate%>
   <div class="pinned">
     <%=radio_button 'topic', 'pinned', 'false'%>
@@ -52,6 +56,7 @@
     %>
     function activate_commit_button() { $('topic_submit').disabled = false }
     $('topic_title').onkeypress = activate_commit_button
+    $('topic_tags').onkeypress  = activate_commit_button
     <%watch_ids.each do |id|%>
     $('<%=id%>').onchange = activate_commit_button
     <%end%>

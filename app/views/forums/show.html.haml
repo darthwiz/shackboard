@@ -76,7 +76,7 @@
                   %span.c3
                     = "il #{a.time.strftime('%d/%m/%Y')} alle #{a.time.strftime('%H.%M')}"
             -@topics.each do |tp|
-              %tr
+              %tr{ :class => tp.tags.collect(&:tag).join(' ') }
                 %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
                   -if tp.locked?
                     %img{ :src => "#{images_url}/lock_folder.gif", :alt => "Closed Topic" }
@@ -87,7 +87,7 @@
                 %td{ :bgcolor => t.altbg1, :align => "center", :class => "tablerow" }
                   -unless tp.icon.to_s.empty?
                     %img{ :src => "http://www.studentibicocca.it/images/#{tp.icon}" }
-                %td{ :bgcolor => "#{t.altbg2}", :class => "tablerow c2", :onmouseover => "this.style.backgroundColor='#{t.altbg1}'; this.style.cursor='pointer';", :onmouseout => "this.style.backgroundColor='#{t.altbg2}'; this.style.cursor='auto';", :onclick => "window.location.href='#{topic_path(tp)}';" }
+                %td{ :bgcolor => "#{t.altbg2}", :class => "title tablerow c2", :onmouseover => "this.style.backgroundColor='#{t.altbg1}'; this.style.cursor='pointer';", :onmouseout => "this.style.backgroundColor='#{t.altbg2}'; this.style.cursor='auto';", :onclick => "window.location.href='#{topic_path(tp)}';" }
                   %span
                     =link_to(cleanup(tp.subject), tp)
                     -if tp.pinned?
@@ -96,6 +96,10 @@
                       .page_seq
                         pagine:
                         =page_seq({ :controller => :topics, :action => :show, :id => tp.id, :first => 1, :last => tp.replies, :ipp => @opts[:tpp], :extra_links => [ :last ] })
+                    -unless tp.tags.blank?
+                      .tags
+                        tags:
+                        =tp.tags.collect(&:tag).join(', ')
                 %td{ :bgcolor => t.altbg1, :class => "tablerow" }
                   =link_to(tp.user.username, tp.user) if tp.user
                 %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
@@ -129,3 +133,14 @@
             %br
             %img{ :src => "#{images_url}/lock_folder.gif", :alt => "Closed Topic" }
             Discussione chiusa
+  -if @forum.can_moderate?(@user)
+    %tr
+      %td
+        #forum_css
+          Foglio di stile per questo forum:
+          -css = @forum.custom_stylesheet || CustomStylesheet.new
+          -form_for [ :admin, css ] do |f|
+            =f.text_area :css, :rows => 10
+            =f.hidden_field :stylable_type, :value => @forum.class.to_s
+            =f.hidden_field :stylable_id,   :value => @forum.id
+            =f.submit 'Aggiorna'

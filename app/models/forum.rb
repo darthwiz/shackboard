@@ -84,7 +84,8 @@ class Forum < ActiveRecord::Base
                            :conditions => conds,
                            :order      => 'topped DESC, lastpost DESC',
                            :offset     => range.begin,
-                           :limit      => range.entries.length
+                           :limit      => range.entries.length,
+                           :include    => [ :tags ]
     end
     topics
   end

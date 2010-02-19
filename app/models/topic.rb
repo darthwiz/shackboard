@@ -5,7 +5,9 @@ class Topic < ActiveRecord::Base
   has_many   :posts, :foreign_key => "tid"
   validates_format_of :subject, :with => /^[^\s]/
   attr_accessor :message
+  attr_accessor :tags_as_text
   default_scope :conditions => "#{self.table_name}.deleted_by IS NULL"
+  acts_as_simply_taggable
 
   named_scope :before_time, lambda { |time|
     { :conditions => "dateline < #{time.to_i}" }
