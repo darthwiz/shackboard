@@ -43,20 +43,28 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
   end
 
   module InstanceMethods
-    def tag_with(tags, options={})
+    def tag_with(tags, user, options={})
       absolute = !!options[:absolute]
       tags     = tags.split(/,/).collect(&:slugify) if tags.is_a?(String)
       raise TypeError unless tags.is_a?(Array)
+      raise TypeError unless user.is_a?(User)
       tag_objects  = self.tags
       present_tags = tag_objects.collect(&:tag)
       tags.each do |t|
         if !present_tags.include?(t)
-          Tag.new(:taggable => self, :tag => t).save!
+          Tag.new(:taggable => self, :tag => t, :user => user).save!
         end
       end
       if absolute
         tag_objects.each do |t|
-          t.destroy if !tags.include?(t.tag)
+          if !tags.include?(t.tag)
+            can_edit   = false
+            tagged_obj = t.taggable
+            can_edit   = true if t.user == user || (tagged_obj.respond_to?(:can_edit?) && tagged_obj.can_edit?(user))
+            # A tag can be removed by a user if that user put it on the object
+            # or has editing permissions on the object.
+            t.destroy if can_edit
+          end
         end
       end
       nil

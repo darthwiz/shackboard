@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100218221653) do
+ActiveRecord::Schema.define(:version => 20100219080208) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -518,6 +518,7 @@ ActiveRecord::Schema.define(:version => 20100218221653) do
     t.string  "taggable_type", :limit => 40, :default => "", :null => false
     t.integer "taggable_id",                                 :null => false
     t.string  "tag",           :limit => 40, :default => "", :null => false
+    t.integer "user_id",                                     :null => false
   end
 
   add_index "xmb_tags", ["taggable_type", "taggable_id", "tag"], :name => "unique_tags", :unique => true
