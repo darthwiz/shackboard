@@ -24,7 +24,7 @@ class Admin::CmsPagesController < Admin::ApplicationController
     @cms_page.updated_by = @user.id
     @location            = @cms_page
     if @cms_page.save
-      @cms_page.tag_with(params[:tags], :absolute => true)
+      @cms_page.tag_with(params[:tags], @user, :absolute => true)
       @cms_page.custom_stylesheet_css = params[:css].strip
       redirect_to cms_page_path(@cms_page.slug)
     else
@@ -37,7 +37,7 @@ class Admin::CmsPagesController < Admin::ApplicationController
     params[:cms_page][:updated_by] = @user.id
     logger.debug params.inspect
     if @cms_page.update_attributes(params[:cms_page])
-      @cms_page.tag_with(params[:tags], :absolute => true)
+      @cms_page.tag_with(params[:tags], @user, :absolute => true)
       @cms_page.custom_stylesheet_css = params[:css].strip
       redirect_to cms_page_path(@cms_page.slug)
     else

@@ -17,21 +17,11 @@
     #main
       #cms
         #content_box
+          %h1
+            =cleanup(@cms_page.title)
           =render :partial => '/users/login_box'
-          /=render :partial => '/common/annoyances_02'
           .spacer
-          -if @location
-            #breadcrumbs.breadcrumbs
-              =page_trail
-          .page-seq
-            =page_seq
           =render :partial => '/common/flashes'
           =yield
-          .page-seq
-            =page_seq
-          -if @location
-            #breadcrumbs_bottom.breadcrumbs_bottom
-              /=render :partial => '/common/breadcrumbs'
-              =page_trail
           =render :partial => '/users/online'
     =render :partial => '/common/google_analytics'
