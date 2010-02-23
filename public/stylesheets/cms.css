@@ -30,6 +30,7 @@ a:hover { text-decoration: underline; }
 #header h1 {
   float: left;
   margin-left: 1em;
+  font-family: "Trebuchet MS", sans-serif;
 }
 #header .nav {
   clear: both;
