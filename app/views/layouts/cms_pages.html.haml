@@ -5,7 +5,8 @@
   %head
     %meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
     %link(rel="shortcut icon" href="http://asb.studentibicocca.it/images/favicon.ico")
-    =render :partial => '/common/stylesheets'
+    -#=render :partial => '/common/stylesheets'
+    =stylesheet_link_tag 'cms'
     %link(href="#{custom_css_path(:obj_class => @cms_page.class.to_s, :obj_id => @cms_page.id)}" media="screen" rel="stylesheet" type="text/css")
     =javascript_include_tag :defaults
     =render :partial => '/common/annoyances_01'
@@ -16,12 +17,17 @@
     =init_fb_connect "XFBML"
     #main
       #cms
-        #content_box
-          %h1
-            =cleanup(@cms_page.title)
+        #header
+          %h1= cleanup(@cms_page.title)
           =render :partial => '/users/login_box'
-          .spacer
+          .nav
+            %ul
+              %li= link_to 'home', root_path
+              %li= link_to 'forum', forum_path(:id => 25)
+              %li= link_to 'bacheche', forum_path(:id => 51)
           =render :partial => '/common/flashes'
+        #content
           =yield
+        #footer
           =render :partial => '/users/online'
     =render :partial => '/common/google_analytics'
