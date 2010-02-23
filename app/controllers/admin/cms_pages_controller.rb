@@ -3,7 +3,7 @@ class Admin::CmsPagesController < Admin::ApplicationController
   before_filter :ensure_can_edit, :except => [ :index ]
 
   def index
-    @cms_pages = CmsPage.all(:order => :id)
+    @cms_pages = CmsPage.all(:order => :id, :include => [ :tags ])
     @location  = @cms_pages
   end
 

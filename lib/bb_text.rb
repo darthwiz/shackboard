@@ -49,6 +49,7 @@ class BbText
       end
     end
     s.gsub!(/\[block=([^\]]*)\](.*?)\[\/block\]/im, "<div class=\"\\1\">\\2</div>")
+    s.gsub!(/\[span=([^\]]*)\](.*?)\[\/span\]/im, "<span class=\"\\1\">\\2</span>")
     s.gsub!(/\[color=([^\]]*)\](.*?)\[\/color\]/im, "<span style=\"color: \\1;\">\\2</span>")
     s.gsub!(/ -- /, ' &mdash; ')
     s.gsub!(/(^|[>[:space:]\n])([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])([<[:space:]\n]|$)/, "\\1<a href=\"\\2://\\3\\4\" target=\"_blank\">\\2://\\3\\4</a>\\5")
@@ -73,7 +74,11 @@ class BbText
       unless pages.empty?
         ret += "<ul>\n"
         pages.each do |p|
-          ret += "<li>" + controller.link_to_cms_page(p.title, p.slug) + "</li>\n"
+          if controller
+            ret += "<li>" + controller.link_to_cms_page(p.title, p.slug) + "</li>\n"
+          else
+            ret += "<li>" + p.title + "</li>\n"
+          end
         end
         ret += "</ul>\n"
       end

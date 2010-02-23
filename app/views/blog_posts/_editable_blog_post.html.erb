@@ -1,7 +1,7 @@
 <%# vim: set ft=eruby nowrap autoindent: -%>
 <%
 username = p.user.username
-tags     = p.tags_as_text
+tags     = p.is_a?(BlogPost) ? p.tags_as_text : nil
 -%>
 <%unless p.title.to_s.empty?%><h2><%=cleanup(p.title)%></h2><%end%>
 <%unless tags.blank?%>

@@ -56,6 +56,7 @@ ActionController::Routing::Routes.draw do |map|
   map.css        '/css/:name.:format', :controller => 'css', :action => 'view'
 
   # SEO routes
+  map.tag_index     'tags', :controller => 'tags', :action => 'index'
   map.blog_backup   'blogs/:username/backup.:format', :controller => 'blogs', :action => 'backup', :requirements => { :username => /[^0-9\/][^\/]+/ }
   map.blog_index    '/blogs', :controller => 'blogs', :action => 'index'
   map.cms_page      '/cms/:slug', :controller => 'cms_pages', :action => 'show'

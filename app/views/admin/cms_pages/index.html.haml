@@ -6,6 +6,7 @@
     %th id
     %th titolo
     %th slug
+    %th tag
     %th autore
     %th{ :width => '1%' } data
     -if can_edit_pages
@@ -15,6 +16,7 @@
       %td.themed{ :align => 'center' }= p.id
       %td.themed= link_to cleanup(p.title), cms_page_path(p.slug)
       %td.themed= p.slug
+      %td.themed= p.tags_as_text
       %td.themed= link_to cleanup(p.creator.username), p.creator
       %td.themed{ :align => 'center', :style => 'white-space: nowrap;' }= p.created_at.strftime("%d/%m/%Y, %H.%M")
       -if can_edit_pages
