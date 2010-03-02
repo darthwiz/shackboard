@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100219080208) do
+ActiveRecord::Schema.define(:version => 20100302161235) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -638,6 +638,18 @@ ActiveRecord::Schema.define(:version => 20100219080208) do
   add_index "xmb_users", ["fbid"], :name => "index_xmb_members_on_fbid", :unique => true
   add_index "xmb_users", ["postnum"], :name => "postnum"
   add_index "xmb_users", ["username"], :name => "username", :unique => true
+
+  create_table "xmb_votes", :force => true do |t|
+    t.string   "votable_type", :limit => 40, :default => "", :null => false
+    t.integer  "votable_id",                                 :null => false
+    t.integer  "user_id",                                    :null => false
+    t.integer  "points",       :limit => 1,                  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "xmb_votes", ["user_id"], :name => "index_xmb_votes_on_user_id"
+  add_index "xmb_votes", ["votable_type", "votable_id", "user_id"], :name => "index_xmb_votes_on_votable_type_and_votable_id_and_user_id", :unique => true
 
   create_table "xmb_whosonline", :id => false, :force => true do |t|
     t.integer "uid",                                     :null => false

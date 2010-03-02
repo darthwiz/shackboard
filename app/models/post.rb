@@ -10,6 +10,7 @@ class Post < ActiveRecord::Base
     :cached_has_blog, :cached_smileys, :cached_online, :cached_user,
     :cached_edited_by
   alias_attribute :created_at, :dateline
+  acts_as_votable
 
   default_scope :conditions => "#{self.table_name}.deleted_by IS NULL",
     :joins => "INNER JOIN #{User.table_name} default_u ON default_u.uid = #{self.table_name}.uid AND default_u.deleted_at IS NULL"
