@@ -121,6 +121,9 @@ moderators   = p.topic.forum.moderators
                         report_post_path(p)
                       )%>
                     </td>
+                    <td>
+                      <%=button_for_voting(p) if @user%>
+                    </td>
                     <%if can_moderate%>
                     <td>
                       <%=image_tag(images_url + 'ip.gif', :title => p.useip)%>

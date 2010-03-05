@@ -232,6 +232,7 @@ class Topic < ActiveRecord::Base
       posts += Post.find :all,
                          :conditions => conds,
                          :order      => 'dateline',
+                         :include    => [ :votes ],
                          :offset     => range.begin,
                          :limit      => range.entries.length
       user_ids = posts.collect(&:uid).uniq

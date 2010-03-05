@@ -2,8 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   before_filter :set_facebook_session,
-    :load_defaults, :set_locale, :update_online,
-    #:clear_stale_fb_session,
+    :recognize_user, :load_defaults, :set_locale, :update_online,
     :set_stylesheet
   after_filter :update_last_visit
   helper_method :facebook_session
@@ -63,14 +62,7 @@ class ApplicationController < ActionController::Base
     FileController.new.send(:is_adm?, user)
   end
 
-
-  def load_defaults 
-    @time_machine     = TimeMachine.new
-    @settings         = Settings.find(:all)[0]
-    @post_block_size  = 25
-    @topic_block_size = 25
-    @online_users     = OnlineUser.online
-    @guests_count     = OnlineUser.guests_count
+  def recognize_user
     begin
       @user = User.find(session[:userid])
     rescue
@@ -98,7 +90,16 @@ class ApplicationController < ActionController::Base
       cookies[:thisuser] = { :value => @user.username, :domain => @@domain, :expires => Time.now + 10.days }
       cookies[:thispw]   = { :value => @user.password, :domain => @@domain, :expires => Time.now + 10.days }
     end
-    
+  end
+
+  def load_defaults 
+    @time_machine     = TimeMachine.new
+    @settings         = Settings.find(:all)[0]
+    @post_block_size  = 25
+    @topic_block_size = 25
+    @online_users     = OnlineUser.online
+    @guests_count     = OnlineUser.guests_count
+
     @opts = {}
     if @user
       # Custom user settings

@@ -1556,7 +1556,30 @@ div.ok {
   color: green;
 }
 
-
+.voting_links {
+  display: block;
+  width: 54px;
+  margin: 0 5px 0 10px;
+}
+.voting_links span,
+.voting_links a {
+  display: block;
+  width: 15px;
+  height: 17px;
+  text-indent: -10000px;
+  float: left;
+}
+.voting_links a:hover {
+  background-color: transparent;
+}
+.voting_links .dislike .active   { background: url(../images/voting/thumb_down.png); }
+.voting_links .like    .active   { background: url(../images/voting/thumb_up.png); }
+.voting_links .dislike .inactive { background: url(../images/voting/thumb_down_trans.png); }
+.voting_links .like    .inactive { background: url(../images/voting/thumb_up_trans.png); }
+.voting_links .indifferent .active       { text-indent: 0; }
+.voting_links .indifferent .inactive     { text-indent: 0; opacity: 0.5; }
+.voting_links .indifferent a.active      { color: #222; padding-left: 3px; }
+.voting_links .indifferent span.inactive { color: #222; padding-left: 3px; opacity: 0.5; }
 
 
 

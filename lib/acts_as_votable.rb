@@ -24,6 +24,8 @@ module ActiveRecord::Acts::ActsAsVotable
           :joins  => "INNER JOIN #{vt} AS vb_v ON #{cct}.#{ccpk} = vb_v.votable_id AND vb_v.user_id = #{user.id}",
         }
       }
+
+      named_scope :including_votes, :include => :votes
     end
   end
 
