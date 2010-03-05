@@ -1581,7 +1581,14 @@ div.ok {
 .voting_links .indifferent a.active      { color: #222; padding-left: 3px; }
 .voting_links .indifferent span.inactive { color: #222; padding-left: 3px; opacity: 0.5; }
 
-
+div.tag_editor, div.editable_tags {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 0.5em;
+  font-size: 85%;
+}
+div.tag_editor input      { font-size: 85%; }
+div.tag_editor input.text { width: 65em; }
 
 <% if t.name == "studentibicocca" %>
 #portal_main div#title {

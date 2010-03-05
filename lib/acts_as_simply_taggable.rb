@@ -13,6 +13,7 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
     def acts_as_simply_taggable
       has_many :tags, :as => :taggable
       send :include, InstanceMethods
+
       named_scope :tagged_with, lambda { |tags|
         tags = tags.split(/,/).collect(&:slugify) if tags.is_a?(String)
         raise TypeError unless tags.is_a?(Array)
@@ -39,6 +40,8 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
         # inner join would be better, along with a special handling of the empty
         # tag set (which is handled correctly by the left join right now)
       }
+
+      named_scope :including_tags, :include => :tags
     end
   end
 

@@ -87,7 +87,7 @@
                 %td{ :bgcolor => t.altbg1, :align => "center", :class => "tablerow" }
                   -unless tp.icon.to_s.empty?
                     %img{ :src => "http://www.studentibicocca.it/images/#{tp.icon}" }
-                %td{ :bgcolor => "#{t.altbg2}", :class => "title tablerow c2", :onmouseover => "this.style.backgroundColor='#{t.altbg1}'; this.style.cursor='pointer';", :onmouseout => "this.style.backgroundColor='#{t.altbg2}'; this.style.cursor='auto';", :onclick => "window.location.href='#{topic_path(tp)}';" }
+                %td{ :bgcolor => "#{t.altbg2}", :class => "title tablerow c2" }
                   %span
                     =link_to(cleanup(tp.subject), tp)
                     -if tp.pinned?

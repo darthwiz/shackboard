@@ -49,12 +49,15 @@ ActionController::Routing::Routes.draw do |map|
   # map.root :controller => "welcome"
   map.root :controller => 'welcome'
 
-  map.admin       '/admin', :controller => 'admin', :action => 'index'
-  map.forum_root  '/forum', :controller => 'forums', :action => 'index'
-  map.full_topic  '/forum/topics/full/:id.:format', :controller => 'topics', :action => 'full'
-  map.custom_css  '/custom_css/:obj_class/:obj_id.css', :controller => 'custom_stylesheets', :action => 'show'
-  map.css         '/css/:name.:format', :controller => 'css', :action => 'view'
-  map.object_vote '/vote/:type/:id/:points', :controller => 'votes', :action => 'vote'
+  map.admin           '/admin', :controller => 'admin', :action => 'index'
+  map.forum_root      '/forum', :controller => 'forums', :action => 'index'
+  map.full_topic      '/forum/topics/full/:id.:format', :controller => 'topics', :action => 'full'
+  map.custom_css      '/custom_css/:obj_class/:obj_id.css', :controller => 'custom_stylesheets', :action => 'show'
+  map.css             '/css/:name.:format', :controller => 'css', :action => 'view'
+  map.object_vote     '/vote/:type/:id/:points', :controller => 'votes', :action => 'vote'
+  map.object_tag_set  '/tag/set/:type/:id', :controller => 'tags', :action => 'set'
+  map.object_tag_edit '/tag/edit/:type/:id', :controller => 'tags', :action => 'edit'
+  map.search          '/search', :controller => 'search', :action => 'search'
 
   # SEO routes
   map.tag_index     'tags', :controller => 'tags', :action => 'index'

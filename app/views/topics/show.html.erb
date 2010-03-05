@@ -14,6 +14,7 @@ can_post     = @topic.can_post?(@user)
     </div>
     <%end%>
     <%if can_post%>
+    <%=editable_tags(@topic)%>
     <div style="text-align: right; font-size: 15px; font-weight: bold; margin: 1em;">
       <%=link_to('Nuova risposta', new_topic_post_path(@topic))%>
     </div>

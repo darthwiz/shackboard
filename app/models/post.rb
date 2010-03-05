@@ -49,8 +49,15 @@ class Post < ActiveRecord::Base
     { :joins => "INNER JOIN #{ft} AS po_f ON #{pt}.fid = po_f.fid AND po_f.private = '' AND po_f.userlist = ''" }
   }
 
-  named_scope :range, lambda { |range|
-    { :offset => range.begin, :limit => range.entries.length }
+  named_scope :including_seq, lambda {
+    pt = self.table_name
+    ut = User.table_name
+    {
+      :select => "#{pt}.*, COUNT(1) AS seq",
+      :joins  => "LEFT JOIN #{pt} AS is_p2 ON is_p2.dateline <= #{pt}.dateline AND is_p2.tid = #{pt}.tid AND is_p2.deleted_by IS NULL
+                  INNER JOIN #{ut} AS is_u ON is_p2.uid = is_u.uid AND is_u.deleted_at IS NULL",
+      :group  => "#{pt}.pid",
+    }
   }
 
   named_scope :including_user,       :include => :user
