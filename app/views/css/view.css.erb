@@ -559,7 +559,8 @@ div#announcement .author a {
   font-size: 11px;
 }
 
-#topics_list td.tablerow div.page_seq {
+#topics_list td.tablerow div.page_seq,
+#topics_list td.tablerow div.tags {
   margin-top: 0.5em;
   font-size: 11px;
 }
@@ -1556,6 +1557,8 @@ div.ok {
   color: green;
 }
 
+/* GENERIC VOTING */
+
 .voting_links {
   display: block;
   width: 54px;
@@ -1581,6 +1584,10 @@ div.ok {
 .voting_links .indifferent a.active      { color: #222; padding-left: 3px; }
 .voting_links .indifferent span.inactive { color: #222; padding-left: 3px; opacity: 0.5; }
 
+
+
+/* GENERIC TAGGING */
+
 div.tag_editor, div.editable_tags {
   background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
@@ -1589,6 +1596,43 @@ div.tag_editor, div.editable_tags {
 }
 div.tag_editor input      { font-size: 85%; }
 div.tag_editor input.text { width: 65em; }
+
+
+
+/* SEARCH PAGE */
+
+#search .criteria {
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 1em;
+}
+#search .criteria li {
+  overflow: auto;
+}
+#search .criteria label {
+  display: block;
+  float: left;
+  width: 9em;
+  padding: 0.2em 0 0 0;
+}
+#search .criteria input {
+  display: block;
+  float: left;
+}
+
+#search h2 {
+  margin: 0 0 1em 0;
+}
+
+#search .by_post_text {
+  margin: 1em 0;
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 1em;
+}
+
+
+
 
 <% if t.name == "studentibicocca" %>
 #portal_main div#title {

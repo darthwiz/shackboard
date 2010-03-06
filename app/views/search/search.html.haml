@@ -1,0 +1,31 @@
+-t            = @opts[:theme]
+-flip         = 0
+-can_moderate = false
+-can_post     = false
+-images_url   = 'http://www.studentibicocca.it/portale/forum/images/'
+-buttons      = false
+#search
+  .criteria
+    %h2 Criteri di ricerca
+    -form_tag(search_path, :method => :get) do
+      %ul
+        %li.keywords
+          %label(for='q') Parole chiave:
+          =text_field_tag :q, @query_string, :size => 40
+        %li.username
+          %label(for='username') utente:
+          =text_field_tag :username, @username, :size => 20
+        %li.time
+          %label(for='time') limita a:
+          =select_tag :time, options_for_select([ ['ultima settimana', 'week'], ['ultimo mese', 'month'], ['ultimo anno', 'year'], ['tutto', 'all'] ], @time)
+        %li.submit
+          =submit_tag 'cerca'
+
+  .results
+    -unless @posts.blank?
+      .by_post_text
+        %h2 Messaggi del forum
+        %ul
+          -@posts.each do |p|
+            %li
+              =link_to "#{p.user.username} in \"#{p.topic.subject}\" il #{Time.at(p.dateline).strftime("%d/%m/%Y, %H.%M")}", p

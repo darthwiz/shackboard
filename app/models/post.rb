@@ -186,4 +186,10 @@ class Post < ActiveRecord::Base
     self[:dateline] = ts
   end
 
+  #def self.search(query_string, options={})
+  #  time     = options[:after] ? options[:after] : 1.month.ago
+  #  username = options[:user]  ? options[:user]  : nil
+  #  range    = options[:range] ? options[:range] : (0...30)
+  #end
+
 end
