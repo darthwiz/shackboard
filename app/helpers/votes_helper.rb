@@ -12,9 +12,9 @@ module VotesHelper
     link_for             = link_to_remote('mi piace',     :url => like_url_opts,        :html => { :class => 'active' }) 
     link_against         = link_to_remote('non mi piace', :url => dislike_url_opts,     :html => { :class => 'active' })
     link_indifferent     = link_to_remote('?',            :url => indifferent_url_opts, :html => { :class => 'active' })
-    inactive_for         = span('mi piace',     'inactive')
-    inactive_against     = span('non mi piace', 'inactive')
-    inactive_indifferent = span('?',            'inactive')
+    inactive_for         = content_tag(:span, 'mi piace',     :class => 'inactive', :title => 'non mi piace')
+    inactive_against     = content_tag(:span, 'non mi piace', :class => 'inactive', :title => 'non mi interessa')
+    inactive_indifferent = content_tag(:span, '?',            :class => 'inactive', :title => 'mi piace')
     if user_voted_for
       html = vote_3_links(link_against, link_indifferent, inactive_for)
     elsif user_voted_against
@@ -27,12 +27,12 @@ module VotesHelper
 
   private
 
-  def span(content, html_class)
-    content_tag(:span, content, :class => html_class)
-  end
-
   def vote_3_links(link_against, link_indifferent, link_for)
-    [ span(link_against, 'dislike'), span(link_indifferent, 'indifferent'), span(link_for, 'like') ].join(' ')
+    [
+      content_tag(:span, link_against,     :class => 'dislike',     :title => 'non mi piace'),
+      content_tag(:span, link_indifferent, :class => 'indifferent', :title => 'non mi interessa'),
+      content_tag(:span, link_for,         :class => 'like',        :title => 'mi piace'),
+    ].join(' ')
   end
 
 end
