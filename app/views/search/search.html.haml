@@ -22,10 +22,22 @@
           =submit_tag 'cerca'
 
   .results
-    -unless @posts.blank?
+    -unless @posts_by_text.blank?
       .by_post_text
         %h2 Messaggi del forum
         %ul
-          -@posts.each do |p|
+          -@posts_by_text.each do |p|
             %li
-              =link_to "#{p.user.username} in \"#{p.topic.subject}\" il #{Time.at(p.dateline).strftime("%d/%m/%Y, %H.%M")}", p
+              =link_to_result(p)
+
+    -unless @topics_by_tags.blank?
+      .by_topic_tags
+        %h2 Discussioni nel forum (per tag)
+        %ul
+          -@topics_by_tags.each do |t|
+            %li
+              =link_to_result(t)
+
+    -if @posts_by_text.blank? && @topics_by_tags.blank?
+      .no_results
+        %h3 La ricerca non ha dato risultati.

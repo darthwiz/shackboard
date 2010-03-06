@@ -35,11 +35,8 @@ class Topic < ActiveRecord::Base
     }
   }
 
-  named_scope :range, lambda { |range|
-    { :offset => range.begin, :limit => range.entries.length }
-  }
-
-  named_scope :ordered_by_real_last_post_time_desc, :order => "last_post_time DESC"
+  named_scope :ordered_by_real_last_post_time_desc, :order   => "last_post_time DESC"
+  named_scope :including_forum,                     :include => :forum
 
   def pinned
     self[:topped] == 1
