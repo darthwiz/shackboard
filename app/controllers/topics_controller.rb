@@ -127,7 +127,6 @@ class TopicsController < ApplicationController
           end
         end
       end
-      @topic.tag_with(params[:topic_tags], @user, :absolute => true)
       @topic.save!
       ppp            = ((@opts[:ppp] - 1) / @post_block_size + 1) * @post_block_size
       @location      = @topic
@@ -158,7 +157,6 @@ class TopicsController < ApplicationController
       @topic.user     = @user
       @topic.subject  = @topic.subject =~ /[a-z]/ ? @topic.subject : @topic.subject.split(/\s/).collect(&:capitalize).join(' ')
       @topic.save!
-      @topic.tag_with(@topic.tags_as_text, @user, :absolute => true)
       @post              = Post.new
       @post.topic        = @topic
       @post.dateline     = time
@@ -203,7 +201,6 @@ class TopicsController < ApplicationController
     @draft                     = Draft.secure_find(params[:draft_id], @user)
     @draft.object              = Topic.new(params[:topic])
     @draft.object.message      = params[:topic][:message]      # must be done explicitly
-    @draft.object.tags_as_text = params[:topic][:tags_as_text] # this too
     @draft.save!
     respond_to do |format|
       format.html { render :partial => '/drafts/save_draft' }

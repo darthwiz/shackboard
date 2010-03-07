@@ -290,6 +290,80 @@ class User < ActiveRecord::Base
     self.connection.execute q3
   end
 
+  def self.evaluate_karma!
+    utn = self.table_name
+    vtn = Vote.table_name
+    ptn = Post.table_name
+    [
+      # create the temporary table
+      "CREATE TEMPORARY TABLE tmp_karma (
+        user_id INT NOT NULL,
+        likes INT NOT NULL DEFAULT 0,
+        dislikes INT NOT NULL DEFAULT 0,
+        own_likes INT NOT NULL DEFAULT 0,
+        own_dislikes INT NOT NULL DEFAULT 0,
+        PRIMARY KEY (user_id)
+      )",
+      # fill it up with the active user ids
+      "INSERT INTO tmp_karma
+        SELECT uid AS user_id, 0, 0, 0, 0 FROM xmb_users
+        WHERE deleted_at IS NULL",
+      # count each user's own likes (except self-assigned)
+      "CREATE TEMPORARY TABLE tmp_own_likes
+        SELECT k.user_id, COUNT(1) AS own_likes FROM tmp_karma k
+          LEFT JOIN xmb_votes v ON v.user_id = k.user_id
+          INNER JOIN xmb_posts p ON v.votable_id = p.pid
+            AND v.votable_type = 'Post'
+            AND v.user_id != p.uid
+            AND v.points > 0
+          GROUP BY v.user_id",
+      # count each user's own dislikes (except self-assigned)
+      "CREATE TEMPORARY TABLE tmp_own_dislikes
+          SELECT k.user_id, COUNT(1) AS own_dislikes FROM tmp_karma k
+          LEFT JOIN xmb_votes v ON v.user_id = k.user_id
+          INNER JOIN xmb_posts p ON v.votable_id = p.pid
+            AND v.votable_type = 'Post'
+            AND v.user_id != p.uid
+            AND v.points < 0
+          GROUP BY v.user_id",
+      # count the likes each user received (except self-assigned)
+      "CREATE TEMPORARY TABLE tmp_likes
+        SELECT p.uid AS user_id, COUNT(1) AS likes FROM tmp_karma k
+          LEFT JOIN xmb_votes v ON v.user_id = k.user_id
+          INNER JOIN xmb_posts p ON v.votable_id = p.pid
+            AND v.votable_type = 'Post'
+            AND v.user_id != p.uid
+            AND v.points > 0
+          GROUP BY p.uid",
+      # count the dislikes each user received (except self-assigned)
+      "CREATE TEMPORARY TABLE tmp_dislikes
+        SELECT p.uid AS user_id, COUNT(1) AS dislikes FROM tmp_karma k
+          LEFT JOIN xmb_votes v ON v.user_id = k.user_id
+          INNER JOIN xmb_posts p ON v.votable_id = p.pid
+            AND v.votable_type = 'Post'
+            AND v.user_id != p.uid
+            AND v.points < 0
+          GROUP BY p.uid",
+      # optimize the stuff
+      "ALTER TABLE tmp_own_likes ADD PRIMARY KEY (user_id)",
+      "ALTER TABLE tmp_own_dislikes ADD PRIMARY KEY (user_id)",
+      "ALTER TABLE tmp_likes ADD PRIMARY KEY (user_id)",
+      "ALTER TABLE tmp_dislikes ADD PRIMARY KEY (user_id)",
+      # merge the results
+      "UPDATE tmp_karma k INNER JOIN tmp_own_likes v ON k.user_id = v.user_id SET k.own_likes = v.own_likes",
+      "UPDATE tmp_karma k INNER JOIN tmp_own_dislikes v ON k.user_id = v.user_id SET k.own_dislikes = v.own_dislikes",
+      "UPDATE tmp_karma k INNER JOIN tmp_likes v ON k.user_id = v.user_id SET k.likes = v.likes",
+      "UPDATE tmp_karma k INNER JOIN tmp_dislikes v ON k.user_id = v.user_id SET k.dislikes = v.dislikes",
+      # do the grand calculations
+      # clean up everything
+      "DROP TABLE tmp_own_likes",
+      "DROP TABLE tmp_own_dislikes",
+      "DROP TABLE tmp_likes",
+      "DROP TABLE tmp_dislikes",
+      "DROP TABLE tmp_karma",
+    ].collect { |q| q.gsub(/\s+/, ' ') }
+  end
+
   private
   def nearest_multiple(i, j)
     (i.to_f / j).round * j
