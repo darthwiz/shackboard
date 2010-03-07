@@ -39,16 +39,17 @@ class ForumsController < ApplicationController
     end
     @forum = Forum.find(params[:id])
     render :partial => "not_authorized" and return unless @forum.can_read?(@user)
-    @forums        = Forum.find(:all, :conditions => [ 'fup = ?', params[:id] ], :order => 'displayorder')
-    @announcements = Announcement.find_latest(2)
-    @topics        = @forum.topics_range(@range)
-    @banned_users  = User.banned_from_forum_at_time(@forum, Time.now)
-    @page_title    = @forum.name
-    @location      = @forum
-    @page_seq_opts = { :last    => @forum.topics_count_cached,
-                       :ipp     => tpp,
-                       :current => start + 1,
-                       :id      => fid }
+    @forums         = Forum.find(:all, :conditions => [ 'fup = ?', params[:id] ], :order => 'displayorder')
+    @announcements  = Announcement.find_latest(2)
+    @topics         = @forum.topics_range(@range)
+    @banned_users   = User.banned_from_forum_at_time(@forum, Time.now)
+    @page_title     = @forum.name
+    @popular_topics = @forum.popular_topics
+    @location       = @forum
+    @page_seq_opts  = { :last    => @forum.topics_count_cached,
+                        :ipp     => tpp,
+                        :current => start + 1,
+                        :id      => fid }
   end
 
 end

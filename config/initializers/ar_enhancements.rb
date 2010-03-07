@@ -2,7 +2,8 @@ class ActiveRecord::Base
 
   named_scope :range, lambda { |range|
     raise TypeError unless range.is_a?(Range)
-    { :offset => range.begin, :limit => [ 0, range.end - range.begin + 1 ].max }
+    rend = range.exclude_end? ? range.end - 1 : range.end
+    { :offset => range.begin, :limit => [ 0, rend - range.begin + 1 ].max }
   }
 
   def to_sql

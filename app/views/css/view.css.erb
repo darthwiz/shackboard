@@ -1635,6 +1635,21 @@ div.tag_editor input.text { width: 65em; }
 
 
 
+/* POPULAR TOPICS */
+#topics_list .popular_topics {
+  margin: 1em 0;
+  background-color: <%=t.altbg2%>;
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 1em;
+}
+#topics_list .popular_topics h3 {
+  margin: 0 0 0.5em 0;
+}
+.popular_topics .ratings        { white-space: nowrap; }
+.popular_topics .dislike .label { display: none; }
+.popular_topics .like    .label { display: none; }
+.popular_topics .dislike .votes { padding-left: 20px; background: url(../images/voting/thumb_down.png) no-repeat; padding-bottom: 1px; }
+.popular_topics .like    .votes { padding-left: 20px; background: url(../images/voting/thumb_up.png) no-repeat; }
 
 <% if t.name == "studentibicocca" %>
 #portal_main div#title {

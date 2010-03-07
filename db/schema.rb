@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100302161235) do
+ActiveRecord::Schema.define(:version => 20100307173702) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -574,11 +574,15 @@ ActiveRecord::Schema.define(:version => 20100302161235) do
     t.integer "deleted_by"
     t.integer "deleted_on"
     t.string  "deleted_reason", :limit => 80
+    t.integer "likes",                              :default => 0,  :null => false
+    t.integer "dislikes",                           :default => 0,  :null => false
+    t.integer "total_likes",                        :default => 0,  :null => false
   end
 
   add_index "xmb_topics", ["deleted"], :name => "deleted"
   add_index "xmb_topics", ["deleted_by"], :name => "deleted_by"
   add_index "xmb_topics", ["fid", "topped", "lastpost"], :name => "fid"
+  add_index "xmb_topics", ["fid", "total_likes"], :name => "index_xmb_topics_on_fid_and_total_likes"
   add_index "xmb_topics", ["uid"], :name => "uid"
 
   create_table "xmb_u2u", :primary_key => "u2uid", :force => true do |t|
@@ -633,6 +637,7 @@ ActiveRecord::Schema.define(:version => 20100302161235) do
     t.integer "deleted_at"
     t.integer "fbid",          :limit => 8
     t.string  "sex",           :limit => 1
+    t.integer "karma",         :limit => 1
   end
 
   add_index "xmb_users", ["fbid"], :name => "index_xmb_members_on_fbid", :unique => true

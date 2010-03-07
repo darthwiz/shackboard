@@ -290,7 +290,7 @@ class User < ActiveRecord::Base
     self.connection.execute q3
   end
 
-  def self.evaluate_karma!
+  def self.update_karma!
     utn = self.table_name
     vtn = Vote.table_name
     ptn = Post.table_name
@@ -306,13 +306,13 @@ class User < ActiveRecord::Base
       )",
       # fill it up with the active user ids
       "INSERT INTO tmp_karma
-        SELECT uid AS user_id, 0, 0, 0, 0 FROM xmb_users
+        SELECT uid AS user_id, 0, 0, 0, 0 FROM #{utn}
         WHERE deleted_at IS NULL",
       # count each user's own likes (except self-assigned)
       "CREATE TEMPORARY TABLE tmp_own_likes
         SELECT k.user_id, COUNT(1) AS own_likes FROM tmp_karma k
-          LEFT JOIN xmb_votes v ON v.user_id = k.user_id
-          INNER JOIN xmb_posts p ON v.votable_id = p.pid
+          LEFT JOIN #{vtn} v ON v.user_id = k.user_id
+          INNER JOIN #{ptn} p ON v.votable_id = p.pid
             AND v.votable_type = 'Post'
             AND v.user_id != p.uid
             AND v.points > 0
@@ -320,8 +320,8 @@ class User < ActiveRecord::Base
       # count each user's own dislikes (except self-assigned)
       "CREATE TEMPORARY TABLE tmp_own_dislikes
           SELECT k.user_id, COUNT(1) AS own_dislikes FROM tmp_karma k
-          LEFT JOIN xmb_votes v ON v.user_id = k.user_id
-          INNER JOIN xmb_posts p ON v.votable_id = p.pid
+          LEFT JOIN #{vtn} v ON v.user_id = k.user_id
+          INNER JOIN #{ptn} p ON v.votable_id = p.pid
             AND v.votable_type = 'Post'
             AND v.user_id != p.uid
             AND v.points < 0
@@ -329,8 +329,8 @@ class User < ActiveRecord::Base
       # count the likes each user received (except self-assigned)
       "CREATE TEMPORARY TABLE tmp_likes
         SELECT p.uid AS user_id, COUNT(1) AS likes FROM tmp_karma k
-          LEFT JOIN xmb_votes v ON v.user_id = k.user_id
-          INNER JOIN xmb_posts p ON v.votable_id = p.pid
+          LEFT JOIN #{vtn} v ON v.user_id = k.user_id
+          INNER JOIN #{ptn} p ON v.votable_id = p.pid
             AND v.votable_type = 'Post'
             AND v.user_id != p.uid
             AND v.points > 0
@@ -338,8 +338,8 @@ class User < ActiveRecord::Base
       # count the dislikes each user received (except self-assigned)
       "CREATE TEMPORARY TABLE tmp_dislikes
         SELECT p.uid AS user_id, COUNT(1) AS dislikes FROM tmp_karma k
-          LEFT JOIN xmb_votes v ON v.user_id = k.user_id
-          INNER JOIN xmb_posts p ON v.votable_id = p.pid
+          LEFT JOIN #{vtn} v ON v.user_id = k.user_id
+          INNER JOIN #{ptn} p ON v.votable_id = p.pid
             AND v.votable_type = 'Post'
             AND v.user_id != p.uid
             AND v.points < 0

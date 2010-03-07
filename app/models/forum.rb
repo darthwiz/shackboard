@@ -118,19 +118,6 @@ class Forum < ActiveRecord::Base
     users
   end
 
-  def topics(range)
-    raise TypeError, 'argument must be a Range' unless range.is_a? Range
-    topics  = []
-    seq     = range.begin
-    conds   = ["fid = ?", self.fid]
-    topics += Topic.find :all,
-                         :conditions => conds,
-                         :order      => 'topped DESC, lastpost DESC',
-                         :offset     => range.begin,
-                         :limit      => range.entries.length
-    topics
-  end
-
   def topics_count_cached
     self[:threads]
   end
@@ -186,6 +173,10 @@ class Forum < ActiveRecord::Base
                :order      => 'lastpost DESC',
                :limit      => n
     )
+  end
+
+  def popular_topics(n=5)
+    self.topics.range(0...n).find(:all, :conditions => 'total_likes > 0', :order => 'total_likes DESC')
   end
 
   def add_child(forum)

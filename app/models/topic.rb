@@ -345,4 +345,34 @@ class Topic < ActiveRecord::Base
     self.connection.execute q3
   end
 
+  def self.update_votes_count!
+    ttn = self.table_name
+    vtn = Vote.table_name
+    ptn = Post.table_name
+    [
+      "CREATE TEMPORARY TABLE tmp_topic_likes 
+        SELECT t.tid AS topic_id, SUM(v.points) AS likes FROM #{vtn} v
+        INNER JOIN #{ptn} p ON v.votable_id = p.pid
+          AND v.votable_type = 'Post'
+          AND v.points > 0
+        INNER JOIN #{ttn} t ON p.tid = t.tid
+        GROUP BY t.tid",
+      "CREATE TEMPORARY TABLE tmp_topic_dislikes 
+        SELECT t.tid AS topic_id, ABS(SUM(v.points)) AS dislikes FROM #{vtn} v
+        INNER JOIN #{ptn} p ON v.votable_id = p.pid
+          AND v.votable_type = 'Post'
+          AND v.points < 0
+        INNER JOIN #{ttn} t ON p.tid = t.tid
+        GROUP BY t.tid",
+      "ALTER TABLE tmp_topic_likes ADD PRIMARY KEY (topic_id)",
+      "ALTER TABLE tmp_topic_dislikes ADD PRIMARY KEY (topic_id)",
+      "UPDATE #{ttn} t INNER JOIN tmp_topic_likes v ON t.tid = v.topic_id SET t.likes = v.likes",
+      "UPDATE #{ttn} t INNER JOIN tmp_topic_dislikes v ON t.tid = v.topic_id SET t.dislikes = v.dislikes",
+      "UPDATE #{ttn} SET total_likes = likes - dislikes",
+      "DROP TABLE tmp_topic_likes",
+      "DROP TABLE tmp_topic_dislikes",
+    ].each { |q| self.connection.execute(q) }
+    true
+  end
+
 end

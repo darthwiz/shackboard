@@ -37,13 +37,23 @@
                 %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
                   %span
                     =f.moderators.collect { |i| link_to(cleanup(i.username), i) }.join(', ')
-    %br
-%table(width="100%" cellspacing="0" cellpadding="0" align="center")
-  %tr
-    %td{ :bgcolor => t.bgcolor, :class => "post", :align => "right" }
-      .new_topic_link
-        =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum && @forum.can_post?(@user)
+
+
 #topics_list
+  -unless @popular_topics.blank?
+    .popular_topics
+      %h3 Le discussioni più popolari in questo forum
+      %ul
+        -@popular_topics.each do |tp|
+          %li
+            =link_to_popular_topic(tp)
+
+  %table(width="100%" cellspacing="0" cellpadding="0" align="center")
+    %tr
+      %td{ :bgcolor => t.bgcolor, :class => "post", :align => "right" }
+        .new_topic_link
+          =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum && @forum.can_post?(@user)
+
   -unless @topics.blank? && @announcements.blank?
     %table(cellspacing="0" cellpadding="0" border="0" width="100%" align="center")
       %tr
