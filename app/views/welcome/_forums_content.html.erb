@@ -1,4 +1,8 @@
 <ul>
+  <li class="forum_name"><h3>si parla di...</h3></li>
+  <li>
+    <%=@popular_tags.collect { |i| link_to_tag_search(i.tag) }.join(', ')%>
+  </li>
   <% forums.each do |i| %>
   <li class="forum_name">
     <%=link_image_to i[:image], base_url + i[:forum].to_s if i[:image]%>

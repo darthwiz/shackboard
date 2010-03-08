@@ -222,6 +222,19 @@ class Forum < ActiveRecord::Base
     f.latest_topics(*args)
   end
 
+  def self.popular_tags(n=10)
+    tgtn = Tag.table_name
+    tptn = Topic.table_name
+    Tag.range(0...n).find(
+      :all,
+      :select => "#{tgtn}.*, COUNT(1) AS count",
+      :joins  => "INNER JOIN #{tptn} tp ON #{tgtn}.taggable_type = 'Topic'
+                    AND #{tgtn}.taggable_id = tp.tid",
+      :group  => 'tag',
+      :order  => 'count DESC'
+    )
+  end
+
   def self.flattened_list
     self.rebuild_tree! if @@all_forums.empty?
     ret = []
