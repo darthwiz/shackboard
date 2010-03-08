@@ -6,8 +6,7 @@ class SearchController < ApplicationController
     @query_string  = params[:q].to_s
     @username      = params[:username]
     @time          = params[:time] || 'week'
-    @query_tags    = @query_string
-    @query_tags    = @query_string.split(/\s+/).reject(&:blank?).join(',').strip unless @query_string =~ /,/ 
+    @query_tags    = params[:tags]
     ppp            = @opts[:ppp]
     start          = params[:start].to_i - 1
     start          = 0 if (start <= 0)
@@ -15,7 +14,7 @@ class SearchController < ApplicationController
     rend           = rstart + ppp - 1
     @range         = rstart..rend
     @location      = :search_results
-    prepare_posts_by_matching_text
+    prepare_posts_by_matching_text if @query_tags.blank?
     prepare_topics_by_matching_tags
   end
 
@@ -34,6 +33,13 @@ class SearchController < ApplicationController
   end
 
   def prepare_topics_by_matching_tags
+    if @query_tags.blank?
+      @query_tags = @query_string.split(/\s+/).reject(&:blank?).join(',').strip unless @query_string =~ /,/ 
+    else
+      clean_tags = @query_tags.split(/\//).collect(&:slugify).reject(&:blank?).sort.uniq
+      redirect_to :tags => clean_tags and return unless @query_tags == clean_tags.join('/')
+      @query_tags = clean_tags
+    end
     @topics_by_tags = Topic.including_forum.tagged_with(@query_tags).range(@range).find(:all, :order => 'lastpost DESC')
   end
 

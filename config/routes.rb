@@ -57,6 +57,7 @@ ActionController::Routing::Routes.draw do |map|
   map.object_vote     '/vote/:type/:id/:points', :controller => 'votes', :action => 'vote'
   map.object_tag_set  '/tag/set/:type/:id', :controller => 'tags', :action => 'set'
   map.object_tag_edit '/tag/edit/:type/:id', :controller => 'tags', :action => 'edit'
+  map.search_tags     '/search/tags/:tags', :controller => 'search', :action => 'search', :requirements => { :tags => /.*/ }
   map.search          '/search', :controller => 'search', :action => 'search'
 
   # SEO routes
