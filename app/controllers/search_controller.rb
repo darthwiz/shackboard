@@ -40,7 +40,7 @@ class SearchController < ApplicationController
       redirect_to :tags => clean_tags and return unless @query_tags == clean_tags.join('/')
       @query_tags = clean_tags
     end
-    @topics_by_tags = Topic.including_forum.tagged_with(@query_tags).range(@range).find(:all, :order => 'lastpost DESC')
+    @topics_by_tags = Topic.including_forum.including_tags.tagged_with(@query_tags).range(@range).find(:all, :order => 'lastpost DESC')
   end
 
 end

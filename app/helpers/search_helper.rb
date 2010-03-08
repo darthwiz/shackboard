@@ -3,11 +3,18 @@ module SearchHelper
   def link_to_result(obj)
     case obj.class.to_s
     when 'Topic'
-      link_to([
-        content_tag(:span, cleanup(obj.subject), :class => 'title'),
+      tags = obj.tags
+      if obj.tags.blank? 
+        tag_links = ''
+      else
+        tag_links = content_tag(:span, '(' + obj.tags.collect { |t| link_to_tag_search(t.tag) }.join(', ') + ')', :class => 'tags')
+      end
+      content_tag(:span, [
+        link_to(cleanup(obj.subject), obj, :class => 'topic'),
         'nel forum',
-        content_tag(:span, cleanup(obj.forum.name), :class => 'forum'),
-      ].join(' '), obj)
+        link_to(cleanup(obj.forum.name), obj.forum, :class => 'forum'),
+        tag_links
+      ].join(' '), :class => 'result_topic')
     when 'Post'
       link_to([
         content_tag(:span, cleanup(obj.user.username), :class => 'user'),
@@ -20,3 +27,10 @@ module SearchHelper
   end
 
 end
+=begin
+      link_to([
+        content_tag(:span, cleanup(obj.subject), :class => 'title'),
+        'nel forum',
+        content_tag(:span, cleanup(obj.forum.name), :class => 'forum'),
+      ].join(' '), obj)
+=end
