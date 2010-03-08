@@ -27,10 +27,3 @@ module SearchHelper
   end
 
 end
-=begin
-      link_to([
-        content_tag(:span, cleanup(obj.subject), :class => 'title'),
-        'nel forum',
-        content_tag(:span, cleanup(obj.forum.name), :class => 'forum'),
-      ].join(' '), obj)
-=end

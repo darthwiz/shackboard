@@ -40,13 +40,20 @@
 
 
 #topics_list
-  -unless @popular_topics.blank?
-    .popular_topics
-      %h3 Le discussioni più popolari in questo forum
-      %ul
-        -@popular_topics.each do |tp|
-          %li
-            =link_to_popular_topic(tp)
+  -unless @popular_topics.blank? && @popular_tags.blank?
+    .hot_stuff
+      %h3 In questo forum
+      -unless @popular_topics.blank?
+        .popular_topics
+          %h4 discussioni più gradite:
+          %ul
+            -@popular_topics.each do |tp|
+              %li
+                =link_to_popular_topic(tp)
+      -unless @popular_tags.blank?
+        .popular_tags
+          %h4 argomenti ricorrenti:
+          %span.tags= @popular_tags.collect { |tg| link_to_tag_search(tg.tag) }.join(', ')
 
   %table(width="100%" cellspacing="0" cellpadding="0" align="center")
     %tr

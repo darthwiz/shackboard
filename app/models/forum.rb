@@ -179,6 +179,20 @@ class Forum < ActiveRecord::Base
     self.topics.range(0...n).find(:all, :conditions => 'total_likes > 0', :order => 'total_likes DESC')
   end
 
+  def popular_tags(n=10)
+    tgtn = Tag.table_name
+    tptn = Topic.table_name
+    Tag.range(0...n).find(
+      :all,
+      :select => "#{tgtn}.*, COUNT(1) AS count",
+      :joins  => "INNER JOIN #{tptn} tp ON #{tgtn}.taggable_type = 'Topic'
+                    AND #{tgtn}.taggable_id = tp.tid
+                    AND tp.fid = #{self.id}",
+      :group  => 'tag',
+      :order  => 'count DESC'
+    )
+  end
+
   def add_child(forum)
     @children = [] unless @children.is_a?(Array)
     @children << forum

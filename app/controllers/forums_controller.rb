@@ -45,6 +45,7 @@ class ForumsController < ApplicationController
     @banned_users   = User.banned_from_forum_at_time(@forum, Time.now)
     @page_title     = @forum.name
     @popular_topics = @forum.popular_topics
+    @popular_tags   = @forum.popular_tags(20)
     @location       = @forum
     @page_seq_opts  = { :last    => @forum.topics_count_cached,
                         :ipp     => tpp,

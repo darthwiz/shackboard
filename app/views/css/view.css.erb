@@ -1636,14 +1636,21 @@ div.tag_editor input.text { width: 65em; }
 
 
 /* POPULAR TOPICS */
-#topics_list .popular_topics {
+#topics_list .hot_stuff {
   margin: 1em 0;
   background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
   padding: 1em;
 }
-#topics_list .popular_topics h3 {
+#topics_list .hot_stuff h3,
+#topics_list .hot_stuff h4 {
   margin: 0 0 0.5em 0;
+}
+#topics_list .hot_stuff .popular_topics {
+  margin-bottom: 1.1em;
+}
+#topics_list .hot_stuff .popular_tags h4 {
+  display: inline;
 }
 .popular_topics .ratings        { white-space: nowrap; }
 .popular_topics .dislike .label { display: none; }
