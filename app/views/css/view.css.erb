@@ -326,10 +326,12 @@ div.lastposter a:hover {
   border-bottom: none;
 }
 #portal_main h3 {
-  display: block;
   background-color: <%=t.catcolor%>;
   font-size: <%=t.fontsize%>;
   color: <%=t.link%>;
+}
+#portal_main h3 a {
+  display: block;
 }
 #portal_main ul.announcement li {
   padding: 0;
@@ -560,8 +562,13 @@ div#announcement .author a {
   font-size: 11px;
 }
 
-#topics_list td.tablerow div.page_seq,
-#topics_list td.tablerow div.tags {
+#topics_list span.pager,
+#topics_list table span.tags {
+  display: block;
+  font-size: 85%;
+}
+#topics_list td.tablerow span.page_seq,
+#topics_list td.tablerow span.tags {
   margin-top: 0.5em;
   font-size: 11px;
 }

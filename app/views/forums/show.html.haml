@@ -108,15 +108,15 @@
                   %span
                     =link_to(cleanup(tp.subject), tp)
                     -if tp.pinned?
-                      %span.11px (in evidenza)
+                      %span.pinned (in evidenza)
                     -if tp.replies > @opts[:tpp]
-                      .page_seq
+                      %span.pager
                         pagine:
                         =page_seq({ :controller => :topics, :action => :show, :id => tp.id, :first => 1, :last => tp.replies, :ipp => @opts[:tpp], :extra_links => [ :last ] })
                     -unless tp.tags.blank?
-                      .tags
+                      %span.tags
                         tags:
-                        =tp.tags.collect(&:tag).join(', ')
+                        =tp.tags.collect { |tg| link_to_tag_search(tg.tag) }.join(', ')
                 %td{ :bgcolor => t.altbg1, :class => "tablerow" }
                   =link_to(tp.user.username, tp.user) if tp.user
                 %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
