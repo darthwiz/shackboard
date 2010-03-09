@@ -93,7 +93,7 @@
                   %span.c3
                     = "il #{a.time.strftime('%d/%m/%Y')} alle #{a.time.strftime('%H.%M')}"
             -@topics.each do |tp|
-              %tr{ :class => tp.tags.collect(&:tag).join(' ') }
+              %tr{ :class => tp.tags.collect { |tg| "tag_#{tg.tag}"}.join(' ') }
                 %td{ :bgcolor => t.altbg2, :align => "center", :class => "tablerow" }
                   -if tp.locked?
                     %img{ :src => "#{images_url}/lock_folder.gif", :alt => "Closed Topic" }

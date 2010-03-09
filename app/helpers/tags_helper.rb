@@ -23,7 +23,7 @@ module TagsHelper
   end
 
   def link_to_tag_search(string_tag)
-    link_to(string_tag, search_tags_path(:tags => string_tag))
+    link_to(string_tag, search_tags_path(:tags => string_tag), :class => "tag_#{string_tag}")
   end
 
 end
