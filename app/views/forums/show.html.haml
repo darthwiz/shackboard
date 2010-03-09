@@ -153,7 +153,7 @@
   -if @forum.can_moderate?(@user)
     %tr
       %td
-        #forum_css
+        .custom_stylesheet
           Foglio di stile per questo forum:
           -css = @forum.custom_stylesheet || CustomStylesheet.new
           -form_for [ :admin, css ] do |f|
