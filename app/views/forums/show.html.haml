@@ -106,7 +106,7 @@
                     %img{ :src => "http://www.studentibicocca.it/images/#{tp.icon}" }
                 %td{ :bgcolor => "#{t.altbg2}", :class => "title tablerow c2" }
                   %span
-                    =link_to(cleanup(tp.subject), tp)
+                    =link_to(cleanup(tp.subject), tp, :class => 'title')
                     -if tp.pinned?
                       %span.pinned (in evidenza)
                     -if tp.replies > @opts[:tpp]
