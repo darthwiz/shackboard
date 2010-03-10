@@ -149,35 +149,32 @@ class UsersController < ApplicationController
     @edit_user = User.find(params[:id])
     respond_to do |format|
       if @edit_user == @user || @user.is_adm?
-        if @edit_user.update_attributes(params[:user])
-          #flash[:notice] = 'User was successfully updated.'
-          current_password     = params[:current_password].to_s
-          new_password         = params[:new_password].to_s
-          confirm_new_password = params[:confirm_new_password].to_s
-          unless new_password.blank?
-            if @edit_user.auth(current_password) || @user.is_adm?
-              if new_password == confirm_new_password
-                @edit_user.password = new_password
-                @edit_user.save
-              else
-                @edit_user.errors.add :password, :passwords_dont_match
-              end
+        current_password     = params[:current_password].to_s
+        new_password         = params[:new_password].to_s
+        confirm_new_password = params[:confirm_new_password].to_s
+        unless new_password.blank?
+          if @edit_user.auth(current_password) || @user.is_adm?
+            if new_password == confirm_new_password
+              @edit_user.password = new_password
+              @edit_user.save
             else
-              @edit_user.errors.add :password, :authentication_failed
+              @edit_user.errors.add :password, :passwords_dont_match
             end
+          else
+            @edit_user.errors.add :password, :authentication_failed
           end
+        end
+        if @edit_user.update_attributes(params[:user])
           format.html do
             redirect_to(@edit_user) and return if @edit_user.errors.blank?
             flash[:model_errors] = @edit_user.errors
             render :action => "edit"
           end
-          #format.xml  { head :ok }
         else
           format.html do
             flash[:model_errors] = @edit_user.errors
             render :action => "edit"
           end
-          #format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
         end
       else
         redirect_to @edit_user
