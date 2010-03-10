@@ -22,9 +22,11 @@ form_url    = { :controller => object.class.to_s.underscore.pluralize, :action =
       <div>
         Titolo: <%=f.text_field :title%>
       </div>
+      <%if object.respond_to?(:tags_as_text)%>
       <div>
         Tags: <%=f.text_field :tags_as_text%>
       </div>
+      <%end%>
       <div>
         <%=f.text_area :text%>
       </div>

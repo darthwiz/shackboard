@@ -5,4 +5,9 @@ class Blog < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :user_id
   validates_format_of :label, :with => /[a-z][a-z0-9\-_]*/
   default_scope :joins => :user, :conditions => "#{User.table_name}.deleted_at IS NULL"
+
+  def label=(string)
+    self[:label] = string.to_s.slugify
+  end
+
 end

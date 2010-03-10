@@ -1,5 +1,3 @@
--lfu = @legacy_forum_uri
--t   = @opts[:theme]
 !!!
 %html(xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml")
   %head
@@ -9,7 +7,6 @@
     =stylesheet_link_tag 'cms'
     %link(href="#{custom_css_path(:obj_class => @cms_page.class.to_s, :obj_id => @cms_page.id)}" media="screen" rel="stylesheet" type="text/css")
     =javascript_include_tag :defaults
-    =render :partial => '/common/annoyances_01'
     %title= page_title || "Forum degli Studenti della Bicocca"
   %body
     =calendar_date_select_includes nil
