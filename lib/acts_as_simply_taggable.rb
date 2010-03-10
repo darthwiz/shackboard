@@ -23,22 +23,24 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
         cn   = self.to_s
         tt   = Tag.table_name
         if tags.empty?
-          tags_cond  = 'tw_t.tag IS NULL'
-          tags_count = 1
-        else
-          tags_cond  = "tw_t.taggable_type = '#{cn}' AND tw_t.tag IN (" + tags.collect { |i| "'#{i}'" }.join(', ') + ')'
-          tags_count = tags.size
-        end
         {
           :select     => "#{cct}.*, COUNT(*) AS tag_count",
-          :joins      => "LEFT JOIN #{tt} AS tw_t ON #{cct}.#{ccpk} = tw_t.taggable_id",
-          :conditions => tags_cond,
+          :joins      => "LEFT JOIN #{tt} AS tw_t ON tw_t.taggable_type = '#{cn}' AND #{cct}.#{ccpk} = tw_t.taggable_id",
+          :conditions => 'tw_t.tag IS NULL',
           :group      => "#{cct}.#{ccpk}",
-          :having     => "tag_count = #{tags_count}",
+          :having     => "tag_count = 1",
         }
-        # OPTIMIZE: the left join is probably unsuitable for large datasets and an
-        # inner join would be better, along with a special handling of the empty
-        # tag set (which is handled correctly by the left join right now)
+        else
+        {
+          :select     => "#{cct}.*, COUNT(*) AS tag_count",
+          :joins      => "INNER JOIN #{tt} AS tw_t ON tw_t.taggable_type = '#{cn}' AND #{cct}.#{ccpk} = tw_t.taggable_id",
+          :conditions => "tw_t.tag IN (" + tags.collect { |i| "'#{i}'" }.join(', ') + ')',
+          :group      => "#{cct}.#{ccpk}",
+          :having     => "tag_count = #{tags.size}",
+        }
+        end
+        # FIXME counting from this scope will yield wrong results when an
+        # object has more than one tag, so don't do it until this is fixed.
       }
 
       named_scope :including_tags, :include => :tags
