@@ -73,6 +73,11 @@ class PostsController < ApplicationController
     #@draft.save!
     respond_to do |format|
       format.html { render :action => 'new' }
+      format.js do
+        render :update do |page|
+          page.replace "post_text_#{@post.id}", :partial => '/posts/post_editor'
+        end
+      end
     end
   end
 
@@ -110,13 +115,22 @@ class PostsController < ApplicationController
     @post  = Post.secure_find_for_edit(params[:post][:id], @user)
     #@draft = Draft.secure_find(params[:draft_id], @user) # TODO support drafts
     if @post.can_edit?(@user)
-      @post.edituser = @user.id
-      @post.editdate = Time.now.to_i
-      @post.message  = params[:post][:message]
+      @post.edituser       = @user.id
+      @post.editdate       = Time.now.to_i
+      @post.message        = params[:post][:message]
+      @post.moderator_post = params[:post][:moderator_post] if params[:post][:moderator_post]
       @post.save!
       #@draft.destroy
       respond_to do |format|
         format.html { redirect_to topic_path(@post.topic, :start => @post.find_seq, :anchor => "pid#{@post.id}") }
+        format.js do
+          render :update do |page|
+            # FIXME these have to go and be replaced by eager loading
+            @post.cached_user    = @post.user
+            @post.cached_smileys = @post.cached_user.smileys
+            page.replace "post_text_#{@post.id}", :partial => '/posts/post_text', :locals => { :p => @post }
+          end
+        end
       end
     end
   end

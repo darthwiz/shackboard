@@ -23,6 +23,10 @@
           =f.hidden_field :reply_to_pid
           =f.hidden_field :reply_to_uid
           .control
+            -if @post.topic.can_moderate?(@user)
+              =f.check_box :moderator_post
+              intervento di moderazione
+              %br
             =submit_tag 'Invia'
             %span#draft_saved(style="display: none;")
       #format-commands

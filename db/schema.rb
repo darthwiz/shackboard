@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100310205116) do
+ActiveRecord::Schema.define(:version => 20100313200242) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -397,25 +397,26 @@ ActiveRecord::Schema.define(:version => 20100310205116) do
 
   create_table "xmb_posts", :primary_key => "pid", :force => true do |t|
     t.integer "uid",            :limit => 3
-    t.integer "fid",            :limit => 2,        :default => 0,    :null => false
-    t.integer "tid",            :limit => 3,        :default => 0,    :null => false
-    t.string  "author",         :limit => 40,       :default => "",   :null => false
-    t.text    "message",        :limit => 16777215,                   :null => false
-    t.integer "dateline",                           :default => 0,    :null => false
+    t.integer "fid",            :limit => 2,        :default => 0,     :null => false
+    t.integer "tid",            :limit => 3,        :default => 0,     :null => false
+    t.string  "author",         :limit => 40,       :default => "",    :null => false
+    t.text    "message",        :limit => 16777215,                    :null => false
+    t.integer "dateline",                           :default => 0,     :null => false
     t.string  "icon",           :limit => 50
-    t.string  "usesig",         :limit => 15,       :default => "",   :null => false
-    t.string  "useip",          :limit => 40,       :default => "",   :null => false
-    t.string  "bbcodeoff",      :limit => 15,       :default => "",   :null => false
-    t.string  "smileyoff",      :limit => 15,       :default => "",   :null => false
-    t.integer "edituser",                           :default => 0,    :null => false
-    t.integer "editdate",                           :default => 0,    :null => false
+    t.string  "usesig",         :limit => 15,       :default => "",    :null => false
+    t.string  "useip",          :limit => 40,       :default => "",    :null => false
+    t.string  "bbcodeoff",      :limit => 15,       :default => "",    :null => false
+    t.string  "smileyoff",      :limit => 15,       :default => "",    :null => false
+    t.integer "edituser",                           :default => 0,     :null => false
+    t.integer "editdate",                           :default => 0,     :null => false
     t.string  "deleted",        :limit => 80
     t.string  "format",         :limit => 16,       :default => "bb"
-    t.integer "reply_to_pid",                                         :null => false
-    t.integer "reply_to_uid",                                         :null => false
+    t.integer "reply_to_pid",                                          :null => false
+    t.integer "reply_to_uid",                                          :null => false
     t.integer "deleted_by"
     t.integer "deleted_on"
     t.string  "deleted_reason", :limit => 80
+    t.boolean "moderator_post",                     :default => false
   end
 
   add_index "xmb_posts", ["dateline"], :name => "dateline"
