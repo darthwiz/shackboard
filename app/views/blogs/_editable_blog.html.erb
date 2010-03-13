@@ -1,6 +1,6 @@
 <%# vim: set ft=eruby nowrap: -%>
   <h4>
-    <%=link_to cleanup(blog.name), blog_view_path(blog.user.username, blog.label)%>
+    <%=link_to cleanup(blog.name), blog_view_path(blog.user.username, blog.slug)%>
   </h4>
   <div class="description">
     <%=text_to_html(blog.description)%>

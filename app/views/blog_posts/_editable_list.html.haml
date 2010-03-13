@@ -1,0 +1,5 @@
+=render :partial => '/blog_posts/new'
+%ul#blog_post_list
+  -posts.each do |p|
+    %li.blog_post[p]
+      =render :partial => '/blog_posts/editable_blog_post', :locals  => { :p => p }

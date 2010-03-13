@@ -25,19 +25,12 @@ class BlogsController < ApplicationController
   end
 
   def show
-    username   = params[:username]
-    label      = params[:blog_label]
-    @blog_user = User.find_by_username(username)
+    @blog_user = User.find_by_username(params[:username])
     if @blog_user.is_a? User
-      conds = [ 'user_id = ? AND label = ?', @blog_user.id, label ]
-      @blog = Blog.find(:first, :conditions => conds)
+      @blog = @blog_user.blogs.find_by_slug(params[:slug])
     end
     if @blog.is_a? Blog
-      @posts = BlogPost.find(
-        :all,
-        :conditions => [ 'user_id = ? AND blog_id = ?', @blog_user.id, @blog.id ],
-        :order      => 'created_at DESC'
-      )
+      @posts      = @blog.posts.by_created_at_desc.range(0...5)
       @page_title = @blog.name
       @blog.increment! :view_count
     end

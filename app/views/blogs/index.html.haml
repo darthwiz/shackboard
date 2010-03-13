@@ -9,7 +9,7 @@
         %ul.user_blog_list
           -bbu.first.each do |blog|
             %li.blog
-              %h3= link_to cleanup(blog.name), blog_view_path(:username => user.username, :blog_label => blog.label)
+              %h3= link_to cleanup(blog.name), blog_view_path(:username => user.username, :slug => blog.slug)
               .description= BbText.new(blog.description, Smiley.all(user)).to_html(:controller => self)
 
 -if @blog_user

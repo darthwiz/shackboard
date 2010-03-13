@@ -8,7 +8,7 @@
       Tags: <%=f.text_field :tags_as_text%>
     </div>
     <div>
-      <%=f.text_area :text, :value => p.text%>
+      <%=f.text_area :text, :class => 'blog_post_text'%>
     </div>
     <div>
       <%=f.hidden_field :id, :value => p.id%>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100307173702) do
+ActiveRecord::Schema.define(:version => 20100310205116) do
 
   create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
     t.text    "admin_username"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20100307173702) do
 
   add_index "xmb_announcements", ["date"], :name => "date"
   add_index "xmb_announcements", ["num_views"], :name => "num_views"
+  add_index "xmb_announcements", ["title", "message"], :name => "title"
 
   create_table "xmb_ban_records", :force => true do |t|
     t.integer "moderator_id",                    :null => false
@@ -181,20 +182,6 @@ ActiveRecord::Schema.define(:version => 20100307173702) do
 
   add_index "xmb_bans", ["user_id", "forum_id", "expires_at"], :name => "index_xmb_bans_on_user_id_and_forum_id_and_expires_at"
 
-  create_table "xmb_blog_comments", :force => true do |t|
-    t.integer  "user_id",                                       :null => false
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at"
-    t.string   "title",        :limit => 200
-    t.text     "text",                                          :null => false
-    t.integer  "blog_post_id",                                  :null => false
-    t.string   "ip_address",   :limit => 50,  :default => "",   :null => false
-    t.boolean  "unread",                      :default => true
-    t.integer  "modified_by"
-  end
-
-  add_index "xmb_blog_comments", ["blog_post_id"], :name => "index_xmb_blog_comments_on_blog_post_id"
-
   create_table "xmb_blog_posts", :force => true do |t|
     t.integer  "user_id",                                                 :null => false
     t.datetime "created_at"
@@ -224,7 +211,7 @@ ActiveRecord::Schema.define(:version => 20100307173702) do
 
   create_table "xmb_blogs", :force => true do |t|
     t.string   "name",         :limit => 80, :default => "", :null => false
-    t.string   "label",        :limit => 40, :default => "", :null => false
+    t.string   "slug",         :limit => 40, :default => "", :null => false
     t.text     "description"
     t.integer  "user_id",                                    :null => false
     t.datetime "created_at"
@@ -235,7 +222,7 @@ ActiveRecord::Schema.define(:version => 20100307173702) do
   end
 
   add_index "xmb_blogs", ["last_post_at"], :name => "index_xmb_blogs_on_last_post_at"
-  add_index "xmb_blogs", ["user_id", "label"], :name => "index_xmb_blogs_on_user_id_and_label"
+  add_index "xmb_blogs", ["user_id", "slug"], :name => "index_xmb_blogs_on_user_id_and_label"
 
   create_table "xmb_categories", :force => true do |t|
     t.integer "user_id",                                   :null => false
@@ -290,6 +277,20 @@ ActiveRecord::Schema.define(:version => 20100307173702) do
   end
 
   add_index "xmb_cms_pages", ["slug"], :name => "slug", :unique => true
+
+  create_table "xmb_comments", :force => true do |t|
+    t.string   "commentable_type", :limit => 40, :default => "", :null => false
+    t.integer  "commentable_id",                                 :null => false
+    t.integer  "user_id",                                        :null => false
+    t.integer  "modified_by"
+    t.string   "ip_address",       :limit => 50, :default => "", :null => false
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "xmb_comments", ["commentable_type", "commentable_id", "created_at"], :name => "by_related_content"
+  add_index "xmb_comments", ["user_id", "created_at"], :name => "by_user"
 
   create_table "xmb_custom_stylesheets", :force => true do |t|
     t.string  "stylable_type", :limit => 40, :default => "", :null => false
@@ -421,6 +422,7 @@ ActiveRecord::Schema.define(:version => 20100307173702) do
   add_index "xmb_posts", ["deleted"], :name => "deleted"
   add_index "xmb_posts", ["deleted_by"], :name => "deleted_by"
   add_index "xmb_posts", ["fid", "tid"], :name => "fid"
+  add_index "xmb_posts", ["message"], :name => "message"
   add_index "xmb_posts", ["reply_to_uid"], :name => "reply_to_uid"
   add_index "xmb_posts", ["tid", "fid"], :name => "tid"
   add_index "xmb_posts", ["uid"], :name => "uid"

@@ -31,8 +31,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :topics, :path_prefix => 'forum', :has_many => :posts, :new => { :save_draft => :post, :draft => :get }
   map.resources :forums, :path_prefix => 'forum', :has_many => [ :topics, :posts ]
   map.resources :blogs, :path_prefix => 'blog', :has_many => :blog_posts
-  map.resources :blog_posts, :path_prefix => 'blog', :has_many => :blog_comments
-  map.resources :blog_comments, :path_prefix => 'blog'
+  map.resources :blog_posts, :path_prefix => 'blog', :has_many => :comments
+  map.resources :comments
   map.resources :smileys
   map.resources :announcements
   map.namespace(:admin) do |admin|
@@ -66,12 +66,10 @@ ActionController::Routing::Routes.draw do |map|
   map.blog_index    '/blogs', :controller => 'blogs', :action => 'index'
   map.cms_page      '/cms/:slug', :controller => 'cms_pages', :action => 'show'
   map.seo_blog_post 'blogs/:username/:id/:slug', :controller => 'blog_posts', :action => 'show', :requirements => { :username => /[^0-9\/][^\/]+/, :id => /[0-9]+/ }
-  map.blog_view     'blogs/:username/:blog_label', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9\/][^\/]+/, :blog_label => /.*/ }
+  map.blog_view     'blogs/:username/:slug', :controller => 'blogs', :action => 'show', :requirements => { :username => /[^0-9\/][^\/]+/ }
   map.blog_list     'blogs/:username', :controller => 'blogs', :action => 'index', :requirements => { :username => /.*/ }
 
   # legacy routes - these have to go sooner or later
-  map.connect 'blog_comments/:action/:id', :controller => 'blog_comments'
-  map.connect 'blog_comments/:action/:id.:format', :controller => 'blog_comments'
   map.connect 'blog_posts/:action/:id', :controller => 'blog_posts'
   map.connect 'blog_posts/:action/:id.:format', :controller => 'blog_posts'
   map.connect 'drafts/:action/:id', :controller => 'drafts'

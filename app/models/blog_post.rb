@@ -1,13 +1,26 @@
 class BlogPost < ActiveRecord::Base
   belongs_to :user
   belongs_to :blog
-  has_many :blog_comments
   acts_as_simply_taggable
+  acts_as_commentable
   default_scope :joins => "INNER JOIN #{User.table_name} u ON u.uid = #{self.table_name}.user_id AND u.deleted_at IS NULL AND u.status != 'Anonymized'"
-  named_scope :by_time_asc, :order => :created_at
+  named_scope :by_created_at_asc, :order => :created_at
+  named_scope :by_created_at_desc, :order => 'created_at DESC'
 
   def container
     self.blog
+  end
+
+  def can_comment?(user)
+    user.is_a?(User)
+  end
+
+  def can_tag?(user)
+    user == self.user
+  end
+
+  def can_edit_comments?(user)
+    user == self.user
   end
 
   def self.find_latest(what=:posts, n=5, opts={})
@@ -31,11 +44,7 @@ class BlogPost < ActiveRecord::Base
   end
 
   def self.count_unread_for(user)
-    return 0 unless user.is_a? User
-    self.sum(
-      :unread_comments_count,
-      :conditions => [ 'user_id = ? AND unread_comments_count > 0', user.id ]
-    )
+    return 0 # FIXME dropped for now...
   end
 
 end

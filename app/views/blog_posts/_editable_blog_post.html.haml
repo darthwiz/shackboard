@@ -1,0 +1,19 @@
+-username = p.user.username
+-tags     = p.is_a?(BlogPost) ? p.tags_as_text : nil
+-unless p.title.to_s.empty?
+  %h2= cleanup(p.title)
+=editable_tags(p)
+.text
+  =BbText.new(p.text, Smiley.all(p.user)).to_html(:controller => self)
+.author
+  scritto da
+  %span.author= cleanup(username)
+  il
+  %span.date= p.created_at.strftime("%d/%m/%y, %H.%M")
+.permalink
+  =link_to 'permalink', seo_blog_post_path(:username => username, :id => p, :slug => p.title.slugify)
+.operations
+  -if @user == p.user || @user == @blog.user
+    =link_to_remote 'mod', :update => domid(p), :url => edit_blog_post_path(p), :method => :get, :html => { :class => 'edit' }
+    =link_to_remote 'del', :update  => domid(p), :url => blog_post_path(p), :method => :delete, :confirm => "Vuoi veramente cancellare questo post?", :html => { :class => 'delete' }
+=comments_for(p, :open => @comments)

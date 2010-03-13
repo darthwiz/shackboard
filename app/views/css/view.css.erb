@@ -1230,27 +1230,27 @@ div#blogs div.primary {
   margin-top: 0;
   margin-bottom: 0;
 }
-li.blog_post h2,
-li.blog_comment h2 {
+li.blog_post h2 {
   margin-top: 0;
   margin-bottom: 0;
 }
-li.blog_post div.author,
-li.blog_comment div.author {
+li.blog_post div.author {
   font-style: italic;
   text-align: right;
   margin-right: 2em;
   margin-top: 2em;
 }
-li.blog_post div.permalink,
-li.blog_comment div.permalink {
+li.blog_post div.permalink {
   font-style: italic;
   text-align: right;
   margin-right: 2em;
 }
-li.blog_post div.author span.author,
-li.blog_comment div.author span.author {
+li.blog_post div.author span.author {
   font-weight: bold;
+}
+li.blog_post textarea.blog_post_text {
+  width: 100%;
+  height: 14em;
 }
 #blog-header div.author {
   font-style: italic;
@@ -1276,12 +1276,8 @@ div#blogs div#blog li.blog_post {
   background-color: <%=t.altbg2%>;
   border: 1px solid <%=t.bordercolor%>;
 }
-div#blogs div#blog li.blog_post div.categories {
-  font-size: 10px;
-  display: none; /* XXX */
-}
-div#blogs div#blog li div.text {
-  margin: 1.5em 0 0.5em 0;
+li.blog_post > div.text {
+  margin: 1.5em 0 0.5em 1em;
   max-width: 60em;
 }
 div#blog div.tags {
@@ -1300,29 +1296,12 @@ div#blogs ul#blog_list li.blog h4 {
   margin: 0.5em 0 0.5em 0;
   padding: 0;
 }
-div#blogs ul.comment_list {
-  list-style: none;
-  margin: 1em 0 0 0;
-  padding: 0;
-}
-div#blogs li.blog_comment {
-  border: 1px solid <%=t.bordercolor%>;
-  background-color: <%=t.altbg1%>;
-  margin: 1em;
-  padding: 0 1em 1em 1em;
-}
 form.new_blog_post fieldset {
   border: 1px solid <%=t.bordercolor%>;
   background-color: <%=t.altbg1%>;
   margin: 1em 0 1em 0;
 }
-form.new_blog_comment fieldset {
-  border: 1px solid <%=t.bordercolor%>;
-  background-color: <%=t.altbg1%>;
-  margin: 1em;
-}
-form.new_blog_post fieldset textarea,
-form.new_blog_comment fieldset textarea {
+form.new_blog_post fieldset textarea {
   width: 100%;
 }
 
@@ -1672,6 +1651,76 @@ div.custom_stylesheet textarea {
 .popular_topics .like    .label { display: none; }
 .popular_topics .dislike .votes { padding-left: 20px; background: url(../images/voting/thumb_down.png) no-repeat; padding-bottom: 1px; }
 .popular_topics .like    .votes { padding-left: 20px; background: url(../images/voting/thumb_up.png) no-repeat; }
+
+
+
+
+/* COMMENTS */
+
+div.comments {
+  font-size: 90%;
+  background-color: <%=t.altbg2%>;
+  padding: 1em;
+}
+ul.comments {
+  margin-top: 0.5em;
+  max-width: 65em;
+}
+li.comment {
+  border: 1px solid <%=t.bordercolor%>;
+  padding: 1em;
+  margin-bottom: 0.5em;
+  overflow: auto;
+}
+li.comment div.author {
+  float: left;
+  /*
+  padding: 0.3em;
+  border: 1px dotted <%=t.bordercolor%>; 
+  margin: 0.1em 1em 0.5em 0.1em;
+  */
+  margin: 0 1em 0.5em 0;
+  width: 9em;
+}
+li.comment div.author span.username {
+  font-weight: bold;
+  display: block;
+  text-align: left;
+  margin-bottom: 0.7em;
+}
+li.comment div.author img.avatar {
+  max-width: 8em;
+  display: block;
+  text-align: center;
+}
+li.comment div.time,
+li.comment div.operations {
+  font-size: 90%;
+  clear: left;
+}
+li.comment textarea {
+  width: 100%;
+  height: 8em;
+}
+li.new_comment .label {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+li.blog_post li.comment div.text {
+  margin-top: 0;
+  max-width: 60em;
+}
+li.blog_post div.editable_tags {
+  border: none;
+}
+
+
+
+
+
+
+
+
 
 <% if t.name == "studentibicocca" %>
 #portal_main div#title {

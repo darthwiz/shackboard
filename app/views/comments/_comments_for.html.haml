@@ -1,0 +1,13 @@
+-can_comment = obj.respond_to?(:can_comment?) && obj.can_comment?(@user)
+-if !@comments.blank? || can_comment
+  %ul.comments
+    -@comments.each do |c|
+      =comment_item(c)
+    -if can_comment
+      %li(class="comment new_comment" id="new_comment_for_#{domid(obj)}")
+        .label Nuovo commento
+        -remote_form_for Comment.new(:commentable => obj) do |f|
+          =f.hidden_field :commentable_type, :id => nil
+          =f.hidden_field :commentable_id, :id => nil
+          =f.text_area :text
+          =f.submit 'invia'

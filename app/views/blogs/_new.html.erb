@@ -9,7 +9,7 @@
       Titolo: <%=f.text_field :name, :size => 50%>
     </p>
     <p>
-      URL: <%=blog_list_url(:username => @user.username)%>/<%=f.text_field :label, :size => 40%>
+      URL: <%=blog_list_url(:username => @user.username)%>/<%=f.text_field :slug, :size => 40%>
     </p>
     <p>
       Descrizione: <%=f.text_area :description, :rows => 10, :cols => 70%>
