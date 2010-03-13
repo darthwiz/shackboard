@@ -94,6 +94,10 @@ class Topic < ActiveRecord::Base
     self.forum.can_moderate?(user)
   end
 
+  def can_tag?(user)
+    self.forum.can_post?(user)
+  end
+
   def can_edit?(user)
     return false unless user.is_a? User
     return true if self.forum.can_moderate?(user)

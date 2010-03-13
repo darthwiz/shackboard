@@ -58,7 +58,7 @@ module ActiveRecord::Acts::ActsAsSimplyTaggable
 
     def tag_with(tags, user, options={})
       absolute = !!options[:absolute]
-      tags     = tags.split(/,/).collect(&:slugify) if tags.is_a?(String)
+      tags     = tags.split(/,/).collect(&:slugify).reject(&:blank?) if tags.is_a?(String)
       raise TypeError unless tags.is_a?(Array)
       raise TypeError unless user.is_a?(User)
       tag_objects  = self.tags

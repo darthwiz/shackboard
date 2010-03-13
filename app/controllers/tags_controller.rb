@@ -9,13 +9,15 @@ class TagsController < ApplicationController
 
   def edit
     render :nothing => true and return unless @user
+    class_name     = params['type']
+    id             = params['id'].to_i
+    @tagged_object = Module.const_get(class_name).find(id)
     respond_to do |format|
       format.js do
-        class_name     = params['type']
-        id             = params['id'].to_i
-        @tagged_object = Module.const_get(class_name).find(id)
-        render :update do |page|
-          page.replace "tag_#{class_name.underscore}_#{id}", :inline => "<%=tag_editor(@tagged_object)%>"
+        if @tagged_object.can_tag?(@user)
+          render :update do |page|
+            page.replace "tag_#{class_name.underscore}_#{id}", :inline => "<%=tag_editor(@tagged_object)%>"
+          end
         end
       end
     end
@@ -23,16 +25,18 @@ class TagsController < ApplicationController
 
   def set
     render :nothing => true and return unless @user
+    class_name     = params['type']
+    id             = params['id'].to_i
+    tags           = params['tags']
+    @tagged_object = Module.const_get(class_name).find(id)
+    @tagged_object.tag_with(tags, @user, :absolute => true)
+    @tagged_object = Module.const_get(class_name).including_tags.find(id)
     respond_to do |format|
       format.js do
-        class_name     = params['type']
-        id             = params['id'].to_i
-        tags           = params['tags']
-        @tagged_object = Module.const_get(class_name).find(id)
-        @tagged_object.tag_with(tags, @user, :absolute => true)
-        @tagged_object = Module.const_get(class_name).including_tags.find(id)
-        render :update do |page|
-          page.replace "tag_#{class_name.underscore}_#{id}", :inline => "<%=editable_tags(@tagged_object)%>"
+        if @tagged_object.can_tag?(@user)
+          render :update do |page|
+            page.replace "tag_#{class_name.underscore}_#{id}", :inline => "<%=editable_tags(@tagged_object)%>"
+          end
         end
       end
     end
