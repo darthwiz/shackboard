@@ -8,19 +8,17 @@ t   = @opts[:theme]
     <link rel="SHORTCUT ICON" href="http://asb.studentibicocca.it/images/favicon.ico" />
     <%=render :partial => '/common/stylesheets'%>
     <%=javascript_include_tag :defaults%>
-    <%=render :partial => '/common/annoyances_01'%>
     <title>
       <%=page_title || "Forum degli Studenti della Bicocca"%>
     </title>
   </head>
   <body>
-    <script src="http://www.studentibicocca.it/portale/include/bannerad3.js" type="text/javascript">
     </script>
     <div id="main">
       <div id="blogs">
         <div id="content_box">
           <%=render :partial => '/users/login_box'%>
-          <%=render :partial => '/common/annoyances_02'%>
+          <%=render :partial => '/banners/top_banner'%>
           <div class="spacer"></div>
           <%if @location%>
           <div id="breadcrumbs" class="breadcrumbs">

@@ -59,6 +59,7 @@ ActionController::Routing::Routes.draw do |map|
   map.object_tag_edit '/tag/edit/:type/:id', :controller => 'tags', :action => 'edit'
   map.search_tags     '/search/tags/:tags', :controller => 'search', :action => 'search', :requirements => { :tags => /.*/ }
   map.search          '/search', :controller => 'search', :action => 'search'
+  map.banners         '/banners/show', :controller => 'banners', :action => 'show'
 
   # SEO routes
   map.tag_index     'tags', :controller => 'tags', :action => 'index'

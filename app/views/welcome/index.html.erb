@@ -57,7 +57,7 @@
           <li>
             <%=@popular_tags.collect { |i| link_to_tag_search(i.tag) }.join(', ')%>
           </li>
-        <ul>
+        </ul>
         <%cache('portal/25') do%>
         <%=render :partial => '/welcome/forums'%>
         <%end%>

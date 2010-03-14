@@ -7,18 +7,16 @@
     -if @location && @location.respond_to?(:new_record?) && !@location.new_record?
       %link(href="#{custom_css_path(:obj_class => @location.class.to_s, :obj_id => @location.id)}" media="screen" rel="stylesheet" type="text/css")
     =javascript_include_tag :defaults
-    =render :partial => '/common/annoyances_01'
     %title= page_title || "Forum degli Studenti della Bicocca"
   %body
     =calendar_date_select_includes nil
     =fb_connect_javascript_tag
     =init_fb_connect "XFBML"
-    %script(src="http://www.studentibicocca.it/portale/include/bannerad3.js" type="text/javascript")
     #main
       #forum
         #content_box
           =render :partial => '/users/login_box'
-          =render :partial => '/common/annoyances_02'
+          =render :partial => '/banners/top_banner'
           .spacer
           -if @location
             #breadcrumbs.breadcrumbs

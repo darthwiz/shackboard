@@ -1,0 +1,8 @@
+#topmenu
+  %a(href="http://asb.studentibicocca.it")
+    %img(border="0" src="http://asb.studentibicocca.it/export/menu/img-menu/banner-asb2.png" width="200" height="60" alt="Sito Associazione Studenti Bicocca")
+  %span#topmenu_banner_image
+    =link_to_random_banner
+    =periodically_call_remote(:url => { :controller => :banners, :action => :show }, :frequency => '20',  :update => 'topmenu_banner_image')
+  %a(href="http://materiali.studentibicocca.it")
+    %img(border="0" src="http://asb.studentibicocca.it/export/menu/img-menu/appunti.png" width="40" height="60" alt="Appunti grauiti")
