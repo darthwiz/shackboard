@@ -1,0 +1,5 @@
+.*.swp
+/log/*.log
+/config/database.yml
+/config/facebooker.yml
+/config/config.yml

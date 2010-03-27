@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   helper_method :facebook_session
   helper :all
   helper_method :is_adm?, :is_supermod?, :is_file_adm?
-  @@domain = COOKIE_DOMAIN
+  @@domain = Conf.cookie_domain
 
   private
 

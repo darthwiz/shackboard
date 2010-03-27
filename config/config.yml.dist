@@ -4,3 +4,5 @@ common:
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   session_secret_key: "please change this"
+
+  cookie_domain: ".studentibicocca.it"
