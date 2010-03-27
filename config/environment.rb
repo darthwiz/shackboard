@@ -43,7 +43,7 @@ Rails::Initializer.run do |config|
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
     :session_key => '_shackboard2_session',
-    :secret      => 'e52604bf500d15136941ee93ad6fc6ce1256c3588c80dbd875a7d3c50a4f93bb2cc2ab98246d0c6e987e87dfe589fed959eeb86a6ae029765ae9291b17264f07'
+    #:secret      => 'initialized by a plugin, see config/config.yml'
   }
 
   # Use the database for sessions instead of the cookie-based default,
@@ -70,4 +70,5 @@ end
 
 # Include your application configuration below
 ActionController::Base.cache_store = :mem_cache_store, '192.168.1.3'
+ActionController::Base.session_options[:secret] = Conf.session_secret_key
 $KCODE = 'UTF8'
