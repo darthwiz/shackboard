@@ -75,9 +75,9 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.integer "approved_by",     :limit => 8
   end
 
-  add_index "materiali_files", ["approved_by"], :name => "approved_by"
-  add_index "materiali_files", ["file_catid"], :name => "file_catid"
-  add_index "materiali_files", ["user_id"], :name => "user_id"
+  add_index "materiali_files", ["approved_by"], :name => "materiali_files_approved_by"
+  add_index "materiali_files", ["file_catid"], :name => "materiali_files_file_catid"
+  add_index "materiali_files", ["user_id"], :name => "materiali_files_user_id"
 
   create_table "materiali_license", :primary_key => "license_id", :force => true do |t|
     t.text "license_name"

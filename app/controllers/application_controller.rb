@@ -114,9 +114,9 @@ class ApplicationController < ActionController::Base
       end
     else
       # Default settings
-      @opts[:ppp]   = @settings.postperpage.to_i
-      @opts[:tpp]   = @settings.topicperpage.to_i
-      @opts[:theme] = Theme.find_by_name(@settings.theme)
+      @opts[:ppp]   = Conf.posts_per_page
+      @opts[:tpp]   = Conf.topics_per_page
+      @opts[:theme] = Theme.find_by_name(Conf.default_theme)
     end
 
     # personal info

@@ -9,11 +9,13 @@ class CmsPage < ActiveRecord::Base
   acts_as_stylable
 
   def can_edit?(user)
-    Group.find_by_name('portale_w').include?(user)
+    self.class.can_edit?(user)
   end
 
   def self.can_edit?(user)
-    Group.find_by_name('portale_w').include?(user)
+    # FIXME need better abstraction
+    g = Group.find_by_name('portale_w')
+    g.nil? ? false : g.include?(user)
   end
 
 end

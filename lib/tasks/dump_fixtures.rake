@@ -26,7 +26,7 @@ namespace :db do
       models.each do |m|
         puts "Dumping model: " + m
         model = Module.const_get(m.classify)
-        entries = model.find(:all, :order => 'id ASC')
+        entries = model.find(:all, :order => model.primary_key + ' ASC')
         
         formatted, increment, tab = '', 1, '  '
         entries.each do |a|
