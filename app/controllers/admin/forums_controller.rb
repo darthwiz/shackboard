@@ -9,6 +9,13 @@ class Admin::ForumsController < Admin::ApplicationController
   end
 
   def new
+    begin
+      parent_id = Forum.find(params[:parent]).id
+    rescue
+      parent_id = nil
+    end
+    @forum = Forum.new(:fup => parent_id)
+    render :action => :edit
   end
 
   def edit
@@ -19,6 +26,14 @@ class Admin::ForumsController < Admin::ApplicationController
   end
 
   def create
+    @forum = Forum.new(params[:forum])
+    ensure_can_edit(@forum)
+    if @forum.save
+      flash[:success] = "Forum creato correttamente."
+    else
+      flash[:error] = "Non è stato possibile creare il forum."
+    end
+    redirect_to admin_forums_path
   end
 
   def update
@@ -27,7 +42,7 @@ class Admin::ForumsController < Admin::ApplicationController
     @forum.description = params[:forum][:description]
     @forum.moderator   = params[:forum][:moderator]
     if @forum.update_attributes(params[:forum])
-      flash[:success] = "Forum modificato con successo."
+      flash[:success] = "Forum modificato correttamente."
     else
       flash[:model_errors] = @forum.errors
     end

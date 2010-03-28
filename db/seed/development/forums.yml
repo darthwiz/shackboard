@@ -1,0 +1,24 @@
+simplest:
+  userlist: 
+  name: simplest
+  allowhtml: 
+  fup: 0
+  fid: 1
+  displayorder: 
+  threads: 0
+  theme: 
+  lastpost: 
+  allowbbcode: 
+  private: 
+  postperm: 
+  guestposting: 
+  moderator: admin
+  type: 
+  flattened_list_seq: 
+  allowimgcode: 
+  posts: 0
+  description: 
+  allowsmilies: 
+  status: 
+  pollstatus: off
+

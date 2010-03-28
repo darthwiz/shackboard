@@ -3,8 +3,10 @@ require 'forum'
 class ForumTest < ActiveSupport::TestCase
   fixtures :forums
 
-  def test_reality_check 
-    assert_equal("<b>Agorà</b>", Forum.find(27).name)
-  end 
+  test "null field bugs" do
+    simplest = forums(:simplest)
+    assert(simplest.can_read?(nil))
+    assert_nil(simplest.last_post)
+  end
 
 end

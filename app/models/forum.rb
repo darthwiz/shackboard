@@ -21,7 +21,7 @@ class Forum < ActiveRecord::Base
   def can_read?(user)
     userid = user.id if user.is_a? User
     userid = user[1] if user.is_a? Array
-    return true if (allowed.empty? && self.private == '')
+    return true if (allowed.empty? && self.private.blank?)
     return true if allowed.include?(userid)
     return true if moderator_ids.include?(userid)
     User.supermods.each do |u|
@@ -111,7 +111,7 @@ class Forum < ActiveRecord::Base
 
   def allowed
     users = []
-    self.userlist.split(/,\s*/).each do |n|
+    self.userlist.to_s.split(/,\s*/).each do |n|
       u = User.find_by_username(n.strip)
       users << u.id.to_i unless u.nil?
     end
@@ -127,6 +127,7 @@ class Forum < ActiveRecord::Base
   end
 
   def last_post(what=nil)
+    return nil if self[:lastpost].blank?
     (time, username) = self[:lastpost].split(/\|/, 2)
     time             = Time.at(time.to_i)
     case what

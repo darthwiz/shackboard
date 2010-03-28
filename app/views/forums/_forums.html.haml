@@ -16,3 +16,10 @@
               = "il #{f.last_post(:time).strftime('%d/%m/%Y')} alle #{f.last_post(:time).strftime('%H.%M')}"
               = "di #{link_to f.last_post(:username), f.last_post(:user)}"
           =render :partial => 'forums', :object => f.children, :locals => { :level => level + 1 }
+-else
+  .forum_list
+    -if level == 1
+      .empty
+        Non ci sono forum.
+-if is_adm?(@user) && level == 1
+  =link_to('gestione forum', admin_forums_path)

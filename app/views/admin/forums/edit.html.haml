@@ -1,6 +1,7 @@
 #admin_forum_edit
   -form_for [ :admin, @forum ] do |f|
     .name
+      =f.hidden_field :fup
       =label(:forum, :name, "Nome")
       =f.text_field :name
     .description
@@ -10,4 +11,7 @@
       =label(:forum, :moderator, "Moderatori")
       =f.text_field :moderator
     .submit
-      =f.submit 'modifica'
+      -if @forum.new_record?
+        =f.submit 'crea'
+      -else
+        =f.submit 'modifica'

@@ -248,25 +248,25 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
   end
 
   create_table "xmb_forums", :primary_key => "fid", :force => true do |t|
-    t.string  "type",               :limit => 15,  :default => "",    :null => false
+    t.string  "type",               :limit => 15
     t.string  "name",               :limit => 60,  :default => "",    :null => false
-    t.string  "status",             :limit => 15,  :default => "",    :null => false
-    t.string  "lastpost",           :limit => 30,  :default => "",    :null => false
-    t.string  "moderator",          :limit => 100, :default => "",    :null => false
+    t.string  "status",             :limit => 15
+    t.string  "lastpost",           :limit => 30
+    t.string  "moderator",          :limit => 100
     t.integer "displayorder"
     t.string  "private",            :limit => 30
     t.text    "description"
-    t.string  "allowhtml",          :limit => 3,   :default => "",    :null => false
-    t.string  "allowsmilies",       :limit => 3,   :default => "",    :null => false
-    t.string  "allowbbcode",        :limit => 3,   :default => "",    :null => false
-    t.string  "guestposting",       :limit => 3,   :default => "",    :null => false
-    t.text    "userlist",                                             :null => false
-    t.string  "theme",              :limit => 30,  :default => "",    :null => false
+    t.string  "allowhtml",          :limit => 3
+    t.string  "allowsmilies",       :limit => 3
+    t.string  "allowbbcode",        :limit => 3
+    t.string  "guestposting",       :limit => 3
+    t.text    "userlist"
+    t.string  "theme",              :limit => 30
     t.integer "posts",                             :default => 0,     :null => false
     t.integer "threads",                           :default => 0,     :null => false
-    t.integer "fup",                :limit => 2,   :default => 0,     :null => false
-    t.string  "postperm",           :limit => 3,   :default => "",    :null => false
-    t.string  "allowimgcode",       :limit => 3,   :default => "",    :null => false
+    t.integer "fup",                :limit => 2
+    t.string  "postperm",           :limit => 3
+    t.string  "allowimgcode",       :limit => 3
     t.string  "pollstatus",         :limit => 15,  :default => "off", :null => false
     t.integer "flattened_list_seq"
   end
