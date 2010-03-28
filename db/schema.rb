@@ -249,7 +249,7 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.integer "last_poll_at",    :null => false
   end
 
-  add_index "xmb_chat_channels_users", ["user_id", "chat_channel_id"], :name => "user_id", :unique => true
+  add_index "xmb_chat_channels_users", ["user_id", "chat_channel_id"], :name => "chat_channel_user_id", :unique => true
 
   create_table "xmb_chat_messages", :force => true do |t|
     t.integer "created_at",                                        :null => false
@@ -364,14 +364,14 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.string  "username",  :limit => 80
   end
 
-  add_index "xmb_group_memberships", ["group_id"], :name => "group_id"
-  add_index "xmb_group_memberships", ["groupname", "user_id", "username"], :name => "name"
+  add_index "xmb_group_memberships", ["group_id"], :name => "group_memberships_group_id"
+  add_index "xmb_group_memberships", ["groupname", "user_id", "username"], :name => "group_memberships_name"
 
   create_table "xmb_groups", :force => true do |t|
     t.string "name", :limit => 80
   end
 
-  add_index "xmb_groups", ["name"], :name => "name"
+  add_index "xmb_groups", ["name"], :name => "xmb_groups_name"
 
   create_table "xmb_last_visits", :force => true do |t|
     t.integer "user_id",                                   :null => false
@@ -392,8 +392,8 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.integer "user_id"
   end
 
-  add_index "xmb_musicdb_albums", ["timestamp"], :name => "timestamp"
-  add_index "xmb_musicdb_albums", ["title", "author", "publisher", "user_id"], :name => "title"
+  add_index "xmb_musicdb_albums", ["timestamp"], :name => "xmb_musicdb_timestamp"
+  add_index "xmb_musicdb_albums", ["title", "author", "publisher", "user_id"], :name => "xmb_musicdb_title"
 
   create_table "xmb_posts", :primary_key => "pid", :force => true do |t|
     t.integer "uid",            :limit => 3
@@ -502,7 +502,7 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.integer "user_id",                :default => 0,  :null => false
   end
 
-  add_index "xmb_smilies", ["user_id", "code"], :name => "user_id"
+  add_index "xmb_smilies", ["user_id", "code"], :name => "xmb_smileys_user_id"
 
   create_table "xmb_static_contents", :force => true do |t|
     t.string   "label",      :limit => 40,       :default => "",     :null => false
@@ -582,11 +582,11 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.integer "total_likes",                        :default => 0,  :null => false
   end
 
-  add_index "xmb_topics", ["deleted"], :name => "deleted"
-  add_index "xmb_topics", ["deleted_by"], :name => "deleted_by"
-  add_index "xmb_topics", ["fid", "topped", "lastpost"], :name => "fid"
+  add_index "xmb_topics", ["deleted"], :name => "xmb_topics_deleted"
+  add_index "xmb_topics", ["deleted_by"], :name => "xmb_topics_deleted_by"
+  add_index "xmb_topics", ["fid", "topped", "lastpost"], :name => "xmb_topics_fid"
   add_index "xmb_topics", ["fid", "total_likes"], :name => "index_xmb_topics_on_fid_and_total_likes"
-  add_index "xmb_topics", ["uid"], :name => "uid"
+  add_index "xmb_topics", ["uid"], :name => "xmb_topics_uid"
 
   create_table "xmb_u2u", :primary_key => "u2uid", :force => true do |t|
     t.string "msgto",    :limit => 40,       :default => "",   :null => false
