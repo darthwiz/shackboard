@@ -645,22 +645,22 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.text    "sig",           :limit => 16777215
     t.string  "showemail",     :limit => 15,       :default => "",                :null => false
     t.integer "timeoffset",                        :default => 0,                 :null => false
-    t.string  "icq",           :limit => 30,       :default => "",                :null => false
-    t.string  "avatar",        :limit => 90
-    t.string  "yahoo",         :limit => 40,       :default => "",                :null => false
-    t.string  "customstatus",  :limit => 100,      :default => "",                :null => false
+    t.string  "icq",           :limit => 30,                                      :null => true
+    t.string  "avatar",        :limit => 90,                                      :null => true
+    t.string  "yahoo",         :limit => 40,                                      :null => true
+    t.string  "customstatus",  :limit => 100,                                     :null => true
     t.string  "theme",         :limit => 30,       :default => "studentibicocca", :null => false
-    t.string  "bday",          :limit => 50
+    t.string  "bday",          :limit => 50,                                      :null => true
     t.string  "langfile",      :limit => 40,       :default => "italian",         :null => false
     t.integer "tpp",           :limit => 2,        :default => 25,                :null => false
     t.integer "ppp",           :limit => 2,        :default => 25,                :null => false
-    t.string  "newsletter",    :limit => 3,        :default => "",                :null => false
-    t.string  "regip",         :limit => 40,       :default => "",                :null => false
+    t.string  "newsletter",    :limit => 3,                                       :null => true
+    t.string  "regip",         :limit => 40,                                      :null => true
     t.integer "timeformat",                        :default => 24,                :null => false
-    t.string  "msn",           :limit => 40,       :default => "",                :null => false
-    t.string  "dateformat",    :limit => 10,       :default => "",                :null => false
-    t.text    "ignoreu2u",     :limit => 16777215
-    t.string  "lastvisit",                         :default => "",                :null => false
+    t.string  "msn",           :limit => 40,                                      :null => true
+    t.string  "dateformat",    :limit => 10,                                      :null => true
+    t.text    "ignoreu2u",     :limit => 16777215,                                :null => true
+    t.string  "lastvisit",                                                        :null => true
     t.integer "avatar_width",  :limit => 2,        :default => 0,                 :null => false
     t.integer "avatar_height", :limit => 2,        :default => 0,                 :null => false
     t.integer "deleted_at"

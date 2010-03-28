@@ -30,7 +30,7 @@ user_1:
   bio: 
   tpp: 25
   status: Administrator
-  showemail: 
+  showemail: 'no'
   regip: 
   password: _admin_
   dateformat: 
