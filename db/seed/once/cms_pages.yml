@@ -1,0 +1,13 @@
+cms_page_1:
+  slug: welcome
+  format: bb
+  created_at: Sun Mar 28 13:25:28 +0200 2010
+  title: Forum dei dissidenti della Bicocca
+  updated_at: Sun Mar 28 18:18:21 +0200 2010
+  deleted_at: 
+  text: Benvenuti
+  id: 1
+  created_by: 1
+  updated_by: 1
+  deleted_by: 
+
