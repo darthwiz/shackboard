@@ -7,7 +7,6 @@
     %link(rel="shortcut icon" href="http://asb.studentibicocca.it/images/favicon.ico")
     =render :partial => '/common/stylesheets'
     =javascript_include_tag :defaults
-    =render :partial => '/common/annoyances_01'
     %title= page_title || "Forum degli Studenti della Bicocca"
   %body
     =calendar_date_select_includes nil
@@ -17,7 +16,6 @@
       #cms_admin
         #content_box
           =render :partial => '/users/login_box'
-          /=render :partial => '/common/annoyances_02'
           .spacer
           -if @location
             #breadcrumbs.breadcrumbs
