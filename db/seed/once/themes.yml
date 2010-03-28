@@ -1,0 +1,196 @@
+studentibicocca:
+  newtopicimg: images/nuovo_thread.gif
+  name: studentibicocca
+  postscol: 2col
+  altfont: Verdana
+  css: 
+  text: "#000000"
+  tablewidth: 97%
+  headertext: "#000099"
+  header: "#ffff00"
+  borderwidth: 1
+  replyimg: images/nuova_risposta.gif
+  id: 1
+  bordercolor: "#000000"
+  altfontsize: 10px
+  altbg1: "#ff9900"
+  tablespace: 6
+  font: Verdana
+  catcolor: "#ff9900"
+  altbg2: "#ffff00"
+  fontsize: 12px
+  pollimg: images/nuovo_sondaggio.gif
+  link: "#000099"
+  tabletext: "#000000"
+  boardimg: images/logoforum-studentibicocca.gif
+  top: "#ff9900"
+  bgcolor: "#99ccff"
+
+antisgamo:
+  newtopicimg: 
+  name: antisgamo
+  postscol: 2col
+  altfont: Verdana, Arial, Helvetica, Sans
+  css: 
+  text: "#000000"
+  tablewidth: 97%
+  headertext: "#000000"
+  header: "#d0d0d0"
+  borderwidth: 1
+  replyimg: 
+  id: 2
+  bordercolor: "#808080"
+  altfontsize: 10px
+  altbg1: "#f0f0f0"
+  tablespace: 6
+  font: Verdana, Arial, Helvetica, Sans
+  catcolor: "#f0f0f0"
+  altbg2: "#f0f0f0"
+  fontsize: 12px
+  pollimg: 
+  link: "#333399"
+  tabletext: "#000000"
+  boardimg: 
+  top: "#f0f0f0"
+  bgcolor: "#f0f0f0"
+
+radiance:
+  newtopicimg: 
+  name: radiance
+  postscol: 2col
+  altfont: Verdana
+  css: 
+  text: "#e8e8e8"
+  tablewidth: 97%
+  headertext: "#e8e8e8"
+  header: "#005880"
+  borderwidth: 1
+  replyimg: 
+  id: 3
+  bordercolor: "#4040d0"
+  altfontsize: 10px
+  altbg1: "#0a2450"
+  tablespace: 6
+  font: Verdana
+  catcolor: "#005880"
+  altbg2: "#002c40"
+  fontsize: 12px
+  pollimg: 
+  link: "#00f0f0"
+  tabletext: "#e8e8e8"
+  boardimg: 
+  top: "#0a2450"
+  bgcolor: "#002040"
+
+biancogrigio:
+  newtopicimg: 
+  name: biancogrigio
+  postscol: 2col
+  altfont: Verdana
+  css: 
+  text: "#000000"
+  tablewidth: 97%
+  headertext: "#ffffff"
+  header: "#778899"
+  borderwidth: 1
+  replyimg: 
+  id: 4
+  bordercolor: "#223344"
+  altfontsize: 10px
+  altbg1: "#dededf"
+  tablespace: 6
+  font: Verdana
+  catcolor: "#dcdcde"
+  altbg2: "#eeeeee"
+  fontsize: 12px
+  pollimg: 
+  link: "#333399"
+  tabletext: "#000000"
+  boardimg: 
+  top: "#eeeeee"
+  bgcolor: "#ffffff"
+
+matrix:
+  newtopicimg: 
+  name: matrix
+  postscol: 2col
+  altfont: Verdana
+  css: 
+  text: "#e8e8e8"
+  tablewidth: 97%
+  headertext: "#e8e8e8"
+  header: "#008030"
+  borderwidth: 1
+  replyimg: 
+  id: 5
+  bordercolor: "#40d040"
+  altfontsize: 10px
+  altbg1: "#0a5024"
+  tablespace: 6
+  font: Verdana
+  catcolor: "#008030"
+  altbg2: "#00402c"
+  fontsize: 12px
+  pollimg: 
+  link: "#80f000"
+  tabletext: "#e8e8e8"
+  boardimg: images/logoforum-matrix.gif
+  top: "#0a5024"
+  bgcolor: "#001008"
+
+asfalto:
+  newtopicimg: images/nuovo_thread.gif
+  name: asfalto
+  postscol: 2col
+  altfont: Verdana
+  css: 
+  text: "#e8e8e8"
+  tablewidth: 97%
+  headertext: "#e8e8e8"
+  header: "#383838"
+  borderwidth: 1
+  replyimg: images/nuova_risposta.gif
+  id: 6
+  bordercolor: "#e0e0e0"
+  altfontsize: 10px
+  altbg1: "#303030"
+  tablespace: 6
+  font: Verdana
+  catcolor: "#303030"
+  altbg2: "#202020"
+  fontsize: 12px
+  pollimg: 
+  link: "#e0d000"
+  tabletext: "#e8e8e8"
+  boardimg: 
+  top: "#202020"
+  bgcolor: "#181818"
+
+nostalgia:
+  newtopicimg: images/nuovo_thread.gif
+  name: nostalgia
+  postscol: 2col
+  altfont: Verdana
+  css: 
+  text: "#000000"
+  tablewidth: 97%
+  headertext: "#000099"
+  header: "#ffff00"
+  borderwidth: 1
+  replyimg: images/nuova_risposta.gif
+  id: 7
+  bordercolor: "#000000"
+  altfontsize: 10px
+  altbg1: "#ff9900"
+  tablespace: 6
+  font: Verdana
+  catcolor: "#ff9900"
+  altbg2: "#ffff00"
+  fontsize: 12px
+  pollimg: images/nuovo_sondaggio.gif
+  link: "#000099"
+  tabletext: "#000000"
+  boardimg: images/logoforum-studentibicocca.gif
+  top: "#ff9900"
+  bgcolor: "#99ccff"
+
