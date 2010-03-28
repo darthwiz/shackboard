@@ -17,7 +17,7 @@ class Ban < ActiveRecord::Base
   named_scope :with_forums, lambda { |forums|
     raise TypeError unless forums.is_a?(Array)
     forums.each { |f| raise TypeError unless f.is_a?(Forum) }
-    { :conditions => [ 'forum_id IN (?)', forums.collect(&:id).join(', ') ] }
+    { :conditions => "forum_id IN (#{forums.collect(&:id).join(', ')})" }
   }
 
   named_scope :with_user, lambda { |user|

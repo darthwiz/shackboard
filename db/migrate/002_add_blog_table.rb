@@ -20,7 +20,7 @@ class AddBlogTable < ActiveRecord::Migration
     change_table 'categories' do |t|
       t.rename 'object_class', 'owner_class'
       t.column 'owner_id', :integer, :null => false
-      t.column 'label', :string, :limit => 40, :default => nil, :null => false
+      t.column 'label', :string, :limit => 40, :null => false
       t.remove_index :column => [ :user_id ]
       t.index [ :user_id, :label ]
       t.index [ :owner_class, :owner_id ]

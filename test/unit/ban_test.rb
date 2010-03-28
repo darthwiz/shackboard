@@ -89,7 +89,9 @@ class BanTest < ActiveSupport::TestCase
     ban.save!
     ban = Ban.find(ban.id)
     # looks like we have to round to 1-second resolution
-    assert_equal((now + 2.years).to_i, ban.expires_at.to_i)
+    # assert the time difference is within 10 seconds, to prevent rounding
+    # problems.
+    assert(((now + 2.years).to_i - ban.expires_at.to_i).abs < 10)
   end
 
 end
