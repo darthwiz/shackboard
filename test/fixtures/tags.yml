@@ -4,8 +4,10 @@ one:
   taggable_type: MyString
   taggable_id: 1
   tag: MyString
+  user_id: 1
 
 two:
   taggable_type: MyString
   taggable_id: 2
   tag: MyString
+  user_id: 1

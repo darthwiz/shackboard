@@ -11,48 +11,6 @@
 
 ActiveRecord::Schema.define(:version => 20100313200242) do
 
-  create_table "materiali_admin", :primary_key => "admin_id", :force => true do |t|
-    t.text    "admin_username"
-    t.text    "admin_password"
-    t.text    "admin_email"
-    t.integer "admin_status"
-  end
-
-  create_table "materiali_cat", :primary_key => "cat_id", :force => true do |t|
-    t.text    "cat_name"
-    t.text    "cat_desc"
-    t.integer "cat_files"
-    t.integer "cat_1xid"
-    t.integer "cat_parent"
-    t.integer "cat_order"
-  end
-
-  create_table "materiali_custom", :primary_key => "custom_id", :force => true do |t|
-    t.text "custom_name",        :null => false
-    t.text "custom_description", :null => false
-  end
-
-  create_table "materiali_customdata", :id => false, :force => true do |t|
-    t.integer "customdata_file",   :default => 0, :null => false
-    t.integer "customdata_custom", :default => 0, :null => false
-    t.text    "data",                             :null => false
-  end
-
-  create_table "materiali_filedata", :force => true do |t|
-    t.integer "filedb_file_id", :limit => 8,          :null => false
-    t.binary  "data",           :limit => 2147483647
-    t.string  "filename",       :limit => 100
-    t.string  "mimetype",       :limit => 40
-    t.integer "filesize",       :limit => 8
-    t.text    "text",           :limit => 2147483647
-    t.date    "created_on"
-    t.date    "updated_on"
-    t.date    "deleted_on"
-  end
-
-  add_index "materiali_filedata", ["filedb_file_id"], :name => "file_id", :unique => true
-  add_index "materiali_filedata", ["filename", "mimetype", "filesize", "created_on", "updated_on", "deleted_on"], :name => "filename"
-
   create_table "materiali_files", :primary_key => "file_id", :force => true do |t|
     t.text    "file_name"
     t.text    "file_desc"
@@ -78,33 +36,6 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
   add_index "materiali_files", ["approved_by"], :name => "approved_by"
   add_index "materiali_files", ["file_catid"], :name => "file_catid"
   add_index "materiali_files", ["user_id"], :name => "user_id"
-
-  create_table "materiali_license", :primary_key => "license_id", :force => true do |t|
-    t.text "license_name"
-    t.text "license_text"
-  end
-
-  create_table "materiali_settings", :id => false, :force => true do |t|
-    t.integer "settings_id",            :default => 1, :null => false
-    t.text    "settings_dbname",                       :null => false
-    t.text    "settings_dbdescription",                :null => false
-    t.text    "settings_dburl",                        :null => false
-    t.integer "settings_topnumber",     :default => 0, :null => false
-    t.text    "settings_homeurl",                      :null => false
-    t.integer "settings_newdays",       :default => 0, :null => false
-    t.integer "settings_timeoffset",    :default => 0, :null => false
-    t.text    "settings_timezone",                     :null => false
-    t.text    "settings_header",                       :null => false
-    t.text    "settings_footer",                       :null => false
-    t.text    "settings_style",                        :null => false
-    t.integer "settings_stats",         :default => 0, :null => false
-    t.text    "settings_lang",                         :null => false
-  end
-
-  create_table "materiali_votes", :id => false, :force => true do |t|
-    t.string  "votes_ip",   :limit => 50, :default => "0", :null => false
-    t.integer "votes_file",               :default => 0,   :null => false
-  end
 
   create_table "xmb_acl_mappings", :force => true do |t|
     t.string  "object_type", :limit => 20, :default => "", :null => false
@@ -383,6 +314,101 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
 
   add_index "xmb_last_visits", ["user_id", "created_at"], :name => "by_time"
   add_index "xmb_last_visits", ["user_id", "object_type", "object_id"], :name => "by_object", :unique => true
+
+  create_table "xmb_materiali_admin", :primary_key => "admin_id", :force => true do |t|
+    t.text    "admin_username"
+    t.text    "admin_password"
+    t.text    "admin_email"
+    t.integer "admin_status"
+  end
+
+  create_table "xmb_materiali_cat", :primary_key => "cat_id", :force => true do |t|
+    t.text    "cat_name"
+    t.text    "cat_desc"
+    t.integer "cat_files"
+    t.integer "cat_1xid"
+    t.integer "cat_parent"
+    t.integer "cat_order"
+  end
+
+  create_table "xmb_materiali_custom", :primary_key => "custom_id", :force => true do |t|
+    t.text "custom_name",        :null => false
+    t.text "custom_description", :null => false
+  end
+
+  create_table "xmb_materiali_customdata", :id => false, :force => true do |t|
+    t.integer "customdata_file",   :default => 0, :null => false
+    t.integer "customdata_custom", :default => 0, :null => false
+    t.text    "data",                             :null => false
+  end
+
+  create_table "xmb_materiali_filedata", :force => true do |t|
+    t.integer "filedb_file_id", :limit => 8,          :null => false
+    t.binary  "data",           :limit => 2147483647
+    t.string  "filename",       :limit => 100
+    t.string  "mimetype",       :limit => 40
+    t.integer "filesize",       :limit => 8
+    t.text    "text",           :limit => 2147483647
+    t.date    "created_on"
+    t.date    "updated_on"
+    t.date    "deleted_on"
+  end
+
+  add_index "xmb_materiali_filedata", ["filedb_file_id"], :name => "file_id", :unique => true
+  add_index "xmb_materiali_filedata", ["filename", "mimetype", "filesize", "created_on", "updated_on", "deleted_on"], :name => "filename"
+
+  create_table "xmb_materiali_files", :primary_key => "file_id", :force => true do |t|
+    t.text    "file_name"
+    t.text    "file_desc"
+    t.text    "file_creator"
+    t.text    "file_version"
+    t.text    "file_longdesc"
+    t.text    "file_ssurl"
+    t.text    "file_dlurl"
+    t.integer "file_time"
+    t.integer "file_catid"
+    t.text    "file_posticon"
+    t.integer "file_license"
+    t.integer "file_dls"
+    t.integer "file_last"
+    t.integer "file_pin"
+    t.text    "file_docsurl"
+    t.text    "file_rating"
+    t.text    "file_totalvotes"
+    t.integer "user_id",         :limit => 8
+    t.integer "approved_by",     :limit => 8
+  end
+
+  add_index "xmb_materiali_files", ["approved_by"], :name => "materiali_files_approved_by"
+  add_index "xmb_materiali_files", ["file_catid"], :name => "materiali_files_file_catid"
+  add_index "xmb_materiali_files", ["user_id"], :name => "materiali_files_user_id"
+
+  create_table "xmb_materiali_license", :primary_key => "license_id", :force => true do |t|
+    t.text "license_name"
+    t.text "license_text"
+  end
+
+  create_table "xmb_materiali_settings", :id => false, :force => true do |t|
+    t.integer "settings_id",            :default => 1, :null => false
+    t.text    "settings_dbname",                       :null => false
+    t.text    "settings_dbdescription",                :null => false
+    t.text    "settings_dburl",                        :null => false
+    t.integer "settings_topnumber",     :default => 0, :null => false
+    t.text    "settings_homeurl",                      :null => false
+    t.integer "settings_newdays",       :default => 0, :null => false
+    t.integer "settings_timeoffset",    :default => 0, :null => false
+    t.text    "settings_timezone",                     :null => false
+    t.text    "settings_header",                       :null => false
+    t.text    "settings_footer",                       :null => false
+    t.text    "settings_style",                        :null => false
+    t.integer "settings_stats",         :default => 0, :null => false
+    t.text    "settings_lang",                         :null => false
+  end
+
+  create_table "xmb_materiali_votes", :id => false, :force => true do |t|
+    t.string  "votes_ip",   :limit => 50, :default => "0", :null => false
+    t.integer "votes_file",               :default => 0,   :null => false
+  end
 
   create_table "xmb_musicdb_albums", :force => true do |t|
     t.string  "title",     :limit => 100
