@@ -39,7 +39,7 @@ class SearchController < ApplicationController
       clean_tags = @query_tags.split(/\//).collect(&:slugify).reject(&:blank?).sort.uniq
       redirect_to :tags => clean_tags and return unless @query_tags == clean_tags.join('/')
       @query_tags = clean_tags
-      @page_title = @query_tags.join(', ') + ' - Forum degli Studenti della Bicocca'
+      @page_title = @query_tags.join(', ') + ' - ' + Conf.default_page_title
     end
     @topics_by_tags = Topic.including_forum.including_tags.tagged_with(@query_tags).range(@range).find(:all, :order => 'lastpost DESC')
   end

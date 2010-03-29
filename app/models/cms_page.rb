@@ -13,6 +13,7 @@ class CmsPage < ActiveRecord::Base
   end
 
   def self.can_edit?(user)
+    return true if user.is_a?(User) && user.is_adm?
     # FIXME need better abstraction
     g = Group.find_by_name('portale_w')
     g.nil? ? false : g.include?(user)
