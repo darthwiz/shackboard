@@ -3,7 +3,7 @@ class Admin::ForumsController < Admin::ApplicationController
   layout 'forum'
 
   def index
-    @forums     = Forum.find(:all, :conditions => 'fup = 0', :order => 'displayorder')
+    @forums     = Forum.find(:all, :conditions => 'fup = 0 OR fup IS NULL', :order => 'displayorder')
     @page_title = "Amministrazione forum - indice"
     @location   = [ :admin, @forums ]
   end
@@ -28,6 +28,7 @@ class Admin::ForumsController < Admin::ApplicationController
   def create
     @forum = Forum.new(params[:forum])
     ensure_can_edit(@forum)
+    @forum.postperm = "1|1" # FIXME this really really sucks
     if @forum.save
       flash[:success] = "Forum creato correttamente."
     else
@@ -50,6 +51,8 @@ class Admin::ForumsController < Admin::ApplicationController
   end
 
   def destroy
+    @forum = Forum.find(params[:id])
+    ensure_can_edit(@forum)
   end
 
   private

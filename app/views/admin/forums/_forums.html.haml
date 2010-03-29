@@ -1,5 +1,7 @@
 -level  = 1   unless defined?(level) && level.is_a?(Fixnum)
 -parent = nil unless defined?(parent) && parent.is_a?(Forum)
+-if is_adm?(@user)
+  =link_to('nuovo forum', new_admin_forum_path(:parent => parent))
 -unless forums.blank?
   %ul{ :class => "forum_list level_#{level}" }
     -forums.each do |f|
@@ -11,5 +13,3 @@
             Moderato da:
             =f.moderators.collect { |i| link_to(cleanup(i.username), i) }.join(', ')
           =render :partial => 'forums', :object => f.children, :locals => { :level => level + 1, :parent => f }
--if is_adm?(@user)
-  =link_to('nuovo forum', new_admin_forum_path(:parent => parent))

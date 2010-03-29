@@ -101,7 +101,7 @@ class Topic < ActiveRecord::Base
   def can_edit?(user)
     return false unless user.is_a? User
     return true if self.forum.can_moderate?(user)
-    return true if (self.uid == user.id) && (Time.now.to_i - self.dateline.to_i < Settings.edit_time_limit)
+    return true if (self.uid == user.id) && (Time.now.to_i - self.dateline.to_i < Conf.edit_time_limit)
     return false
   end
 
@@ -226,7 +226,7 @@ class Topic < ActiveRecord::Base
     smiley_hash  = {}
     blog_hash    = {}
     user_hash    = {}
-    time_limit   = Settings.edit_time_limit
+    time_limit   = Conf.edit_time_limit
     range        = 0..(range.end) if range.begin < 0
     if range.end >= range.begin
       conds  = ["tid = ? AND fid = ?", self.tid, self.fid]
@@ -255,7 +255,7 @@ class Topic < ActiveRecord::Base
         p.seq = seq
         seq += 1
         p.cached_has_blog = blog_hash[p.user_id] || false
-        p.cached_smileys  = smiley_hash[p.user_id].to_a + smiley_hash[0]
+        p.cached_smileys  = smiley_hash[p.user_id].to_a + smiley_hash[0].to_a
         p.cached_online   = online.include?(p.user_id)
         p.cached_user     = user_hash[p.user_id]
         p.cached_can_read = false

@@ -5,8 +5,15 @@ common:
   # no regular words or you'll be exposed to dictionary attacks.
   session_secret_key: "please change this"
   cookie_domain: ".studentibicocca.it"
+  edit_time_limit: 86400
 
   # display options
   posts_per_page: 25
   topics_per_page: 25
   default_theme: "nostalgia"
+  default_page_title: "Forum degli studenti della Bicocca"
+
+  email_notifier:
+    subscription_subject: "La tua password per StudentiBicocca.it"
+    mail_from: "StudentiBicocca.it <portale.studentibicocca@gmail.com>"
+    reply_to: "asb@studentibicocca.it"
