@@ -55,11 +55,12 @@
           %h4 argomenti ricorrenti:
           %span.tags= @popular_tags.collect { |tg| link_to_tag_search(tg.tag) }.join(', ')
 
-  %table(width="100%" cellspacing="0" cellpadding="0" align="center")
-    %tr
-      %td{ :bgcolor => t.bgcolor, :class => "post", :align => "right" }
-        .new_topic_link
-          =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum && @forum.can_post?(@user)
+  -unless @topics.blank?
+    %table(width="100%" cellspacing="0" cellpadding="0" align="center")
+      %tr
+        %td{ :bgcolor => t.bgcolor, :class => "post", :align => "right" }
+          .new_topic_link
+            =link_to "Nuova discussione", new_forum_topic_path(@forum) if @forum && @forum.can_post?(@user)
 
   -unless @topics.blank? && @announcements.blank?
     %table(cellspacing="0" cellpadding="0" border="0" width="100%" align="center")

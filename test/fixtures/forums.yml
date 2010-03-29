@@ -80,7 +80,7 @@ simplest:
   lastpost: 
   allowbbcode: 
   private: 
-  postperm: 
+  postperm: "1|1"
   guestposting: 
   moderator: admin
   type: 
