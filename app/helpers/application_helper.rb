@@ -242,7 +242,7 @@ module ApplicationHelper
     end
     trail = nil
     trail = self.send(method_name, loc, opts) if self.respond_to?(method_name)
-    trail.is_a?(Array) ? cleanup(trail.last[0]) : nil
+    trail.is_a?(Array) ? cleanup(trail.last[0]) : Conf.default_page_title
   end
 
   def text_to_html(text, format=:bb, smileys=[])

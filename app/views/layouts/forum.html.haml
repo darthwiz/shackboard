@@ -7,7 +7,7 @@
     -if @location && @location.respond_to?(:new_record?) && !@location.new_record?
       %link(href="#{custom_css_path(:obj_class => @location.class.to_s, :obj_id => @location.id)}" media="screen" rel="stylesheet" type="text/css")
     =javascript_include_tag :defaults
-    %title= page_title || "Forum degli Studenti della Bicocca"
+    %title= page_title
   %body
     =calendar_date_select_includes nil
     =fb_connect_javascript_tag

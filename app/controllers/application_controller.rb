@@ -99,6 +99,7 @@ class ApplicationController < ActionController::Base
     @topic_block_size = 25
     @online_users     = OnlineUser.online
     @guests_count     = OnlineUser.guests_count
+    @page_title       = Conf.default_page_title
 
     @opts = {}
     if @user
