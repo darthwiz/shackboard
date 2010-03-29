@@ -69,26 +69,26 @@ bin:
   allowsmilies: "yes"
 
 simplest:
-  userlist: 
+  userlist: ""
   name: simplest
-  allowhtml: 
+  allowhtml: ""
   fup: 0
   fid: 1
-  displayorder: 
+  displayorder: 1
   threads: 0
-  theme: 
-  lastpost: 
-  allowbbcode: 
-  private: 
+  theme: ""
+  lastpost: ""
+  allowbbcode: ""
+  private: ""
   postperm: "1|1"
-  guestposting: 
+  guestposting: ""
   moderator: admin
-  type: 
-  flattened_list_seq: 
-  allowimgcode: 
+  type: ""
+  flattened_list_seq: 1
+  allowimgcode: ""
   posts: 0
-  description: 
-  allowsmilies: 
-  status: 
+  description: ""
+  allowsmilies: ""
+  status: ""
   pollstatus: off
 
