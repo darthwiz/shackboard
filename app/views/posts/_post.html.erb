@@ -19,9 +19,11 @@ moderators   = p.topic.forum.moderators
                 <%unless p.cached_user.anonymized?%>
                 <br />
                 <div class="11px">
-                  <%=p.cached_user.rank.title%><br />
-                  <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
-                  <br />
+                  <%if p.cached_user.rank.is_a?(Rank)%>
+                    <%=p.cached_user.rank.title%><br />
+                    <%p.cached_user.rank.stars.times do%><%=image_tag(images_url + 'star.gif', :alt => '*')%><%end%>
+                    <br />
+                  <%end%>
                   <%if moderators.include?(p.cached_user)%>
                   <span class="moderator"><%=t(sexified(:Moderator, p.cached_user.sex))%></span>
                   <br />

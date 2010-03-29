@@ -2,7 +2,7 @@ class ForumsController < ApplicationController
   layout 'forum'
 
   def index
-    @forums     = Forum.find(:all, :conditions => 'fup = 0', :order => 'displayorder')
+    @forums     = Forum.find(:all, :conditions => 'fup = 0 OR fup IS NULL', :order => 'displayorder')
     @topics     = []
     @page_title = "Indice dei forum"
     @location   = @forums

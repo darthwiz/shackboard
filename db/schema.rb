@@ -379,9 +379,9 @@ ActiveRecord::Schema.define(:version => 20100329203029) do
     t.integer "approved_by",     :limit => 8
   end
 
-  add_index "xmb_materiali_files", ["approved_by"], :name => "materiali_files_approved_by"
-  add_index "xmb_materiali_files", ["file_catid"], :name => "materiali_files_file_catid"
-  add_index "xmb_materiali_files", ["user_id"], :name => "materiali_files_user_id"
+  add_index "xmb_materiali_files", ["approved_by"], :name => "xmb_materiali_files_approved_by"
+  add_index "xmb_materiali_files", ["file_catid"], :name => "xmb_materiali_files_file_catid"
+  add_index "xmb_materiali_files", ["user_id"], :name => "xmb_materiali_files_user_id"
 
   create_table "xmb_materiali_license", :primary_key => "license_id", :force => true do |t|
     t.text "license_name"

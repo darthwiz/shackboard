@@ -10,6 +10,7 @@ class AppConfigurationTest < ActiveSupport::TestCase
     assert_not_nil(Conf.email_notifier['subscription_subject'])
     assert_not_nil(Conf.email_notifier['mail_from'])
     assert_not_nil(Conf.email_notifier['reply_to'])
+    assert(Conf.edit_time_limit >= 0)
   end
 
 end
