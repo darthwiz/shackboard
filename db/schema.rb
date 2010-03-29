@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100313200242) do
+ActiveRecord::Schema.define(:version => 20100329203029) do
 
   create_table "materiali_files", :primary_key => "file_id", :force => true do |t|
     t.text    "file_name"
@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.integer "approved_by",     :limit => 8
   end
 
-  add_index "materiali_files", ["approved_by"], :name => "materiali_files_approved_by"
-  add_index "materiali_files", ["file_catid"], :name => "materiali_files_file_catid"
-  add_index "materiali_files", ["user_id"], :name => "materiali_files_user_id"
+  add_index "materiali_files", ["approved_by"], :name => "approved_by"
+  add_index "materiali_files", ["file_catid"], :name => "file_catid"
+  add_index "materiali_files", ["user_id"], :name => "user_id"
 
   create_table "xmb_acl_mappings", :force => true do |t|
     t.string  "object_type", :limit => 20, :default => "", :null => false
@@ -580,8 +580,6 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
 
   create_table "xmb_topics", :primary_key => "tid", :force => true do |t|
     t.integer "uid",            :limit => 3
-    t.string  "author",         :limit => 40,                       :null => true
-    t.text    "message",        :limit => 16777215,                 :null => true
     t.integer "fid",            :limit => 2,        :default => 0,  :null => false
     t.string  "subject",        :limit => 100,      :default => "", :null => false
     t.string  "lastpost",       :limit => 30,       :default => "", :null => false
@@ -589,16 +587,16 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.integer "replies",                            :default => 0,  :null => false
     t.string  "dateline",       :limit => 30,       :default => "", :null => false
     t.string  "icon",           :limit => 50
-    t.string  "usesig",         :limit => 15,                       :null => true
-    t.string  "closed",         :limit => 15,                       :null => true
+    t.string  "usesig",         :limit => 15
+    t.string  "closed",         :limit => 15
     t.integer "topped",         :limit => 2,        :default => 0,  :null => false
     t.string  "useip",          :limit => 40,       :default => "", :null => false
-    t.string  "bbcodeoff",      :limit => 15,                       :null => true
-    t.string  "smileyoff",      :limit => 15,                       :null => true
-    t.integer "pollstatus",     :limit => 2,                        :null => true
-    t.text    "pollopts",       :limit => 16777215,                 :null => true
-    t.integer "edituser",                                           :null => true
-    t.integer "editdate",                                           :null => true
+    t.string  "bbcodeoff",      :limit => 15
+    t.string  "smileyoff",      :limit => 15
+    t.integer "pollstatus",     :limit => 2
+    t.text    "pollopts",       :limit => 16777215
+    t.integer "edituser"
+    t.integer "editdate"
     t.string  "deleted",        :limit => 80
     t.integer "deleted_by"
     t.integer "deleted_on"
@@ -608,11 +606,11 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.integer "total_likes",                        :default => 0,  :null => false
   end
 
-  add_index "xmb_topics", ["deleted"], :name => "xmb_topics_deleted"
-  add_index "xmb_topics", ["deleted_by"], :name => "xmb_topics_deleted_by"
-  add_index "xmb_topics", ["fid", "topped", "lastpost"], :name => "xmb_topics_fid"
+  add_index "xmb_topics", ["deleted"], :name => "altered_xmb_topics_deleted"
+  add_index "xmb_topics", ["deleted_by"], :name => "altered_xmb_topics_deleted_by"
+  add_index "xmb_topics", ["fid", "topped", "lastpost"], :name => "altered_xmb_topics_fid"
   add_index "xmb_topics", ["fid", "total_likes"], :name => "index_xmb_topics_on_fid_and_total_likes"
-  add_index "xmb_topics", ["uid"], :name => "xmb_topics_uid"
+  add_index "xmb_topics", ["uid"], :name => "altered_xmb_topics_uid"
 
   create_table "xmb_u2u", :primary_key => "u2uid", :force => true do |t|
     t.string "msgto",    :limit => 40,       :default => "",   :null => false
@@ -645,22 +643,22 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
     t.text    "sig",           :limit => 16777215
     t.string  "showemail",     :limit => 15,       :default => "",                :null => false
     t.integer "timeoffset",                        :default => 0,                 :null => false
-    t.string  "icq",           :limit => 30,                                      :null => true
-    t.string  "avatar",        :limit => 90,                                      :null => true
-    t.string  "yahoo",         :limit => 40,                                      :null => true
-    t.string  "customstatus",  :limit => 100,                                     :null => true
+    t.string  "icq",           :limit => 30
+    t.string  "avatar",        :limit => 90
+    t.string  "yahoo",         :limit => 40
+    t.string  "customstatus",  :limit => 100
     t.string  "theme",         :limit => 30,       :default => "studentibicocca", :null => false
-    t.string  "bday",          :limit => 50,                                      :null => true
+    t.string  "bday",          :limit => 50
     t.string  "langfile",      :limit => 40,       :default => "italian",         :null => false
     t.integer "tpp",           :limit => 2,        :default => 25,                :null => false
     t.integer "ppp",           :limit => 2,        :default => 25,                :null => false
-    t.string  "newsletter",    :limit => 3,                                       :null => true
-    t.string  "regip",         :limit => 40,                                      :null => true
+    t.string  "newsletter",    :limit => 3
+    t.string  "regip",         :limit => 40
     t.integer "timeformat",                        :default => 24,                :null => false
-    t.string  "msn",           :limit => 40,                                      :null => true
-    t.string  "dateformat",    :limit => 10,                                      :null => true
-    t.text    "ignoreu2u",     :limit => 16777215,                                :null => true
-    t.string  "lastvisit",                                                        :null => true
+    t.string  "msn",           :limit => 40
+    t.string  "dateformat",    :limit => 10
+    t.text    "ignoreu2u",     :limit => 16777215
+    t.string  "lastvisit"
     t.integer "avatar_width",  :limit => 2,        :default => 0,                 :null => false
     t.integer "avatar_height", :limit => 2,        :default => 0,                 :null => false
     t.integer "deleted_at"
