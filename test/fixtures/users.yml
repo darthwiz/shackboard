@@ -1,3 +1,37 @@
+admin:
+  avatar_width: 50
+  timeoffset: "0"
+  status: Administrator
+  icq:
+  theme: nostalgia
+  lastvisit:
+  langfile: italian
+  timeformat: "24"
+  bday:
+  yahoo:
+  username: admin
+  ppp: 25
+  aim:
+  uid: 1
+  avatar_height: 100
+  sig:
+  postnum: "0"
+  regdate: 1269891800
+  newsletter: "no"
+  customstatus:
+  avatar:
+  site:
+  msn:
+  bio:
+  dateformat:
+  regip:
+  tpp: 25
+  showemail: "no"
+  password: "_admin_"
+  ignoreu2u:
+  location:
+  email: "admin@admin.net"
+
 wiz:
   avatar_width: "120"
   timeoffset: "0"

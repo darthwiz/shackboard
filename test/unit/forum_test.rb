@@ -5,8 +5,11 @@ class ForumTest < ActiveSupport::TestCase
 
   test "null field bugs" do
     simplest = forums(:simplest)
+    user     = users(:wiz)
     assert(simplest.can_read?(nil))
     assert_nil(simplest.last_post)
+    assert(!simplest.can_post?(nil))
+    assert(simplest.can_post?(user))
   end
 
 end

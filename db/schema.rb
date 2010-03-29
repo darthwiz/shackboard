@@ -580,25 +580,25 @@ ActiveRecord::Schema.define(:version => 20100313200242) do
 
   create_table "xmb_topics", :primary_key => "tid", :force => true do |t|
     t.integer "uid",            :limit => 3
+    t.string  "author",         :limit => 40,                       :null => true
+    t.text    "message",        :limit => 16777215,                 :null => true
     t.integer "fid",            :limit => 2,        :default => 0,  :null => false
     t.string  "subject",        :limit => 100,      :default => "", :null => false
     t.string  "lastpost",       :limit => 30,       :default => "", :null => false
     t.integer "views",                              :default => 0,  :null => false
     t.integer "replies",                            :default => 0,  :null => false
-    t.string  "author",         :limit => 40,       :default => "", :null => false
-    t.text    "message",        :limit => 16777215,                 :null => false
     t.string  "dateline",       :limit => 30,       :default => "", :null => false
     t.string  "icon",           :limit => 50
-    t.string  "usesig",         :limit => 15,       :default => "", :null => false
-    t.string  "closed",         :limit => 15,       :default => "", :null => false
+    t.string  "usesig",         :limit => 15,                       :null => true
+    t.string  "closed",         :limit => 15,                       :null => true
     t.integer "topped",         :limit => 2,        :default => 0,  :null => false
     t.string  "useip",          :limit => 40,       :default => "", :null => false
-    t.string  "bbcodeoff",      :limit => 15,       :default => "", :null => false
-    t.string  "smileyoff",      :limit => 15,       :default => "", :null => false
-    t.integer "pollstatus",     :limit => 2,        :default => 0,  :null => false
-    t.text    "pollopts",       :limit => 16777215,                 :null => false
-    t.integer "edituser",                           :default => 0,  :null => false
-    t.integer "editdate",                           :default => 0,  :null => false
+    t.string  "bbcodeoff",      :limit => 15,                       :null => true
+    t.string  "smileyoff",      :limit => 15,                       :null => true
+    t.integer "pollstatus",     :limit => 2,                        :null => true
+    t.text    "pollopts",       :limit => 16777215,                 :null => true
+    t.integer "edituser",                                           :null => true
+    t.integer "editdate",                                           :null => true
     t.string  "deleted",        :limit => 80
     t.integer "deleted_by"
     t.integer "deleted_on"
