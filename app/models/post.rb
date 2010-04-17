@@ -186,10 +186,20 @@ class Post < ActiveRecord::Base
     self[:dateline] = ts
   end
 
-  #def self.search(query_string, options={})
-  #  time     = options[:after] ? options[:after] : 1.month.ago
-  #  username = options[:user]  ? options[:user]  : nil
-  #  range    = options[:range] ? options[:range] : (0...30)
-  #end
+  def self.top_spammers(how_many, since_time, forum=:all)
+    if forum.is_a?(Forum)
+      conds = [ 'dateline >= ? AND fid = ?', since_time.to_i, forum.id ]
+    elsif forum == :all
+      conds = [ 'dateline >= ?', since_time.to_i ]
+    end
+    self.find(:all,
+      :select     => "#{self.table_name}.uid, COUNT(1) AS count",
+      :conditions => conds,
+      :group      => :uid,
+      :include    => [ :user ],
+      :limit      => how_many,
+      :order      => 'count DESC'
+    )
+  end
 
 end

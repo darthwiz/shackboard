@@ -1,0 +1,36 @@
+#trivia.trivia
+  %h1 Curiosità
+
+  .latest_users
+    %h2 Ultimi utenti registrati
+    -unless @latest_users.blank?
+      %ul
+        -@latest_users.each do |user|
+          %li
+            =trivia_link_to_recent_user(user)
+
+  .top_spammers
+    %h2 Gli utenti più attivi
+    -unless @top_spammers_today.blank?
+      .today
+        %h3 oggi
+        %ol
+          -@top_spammers_today.each do |user|
+            %li
+              =link_to cleanup(user.username), user
+
+    -unless @top_spammers_month.blank?
+      .this_month
+        %h3 questo mese
+        %ol
+          -@top_spammers_month.each do |user|
+            %li
+              =link_to cleanup(user.username), user
+
+    -unless @top_spammers_today.blank?
+      .ever
+        %h3 di sempre
+        %ol
+          -@top_spammers_ever.each do |user|
+            %li
+              =link_to cleanup(user.username), user
