@@ -81,7 +81,7 @@ class Sanitizer
   end
 
   def self.sanitize_bb(text)
-    ok_tags   = 'u, i, b, img, quote, code, spoiler, list, color, size, url, small, big, color, cms, block, index, span, list'
+    ok_tags   = 'u, i, b, img, quote, code, spoiler, list, color, size, url, small, big, color, cms, block, index, span, list, youtube'
     solo_tags = [ '*' ]
 
     # Build hash of allowed tags with allowed attributes
