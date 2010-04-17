@@ -16,7 +16,7 @@ class SearchController < ApplicationController
     @location      = :search_results
     prepare_posts_by_matching_text if @query_tags.blank?
     prepare_topics_by_matching_tags
-    @page_seq_opts = { :last        => [ @posts_count, @tagged_topics_count ].max,
+    @page_seq_opts = { :last        => [ @posts_count.to_i, @tagged_topics_count.to_i ].max,
                        :ipp         => ppp,
                        :current     => start + 1,
                        :get_parms   => [ :q, :time, :username ],
