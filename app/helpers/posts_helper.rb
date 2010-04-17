@@ -18,4 +18,12 @@ module PostsHelper
     trail << [ "segnalazione messaggio", {} ]
   end
 
+  def link_to_post_with_topic_and_date(post)
+    s  = link_to(cleanup(post.user.username), post.user)
+    s << ' in '
+    s << link_to(cleanup(post.topic.title), post.topic)
+    s << ' il '
+    s << link_to(post.created_at.strftime("%d/%m/%Y, %H.%M"), post)
+  end
+
 end

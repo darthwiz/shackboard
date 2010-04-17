@@ -73,6 +73,15 @@
         %dt Messaggi inviati:
         %dd= "#{@shown_user.postnum} (#{"%0.2f" % @shown_user.posts_per_day} / giorno)"
 
+    -unless @latest_posts.blank?
+      %li.latest_posts
+        %dl
+          %dt Ultimi messaggi:
+          %dd
+            -@latest_posts.each do |p|
+              %li
+                =link_to_post_with_topic_and_date(p)
+
 -if @shown_user == @user
   #backup
     %h3 Backup
@@ -101,8 +110,4 @@
       %ul.latest_replies
         -@latest_replies.each do |p|
           %li
-            =link_to(cleanup(p.user.username), p.user)
-            in
-            =link_to(cleanup(p.topic.title), p.topic)
-            il
-            =link_to(p.created_at.strftime("%d/%m/%Y, %H.%M"), p)
+            =link_to_post_with_topic_and_date(p)
