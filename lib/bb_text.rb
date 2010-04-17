@@ -48,9 +48,15 @@ class BbText
         </div>"; 
       end
     end
-    s.gsub!(/\[block=([^\]]*)\](.*?)\[\/block\]/im, "<div class=\"\\1\">\\2</div>")
-    s.gsub!(/\[span=([^\]]*)\](.*?)\[\/span\]/im, "<span class=\"\\1\">\\2</span>")
-    s.gsub!(/\[color=([^\]]*)\](.*?)\[\/color\]/im, "<span style=\"color: \\1;\">\\2</span>")
+    while s =~ /\[block=([^\]]*)\](.*?)\[\/block\]/im
+      s.gsub!(/\[block=([^\]]*)\](.*?)\[\/block\]/im, "<div class=\"\\1\">\\2</div>")
+    end
+    while s =~ /\[span=([^\]]*)\](.*?)\[\/span\]/im
+      s.gsub!(/\[span=([^\]]*)\](.*?)\[\/span\]/im, "<span class=\"\\1\">\\2</span>")
+    end
+    while s =~ /\[color=([^\]]*)\](.*?)\[\/color\]/im
+      s.gsub!(/\[color=([^\]]*)\](.*?)\[\/color\]/im, "<span style=\"color: \\1;\">\\2</span>")
+    end
     s.gsub!(/ -- /, ' &mdash; ')
     s.gsub!(/(^|[>[:space:]\n])([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])([<[:space:]\n]|$)/, "\\1<a href=\"\\2://\\3\\4\" target=\"_blank\">\\2://\\3\\4</a>\\5")
     s.gsub!(/\[url=([^\]]*)\](.*?)\[\/url\]/, "<a href=\"\\1\" title=\"\\1\">\\2</a>")
