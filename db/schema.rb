@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100417220241) do
+ActiveRecord::Schema.define(:version => 20100418114830) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -222,7 +222,6 @@ ActiveRecord::Schema.define(:version => 20100417220241) do
 
   add_index "xmb_announcements", ["date"], :name => "date"
   add_index "xmb_announcements", ["num_views"], :name => "num_views"
-  add_index "xmb_announcements", ["title", "message"], :name => "title"
 
   create_table "xmb_ban_records", :force => true do |t|
     t.integer "moderator_id",                    :null => false
@@ -433,6 +432,19 @@ ActiveRecord::Schema.define(:version => 20100417220241) do
   add_index "xmb_last_visits", ["user_id", "created_at"], :name => "by_time"
   add_index "xmb_last_visits", ["user_id", "object_type", "object_id"], :name => "by_object", :unique => true
 
+  create_table "xmb_notifications", :force => true do |t|
+    t.integer  "recipient_id",                                     :null => false
+    t.integer  "actor_id"
+    t.string   "notifiable_type", :limit => 40, :default => "",    :null => false
+    t.integer  "notifiable_id",                                    :null => false
+    t.datetime "created_at"
+    t.boolean  "seen",                          :default => false, :null => false
+    t.string   "kind",            :limit => 40, :default => "",    :null => false
+    t.text     "info"
+  end
+
+  add_index "xmb_notifications", ["recipient_id", "seen", "created_at"], :name => "index_xmb_notifications_on_recipient_id_and_seen_and_created_at"
+
   create_table "xmb_posts", :primary_key => "pid", :force => true do |t|
     t.integer "uid",            :limit => 3
     t.integer "fid",            :limit => 2,        :default => 0,     :null => false
@@ -461,7 +473,6 @@ ActiveRecord::Schema.define(:version => 20100417220241) do
   add_index "xmb_posts", ["deleted"], :name => "deleted"
   add_index "xmb_posts", ["deleted_by"], :name => "deleted_by"
   add_index "xmb_posts", ["fid", "tid"], :name => "fid"
-  add_index "xmb_posts", ["message"], :name => "message"
   add_index "xmb_posts", ["reply_to_uid"], :name => "reply_to_uid"
   add_index "xmb_posts", ["tid", "fid"], :name => "tid"
   add_index "xmb_posts", ["uid"], :name => "uid"
