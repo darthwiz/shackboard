@@ -34,3 +34,21 @@
           -@top_spammers_ever.each do |user|
             %li
               =link_to cleanup(user.username), user
+
+  .top_taggers
+    %h2 Gli utenti con più tag
+    -unless @top_taggers_today.blank?
+      .today
+        %h3 oggi
+        %ol
+          -@top_taggers_today.each do |user|
+            %li
+              =link_to cleanup(user.username), user
+
+    -unless @top_taggers_month.blank?
+      .this_month
+        %h3 questo mese
+        %ol
+          -@top_taggers_month.each do |user|
+            %li
+              =link_to cleanup(user.username), user

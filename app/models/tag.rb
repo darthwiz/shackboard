@@ -16,4 +16,16 @@ class Tag < ActiveRecord::Base
     )
   end
 
+  def self.top_taggers(how_many, since_time, context=nil)
+    conds = [ 'created_at >= ?', Time.at(since_time) ]
+    self.find(:all,
+      :select     => "#{self.table_name}.user_id, COUNT(1) AS count",
+      :conditions => conds,
+      :group      => :user_id,
+      :include    => [ :user ],
+      :limit      => how_many,
+      :order      => 'count DESC'
+    )
+  end
+
 end
