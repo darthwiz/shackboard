@@ -1,0 +1,10 @@
+blog_wiz:
+  last_post_at:
+  slug: "wiz-blog"
+  name: "Wiz's fantastic blog"
+  created_at: "2008-08-19 23:52:25"
+  updated_at: "2008-08-19 23:52:25"
+  user_id: 182
+  last_post_id: 783
+  description: "whatever"
+  view_count: 3
