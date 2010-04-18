@@ -13,6 +13,7 @@ class NotificationTest < ActiveSupport::TestCase
     assert_equal(wiz, ntf.recipient)
     assert_equal('new', ntf.kind)
     assert_equal(comment, ntf.notifiable)
+    assert(!ntf.seen?)
   end
 
 end

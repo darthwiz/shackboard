@@ -123,7 +123,7 @@ class ApplicationController < ActionController::Base
     # personal info
     if @user
       @unread_pms_count           = Pm.count_unread_for(@user)
-      @unread_blog_comments_count = BlogPost.count_unread_for(@user)
+      @unread_notifications_count = Notification.count_unread_for(@user)
       @unsent_drafts_count        = Draft.count_unsent_for(@user)
       @unapproved_files_count     = is_file_adm?(@user) ? FiledbFile.count_unapproved : 0
     end
