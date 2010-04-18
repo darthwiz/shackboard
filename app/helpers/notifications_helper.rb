@@ -1,5 +1,9 @@
 module NotificationsHelper
 
+  def page_trail_notifications(obj, opts={})
+    [ [ "Notifiche di #{cleanup(@user.username)}", nil ] ]
+  end
+
   def link_to_notification(ntf)
     s = post_time(ntf.created_at) + ' - '
     case ntf.notifiable_type
@@ -13,6 +17,8 @@ module NotificationsHelper
         post_link = link_to('messaggio nel blog', commentable)
         if commentable.user == @user
           s << ' il tuo ' + post_link
+        elsif comment.user == commentable.user
+          s << ' il suo ' + post_link
         else
           s << ' il ' + post_link + ' di ' + link_to(cleanup(commentable.user.username), commentable.user)
         end
