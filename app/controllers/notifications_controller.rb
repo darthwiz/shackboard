@@ -14,7 +14,8 @@ class NotificationsController < ApplicationController
     rend           = rstart + ipp - 1
     @range         = rstart..rend
     count          = Notification.with_recipient(@user).count
-    @notifications = Notification.with_recipient(@user).range(@range).ordered_by_time_desc
+    @notifications = Notification.with_recipient(@user).range(@range).ordered_by_time_desc.find(:all)
+    @location      = @notifications
     @page_seq_opts = { :last        => count,
                        :ipp         => ipp,
                        :current     => start + 1,
