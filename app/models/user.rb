@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :blogs
   has_many :topics, :foreign_key => :uid
   has_many :posts, :foreign_key => :uid
+  has_many :notifications, :foreign_key => :recipient_id
   has_many :bans
   validates_uniqueness_of :username
   validates_uniqueness_of :email, :allow_nil => true
