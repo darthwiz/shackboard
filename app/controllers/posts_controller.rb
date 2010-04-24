@@ -2,6 +2,13 @@ class PostsController < ApplicationController
   before_filter :authenticate, :except => [ :show, :search ]
   layout 'forum'
 
+  def index
+    @posts = User.find(params[:user_id]).posts.range(0..50).ordered_by_time_desc
+    respond_to do |format|
+      format.js { render :partial => 'by_user' }
+    end
+  end
+
   def show
     @post         = Post.secure_find(params[:id], @user)
     @page_title   = @post.topic.title

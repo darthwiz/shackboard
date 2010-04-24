@@ -1,0 +1,6 @@
+.notifications
+  -unless @notifications.blank?
+    %ul.notifications
+      -@notifications.each do |ntf|
+        %li
+          =link_to_notification(ntf)

@@ -1,0 +1,19 @@
+-if @shown_user == @user
+  .backup
+    %ul.backup
+      %li
+        Messaggi sul forum:
+        =link_to('txt', backup_posts_path(:format => 'txt'))
+        =link_to('sql', backup_posts_path(:format => 'sql'))
+        =link_to('xml', backup_posts_path(:format => 'xml'))
+      %li
+        Messaggi privati:
+        =link_to('txt', backup_pms_path(:format => 'txt'))
+        =link_to('sql', backup_pms_path(:format => 'sql'))
+        =link_to('xml', backup_pms_path(:format => 'xml'))
+      -if @user.has_blog?
+        %li
+          Blog:
+          =link_to('txt', blog_backup_path(:username => @user.username, :format => 'txt'))
+          =link_to('sql', blog_backup_path(:username => @user.username, :format => 'sql'))
+          =link_to('xml', blog_backup_path(:username => @user.username, :format => 'xml'))

@@ -35,6 +35,16 @@ class Post < ActiveRecord::Base
     }
   }
 
+  named_scope :with_recipient, lambda { |user|
+    uid = user.is_a?(User) ? user.id : nil
+    ut  = User.table_name
+    pt  = self.table_name
+    { 
+      :conditions => { :reply_to_uid => uid },
+      :joins      => "INNER JOIN #{ut} AS wr_u ON #{pt}.reply_to_uid = wr_u.uid AND wr_u.status != 'Anonymized'"
+    }
+  }
+
   named_scope :after_time, lambda { |time|
     { :conditions => "dateline >= #{time.to_i}" }
   }

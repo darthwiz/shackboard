@@ -1,0 +1,8 @@
+-unless @latest_replies.blank?
+  #latest_replies{ :class => domid(@shown_user) }
+    %h3 Le ultime risposte ai tuoi messaggi:
+    .list
+      %ul.latest_replies
+        -@latest_replies.each do |p|
+          %li
+            =link_to_post_with_topic_and_date(p)

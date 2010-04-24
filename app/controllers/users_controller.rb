@@ -8,11 +8,24 @@ class UsersController < ApplicationController
 
   def show
     @shown_user = User.find(params[:id])
-    respond_to do |format|
-      format.html do
-        @location       = @shown_user
-        @latest_replies = Post.find_replies_to_user(@shown_user, 1.month.ago, 50) if @shown_user == @user
-        @latest_posts   = @shown_user.posts.find(:all, :order => 'dateline DESC', :limit => 5)
+    @location   = @shown_user
+    tab         = params[:tab]
+    case tab
+    when 'profile', 'backup', 'delete'
+      respond_to do |format|
+        format.js { render :partial => tab }
+      end
+    when 'replies'
+      @posts = Post.with_recipient(@shown_user).range(0..50).ordered_by_time_desc
+      respond_to do |format|
+        format.js { render :partial => '/posts/by_user' }
+      end
+    else
+      respond_to do |format|
+        format.html do
+          #@latest_replies = Post.find_replies_to_user(@shown_user, 1.month.ago, 50) if @shown_user == @user
+          #@latest_posts   = @shown_user.posts.find(:all, :order => 'dateline DESC', :limit => 5)
+        end
       end
     end
   end

@@ -24,7 +24,18 @@ ActionController::Routing::Routes.draw do |map|
   #     admin.resources :products
   #   end
 
-  map.resources :users, :collection => { :login => :get, :fbconnect => :get, :logout => :get, :authenticate => :post, :fblink => :post, :recover_password => :get, :send_password => :post }, :has_many => [ :posts, :notifications, :smileys ]
+  map.resources :users, 
+    :has_many => [ :posts, :notifications, :smileys ],
+    :collection => {
+      :login            => :get,
+      :fbconnect        => :get,
+      :logout           => :get,
+      :authenticate     => :post,
+      :fblink           => :post,
+      :recover_password => :get,
+      :send_password    => :post,
+    }
+
   map.resources :pms, :member => { :reply => :get, :post_reply => :get }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get }
   map.resources :drafts, :path_prefix => 'forum', :has_one => [ :post, :pm, :topic ]
   map.resources :posts, :path_prefix => 'forum', :member => { :reply => :get, :report => :get, :send_report => :post }, :new => { :save_draft => :post, :draft => :get }, :collection => { :backup => :get }

@@ -20,6 +20,10 @@ class NotificationsController < ApplicationController
                        :ipp         => ipp,
                        :current     => start + 1,
                        :extra_links => [ :first, :forward, :back, :last ] }
+    respond_to do |format|
+      format.html
+      format.js { render :partial => 'list' }
+    end
   end
 
   private

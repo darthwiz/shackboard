@@ -1,0 +1,6 @@
+.latest_posts
+  -unless @posts.blank?
+    %ul.latest_posts
+      -@posts.each do |p|
+        %li
+          =link_to_post_with_topic_and_date(p)
