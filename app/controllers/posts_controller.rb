@@ -127,7 +127,7 @@ class PostsController < ApplicationController
           render :update do |page|
             # FIXME these have to go and be replaced by eager loading
             @post.cached_user    = @post.user
-            @post.cached_smileys = @post.cached_user.smileys
+            @post.cached_smileys = @post.cached_user.smileys + Smiley.all
             page.replace "post_text_#{@post.id}", :partial => '/posts/post_text', :locals => { :p => @post }
           end
         end
