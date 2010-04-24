@@ -60,6 +60,7 @@ ActionController::Routing::Routes.draw do |map|
   map.search_tags     '/search/tags/:tags', :controller => 'search', :action => 'search', :requirements => { :tags => /.*/ }
   map.search          '/search', :controller => 'search', :action => 'search'
   map.banners         '/banners/show', :controller => 'banners', :action => 'show'
+  map.notifications   '/notifications', :controller => 'notifications', :action => 'index'
   map.trivia          '/trivia', :controller => 'trivia', :action => 'index'
 
   # SEO routes

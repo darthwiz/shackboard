@@ -12,6 +12,7 @@ class UsersController < ApplicationController
       format.html do
         @location       = @shown_user
         @latest_replies = Post.find_replies_to_user(@shown_user, 1.month.ago, 50) if @shown_user == @user
+        @latest_posts   = @shown_user.posts.find(:all, :order => 'dateline DESC', :limit => 5)
       end
     end
   end

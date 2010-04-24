@@ -2,12 +2,12 @@
   -if @user.is_a? User
     =t(sexified(:Welcome, @user.sex))
     ="#{content_tag(:strong, h(@user.username))}!"
-    -if @unread_pms_count > 0 || @unsent_drafts_count > 0 || @unapproved_files_count > 0 || @unread_blog_comments_count > 0
+    -if @unread_pms_count > 0 || @unsent_drafts_count > 0 || @unapproved_files_count > 0 || @unread_notifications_count > 0
       %ul
-        =content_tag('li', link_pm_unread(@unread_pms_count))                     if @unread_pms_count           > 0
-        =content_tag('li', link_blogs_unread(@user, @unread_blog_comments_count)) if @unread_blog_comments_count > 0
-        =content_tag('li', link_draft_unsent(@unsent_drafts_count))               if @unsent_drafts_count        > 0
-        =content_tag('li', link_file_unapproved(@unapproved_files_count))         if @unapproved_files_count     > 0
+        =content_tag('li', link_pm_unread(@unread_pms_count))                         if @unread_pms_count           > 0
+        =content_tag('li', link_to_unread_notifications(@unread_notifications_count)) if @unread_notifications_count > 0
+        =content_tag('li', link_draft_unsent(@unsent_drafts_count))                   if @unsent_drafts_count        > 0
+        =content_tag('li', link_file_unapproved(@unapproved_files_count))             if @unapproved_files_count     > 0
     .buttons
       =link_to 'area personale', user_path(@user)
       =link_pm_list

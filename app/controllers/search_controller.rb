@@ -16,7 +16,7 @@ class SearchController < ApplicationController
     @location      = :search_results
     prepare_posts_by_matching_text if @query_tags.blank?
     prepare_topics_by_matching_tags
-    @page_seq_opts = { :last        => [ @posts_count, @tagged_topics_count ].max,
+    @page_seq_opts = { :last        => [ @posts_count.to_i, @tagged_topics_count.to_i ].max,
                        :ipp         => ppp,
                        :current     => start + 1,
                        :get_parms   => [ :q, :time, :username ],
@@ -47,7 +47,7 @@ class SearchController < ApplicationController
       @page_title = @query_tags.join(', ') + ' - ' + Conf.default_page_title
     end
     finder               = Topic.including_forum.including_tags.tagged_with(@query_tags)
-    @tagged_topics_count = finder.count
+    @tagged_topics_count = finder.find(:all).size # OPTIMIZE
     @topics_by_tags      = finder.range(@range).find(:all, :order => 'lastpost DESC')
   end
 

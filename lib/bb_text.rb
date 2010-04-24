@@ -90,6 +90,15 @@ class BbText
       end
       ret += "</div>"
     end
+    s.gsub!(/\[youtube\]([^\[\]]+)\[\/youtube\]/i) do |match|
+      url   = match.gsub(/^\[img\](.*)\[\/img\]/i, "\\1").strip
+      video = url.gsub(/.*\?v=([A-Za-z0-9_-]+).*/, "\\1")
+      html  = '<object type="application/x-shockwave-flash" ' +
+        'style="width: 100%; height: 385px;" ' +
+        'data="http://www.youtube.com/v/' + video + '">' +
+        '<param name="movie" value="http://www.youtube.com/v/' +
+        video + '" /></object>'
+    end
     @smileys.each do |sm|
       s.gsub!(/#{Regexp.escape(sm.code)}/, " <img src=\"#{sm.url}\" alt=\"\" /> ") unless sm.code.empty?
     end

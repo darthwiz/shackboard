@@ -73,7 +73,7 @@ class BanTest < ActiveSupport::TestCase
 
   test "editing" do
     ban = bans(:runner_agora_june_2007)
-    assert(ban.can_edit?(users(:ark_intruso)))
+    assert(ban.can_edit?(users(:ark)))
     assert(ban.can_edit?(users(:kaworu)))
     assert(ban.can_edit?(users(:wiz)))
     assert(!ban.can_edit?(users(:runner)))
@@ -83,7 +83,7 @@ class BanTest < ActiveSupport::TestCase
     ban            = Ban.new
     now            = Time.now
     ban.expires_at = now + 3.years
-    ban.moderator  = users(:ark_intruso)
+    ban.moderator  = users(:ark)
     ban.user       = users(:runner)
     ban.forum      = forums(:agora)
     ban.save!

@@ -69,7 +69,7 @@ wiz:
   location: Informatica
   email: wiz@studentibicocca.it
 
-ark_intruso:
+ark:
   avatar_width: "150"
   timeoffset: "0"
   status: Moderator
@@ -206,7 +206,7 @@ tex:
   regip: 62.101.126.227
   tpp: "40"
   showemail: "yes"
-  password: "!zsedcftgb"
+  password: "testpassword"
   ignoreu2u: ""
   location: Fisica
   email: ""
