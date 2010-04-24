@@ -95,7 +95,7 @@
         <%=render :partial => 'latest_blog_posts'%>
       </li>
       <li>
-        <h2>Si parla di...</h2>
+        <h2><span class="fake_link">Si parla di...</span></h2>
         <ul>
           <li>
             <%=@popular_tags.collect { |i| link_to_tag_search(i.tag) }.join(', ')%>

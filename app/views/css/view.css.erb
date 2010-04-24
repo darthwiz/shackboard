@@ -329,17 +329,15 @@ div.lastposter a, div.lastposter a:visited {
 div.lastposter a:hover {
   color: yellow;
 }
-#portal_main h2 {
-  padding-left: 0.5em;
-  padding-bottom: 0.1em;
-}
-#portal_main h2,
+#portal_main h2 span.fake_link,
 #portal_main h2 a,
 #portal_main h2 a:visited {
-  color: <%=t.headertext%>;
+  color: <%=t.name == 'studentibicocca' ? 'yellow' : t.headertext%>;
   <%unless t.name == 'studentibicocca'%>background-color: <%=t.header%>;<%end%>
   display: block;
   border-bottom: none;
+  padding-left: 0.5em;
+  padding-bottom: 0.1em;
 }
 #portal_main h3 {
   background-color: <%=t.catcolor%>;
