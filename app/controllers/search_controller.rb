@@ -47,7 +47,7 @@ class SearchController < ApplicationController
       @page_title = @query_tags.join(', ') + ' - ' + Conf.default_page_title
     end
     finder               = Topic.including_forum.including_tags.tagged_with(@query_tags)
-    @tagged_topics_count = finder.find(:all).size # OPTIMIZE
+    @tagged_topics_count = finder.count
     @topics_by_tags      = finder.range(@range).find(:all, :order => 'lastpost DESC')
   end
 
