@@ -16,7 +16,11 @@ class UsersController < ApplicationController
         format.js { render :partial => tab }
       end
     when 'replies'
-      @posts = Post.with_recipient(@shown_user).range(0..50).ordered_by_time_desc
+      if @shown_user == @user
+        @posts = Post.with_recipient(@shown_user).range(0..50).ordered_by_time_desc
+      else
+        @posts = Post.with_recipient(@user).with_user(@shown_user).range(0..50).ordered_by_time_desc
+      end
       respond_to do |format|
         format.js { render :partial => '/posts/by_user' }
       end

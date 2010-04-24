@@ -1417,8 +1417,7 @@ div#cms div.author span.author {
 /* USER PROFILE */
 #user_profile,
 #user_profile_edit,
-#latest_replies,
-#backup{
+#latest_replies {
   border: 1px solid <%=t.bordercolor%>;
   background-color: <%=t.altbg1%>;
   padding: 1em;
@@ -1451,6 +1450,28 @@ div#cms div.author span.author {
   text-align: right;
   font-weight: bold;
   padding-bottom: 0.7em;
+}
+.user_profile_tabs ul {
+  overflow: auto;
+}
+.user_profile_tabs ul li.tab {
+  float: left;
+  border: 1px solid <%=t.bordercolor%>;
+  margin-right: 0.3em;
+  margin-top: 0.2em;
+  position: relative;
+}
+.user_profile_tabs ul li.tab-active {
+  background-color: <%=t.altbg2%>;
+}
+.user_profile_tabs ul li.tab img {
+  position: absolute;
+  top: 1px;
+  right: 3px;
+}
+.user_profile_tabs ul li.tab a {
+  display: block;
+  padding: 0.2em 25px 0.2em 0.5em;
 }
 #user_profile .user_profile_content ul,
 #user_profile_edit .user_profile_content ul,
