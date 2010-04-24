@@ -1,10 +1,11 @@
 .cms_page
-  -#%h1= cleanup(@cms_page.title)
-  =BbText.new(@cms_page.text, Smiley.all(@cms_page.creator)).to_html(:controller => self)
-  .author
-    Modificato da
-    %span.author= link_to cleanup(@cms_page.updater.username), user_path(@cms_page.updater)
-    il
-    %span.date= @cms_page.updated_at.strftime("%d/%m/%Y, %H.%M")
+  -#%h1= cleanup(@cms_page.title) # the title is in the layout
+  =BbText.new(@cms_page.text.to_s, Smiley.all(@cms_page.creator)).to_html(:controller => self)
+  -if @cms_page.updater
+    .author
+      Modificato da
+      %span.author= link_to cleanup(@cms_page.updater.username), user_path(@cms_page.updater)
+      il
+      %span.date= @cms_page.updated_at.strftime("%d/%m/%Y, %H.%M")
 -if @cms_page.can_edit?(@user)
   .edit_cms_page_link= link_to 'modifica pagina', edit_admin_cms_page_path(@cms_page)
