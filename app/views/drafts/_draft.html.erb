@@ -37,9 +37,9 @@ begin
     item[:title] = title
   end
   item[:time]  = timestamp_to_date(draft.updated_at.to_i)
-#rescue
-#  item[:title] = 'bozza non valida'
-#  item[:time]  = ''
+rescue
+  item[:title] = 'bozza non valida'
+  item[:time]  = ''
 end
 item[:destroy] = link_to('elimina', '#',
   { :class => 'destroy', :id => "draft_destroy_#{draft.id}" })

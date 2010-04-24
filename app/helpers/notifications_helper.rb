@@ -5,8 +5,12 @@ module NotificationsHelper
   end
 
   def link_to_notification(ntf)
-    s = post_time(ntf.created_at) + ' - '
-    case ntf.notifiable_type
+    s          = post_time(ntf.created_at) + ' - '
+    notifiable = ntf.notifiable
+    case notifiable.class.to_s
+    when 'NilClass'
+      ntf.destroy
+      s << "(oggetto rimosso)"
     when 'Comment'
       s << link_to(cleanup(ntf.actor.username), ntf.actor)
       s << ' ha commentato'

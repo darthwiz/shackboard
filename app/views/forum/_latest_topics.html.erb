@@ -5,8 +5,14 @@
   <ul class="latest_topics">
   <%topics.each do |t|%>
     <li><%
-        url  = topic_path(t.actual)
-        last = topic_path(t.actual, :page => 'last', :anchor => 'last_post')
+        unless t.actual.nil?
+          url  = topic_path(t.actual)
+          last = topic_path(t.actual, :page => 'last', :anchor => 'last_post')
+        else
+          t.subject = '--------'
+          url  = ''
+          last = ''
+        end
       %>
       <div class="topic"><%=link_to cleanup(t.subject), url%></div>
       <div class="lastposter">
