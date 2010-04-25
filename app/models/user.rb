@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   end
   alias_attribute :created_at, :regdate
   alias_attribute :signature, :sig
+  alias_attribute :website, :site
   attr_accessor :ip
   @@supermods = nil
   @@admins    = nil
@@ -105,6 +106,12 @@ class User < ActiveRecord::Base
     # called for consistency with the same method in other objects.
     return false unless user.is_a? User
     return true if user == self
+    return true if user.is_adm?
+    false
+  end
+
+  def can_rename?(user)
+    return false unless user.is_a? User
     return true if user.is_adm?
     false
   end

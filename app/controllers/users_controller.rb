@@ -45,11 +45,15 @@ class UsersController < ApplicationController
 
   def edit
     @edit_user = User.find(params[:id])
-    unless @edit_user == @user || (@user && @user.is_adm?)
-      redirect_to user_path(@edit_user) and return
-    end
+    @field     = params[:field].to_sym
+    @edit_opts = { :type => params[:type].to_sym }
+    li_id      = "edit_user_#{@field}"
     respond_to do |format|
-      format.html
+      format.js do
+        render :update do |page|
+          page.replace li_id, :inline => "<%=profile_field_editor(@edit_user, @field, @edit_opts)%>"
+        end
+      end
     end
   end
 
@@ -165,37 +169,22 @@ class UsersController < ApplicationController
   def update
     # FIXME Some refactoring would be nice here.
     @edit_user = User.find(params[:id])
+    if @edit_user.can_edit?(@user)
+      params[:user].each_pair do |key, value|
+        @edit_user.send("#{key}=".to_sym, value)
+      end
+      @edit_user.save!
+    end
     respond_to do |format|
-      if @edit_user == @user || @user.is_adm?
-        current_password     = params[:current_password].to_s
-        new_password         = params[:new_password].to_s
-        confirm_new_password = params[:confirm_new_password].to_s
-        unless new_password.blank?
-          if @edit_user.auth(current_password) || @user.is_adm?
-            if new_password == confirm_new_password
-              @edit_user.password = new_password
-              @edit_user.save
-            else
-              @edit_user.errors.add :password, :passwords_dont_match
-            end
-          else
-            @edit_user.errors.add :password, :authentication_failed
+      format.js do
+        render :update do |page|
+          params[:user].each_pair do |key, value|
+            @field     = key.to_sym
+            @edit_opts = {}
+            li_id      = "edit_user_#{@field}"
+            page.replace li_id, :inline => "<%=editable_profile_field(@edit_user, @field, @edit_opts)%>"
           end
         end
-        if @edit_user.update_attributes(params[:user])
-          format.html do
-            redirect_to(@edit_user) and return if @edit_user.errors.blank?
-            flash[:model_errors] = @edit_user.errors
-            render :action => "edit"
-          end
-        else
-          format.html do
-            flash[:model_errors] = @edit_user.errors
-            render :action => "edit"
-          end
-        end
-      else
-        redirect_to @edit_user
       end
     end
   end

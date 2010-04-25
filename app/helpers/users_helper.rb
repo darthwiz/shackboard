@@ -24,6 +24,24 @@ module UsersHelper
   end
 
   def profile_field_editor(user, field, options={})
+    type     = options[:type]  ? options[:type].to_sym : :text_field
+    li_class = options[:class] ? options[:class].to_s  : field.to_s
+    li_id    = "edit_user_#{field}"
+    begin
+      value = options[:value] ? options[:value].to_s : cleanup(user.send(field.to_sym).to_s).gsub("\n", "<br />\n")
+    rescue NoMethodError
+      value = ''
+    end
+    content_tag(:li, :id => li_id, :class => li_class) do
+      capture do
+        remote_form_for(user) do |f|
+          concat "<dl>"
+          concat content_tag(:dt, f.submit('salva'))
+          concat content_tag(:dd, f.send(type, field.to_sym))
+          concat "</dl>"
+        end
+      end
+    end
   end
 
   def status_list(user=@user)
