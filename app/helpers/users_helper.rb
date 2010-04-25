@@ -7,8 +7,8 @@ module UsersHelper
     label    = options[:label]    ? options[:label]      : field.to_s
     li_class = options[:class]    ? options[:class].to_s : field.to_s
     li_id    = "edit_user_#{field}"
-    can_edit = (acl_edit.include?(:adm) && @user.is_adm?) || (acl_edit.include?(:self) && @user == user)
-    can_see  = acl_see.include?(:all) || can_edit || (acl_see.include?(:mod) && @user.is_mod?) || (acl_see.include?(:self) && @user == user)
+    can_edit = @user.is_a?(User) && (acl_edit.include?(:adm) && @user.is_adm?) || (acl_edit.include?(:self) && @user == user)
+    can_see  = acl_see.include?(:all) || can_edit || (acl_see.include?(:mod) && @user.is_a?(User) && @user.is_mod?) || (acl_see.include?(:self) && @user == user)
     return '' unless can_see
     begin
       value = options[:value] ? options[:value].to_s : cleanup(user.send(field.to_sym).to_s).gsub("\n", "<br />\n")
