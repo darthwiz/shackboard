@@ -1,0 +1,5 @@
+.smileys
+-unless @smileys.blank?
+  %ul.smileys
+    -@smileys.each do |s|
+      =editable_smiley(s)
