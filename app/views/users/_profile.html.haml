@@ -15,3 +15,6 @@
     =editable_profile_field(@shown_user, :bio, :label => "Bio:", :type => :text_area)
     =editable_profile_field(@shown_user, :signature, :label => "Firma:", :type => :text_area)
     =editable_profile_field(@shown_user, :postnum, :label => "Messaggi inviati:", :value => "#{@shown_user.postnum} (#{"%0.2f" % @shown_user.posts_per_day} / giorno)", :can_edit => [])
+  -if @user.is_a?(User) && @shown_user != @user
+    .new_pm
+      =link_to("Invia un messaggio privato", new_pm_path(:username => @shown_user.username))
