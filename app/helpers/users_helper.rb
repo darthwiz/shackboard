@@ -12,6 +12,7 @@ module UsersHelper
     return '' unless can_see
     begin
       value = options[:value] ? options[:value].to_s : cleanup(user.send(field.to_sym).to_s).gsub("\n", "<br />\n")
+      value = '***' if type == :password_field
       label = link_to_remote(label, :url => edit_user_path(user, :field => field, :type => type), :method => :get) if can_edit
     rescue NoMethodError
       value = ''
@@ -37,7 +38,15 @@ module UsersHelper
         remote_form_for(user) do |f|
           concat "<dl>"
           concat content_tag(:dt, f.submit('salva'))
-          concat content_tag(:dd, f.send(type, field.to_sym))
+          if type == :password_field
+            concat '<dd>'
+            concat 'corrente: ' + password_field_tag('current_password') + '<br />'
+            concat 'nuova: '    + password_field_tag('new_password')     + '<br />'
+            concat 'conferma: ' + password_field_tag('confirm_password') + '<br />'
+            concat '</dd>'
+          else
+            concat content_tag(:dd, f.send(type, field.to_sym))
+          end
           concat "</dl>"
         end
       end

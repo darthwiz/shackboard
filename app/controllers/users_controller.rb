@@ -170,19 +170,30 @@ class UsersController < ApplicationController
     # FIXME Some refactoring would be nice here.
     @edit_user = User.find(params[:id])
     if @edit_user.can_edit?(@user)
-      params[:user].each_pair do |key, value|
-        @edit_user.send("#{key}=".to_sym, value)
+      if params[:user].is_a?(Hash)
+        params[:user].each_pair { |key, value| @edit_user.send("#{key}=".to_sym, value) }
+      else
+        if (params[:new_password] == params[:confirm_password]) && (@user.is_adm? || @edit_user.password == params[:current_password])
+          @edit_user.password = params[:new_password]
+        else
+          render :nothing => true and return
+        end
       end
       @edit_user.save!
     end
     respond_to do |format|
       format.js do
         render :update do |page|
-          params[:user].each_pair do |key, value|
-            @field     = key.to_sym
-            @edit_opts = {}
-            li_id      = "edit_user_#{@field}"
-            page.replace li_id, :inline => "<%=editable_profile_field(@edit_user, @field, @edit_opts)%>"
+          if params[:user].is_a?(Hash)
+            params[:user].each_pair do |key, value|
+              @field     = key.to_sym
+              @edit_opts = {}
+              li_id      = "edit_user_#{@field}"
+              page.replace li_id, :inline => "<%=editable_profile_field(@edit_user, @field, @edit_opts)%>"
+            end
+          elsif params[:new_password]
+            @edit_opts = { :type => :password_field }
+            page.replace 'edit_user_password', :inline => "<%=editable_profile_field(@edit_user, :password, @edit_opts)%>"
           end
         end
       end

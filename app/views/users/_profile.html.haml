@@ -2,6 +2,7 @@
 .profile
   %ul.profile
     =editable_profile_field(@shown_user, :username, :label => "Nome utente:", :can_edit => [ :adm ])
+    =editable_profile_field(@shown_user, :password, :label => "Password:", :can_edit => [ :self, :adm ], :can_see => [ :self, :adm ], :type => :password_field)
     =editable_profile_field(@shown_user, :created_at, :label => "Registrato il:", :value => Time.at(@shown_user.created_at).strftime("%d/%m/%Y"), :can_edit => [])
     =editable_profile_field(@shown_user, :status, :label => "Status:", :value => status_list(@shown_user), :can_edit => [])
     =editable_profile_field(@shown_user, :online, :label => "Online:", :value => @shown_user.online? ? 'sì' : 'no', :can_edit => [])
