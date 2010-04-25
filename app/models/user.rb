@@ -21,7 +21,6 @@ class User < ActiveRecord::Base
     record.errors.add key, :cannot_begin_with_space if value =~ /^\s/
   end
   alias_attribute :created_at, :regdate
-  alias_attribute :website, :site
   alias_attribute :signature, :sig
   attr_accessor :ip
   @@supermods = nil
@@ -43,6 +42,11 @@ class User < ActiveRecord::Base
       :conditions => [ "bf_b.created_at <= ? AND bf_b.expires_at >= ?", time, time ],
     }
   }
+
+  def website
+    return nil if self[:site].blank?
+    self[:site] =~ /^https?:\/\// ? self[:site] : 'http://' + self[:site]
+  end
 
   def rank
     Rank.evaluate(self.postnum)

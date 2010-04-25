@@ -1,69 +1,16 @@
+-# username / reg_date / status / online / email / www / aim / icq / yahoo / msn / location / birthday / bio / pm / search
 .profile
   %ul.profile
-    %li.username
-      %dl
-        -# username / reg_date / status / online / email / www / aim / icq / yahoo / msn / location / birthday / bio / pm / search
-        %dt Nome utente:
-        %dd= cleanup(@shown_user.username)
-
-    %li.registration_date
-      %dl
-        %dt Registratro il:
-        %dd= Time.at(@shown_user.created_at).strftime("%d/%m/%Y")
-
-    %li.status
-      %dl
-        %dt Status:
-        %dd= status_list(@shown_user)
-
-    %li.online
-      %dl
-        %dt Online:
-        %dd= @shown_user.online? ? 'sì' : 'no'
-
-    -unless @shown_user.location.blank?
-      %li.location
-        %dl
-          %dt Corso di laurea:
-          %dd= @shown_user.location
-
-    -unless @shown_user.website.blank?
-      %li.website
-        %dl
-          %dt Sito web:
-          %dd= link_to(@shown_user.website, @shown_user.website, :target => '_blank')
-
-    -if (!@shown_user.email.blank? && User.is_mod?(@user))
-      %li.email
-        %dl
-          %dt e-mail:
-          %dd= @shown_user.email
-
-    -unless @shown_user.msn.blank?
-      %li.msn
-        %dl
-          %dt MSN:
-          %dd= @shown_user.msn
-
-    -unless @shown_user.icq.blank?
-      %li.icq
-        %dl
-          %dt ICQ:
-          %dd= @shown_user.icq
-
-    -unless @shown_user.yahoo.blank?
-      %li.yahoo
-        %dl
-          %dt Yahoo:
-          %dd= @shown_user.yahoo
-
-    -unless @shown_user.bio.blank?
-      %li.bio
-        %dl
-          %dt Bio:
-          %dd= cleanup(@shown_user.bio).gsub("\n", "<br />\n") # TODO BB would be nice here
-
-    %li.post_count
-      %dl
-        %dt Messaggi inviati:
-        %dd= "#{@shown_user.postnum} (#{"%0.2f" % @shown_user.posts_per_day} / giorno)"
+    =editable_profile_field(@shown_user, :username, :label => "Nome utente:", :can_edit => [ :adm ])
+    =editable_profile_field(@shown_user, :created_at, :label => "Registrato il:", :value => Time.at(@shown_user.created_at).strftime("%d/%m/%Y"), :can_edit => [])
+    =editable_profile_field(@shown_user, :status, :label => "Status:", :value => status_list(@shown_user), :can_edit => [])
+    =editable_profile_field(@shown_user, :online, :label => "Online:", :value => @shown_user.online? ? 'sì' : 'no', :can_edit => [])
+    =editable_profile_field(@shown_user, :location, :label => "Corso di laurea:")
+    =editable_profile_field(@shown_user, :website, :label => "Sito web:", :value => link_to(@shown_user.website, @shown_user.website, :target => '_blank'))
+    =editable_profile_field(@shown_user, :email, :label => "e-mail", :can_see => [ :self, :mod ])
+    =editable_profile_field(@shown_user, :msn, :label => "MSN:")
+    =editable_profile_field(@shown_user, :icq, :label => "ICQ:")
+    =editable_profile_field(@shown_user, :yahoo, :label => "Yahoo:")
+    =editable_profile_field(@shown_user, :bio, :label => "Bio:", :type => :text_area)
+    =editable_profile_field(@shown_user, :signature, :label => "Firma:", :type => :text_area)
+    =editable_profile_field(@shown_user, :postnum, :label => "Messaggi inviati:", :value => "#{@shown_user.postnum} (#{"%0.2f" % @shown_user.posts_per_day} / giorno)", :can_edit => [])
