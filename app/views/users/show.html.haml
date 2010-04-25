@@ -11,9 +11,9 @@
     -box.content_wrapper    = 'user_profile_content'
     -box.navigation_wrapper = 'user_profile_tabs'
     -box.tab("Profilo", user_path(@shown_user, :tab => :profile), { :method => :get }, { :class => 'profile' })
-    -box.tab("Messaggi scritti", user_posts_path(@shown_user), { :method => :get })
-    -box.tab("Risposte ricevute", user_path(@shown_user, :tab => :replies), { :method => :get })
-    -box.tab("Faccine", user_smileys_path(@shown_user), { :method => :get })
+    -box.tab("Messaggi scritti", user_posts_path(@shown_user), { :method => :get })                 if @user.is_a?(User)
+    -box.tab("Risposte ricevute", user_path(@shown_user, :tab => :replies), { :method => :get })    if @user.is_a?(User)
+    -box.tab("Faccine", user_smileys_path(@shown_user), { :method => :get })                        if @user.is_a?(User)
     -box.tab("Notifiche", user_notifications_path(@shown_user), { :method => :get })                if same_user
     -box.tab("Backup", user_path(@shown_user, :tab => :backup), { :method => :get })                if same_user
     -#box.tab("Cancellazione account", user_path(@shown_user, :tab => :delete), { :method => :get }) if same_user
