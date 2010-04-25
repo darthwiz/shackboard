@@ -15,7 +15,7 @@ class Topic < ActiveRecord::Base
   named_scope :with_last_post_time, lambda {
     pt = Post.table_name
     tt = self.table_name
-    { 
+    {
       :select => "#{tt}.*, MAX(wlpt_p.dateline) AS last_post_time",
       :joins  => "INNER JOIN #{pt} AS wlpt_p ON wlpt_p.tid = #{tt}.tid",
       :group  => "wlpt_p.tid",
@@ -25,7 +25,7 @@ class Topic < ActiveRecord::Base
   named_scope :at_time, lambda { |time|
     pt = Post.table_name
     tt = self.table_name
-    { 
+    {
       :select     => "#{tt}.*, MAX(at_p.dateline) AS last_post_time",
       :conditions => "#{tt}.dateline <= #{time.to_i}",
       :joins      => "INNER JOIN #{pt} AS at_p ON at_p.tid = #{tt}.tid
@@ -208,7 +208,7 @@ class Topic < ActiveRecord::Base
   def actual
     begin
       if self.closed == "moved"
-        return Topic.find(self.message.strip.to_i).actual 
+        return Topic.find(self.message.strip.to_i).actual
       end
     rescue
       return nil
@@ -251,7 +251,7 @@ class Topic < ActiveRecord::Base
       blogs.each do |i|
         blog_hash[i.user_id] ||= true
       end
-      posts.each do |p| 
+      posts.each do |p|
         p.seq = seq
         seq += 1
         p.cached_has_blog = blog_hash[p.user_id] || false
@@ -354,14 +354,14 @@ class Topic < ActiveRecord::Base
     vtn = Vote.table_name
     ptn = Post.table_name
     [
-      "CREATE TEMPORARY TABLE tmp_topic_likes 
+      "CREATE TEMPORARY TABLE tmp_topic_likes
         SELECT t.tid AS topic_id, SUM(v.points) AS likes FROM #{vtn} v
         INNER JOIN #{ptn} p ON v.votable_id = p.pid
           AND v.votable_type = 'Post'
           AND v.points > 0
         INNER JOIN #{ttn} t ON p.tid = t.tid
         GROUP BY t.tid",
-      "CREATE TEMPORARY TABLE tmp_topic_dislikes 
+      "CREATE TEMPORARY TABLE tmp_topic_dislikes
         SELECT t.tid AS topic_id, ABS(SUM(v.points)) AS dislikes FROM #{vtn} v
         INNER JOIN #{ptn} p ON v.votable_id = p.pid
           AND v.votable_type = 'Post'

@@ -28,7 +28,7 @@ class BlogPost < ActiveRecord::Base
     now   = Time.now.strftime('%Y-%m-%d %H:%M:%S')
     posts = self.find_by_sql("
       SELECT p.* FROM xmb_blog_posts p
-      INNER JOIN #{User.table_name} u 
+      INNER JOIN #{User.table_name} u
         ON (p.user_id = u.uid AND u.deleted_at IS NULL AND u.status != 'Anonymized')
       LEFT JOIN #{Ban.table_name} b
         ON b.user_id = p.user_id AND b.created_at <= '#{now}' AND '#{now}' <= b.expires_at

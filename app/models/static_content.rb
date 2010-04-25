@@ -2,7 +2,7 @@ class StaticContent < ActiveRecord::Base
   require 'magic_fixes.rb'
   include ActiveRecord::MagicFixes
   belongs_to :user, :foreign_key => "updated_by"
-  
+
   def save
     #self.text = Sanitizer.sanitize_html(self.text)
     super

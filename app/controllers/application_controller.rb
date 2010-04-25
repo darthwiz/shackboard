@@ -22,9 +22,9 @@ class ApplicationController < ActionController::Base
     redirect_to destination
   end
 
-  def cache_expire(params) 
+  def cache_expire(params)
     case params[:object]
-    when :topic 
+    when :topic
       tid = params[:id].to_i
       obj = Topic.find(tid)
       blk = obj.total_posts / @post_block_size
@@ -34,8 +34,8 @@ class ApplicationController < ActionController::Base
         f = obj if obj.is_a? Forum
       end
       expire_fragment("portal/#{f.id}")
-      
-    when :forum 
+
+    when :forum
       fid = params[:id].to_i
       obj = Forum.find(fid)
       expire_fragment("forum/#{obj.id}/topics/0")
@@ -43,9 +43,9 @@ class ApplicationController < ActionController::Base
         f = obj if obj.is_a? Forum
       end
       expire_fragment("portal/#{f.id}")
-      
+
     end
-  end 
+  end
 
   def is_adm?(user=@user)
     return false unless user.is_a? User
@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
     @user       = User.find_by_fbid(@fb_user.id) if (@fb_user && @user.nil?)
     logger.debug "user is #{@user.inspect}"
 
-    # legacy authentication 
+    # legacy authentication
     unless @user
       username         = cookies[:thisuser]
       password         = cookies[:thispw]
@@ -92,7 +92,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def load_defaults 
+  def load_defaults
     @time_machine     = TimeMachine.new
     @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
@@ -129,7 +129,7 @@ class ApplicationController < ActionController::Base
     end
 
     Notifier.delivery_method = :sendmail
-  end 
+  end
 
   def set_locale
     # see http://github.com/iain/http_accept_language/tree/master
@@ -139,11 +139,11 @@ class ApplicationController < ActionController::Base
     I18n.locale = locale
   end
 
-  def set_stylesheet 
+  def set_stylesheet
     @stylesheet = css_path(:name => @opts[:theme].name)
-  end 
+  end
 
-  def authenticate 
+  def authenticate
     if session[:userid]
       @user = User.find(session[:userid])
     elsif session[:facebook_session]
@@ -152,11 +152,11 @@ class ApplicationController < ActionController::Base
       save_intended_action
       redirect_to login_users_path
     end
-  end 
+  end
 
-  def is_authenticated? 
+  def is_authenticated?
     session[:userid] && User.find(session[:userid]).is_a?(User)
-  end 
+  end
 
   def clear_stale_fb_session
     unless @user
@@ -165,19 +165,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def forum_cache 
+  def forum_cache
     if (session[:forum_tree])
       Forum.set_tree(session[:forum_tree])
     else
       session[:forum_tree] = Forum.tree
     end
-  end 
+  end
 
-  def update_online 
+  def update_online
     @current_user_ip = request.remote_ip
     OnlineUser.touch(@user, @current_user_ip)
     OnlineUser.cleanup(5.minutes)
-  end 
+  end
 
   def update_last_visit
     if @user.is_a?(User) && @location.is_a?(ActiveRecord::Base)

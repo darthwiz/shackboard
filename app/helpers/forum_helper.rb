@@ -5,7 +5,7 @@ module ForumHelper
     current  = cleanup(obj.name)
     current += content_tag(
       :span,
-      " (moderato da #{obj.moderators.collect { |i| link_to(cleanup(i.username), i) }.join(', ')})", 
+      " (moderato da #{obj.moderators.collect { |i| link_to(cleanup(i.username), i) }.join(', ')})",
       :class => 'moderators'
     ) unless obj.moderators.blank?
     trail << [ current, {} ]

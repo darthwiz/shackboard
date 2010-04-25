@@ -1,5 +1,6 @@
 class TextPreviewController < ApplicationController
-  def text_to_html 
+
+  def text_to_html
     if request.xml_http_request?
       @text          = {}
       p              = params[:post] || params[:pm] || params[:topic]
@@ -9,5 +10,6 @@ class TextPreviewController < ApplicationController
     else
       render :nothing => true and return
     end
-  end 
+  end
+
 end

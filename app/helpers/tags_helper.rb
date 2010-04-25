@@ -4,7 +4,7 @@ module TagsHelper
     can_tag = obj.respond_to?(:can_tag?) && obj.can_tag?(@user)
     label   = can_tag ? link_to_remote('tags', :url => object_tag_edit_path(:type => obj.class.to_s, :id => obj.id)) + ':' : 'tags: '
     content_tag(:div, :class => 'editable_tags', :id => "tag_#{domid(obj)}") do
-      [ 
+      [
         label,
         content_tag(:span, obj.tags.collect { |t| link_to_tag_search(t.tag) }.join(', '), :class => 'tag_list')
       ].join(' ')

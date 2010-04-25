@@ -18,7 +18,7 @@ end
             <%nav_links.each do |i|%>
             <li>
               <%=link_to_unless_current(i[:title], :controller => 'welcome', :action => i[:action]) do
-                       link_to i[:title], { :controller => 'welcome', :action => i[:action] }, { :class => 'active' } 
+                       link_to i[:title], { :controller => 'welcome', :action => i[:action] }, { :class => 'active' }
                  end%>
             </li>
             <%end%>

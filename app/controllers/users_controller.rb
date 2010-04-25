@@ -121,7 +121,7 @@ class UsersController < ApplicationController
         cookies[:thisuser]        = { :value => username, :domain => @@domain, :expires => Time.now + cookie_time.days }
         cookies[:thispw]          = { :value => password, :domain => @@domain, :expires => Time.now + cookie_time.days }
         if intended_action
-          redirect_to intended_action 
+          redirect_to intended_action
         else
           redirect_to :back
         end
@@ -131,19 +131,19 @@ class UsersController < ApplicationController
     else
       redirect_to :controller => :users, :action => :login
     end
-  end 
+  end
 
-  def logout 
+  def logout
     cookies[:thisuser] = { :domain => @@domain, :expires => Time.at(0) }
     cookies[:thispw]   = { :domain => @@domain, :expires => Time.at(0) }
     session[:facebook_session] = nil
     reset_session
     if request.referer
-      redirect_to :back 
+      redirect_to :back
     else
       redirect_to root_path
     end
-  end 
+  end
 
   def update
     # FIXME Some refactoring would be nice here.

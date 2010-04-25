@@ -196,7 +196,7 @@ class TopicsController < ApplicationController
       redirect_to :back
     end
   end
- 
+
   def save_draft
     @draft                     = Draft.secure_find(params[:draft_id], @user)
     @draft.object              = Topic.new(params[:topic])

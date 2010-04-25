@@ -39,7 +39,7 @@ class SearchController < ApplicationController
 
   def prepare_topics_by_matching_tags
     if @query_tags.blank?
-      @query_tags = @query_string.split(/\s+/).reject(&:blank?).join(',').strip unless @query_string =~ /,/ 
+      @query_tags = @query_string.split(/\s+/).reject(&:blank?).join(',').strip unless @query_string =~ /,/
     else
       clean_tags = @query_tags.split(/\//).collect(&:slugify).reject(&:blank?).sort.uniq
       redirect_to :tags => clean_tags and return unless @query_tags == clean_tags.join('/')

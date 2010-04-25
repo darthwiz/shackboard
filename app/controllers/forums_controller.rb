@@ -19,7 +19,7 @@ class ForumsController < ApplicationController
     rstart = (start/tpp)*tpp
     rend   = rstart + tpp - 1
     @range = rstart..rend
-    # convert textual forum ids to numeric 
+    # convert textual forum ids to numeric
     fid = params[:id].to_i
     if (fid <= 0) then
       forum = Forum.find(
@@ -31,7 +31,7 @@ class ForumsController < ApplicationController
         fid = forum.id
       end
     end
-    # try to get the requested forum or fail nicely 
+    # try to get the requested forum or fail nicely
     begin
       @forum = Forum.find(fid)
     rescue

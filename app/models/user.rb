@@ -43,14 +43,14 @@ class User < ActiveRecord::Base
     }
   }
 
-  def rank 
+  def rank
     Rank.evaluate(self.postnum)
   end
- 
-  def auth(password) 
+
+  def auth(password)
     password == self.password
   end
- 
+
   def anonymized?
     self.status == 'Anonymized'
   end
@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
       return false
     end
   end
- 
+
   def is_adm?
     User.admin_ids.include? self.id
   end
@@ -94,7 +94,7 @@ class User < ActiveRecord::Base
     end
     false
   end
- 
+
   def can_edit?(user)
     # Beware, this method really should be called "can_be_edited_by?" but is so
     # called for consistency with the same method in other objects.
@@ -124,7 +124,7 @@ class User < ActiveRecord::Base
     self.postnum
   end
 
-  def rename!(new_username) 
+  def rename!(new_username)
     if User.find_by_username(new_username)
       raise DuplicateUserError, "user #{new_username.inspect} already exists"
     else
@@ -194,7 +194,7 @@ class User < ActiveRecord::Base
   def avatar_height
     self.avatar_size[:height]
   end
- 
+
   def nuke!
     self.class.nuke!(self.id)
   end
@@ -222,7 +222,7 @@ class User < ActiveRecord::Base
     user.is_mod?
   end
 
-  def self.authenticate(username, password) 
+  def self.authenticate(username, password)
     u = User.find_by_username(username)
     if (u) then
       if (u.password == password) then
@@ -231,28 +231,28 @@ class User < ActiveRecord::Base
     end
     return nil
   end
- 
-  def self.supermods 
+
+  def self.supermods
     return @@supermods if @@supermods
     mods  = []
     conds = "status = 'Super Moderator' OR status = 'Administrator'"
     User.find(:all, :conditions => conds).each { |u| mods << u }
     @@supermods = mods
   end
- 
-  def self.supermod_ids 
+
+  def self.supermod_ids
     User.supermods.collect(&:id)
   end
- 
-  def self.admins 
+
+  def self.admins
     return @@admins if @@admins
     @@admins = User.find(:all, :conditions => "status = 'Administrator'")
   end
- 
-  def self.admin_ids 
+
+  def self.admin_ids
     User.admins.collect(&:id)
   end
-  
+
   def self.anonymized_usernames
     self.with_exclusive_scope do
       self.find(
@@ -368,7 +368,7 @@ class User < ActiveRecord::Base
   def nearest_multiple(i, j)
     (i.to_f / j).round * j
   end
- 
+
 end
 
 class UserError < StandardError; end

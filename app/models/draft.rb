@@ -32,9 +32,9 @@ class Draft < ActiveRecord::Base
     draft
   end
 
-  def self.count_unsent_for(user) 
+  def self.count_unsent_for(user)
     raise TypeError unless user.is_a? User
     Draft.count(:conditions => ['user_id = ?', user.id])
-  end 
+  end
 
 end

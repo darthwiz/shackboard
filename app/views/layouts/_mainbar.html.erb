@@ -7,7 +7,7 @@
     <tr>
       <td class="loginbox">
         <% if (@user) then %>
-        Benvenuto <span class="author"><%=@user.username%></span> | 
+        Benvenuto <span class="author"><%=@user.username%></span> |
         <span class="menuhl">
           <%= link_to 'logout', { :controller => 'login', :action => 'logout' },
                                 { :class => 'menuhl' } %>

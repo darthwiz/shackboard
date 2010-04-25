@@ -4,7 +4,7 @@ class FileController < ApplicationController
     :set_stylesheet, :only => [ :css ]
   layout 'file_area'
 
-  def categories 
+  def categories
     @numfiles   = {}
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     @categories.each { |c|
@@ -12,16 +12,16 @@ class FileController < ApplicationController
         :conditions => ['file_catid = ? AND approved_by IS NOT NULL', c.id] )
     }
     @location = @categories
-  end 
+  end
 
-  def list 
+  def list
     ppp    = @opts[:ppp]
     start  = params[:start].to_i
     order  = params[:order].to_sym if params[:order]
     start  = 1 if (start == 0)
     offset = start - 1
     limit  = ppp
-    # convert textual category ids to numeric 
+    # convert textual category ids to numeric
     cid = params[:id]
     if (cid.nil?)
       conds = "TRUE"
@@ -35,7 +35,7 @@ class FileController < ApplicationController
         cid = cat.id
       end
     end
-    
+
     if (cid.to_i > 0)
       conds = "file_catid = #{cid}"
     end
@@ -51,9 +51,9 @@ class FileController < ApplicationController
       :get_parms  => [:order]
     }
     @location = FiledbCategory.find(cid)
-  end 
+  end
 
-  def download 
+  def download
     confirmed = params[:license_confirmed] || is_adm?
     id        = params[:id]
     @file     = FiledbFile.find(id, :with_unapproved => is_adm?)
@@ -72,24 +72,24 @@ class FileController < ApplicationController
       @location = @file
       render :action => 'confirm_license', :id => id
     end
-  end 
+  end
 
-  def upload 
+  def upload
     @categories = FiledbCategory.find(:all, :order => 'cat_order')
     if is_authenticated?
       @location = FiledbFile.new
     else
-      session[:intended_action] = { :controller => controller_name, 
+      session[:intended_action] = { :controller => controller_name,
                                     :action     => action_name }
       render :action => 'need_auth'
     end
-  end 
+  end
 
-  def index 
+  def index
     redirect_to :action => 'categories'
-  end 
+  end
 
-  def create 
+  def create
     @new_file = FiledbFile.new(
       :user_id       => session[:userid],
       :file_name     => params[:file][:name],
@@ -111,15 +111,15 @@ class FileController < ApplicationController
     )
     @new_file_data.save
     redirect_to :action => :index
-  end 
+  end
 
-  def review 
+  def review
     redirect_to :action => :categories unless is_adm?
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     @unapproved = FiledbFile.find(:all, :only_unapproved => true)
-  end 
+  end
 
-  def approve 
+  def approve
     render :nothing unless is_adm?
     @categories   = FiledbCategory.find :all, :order => 'cat_order'
     id            = params[:id]
@@ -134,27 +134,27 @@ class FileController < ApplicationController
     end
     f.approve(@user, param_hash)
     expire_fragment(:controller => 'file', :action => 'latest')
-  end 
+  end
 
-  def unapprove 
+  def unapprove
     render :nothing unless is_adm?
     @categories = FiledbCategory.find :all, :order => 'cat_order'
     FiledbFile.unapprove(params[:id].to_i)
     expire_fragment(:controller => 'file', :action => 'latest')
-  end 
+  end
 
-  def delete 
+  def delete
     render :nothing unless is_adm?
     id = params[:id].to_i
     @file = FiledbFile.find(id, :with_unapproved => true)
     @file.destroy
-  end 
+  end
 
-  def show_icon 
+  def show_icon
     render :partial => 'icon', :locals => { :icon => params[:icon] }
-  end 
+  end
 
-  def search 
+  def search
     words = params[:file].to_s.scan_words
     start = params[:start].to_i
     order = params[:order].to_sym if params[:order]
@@ -177,25 +177,25 @@ class FileController < ApplicationController
       @location = @results
       render :action => 'results'
     end
-  end 
+  end
 
-  def css 
+  def css
     headers["Content-Type"] = 'text/css; charset = utf-8'
     @theme_name             = params[:id].sub(/\.css$/, "")
     render :partial => 'css'
-  end 
+  end
 
   private
 
-  def is_adm?(user=@user) 
+  def is_adm?(user=@user)
     begin
       Group.include?(['Group', FILEDB_ADM_GROUP], user)
     rescue
       return false
     end
-  end 
+  end
 
-  def order_clause(order) 
+  def order_clause(order)
     case order
     when :name
       order_clause = 'file_name'
@@ -210,10 +210,10 @@ class FileController < ApplicationController
     else
       order_clause = 'file_name'
     end
-  end 
+  end
 
-  def init 
+  def init
     @page_title = "Area Materiali studentibicocca.it"
-  end 
+  end
 
 end

@@ -43,9 +43,9 @@
             <td style="padding-right: 1em;">Icona</td>
             <td>
               <%= icon_selector('icon', f.id, f.file_posticon) %>
-              <%= observe_field "icon_#{f.id}", 
-                :url    => { :controller => 'file', :action => 'show_icon' }, 
-                :with   => 'icon', 
+              <%= observe_field "icon_#{f.id}",
+                :url    => { :controller => 'file', :action => 'show_icon' },
+                :with   => 'icon',
                 :update => "iconbox_#{f.id}" %>
             </td>
           </tr>
@@ -69,7 +69,7 @@
         <%= submit_to_remote :approve, 'approva',
           :url => { :action => :approve, :id => f } %><br/>
         <%= submit_to_remote :delete, 'elimina',
-          :url => { :action => :delete, :id => f, 
+          :url => { :action => :delete, :id => f,
             :from_action => :review },
           :confirm => "Eliminare '#{f.file_name}'?" %>
       </td>

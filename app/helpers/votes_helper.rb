@@ -9,7 +9,7 @@ module VotesHelper
     votes                = obj.votes
     user_voted_for       = votes.select { |v| v.points > 0 }.collect(&:user_id).include?(@user.id)
     user_voted_against   = votes.select { |v| v.points < 0 }.collect(&:user_id).include?(@user.id)
-    link_for             = link_to_remote('mi piace',     :url => like_url_opts,        :html => { :class => 'active' }) 
+    link_for             = link_to_remote('mi piace',     :url => like_url_opts,        :html => { :class => 'active' })
     link_against         = link_to_remote('non mi piace', :url => dislike_url_opts,     :html => { :class => 'active' })
     link_indifferent     = link_to_remote('?',            :url => indifferent_url_opts, :html => { :class => 'active' })
     inactive_for         = content_tag(:span, 'mi piace',     :class => 'inactive', :title => 'non mi piace')

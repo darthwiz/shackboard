@@ -1,7 +1,7 @@
 class DraftsController < ApplicationController
   before_filter :authenticate
   layout 'forum'
-  
+
   def index
     redirect_to root_path and return unless @user.is_a? User
     ppp           = @opts[:ppp]
@@ -11,7 +11,7 @@ class DraftsController < ApplicationController
     limit         = ppp
     @drafts       = Draft.find_paged_for(@user, offset, limit)
     @drafts_count = Draft.count_unsent_for(@user)
-    @pageseq_opts = { 
+    @pageseq_opts = {
       :controller  => :draft,
       :action      => :index,
       :last        => @drafts_count,

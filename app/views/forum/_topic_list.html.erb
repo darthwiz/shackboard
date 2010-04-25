@@ -2,12 +2,12 @@
   icon_base    = 'http://www.studentibicocca.it/portale/forum/images/'
   hot_thresh   = 25
   ppp          = @opts[:ppp]
-  # cache calculations 
+  # cache calculations
   cache_bsize  = @topic_block_size
   cache_start  = @range.begin / cache_bsize
   cache_end    = @range.end / cache_bsize
   cache_blocks = (cache_start..cache_end)
-  # 
+  #
 %>
 <table id="topic_list">
 <%#titles %>
@@ -38,7 +38,7 @@
   cache_blocks.each do |b|
     range = (b * cache_bsize)...((b + 1) * cache_bsize)
     cache "forum/#{@forum.id}/topics/#{b}" do
-      flip = 0 unless flip 
+      flip = 0 unless flip
       @forum.topics(range).each do |t|
         folder = icon_base + 'folder.gif'
         folder = icon_base + 'hot_folder.gif'  if t.total_posts >= hot_thresh

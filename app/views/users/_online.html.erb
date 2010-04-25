@@ -1,4 +1,4 @@
-<% 
+<%
 links = []
 if @user.is_a?(User) && @user.is_adm?
   @online_users.each { |u| links << link_to(u.username, u, :title => u.ip) }

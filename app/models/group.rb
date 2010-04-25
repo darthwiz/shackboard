@@ -2,6 +2,7 @@ class Group < ActiveRecord::Base
   has_many :group_memberships, :dependent => :destroy
   has_many :users, :through => :group_memberships
   validates_uniqueness_of :name
+
   def associate!(user)
     arr = object_to_array(user)
     return false unless arr[0] == 'User'
@@ -63,19 +64,19 @@ class Group < ActiveRecord::Base
   def can_edit?(user)
     acl.can_edit?(user)
   end
-  
+
   def can_edit(user)
     acl.can_edit(user)
   end
-  
+
   def remove_can_edit(user)
     acl.remove_can_edit(user)
   end
-  
+
   def acl_save
     acl.save
   end
-  
+
   private
   def acl
     return @acl if @acl
@@ -83,7 +84,7 @@ class Group < ActiveRecord::Base
     return @acl if @acl
     @acl = Acl.new.attach_to(self)
   end
-  
+
   def object_to_array(obj)
     case obj.class.to_s
     when 'Array'
@@ -94,7 +95,7 @@ class Group < ActiveRecord::Base
       arr = [ obj.class.to_s, obj.id ]
     end
   end
-  
+
   def object_to_object(obj)
     case obj.class.to_s
     when 'Array'
@@ -111,7 +112,7 @@ class Group < ActiveRecord::Base
     end
     nil
   end
-  
+
   def arg_to_group(arg)
     case arg.class.to_s
     when 'Fixnum'
@@ -123,4 +124,5 @@ class Group < ActiveRecord::Base
     end
     nil
   end
+
 end

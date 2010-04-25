@@ -1,7 +1,7 @@
 class Admin::BansController < Admin::ApplicationController
   before_filter :authenticate
   layout 'forum'
-  
+
   def index
     @active_bans = Ban.active_at(Time.now).find(:all, :include => [ :user, :moderator, :forum ])
     @page_title  = "Espulsioni"

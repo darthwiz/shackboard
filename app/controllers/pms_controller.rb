@@ -2,7 +2,7 @@ class PmsController < ApplicationController
   before_filter :authenticate
   layout 'forum'
 
-  def index 
+  def index
     ppp    = @opts[:ppp]
     start  = params[:start].to_i
     folder = params[:folder] || 'inbox'
@@ -23,9 +23,9 @@ class PmsController < ApplicationController
                        :extra_links => [ :first, :forward, :back, :last ] }
     @location = @pms
     render :layout => 'forum'
-  end 
+  end
 
-  def show 
+  def show
     if request.xml_http_request?
       @pm = Pm.find(params[:id])
       render :nothing => true and return unless @pm.can_read?(@user)
@@ -35,9 +35,9 @@ class PmsController < ApplicationController
       end
     end
     render :nothing => true and return
-  end 
+  end
 
-  def destroy 
+  def destroy
     if request.xml_http_request?
       @pm = Pm.find(params[:id])
       if @pm.to == @user
@@ -50,9 +50,9 @@ class PmsController < ApplicationController
       end
     end
     render :nothing => true and return
-  end 
+  end
 
-  def undelete 
+  def undelete
     if request.xml_http_request?
       @pm = Pm.find(params[:id])
       if (@pm.to == @user && @pm.folder == 'trash')
@@ -61,9 +61,9 @@ class PmsController < ApplicationController
       end
     end
     render :nothing => true and return
-  end 
+  end
 
-  def new 
+  def new
     reply_id = params[:pm_id].to_i
     draft_id = params[:draft_id].to_i
     username = params[:username]
@@ -77,7 +77,7 @@ class PmsController < ApplicationController
     end
     @page_title = 'Nuovo messaggio privato'
     @location   = @pm
-  end 
+  end
 
   def reply
     reply_to = Pm.secure_find(params[:id], @user)
@@ -111,7 +111,7 @@ class PmsController < ApplicationController
     end
   end
 
-  def save_draft 
+  def save_draft
     # FIXME refactor to use secure_find
     if request.xml_http_request?
       id    = params[:draft_id]
@@ -130,9 +130,9 @@ class PmsController < ApplicationController
     else
       render :nothing => true and return
     end
-  end 
+  end
 
-  def create 
+  def create
     @pm = Pm.new(params[:pm])
     @pm.dateline = Time.now.to_i
     @pm.folder   = 'inbox'
@@ -145,15 +145,15 @@ class PmsController < ApplicationController
       draft = Draft.find(params[:draft_id])
       @pm.attribute_names.each do |a|
         if (draft.object.is_a?(Array) && draft.object[0].respond_to?(a))
-          draft.object[0].send(a + '=', @pm.send(a)) 
+          draft.object[0].send(a + '=', @pm.send(a))
         end
       end
       draft.save
       redirect_to :back
     end
-  end 
+  end
 
-  def search 
+  def search
     if request.xml_http_request?
       ppp    = @opts[:ppp]
       start  = params[:start].to_i
@@ -167,7 +167,7 @@ class PmsController < ApplicationController
         :offset     => offset
       render :partial => 'pm_index'
     end
-  end 
+  end
 
   def backup
     @skip_anonymize_filter = true

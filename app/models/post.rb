@@ -29,7 +29,7 @@ class Post < ActiveRecord::Base
     uid = user.is_a?(User) ? user.id : nil
     ut  = User.table_name
     pt  = self.table_name
-    { 
+    {
       :conditions => { :uid => uid },
       :joins      => "INNER JOIN #{ut} AS wu_u ON #{pt}.uid = wu_u.uid AND wu_u.status != 'Anonymized'"
     }
@@ -65,7 +65,7 @@ class Post < ActiveRecord::Base
   named_scope :ordered_by_relevance, :order   => 'relevance DESC'
   named_scope :ordered_by_time,      :order   => 'dateline'
   named_scope :ordered_by_time_desc, :order   => 'dateline DESC'
-  
+
   def text
     self.message
   end

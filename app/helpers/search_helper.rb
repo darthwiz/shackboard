@@ -4,7 +4,7 @@ module SearchHelper
     case obj.class.to_s
     when 'Topic'
       tags = obj.tags
-      if obj.tags.blank? 
+      if obj.tags.blank?
         tag_links = ''
       else
         tag_links = content_tag(:span, '(' + obj.tags.collect { |t| link_to_tag_search(t.tag) }.join(', ') + ')', :class => 'tags')
