@@ -5,7 +5,7 @@ module SmileysHelper
       content_tag(:dl) do
         [
           content_tag(:dt, :class => 'edit') do
-            link_to_remote("modifica", :url => edit_smiley_path(smiley), :method => :get)
+            link_to_remote("modifica", :url => edit_smiley_path(smiley), :method => :get) if smiley.can_edit?(@user)
           end,
           content_tag(:dd, smiley.code, :class => 'code'),
           content_tag(:dd, smiley.url, :class => 'url'),

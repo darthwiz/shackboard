@@ -11,7 +11,7 @@ module CommentsHelper
     user        = comment.user
     can_edit    = comment.can_edit?(@user)
     author_html = content_tag(:div, [
-      content_tag(:span, cleanup(user.username), :class => 'username'),
+      content_tag(:span, link_to(cleanup(user.username), user), :class => 'username'),
       user.avatar.blank? ? '' : image_tag(user.avatar, :class => 'avatar'),
     ].join(' '), :class => 'author')
     text_html = content_tag(:div, BbText.new(comment.text.to_s, Smiley.all(user)).to_html(:controller => self), :class => 'text')

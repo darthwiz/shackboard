@@ -34,7 +34,7 @@ class Smiley < ActiveRecord::Base
   end
 
   def can_edit?(user)
-    user.is_a?(User) && self.user == user
+    user.is_a?(User) && (user.is_adm? || self.user == user)
   end
 
   def can_delete?(user)
