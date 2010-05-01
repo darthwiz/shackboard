@@ -1,0 +1,7 @@
+-links = []
+-if (@user.is_a?(User) && @user.is_adm?)
+  -@online_users.each { |u| links << link_to(u.username, u, :title => u.ip) }
+-else
+  -@online_users.each { |u| links << link_to(u.username, u) }
+="Ci sono <strong>#{@guests_count}</strong> visitatori e <strong>#{@online_users.size}</strong> utenti registrati online:"
+=links.join(', ')

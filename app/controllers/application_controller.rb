@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   before_filter :set_facebook_session,
-    :recognize_user, :load_defaults, :set_locale, :update_online,
+    :recognize_user, :load_defaults, :set_locale,
     :set_stylesheet
   after_filter :update_last_visit
   helper_method :facebook_session
@@ -93,12 +93,11 @@ class ApplicationController < ActionController::Base
   end
 
   def load_defaults
+    @current_user_ip  = request.remote_ip
     @time_machine     = TimeMachine.new
     @settings         = Settings.find(:all)[0]
     @post_block_size  = 25
     @topic_block_size = 25
-    @online_users     = OnlineUser.online
-    @guests_count     = OnlineUser.guests_count
     @page_title       = Conf.default_page_title
 
     @opts = {}
@@ -171,12 +170,6 @@ class ApplicationController < ActionController::Base
     else
       session[:forum_tree] = Forum.tree
     end
-  end
-
-  def update_online
-    @current_user_ip = request.remote_ip
-    OnlineUser.touch(@user, @current_user_ip)
-    OnlineUser.cleanup(5.minutes)
   end
 
   def update_last_visit

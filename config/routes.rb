@@ -46,6 +46,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :comments
   map.resources :smileys
   map.resources :announcements
+  map.resources :online_users
   map.namespace(:admin) do |admin|
     admin.resources :cms_pages 
     admin.resources :announcements
