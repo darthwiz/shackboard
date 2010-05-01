@@ -1,0 +1,168 @@
+=nice_white_box
+  padding: 1.5em
+  border: 1px solid #4060a0
+  background-color: white
+  margin: 0.5em
+
+html, body
+  color: #000000
+  background-color: #6080ff
+  font-size: 13px
+  font-family: Verdana, sans-serif
+  margin: 0
+  padding: 0
+  height: 100%
+
+
+a
+  text-decoration: none
+
+  &:hover
+    text-decoration: underline
+
+
+.header
+  background: url(http://img254.imageshack.us/img254/8053/titlegradientod3.png)
+  background-color: yellow
+  background-repeat: repeat-x
+  margin: 0 0 1em 0
+  clear: both
+  overflow: auto
+
+  h1
+    float: left
+    margin-left: 1em
+    font-family: "Trebuchet MS", sans-serif
+
+  .nav
+    clear: both
+    text-align: center
+    overflow: auto
+    font-family: "Trebuchet MS", sans-serif
+    font-size: 17px
+    background-color: #303030
+    padding: 0.3em 1em 0.3em 1em
+    border-top: 4px solid #181818
+    border-bottom: 4px solid #181818
+    margin: 0
+
+    ul
+      list-style: none
+      margin: 0
+      padding: 0
+      margin-left: auto
+      margin-right: auto
+
+      li
+        display: inline
+        border: 2px solid #383838
+        -moz-border-radius: 5px
+        -webkit-border-radius: 5px
+
+        a
+          padding: 0.2em 1em
+          margin-left: 1em
+          margin-right: 1em
+          color: yellow
+          text-decoration: none
+
+        &:hover
+          background-color: #383838
+
+
+#login_box
+  width: 20em
+  background-color: white
+  padding: 0.5em
+  border: 1px solid #404040
+  margin: 0.5em
+  float: right
+  font-size: 11px
+
+  ul
+    padding-left: 1.5em
+    margin: 0
+    list-style-type: disc
+
+  div.login
+    text-align: right
+    padding: 0.5em
+
+
+div#login_box input
+  font-size: 11px
+
+
+#login_box
+  div
+    &.label
+      float: left
+      text-align: right
+      width: 6em
+      padding-right: 0.5em
+
+    &.buttons
+      margin-top: 0.5em
+      text-align: right
+
+      a
+        background-color: white
+        padding-left: .5em
+        padding-right: .5em
+        border: 1px solid black
+        color: black
+        line-height: 1.8em
+        text-decoration: none
+
+        &:hover
+          background-color: yellow
+          text-decoration: none
+
+    &.user_register
+      float: left
+
+  .fb_connect .label
+    width: 110px
+    display: block
+    float: left
+
+
+// generic body
+.main_body
+  margin-left: auto
+  margin-right: auto
+  max-width: 980px
+  margin-bottom: 0.5em
+  clear: both
+
+
+.welcome
+  .main_body
+    overflow: auto
+
+    .primary
+      float: left
+      width: 60%
+
+      .content
+        +nice_white_box
+
+    .secondary
+      float: right
+      width: 40%
+
+      .content
+        +nice_white_box
+
+
+.footer
+  clear: both
+  overflow: auto
+  color: white
+  background-color: #303030
+  padding: 0.5em 1em 0.5em 1em
+  border-top: 4px solid #181818
+  margin: 1em 0 0 0
+
+  a
+    color: yellow
