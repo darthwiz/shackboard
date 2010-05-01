@@ -111,19 +111,9 @@ div#login_box input {
   .welcome .main_body .primary {
     float: left;
     width: 60%; }
-    .welcome .main_body .primary .content {
-      padding: 1.5em;
-      border: 1px solid #4060a0;
-      background-color: white;
-      margin: 0.5em; }
   .welcome .main_body .secondary {
     float: right;
     width: 40%; }
-    .welcome .main_body .secondary .content {
-      padding: 1.5em;
-      border: 1px solid #4060a0;
-      background-color: white;
-      margin: 0.5em; }
 
 .footer {
   clear: both;

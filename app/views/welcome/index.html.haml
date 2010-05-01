@@ -1,64 +1,18 @@
 .primary
   .content
-    %p
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rhoncus
-      facilisis sem, eget tincidunt arcu cursus hendrerit. Nullam fringilla,
-      ligula vitae euismod pharetra, leo arcu pellentesque justo, id hendrerit
-      neque sem at tortor. Donec id erat nunc. In at tortor eu ligula semper
-      gravida.  Curabitur id sem at risus semper dapibus. Cras ac erat vel
-      libero bibendum congue. Nulla luctus leo vel leo convallis eget
-      consectetur libero dapibus.  Vestibulum ante lorem, egestas at dictum sit
-      amet, viverra nec mauris. Nunc mollis lectus quis metus placerat
-      malesuada. Nam vehicula laoreet odio, id facilisis magna vehicula
-      rhoncus. Morbi nibh dui, gravida id viverra ac, gravida id nibh. Maecenas
-      id tortor at magna egestas pellentesque.
-
-    %p
-      Aliquam erat volutpat. Donec non metus id ligula mattis facilisis.
-      Curabitur vestibulum venenatis tempor. Vestibulum et massa vitae augue
-      viverra suscipit. In hac habitasse platea dictumst. In hac habitasse
-      platea dictumst.  Pellentesque sagittis lectus ut tortor pulvinar
-      pharetra eu posuere erat.  Cras at risus lacus, sed eleifend sem.
-      Maecenas in massa ligula, et varius odio. In ut urna id nisi rutrum
-      pulvinar. Integer egestas, quam ut fermentum scelerisque, libero risus
-      malesuada risus, ac molestie urna velit vitae erat.  Proin tortor mauris,
-      ultrices vel sodales id, feugiat in odio. Curabitur blandit dignissim
-      libero, ac congue tellus euismod ultrices.
-
-    %p
-      Phasellus lacinia mollis tellus, sed aliquet leo tempus vitae.
-      Suspendisse ac velit eget nisl interdum interdum eget ac nunc.
-      Suspendisse arcu massa, ultricies vel tristique non, varius sed nisl.
-      Cras in neque at tortor pulvinar accumsan. Vivamus vitae vestibulum
-      velit. Duis ac velit enim. Nulla non nisl et dui commodo viverra vel ac
-      neque. Vestibulum gravida lacus orci.  Aliquam erat volutpat. Aliquam vel
-      ligula ante, sed adipiscing massa. Morbi sollicitudin nisi turpis.
-      Pellentesque sit amet nisl vulputate leo tincidunt faucibus at vitae
-      lorem.
+    %ul#modules_primary.modules
+      %li(style="display: none;")
+      -@modules[:primary].each do |m|
+        =render_module(:primary, m)
 
 .secondary
   .content
-    %p
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rhoncus
-      facilisis sem, eget tincidunt arcu cursus hendrerit. Nullam fringilla,
-      ligula vitae euismod pharetra, leo arcu pellentesque justo, id hendrerit
-      neque sem at tortor. Donec id erat nunc. In at tortor eu ligula semper
-      gravida.  Curabitur id sem at risus semper dapibus. Cras ac erat vel
-      libero bibendum congue. Nulla luctus leo vel leo convallis eget
-      consectetur libero dapibus.  Vestibulum ante lorem, egestas at dictum sit
-      amet, viverra nec mauris. Nunc mollis lectus quis metus placerat
-      malesuada. Nam vehicula laoreet odio, id facilisis magna vehicula
-      rhoncus. Morbi nibh dui, gravida id viverra ac, gravida id nibh. Maecenas
-      id tortor at magna egestas pellentesque.
+    %ul#modules_secondary.modules
+      %li(style="display: none;")
+      -@modules[:secondary].each do |m|
+        =render_module(:secondary, m)
 
-    %p
-      Aliquam erat volutpat. Donec non metus id ligula mattis facilisis.
-      Curabitur vestibulum venenatis tempor. Vestibulum et massa vitae augue
-      viverra suscipit. In hac habitasse platea dictumst. In hac habitasse
-      platea dictumst.  Pellentesque sagittis lectus ut tortor pulvinar
-      pharetra eu posuere erat.  Cras at risus lacus, sed eleifend sem.
-      Maecenas in massa ligula, et varius odio. In ut urna id nisi rutrum
-      pulvinar. Integer egestas, quam ut fermentum scelerisque, libero risus
-      malesuada risus, ac molestie urna velit vitae erat.  Proin tortor mauris,
-      ultrices vel sodales id, feugiat in odio. Curabitur blandit dignissim
-      libero, ac congue tellus euismod ultrices.
+-containment = [ 'modules_primary', 'modules_secondary' ]
+-format      = '/^module_[a-z]*_(.*)$/'
+=sortable_element(:modules_primary,   :constraint => false, :containment => containment, :format => format)
+=sortable_element(:modules_secondary, :constraint => false, :containment => containment, :format => format)
