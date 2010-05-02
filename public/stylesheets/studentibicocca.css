@@ -132,17 +132,20 @@ div#login_box input {
           padding: 0.3em; }
           .welcome .main_body .primary .content ul.modules li.module h3 a {
             color: white; }
-        .welcome .main_body .primary .content ul.modules li.module .forum ul.topics li {
+        .welcome .main_body .primary .content ul.modules li.module .forum ul li {
           margin-bottom: 0.5em; }
-        .welcome .main_body .primary .content ul.modules li.module .forum ul.topics a.title {
+        .welcome .main_body .primary .content ul.modules li.module .forum ul a.title {
           display: block; }
-        .welcome .main_body .primary .content ul.modules li.module .forum ul.topics span.last_post {
+        .welcome .main_body .primary .content ul.modules li.module .forum ul span.last_post {
           font-size: 85%; }
-          .welcome .main_body .primary .content ul.modules li.module .forum ul.topics span.last_post span.label {
-            color: gray; }
-      .welcome .main_body .primary .content ul.modules ul.topics {
-        list-style: none;
-        padding: 0.7em; }
+          .welcome .main_body .primary .content ul.modules li.module .forum ul span.last_post span.label {
+            color: gray;
+            padding-left: 0.5em; }
+          .welcome .main_body .primary .content ul.modules li.module .forum ul span.last_post a.time {
+            margin-left: 0.3em; }
+        .welcome .main_body .primary .content ul.modules li.module ul {
+          list-style: none;
+          padding: 0.7em; }
   .welcome .main_body .secondary {
     float: right;
     width: 40%;
@@ -162,17 +165,20 @@ div#login_box input {
           padding: 0.3em; }
           .welcome .main_body .secondary .content ul.modules li.module h3 a {
             color: white; }
-        .welcome .main_body .secondary .content ul.modules li.module .forum ul.topics li {
+        .welcome .main_body .secondary .content ul.modules li.module .forum ul li {
           margin-bottom: 0.5em; }
-        .welcome .main_body .secondary .content ul.modules li.module .forum ul.topics a.title {
+        .welcome .main_body .secondary .content ul.modules li.module .forum ul a.title {
           display: block; }
-        .welcome .main_body .secondary .content ul.modules li.module .forum ul.topics span.last_post {
+        .welcome .main_body .secondary .content ul.modules li.module .forum ul span.last_post {
           font-size: 85%; }
-          .welcome .main_body .secondary .content ul.modules li.module .forum ul.topics span.last_post span.label {
-            color: gray; }
-      .welcome .main_body .secondary .content ul.modules ul.topics {
-        list-style: none;
-        padding: 0.7em; }
+          .welcome .main_body .secondary .content ul.modules li.module .forum ul span.last_post span.label {
+            color: gray;
+            padding-left: 0.5em; }
+          .welcome .main_body .secondary .content ul.modules li.module .forum ul span.last_post a.time {
+            margin-left: 0.3em; }
+        .welcome .main_body .secondary .content ul.modules li.module ul {
+          list-style: none;
+          padding: 0.7em; }
 
 .footer {
   clear: both;

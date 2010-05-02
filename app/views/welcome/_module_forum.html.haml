@@ -1,4 +1,4 @@
--cache("/home/forum/#{forum.id}") do
+-cache("/home/modules/forum/#{forum.id}") do
   %div{ :class => 'forum', :id => "module_content_#{domid(forum)}" }
     .title
       %h3= link_to(h(forum.name), forum)

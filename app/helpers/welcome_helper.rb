@@ -4,12 +4,25 @@ module WelcomeHelper
     case obj.class.to_s
     when 'Forum'
       render_module_forum(module_list, obj)
+    when 'Symbol'
+      case obj
+      when :announcements
+        render_module_announcements(module_list)
+      when :blogs
+      when :file_area
+      end
     end
   end
 
   def render_module_forum(module_list, forum)
     content_tag(:li, :class => 'module', :id => "module_#{module_list}_forum_#{forum.id}") do
       render :partial => '/welcome/module_forum', :locals => { :forum => forum }
+    end
+  end
+
+  def render_module_announcements(module_list)
+    content_tag(:li, :class => 'module', :id => "module_#{module_list}_announcements_0") do
+      render :partial => '/welcome/module_announcements'
     end
   end
 
