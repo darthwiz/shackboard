@@ -11,6 +11,7 @@ module WelcomeHelper
       when :blogs
         render_module_blogs(module_list)
       when :file_area
+        render_module_file_area(module_list)
       end
     end
   end
@@ -30,6 +31,12 @@ module WelcomeHelper
   def render_module_blogs(module_list)
     content_tag(:li, :class => 'module', :id => "module_#{module_list}_blogs_0") do
       render :partial => '/welcome/module_blogs'
+    end
+  end
+
+  def render_module_file_area(module_list)
+    content_tag(:li, :class => 'module', :id => "module_#{module_list}_file_area_0") do
+      render :partial => '/welcome/module_file_area'
     end
   end
 

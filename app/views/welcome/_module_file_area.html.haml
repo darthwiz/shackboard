@@ -1,0 +1,18 @@
+-cache("/home/modules/file_area") do
+  -files = FiledbFile.latest
+  -count = FiledbFile.count_approved
+  %div{ :class => 'file_area', :id => "module_content_file_area" }
+    .title
+      %h3= link_to("Materiali", :controller => 'file', :action => 'categories')
+    .content
+      %ul.file_area
+        -if files.blank?
+          %li.empty Non ci sono materiali al momento.
+        -else
+          %li.count= "Ci sono #{count} file condivisi fra appunti, domande e temi d'esame. I più recenti sono:"
+          -files.each do |f|
+            %li
+              %span.title
+                =link_to(f.name, { :controller => :file, :action => :download, :id => f })
+              %span.category
+                ="(#{f.category.name.strip})"
