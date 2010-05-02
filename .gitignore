@@ -4,3 +4,4 @@
 /config/facebooker.yml
 /config/config.yml
 /db/*.sqlite3
+/public/robots.txt
