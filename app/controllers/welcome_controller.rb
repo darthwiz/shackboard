@@ -29,8 +29,8 @@ class WelcomeController < ApplicationController
     session[:modules] = {} if session[:modules].blank?
     mods              = session[:modules]
     default_modules   = {
-      :primary =>   [ 70, 69, 61, 67, 52, 57, 59, 55 ].collect { |i| "forum_#{i}" },
-      :secondary => [ 27, 171, 164, 109 ].collect { |i| "forum_#{i}" },
+      :primary   => Conf.home_page['default_modules']['primary'].split(/\s*,\s*/),
+      :secondary => Conf.home_page['default_modules']['secondary'].split(/\s*,\s*/),
     }
     @modules = {
       :primary   => parse_modules(mods[:primary].blank?   ? default_modules[:primary]   : mods[:primary]),
@@ -41,11 +41,14 @@ class WelcomeController < ApplicationController
   def parse_modules(module_strings)
     mods = []
     return [] unless module_strings.is_a?(Array)
-    module_strings.reject(&:blank?).uniq.each do |s|
-      if s =~ /_[0-9]+$/
-        id        = s.sub(/^.*_([0-9]+)$/, "\\1").to_i
-        obj_class = s.sub(/^(.*)_([0-9]+)$/, "\\1").classify
+    module_strings.reject(&:blank?).uniq.each do |mod_name|
+      case mod_name
+      when /_[0-9]+$/
+        id        = mod_name.sub(/^.*_([0-9]+)$/, "\\1").to_i
+        obj_class = mod_name.sub(/^(.*)_([0-9]+)$/, "\\1").classify
         mods << Module.const_get(obj_class).find(id)
+      else
+        mods << mod_name.to_sym
       end
     end
     mods
