@@ -6,7 +6,7 @@
     .content
       %ul.announcements
         -if announcements.blank?
-          %li Non ci sono avvisi al momento.
+          %li.empty Non ci sono avvisi al momento.
         -else
           -announcements.each do |a|
             %li
