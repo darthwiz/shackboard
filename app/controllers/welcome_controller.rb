@@ -16,8 +16,8 @@ class WelcomeController < ApplicationController
     respond_to do |format|
       format.js do
         session[:modules]             = {} if session[:modules].blank?
-        session[:modules][:primary]   = params[:modules_primary].reject(&:blank?)   unless params[:modules_primary].blank?
-        session[:modules][:secondary] = params[:modules_secondary].reject(&:blank?) unless params[:modules_secondary].blank?
+        session[:modules][:primary]   = cleanup_module_names(params[:modules_primary])   unless params[:modules_primary].blank?
+        session[:modules][:secondary] = cleanup_module_names(params[:modules_secondary]) unless params[:modules_secondary].blank?
         render :nothing => true
       end
     end
@@ -36,6 +36,16 @@ class WelcomeController < ApplicationController
       :primary   => parse_modules(mods[:primary].blank?   ? default_modules[:primary]   : mods[:primary]),
       :secondary => parse_modules(mods[:secondary].blank? ? default_modules[:secondary] : mods[:secondary]),
     }
+  end
+
+  def cleanup_module_names(module_strings)
+    # make sure we have no empty strings and remove 0 indexes
+    mods = []
+    return [] unless module_strings.is_a?(Array)
+    module_strings.reject(&:blank?).each do |mod_name|
+      mods << mod_name.sub(/_0$/, '')
+    end
+    mods
   end
 
   def parse_modules(module_strings)

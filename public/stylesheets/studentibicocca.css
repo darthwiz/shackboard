@@ -150,27 +150,40 @@ div#login_box input {
   .welcome .main_body div ul li.empty {
     color: gray; }
 .welcome .main_body div .forum ul li,
-.welcome .main_body div .blogs ul li {
+.welcome .main_body div .blogs ul li,
+.welcome .main_body div .file_area ul li {
   margin-bottom: 0.5em; }
-.welcome .main_body div .forum ul span.title,
-.welcome .main_body div .blogs ul span.title {
-  display: block; }
 .welcome .main_body div .forum ul span.last_post,
 .welcome .main_body div .forum ul span.author,
+.welcome .main_body div .forum ul span.category,
 .welcome .main_body div .blogs ul span.last_post,
-.welcome .main_body div .blogs ul span.author {
+.welcome .main_body div .blogs ul span.author,
+.welcome .main_body div .blogs ul span.category,
+.welcome .main_body div .file_area ul span.last_post,
+.welcome .main_body div .file_area ul span.author,
+.welcome .main_body div .file_area ul span.category {
   font-size: 85%; }
-  .welcome .main_body div .forum ul span.last_post span.label,
-  .welcome .main_body div .forum ul span.author span.label,
-  .welcome .main_body div .blogs ul span.last_post span.label,
-  .welcome .main_body div .blogs ul span.author span.label {
-    color: gray;
-    padding-left: 0.5em; }
   .welcome .main_body div .forum ul span.last_post a.time,
   .welcome .main_body div .forum ul span.author a.time,
+  .welcome .main_body div .forum ul span.category a.time,
   .welcome .main_body div .blogs ul span.last_post a.time,
-  .welcome .main_body div .blogs ul span.author a.time {
+  .welcome .main_body div .blogs ul span.author a.time,
+  .welcome .main_body div .blogs ul span.category a.time,
+  .welcome .main_body div .file_area ul span.last_post a.time,
+  .welcome .main_body div .file_area ul span.author a.time,
+  .welcome .main_body div .file_area ul span.category a.time {
     margin-left: 0.3em; }
+.welcome .main_body div .forum ul span.label,
+.welcome .main_body div .forum ul span.category,
+.welcome .main_body div .blogs ul span.label,
+.welcome .main_body div .blogs ul span.category,
+.welcome .main_body div .file_area ul span.label,
+.welcome .main_body div .file_area ul span.category {
+  color: gray;
+  padding-left: 0.5em; }
+.welcome .main_body div .forum span.title,
+.welcome .main_body div .blogs span.title {
+  display: block; }
 
 .footer {
   clear: both;
