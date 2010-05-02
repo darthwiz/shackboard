@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   skip_before_filter :set_facebook_session,
-    :recognize_user, :load_defaults, :set_locale, :set_stylesheet,
+    :load_defaults, :set_locale, :set_stylesheet,
     :only => [ :update_modules ]
 
   def index
@@ -18,6 +18,7 @@ class WelcomeController < ApplicationController
         session[:modules]             = {} if session[:modules].blank?
         session[:modules][:primary]   = cleanup_module_names(params[:modules_primary])   unless params[:modules_primary].blank?
         session[:modules][:secondary] = cleanup_module_names(params[:modules_secondary]) unless params[:modules_secondary].blank?
+        @user.set_var(:home_modules, session[:modules]) if @user.is_a?(User)
         render :nothing => true
       end
     end
@@ -27,6 +28,7 @@ class WelcomeController < ApplicationController
 
   def prepare_modules
     session[:modules] = {} if session[:modules].blank?
+    session[:modules] = @user.get_var(:home_modules) || {} if @user.is_a?(User)
     mods              = session[:modules]
     default_modules   = {
       :primary   => Conf.home_page['default_modules']['primary'].split(/\s*,\s*/),
