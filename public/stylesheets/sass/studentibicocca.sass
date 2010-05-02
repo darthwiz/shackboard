@@ -1,7 +1,9 @@
-=nice_white_box
+!nice_box_border_color = #4060a0
+!nice_box_background_color = white
+=nice_box
   padding: 1.5em
-  border: 1px solid #4060a0
-  background-color: white
+  border = "1px" "solid" !nice_box_border_color
+  background-color = !nice_box_background_color
   margin: 0.5em
 
 html, body
@@ -135,22 +137,61 @@ div#login_box input
   margin-bottom: 0.5em
   clear: both
 
+=home_content_box(!percent_width, !side)
+  float = !side
+  width = !percent_width
+  overflow: visible
+  .content
+    ul.modules
+      list-style: none
+      padding: 0 0 2em 0
+
+      li.module
+        background-color: white
+        padding: 0
+        @if !side == "left"
+          margin: 0.7em 0.35em 0.7em 0.7em
+        @else if !side == "right"
+          margin: 0.7em 0.7em 0.7em 0.35em
+        border: 2px solid black
+
+        h3
+          margin: 0
+          background-color = !nice_box_border_color
+          color = !nice_box_background_color
+          padding: 0.3em
+          a
+            color = !nice_box_background_color
+
+        .forum
+          ul.topics
+            li
+              margin-bottom: 0.5em
+            a.title
+              display: block
+            span.last_post
+              font-size: 85%
+              span.label
+                color: gray
+
+      ul.topics
+        list-style: none
+        padding: 0.7em
 
 .welcome
+  .header
+    h1
+      background: url(http://www.studentibicocca.it/portale/immagini/header_stubi.png)
+      width: 620px
+      height: 108px
+      text-indent: -10000px
+
   .main_body
-    overflow: auto
-
+    overflow: visible
     .primary
-      float: left
-      width: 60%
-
-      .content
-
+      +home_content_box("60%", "left")
     .secondary
-      float: right
-      width: 40%
-
-      .content
+      +home_content_box("40%", "right")
 
 
 .footer

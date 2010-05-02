@@ -1,0 +1,9 @@
+-cache("/home/forum/#{forum.id}") do
+  %div{ :class => 'forum', :id => "module_content_#{domid(forum)}" }
+    .title
+      %h3= link_to(h(forum.name), forum)
+    .content
+      %ul.topics
+        -forum.latest_topics(5, :include_sub => true).each do |t|
+          %li
+            =link_to_forum_topic(t)
