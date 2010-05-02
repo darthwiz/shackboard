@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :posts, :foreign_key => :uid
   has_many :notifications, :foreign_key => :recipient_id
   has_many :bans
+  has_many :variables, :class_name => 'UserVariable'
   validates_uniqueness_of :username
   validates_uniqueness_of :email, :allow_nil => true
   validates_length_of :username, :minimum => 1
@@ -209,6 +210,23 @@ class User < ActiveRecord::Base
 
   def nuke!
     self.class.nuke!(self.id)
+  end
+
+  def set_var(key, value)
+    var = self.variables.with_key(key.to_s).first || UserVariable.new(:user => self, :key => key.to_s)
+    var.value = value
+    var.save!
+    self
+  end
+
+  def get_var(key)
+    var = self.variables.with_key(key.to_s).first || UserVariable.new(:user => self, :key => key.to_s)
+    var.value
+  end
+
+  def delete_var(key)
+    var = self.variables.with_key(key.to_s).first
+    var.destroy if var
   end
 
   def self.nuke!(id)
