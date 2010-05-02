@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100418114830) do
+ActiveRecord::Schema.define(:version => 20100502191140) do
 
   create_table "c_reg_users", :id => false, :force => true do |t|
     t.string  "username",  :limit => 30,  :default => "",    :null => false
@@ -655,6 +655,14 @@ ActiveRecord::Schema.define(:version => 20100418114830) do
   end
 
   add_index "xmb_uid2jid", ["localjid"], :name => "jid"
+
+  create_table "xmb_user_variables", :force => true do |t|
+    t.integer "user_id",                               :null => false
+    t.string  "key",     :limit => 40, :default => "", :null => false
+    t.text    "value"
+  end
+
+  add_index "xmb_user_variables", ["user_id", "key"], :name => "index_xmb_user_variables_on_user_id_and_key", :unique => true
 
   create_table "xmb_users", :primary_key => "uid", :force => true do |t|
     t.string  "username",      :limit => 25,       :default => "",                :null => false
