@@ -14,5 +14,6 @@
 
 -containment = [ 'modules_primary', 'modules_secondary' ]
 -format      = '/^module_[a-z]*_(.*)$/'
-=sortable_element(:modules_primary,   :constraint => false, :containment => containment, :format => format)
-=sortable_element(:modules_secondary, :constraint => false, :containment => containment, :format => format)
+-update_func =  "function() {" + remote_function(:url => welcome_update_path, :with => 'Sortable.serialize("modules_primary") + "&" + Sortable.serialize("modules_secondary")') + "}"
+=sortable_element(:modules_primary,   :constraint => false, :containment => containment, :format => format, :onUpdate => update_func)
+=sortable_element(:modules_secondary, :constraint => false, :containment => containment, :format => format, :onUpdate => update_func)
