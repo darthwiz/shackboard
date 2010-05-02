@@ -1,4 +1,7 @@
 class WelcomeController < ApplicationController
+  skip_before_filter :set_facebook_session,
+    :recognize_user, :load_defaults, :set_locale, :set_stylesheet,
+    :only => [ :update_modules ]
 
   def index
     respond_to do |format|
