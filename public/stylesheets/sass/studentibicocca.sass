@@ -155,31 +155,6 @@ div#login_box input
           margin: 0.7em 0.7em 0.7em 0.35em
         border: 2px solid black
 
-        h3
-          margin: 0
-          background-color = !nice_box_border_color
-          color = !nice_box_background_color
-          padding: 0.3em
-          a
-            color = !nice_box_background_color
-
-        .forum
-          ul
-            li
-              margin-bottom: 0.5em
-            a.title
-              display: block
-            span.last_post
-              font-size: 85%
-              span.label
-                color: gray
-                padding-left: 0.5em
-              a.time
-                margin-left: 0.3em
-
-        ul
-          list-style: none
-          padding: 0.7em
 
 .welcome
   .header
@@ -195,6 +170,38 @@ div#login_box input
       +home_content_box("60%", "left")
     .secondary
       +home_content_box("40%", "right")
+
+  .main_body
+    div
+      h3
+        margin: 0
+        background-color = !nice_box_border_color
+        color = !nice_box_background_color
+        padding: 0.3em
+        a
+          color = !nice_box_background_color
+
+      ul
+        list-style: none
+        padding: 0.7em
+        li.empty
+          color: gray
+
+      .forum,
+      .blogs
+        ul
+          li
+            margin-bottom: 0.5em
+          span.title
+            display: block
+          span.last_post,
+          span.author
+            font-size: 85%
+            span.label
+              color: gray
+              padding-left: 0.5em
+            a.time
+              margin-left: 0.3em
 
 
 .footer

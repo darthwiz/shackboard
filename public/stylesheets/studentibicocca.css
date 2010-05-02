@@ -125,27 +125,6 @@ div#login_box input {
         padding: 0;
         margin: 0.7em 0.35em 0.7em 0.7em;
         border: 2px solid black; }
-        .welcome .main_body .primary .content ul.modules li.module h3 {
-          margin: 0;
-          background-color: #4060a0;
-          color: white;
-          padding: 0.3em; }
-          .welcome .main_body .primary .content ul.modules li.module h3 a {
-            color: white; }
-        .welcome .main_body .primary .content ul.modules li.module .forum ul li {
-          margin-bottom: 0.5em; }
-        .welcome .main_body .primary .content ul.modules li.module .forum ul a.title {
-          display: block; }
-        .welcome .main_body .primary .content ul.modules li.module .forum ul span.last_post {
-          font-size: 85%; }
-          .welcome .main_body .primary .content ul.modules li.module .forum ul span.last_post span.label {
-            color: gray;
-            padding-left: 0.5em; }
-          .welcome .main_body .primary .content ul.modules li.module .forum ul span.last_post a.time {
-            margin-left: 0.3em; }
-        .welcome .main_body .primary .content ul.modules li.module ul {
-          list-style: none;
-          padding: 0.7em; }
   .welcome .main_body .secondary {
     float: right;
     width: 40%;
@@ -158,27 +137,40 @@ div#login_box input {
         padding: 0;
         margin: 0.7em 0.7em 0.7em 0.35em;
         border: 2px solid black; }
-        .welcome .main_body .secondary .content ul.modules li.module h3 {
-          margin: 0;
-          background-color: #4060a0;
-          color: white;
-          padding: 0.3em; }
-          .welcome .main_body .secondary .content ul.modules li.module h3 a {
-            color: white; }
-        .welcome .main_body .secondary .content ul.modules li.module .forum ul li {
-          margin-bottom: 0.5em; }
-        .welcome .main_body .secondary .content ul.modules li.module .forum ul a.title {
-          display: block; }
-        .welcome .main_body .secondary .content ul.modules li.module .forum ul span.last_post {
-          font-size: 85%; }
-          .welcome .main_body .secondary .content ul.modules li.module .forum ul span.last_post span.label {
-            color: gray;
-            padding-left: 0.5em; }
-          .welcome .main_body .secondary .content ul.modules li.module .forum ul span.last_post a.time {
-            margin-left: 0.3em; }
-        .welcome .main_body .secondary .content ul.modules li.module ul {
-          list-style: none;
-          padding: 0.7em; }
+.welcome .main_body div h3 {
+  margin: 0;
+  background-color: #4060a0;
+  color: white;
+  padding: 0.3em; }
+  .welcome .main_body div h3 a {
+    color: white; }
+.welcome .main_body div ul {
+  list-style: none;
+  padding: 0.7em; }
+  .welcome .main_body div ul li.empty {
+    color: gray; }
+.welcome .main_body div .forum ul li,
+.welcome .main_body div .blogs ul li {
+  margin-bottom: 0.5em; }
+.welcome .main_body div .forum ul span.title,
+.welcome .main_body div .blogs ul span.title {
+  display: block; }
+.welcome .main_body div .forum ul span.last_post,
+.welcome .main_body div .forum ul span.author,
+.welcome .main_body div .blogs ul span.last_post,
+.welcome .main_body div .blogs ul span.author {
+  font-size: 85%; }
+  .welcome .main_body div .forum ul span.last_post span.label,
+  .welcome .main_body div .forum ul span.author span.label,
+  .welcome .main_body div .blogs ul span.last_post span.label,
+  .welcome .main_body div .blogs ul span.author span.label {
+    color: gray;
+    padding-left: 0.5em; }
+  .welcome .main_body div .forum ul span.last_post a.time,
+  .welcome .main_body div .forum ul span.author a.time,
+  .welcome .main_body div .blogs ul span.last_post a.time,
+  .welcome .main_body div .blogs ul span.author a.time {
+    margin-left: 0.3em; }
 
 .footer {
   clear: both;

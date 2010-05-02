@@ -9,6 +9,7 @@ module WelcomeHelper
       when :announcements
         render_module_announcements(module_list)
       when :blogs
+        render_module_blogs(module_list)
       when :file_area
       end
     end
@@ -26,12 +27,18 @@ module WelcomeHelper
     end
   end
 
+  def render_module_blogs(module_list)
+    content_tag(:li, :class => 'module', :id => "module_#{module_list}_blogs_0") do
+      render :partial => '/welcome/module_blogs'
+    end
+  end
+
   def link_to_forum_topic(topic)
     last_poster = topic.last_post(:user)
     time        = topic.last_post(:time)
     content_tag(:span, :class => 'topic', :id => domid(topic)) do
       [
-        link_to(cleanup(topic.subject), topic, :class => 'title'),
+        content_tag(:span, link_to(cleanup(topic.subject), topic, :class => 'title'), :class => 'title'),
         content_tag(:span, :class => 'last_post') do
           [
             content_tag(:span, "ultimo messaggio:", :class => 'label'),
