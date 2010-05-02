@@ -74,6 +74,7 @@ ActionController::Routing::Routes.draw do |map|
   map.banners         '/banners/show', :controller => 'banners', :action => 'show'
   map.notifications   '/notifications', :controller => 'notifications', :action => 'index'
   map.trivia          '/trivia', :controller => 'trivia', :action => 'index'
+  map.welcome_update  '/welcome/modules', :controller => 'welcome', :action => 'update_modules'
 
   # SEO routes
   map.tag_index     'tags', :controller => 'tags', :action => 'index'

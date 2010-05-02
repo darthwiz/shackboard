@@ -6,13 +6,15 @@ class WelcomeController < ApplicationController
         @page_title = "StudentiBicocca.it - il portale degli studenti della Bicocca"
         prepare_modules
       end
+    end
+  end
+
+  def update_modules
+    respond_to do |format|
       format.js do
         session[:modules]             = {} if session[:modules].blank?
-        session[:modules][:primary]   = [] if session[:modules][:primary].blank?
-        session[:modules][:secondary] = [] if session[:modules][:secondary].blank?
-        session[:modules][:primary]   = params[:modules_primary]   if params[:modules_primary]
-        session[:modules][:secondary] = params[:modules_secondary] if params[:modules_secondary]
-        logger.debug session[:modules].inspect
+        session[:modules][:primary]   = params[:modules_primary].reject(&:blank?)   unless params[:modules_primary].blank?
+        session[:modules][:secondary] = params[:modules_secondary].reject(&:blank?) unless params[:modules_secondary].blank?
         render :nothing => true
       end
     end
@@ -21,23 +23,21 @@ class WelcomeController < ApplicationController
   private
 
   def prepare_modules
-    session[:modules] = { :primary => [], :secondary => [] } if session[:modules].blank?
+    session[:modules] = {} if session[:modules].blank?
     mods              = session[:modules]
-    @modules          = {}
-    if mods[:primary].reject(&:blank?).blank?
-      forums = [ 70, 69, 61, 67, 52, 57, 59, 55 ]
-      session[:modules][:primary] = forums.collect { |i| "forum_#{i}" }.uniq
-    end
-    @modules[:primary] = parse_modules(session[:modules][:primary])
-    if mods[:secondary].reject(&:blank?).blank?
-      forums = [ 27, 171, 164, 109 ]
-      session[:modules][:secondary] = forums.collect { |i| "forum_#{i}" }.uniq
-    end
-    @modules[:secondary] = parse_modules(session[:modules][:secondary])
+    default_modules   = {
+      :primary =>   [ 70, 69, 61, 67, 52, 57, 59, 55 ].collect { |i| "forum_#{i}" },
+      :secondary => [ 27, 171, 164, 109 ].collect { |i| "forum_#{i}" },
+    }
+    @modules = {
+      :primary   => parse_modules(mods[:primary].blank?   ? default_modules[:primary]   : mods[:primary]),
+      :secondary => parse_modules(mods[:secondary].blank? ? default_modules[:secondary] : mods[:secondary]),
+    }
   end
 
   def parse_modules(module_strings)
     mods = []
+    return [] unless module_strings.is_a?(Array)
     module_strings.reject(&:blank?).uniq.each do |s|
       if s =~ /_[0-9]+$/
         id        = s.sub(/^.*_([0-9]+)$/, "\\1").to_i
