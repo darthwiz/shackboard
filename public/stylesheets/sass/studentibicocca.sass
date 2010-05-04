@@ -1,0 +1,244 @@
+!nice_box_border_color = #4060a0
+!nice_box_background_color = white
+!color_navbar_inside = #303030
+!color_navbar_border = #181818
+!color_navbar_link = yellow
+!color_navbar_text = #e8e8e8
+!color_header_background = yellow
+=nice_box
+  padding: 1.5em
+  border = "1px" "solid" !nice_box_border_color
+  background-color = !nice_box_background_color
+  margin: 0.5em
+
+html, body
+  color: #000000
+  background-color: #6080ff
+  font-size: 13px
+  font-family: Verdana, sans-serif
+  margin: 0
+  padding: 0
+  height: 100%
+
+
+a
+  text-decoration: none
+  &:hover
+    text-decoration: underline
+
+
+.header
+  background: url(http://img254.imageshack.us/img254/8053/titlegradientod3.png)
+  background-color = !color_header_background
+  background-repeat: repeat-x
+  margin: 0 0 1em 0
+  clear: both
+  overflow: auto
+
+  .banner
+    margin: 1em 0 0 1em
+
+  h1
+    float: left
+    margin-left: 1em
+    font-family: "Trebuchet MS", sans-serif
+
+  .nav,
+  .breadcrumbs
+    clear: both
+    overflow: visible
+    background-color = !color_navbar_inside
+    padding: 0.3em 1em 0.3em 1em
+    border-top = "4px solid" !color_navbar_border
+    border-bottom = "4px solid" !color_navbar_border
+    margin: 0
+    color = !color_navbar_text
+
+    a
+      color = !color_navbar_link
+      text-decoration: none
+
+  .breadcrumbs
+    padding: 0.5em 1em
+    a:hover
+      text-decoration: underline
+
+  .nav
+    text-align: center
+    font-family: "Trebuchet MS", sans-serif
+    font-size: 17px
+
+    ul
+      list-style: none
+      margin: 0
+      padding: 0
+      margin-left: auto
+      margin-right: auto
+
+      li
+        display: inline
+        border: 2px solid #383838
+        -moz-border-radius: 5px
+        -webkit-border-radius: 5px
+
+        a
+          padding: 0.2em 1em
+          margin-left: 1em
+          margin-right: 1em
+
+        &:hover
+          background-color: #383838
+
+
+#login_box
+  width: 20em
+  background-color: white
+  padding: 0.5em
+  border: 1px solid #404040
+  margin: 0.5em
+  float: right
+  font-size: 11px
+
+  ul
+    padding-left: 1.5em
+    margin: 0
+    list-style-type: disc
+
+  div.login
+    text-align: right
+    padding: 0.5em
+
+
+div#login_box input
+  font-size: 11px
+
+
+#login_box
+  div
+    &.label
+      float: left
+      text-align: right
+      width: 6em
+      padding-right: 0.5em
+
+    &.buttons
+      margin-top: 0.5em
+      text-align: right
+
+      a
+        background-color: white
+        padding-left: .5em
+        padding-right: .5em
+        border: 1px solid black
+        color: black
+        line-height: 1.8em
+        text-decoration: none
+
+        &:hover
+          background-color: yellow
+          text-decoration: none
+
+    &.user_register
+      float: left
+
+  .fb_connect .label
+    width: 110px
+    display: block
+    float: left
+
+
+// generic body
+.main_body
+  margin-left: auto
+  margin-right: auto
+  max-width: 980px
+  margin-bottom: 0.5em
+  clear: both
+
+=home_content_box(!percent_width, !side)
+  float = !side
+  width = !percent_width
+  overflow: visible
+  .content
+    ul.modules
+      list-style: none
+      padding: 0 0 2em 0
+
+      li.module
+        background-color: white
+        padding: 0
+        @if !side == "left"
+          margin: 0.7em 0.35em 0.7em 0.7em
+        @else if !side == "right"
+          margin: 0.7em 0.7em 0.7em 0.35em
+        border: 2px solid black
+
+
+.welcome
+  .header
+    h1
+      background: url(http://www.studentibicocca.it/portale/immagini/header_stubi.png)
+      width: 620px
+      height: 108px
+      text-indent: -10000px
+
+  .main_body
+    overflow: visible
+    .primary
+      +home_content_box("60%", "left")
+    .secondary
+      +home_content_box("40%", "right")
+
+  .main_body
+    div
+      h3
+        margin: 0
+        background-color = !nice_box_border_color
+        color = !nice_box_background_color
+        padding: 0.3em
+        a
+          color = !nice_box_background_color
+
+      ul
+        list-style: none
+        padding: 0.7em
+        li.empty
+          color: gray
+
+      .forum,
+      .blogs,
+      .file_area
+        ul
+          li
+            margin-bottom: 0.5em
+
+          span.last_post,
+          span.author,
+          span.category
+            font-size: 85%
+            a.time
+              margin-left: 0.3em
+
+          span.label,
+          span.category
+            color: gray
+            padding-left: 0.5em
+
+      .forum,
+      .blogs
+        span.title
+          display: block
+
+
+
+.footer
+  clear: both
+  overflow: auto
+  color: white
+  background-color: #303030
+  padding: 0.5em 1em 0.5em 1em
+  border-top: 4px solid #181818
+  margin: 1em 0 0 0
+
+  a
+    color: yellow

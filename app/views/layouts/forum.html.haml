@@ -3,32 +3,35 @@
   %head
     %meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
     %link(rel="shortcut icon" href="http://asb.studentibicocca.it/images/favicon.ico")
-    =render :partial => '/common/stylesheets'
+    =stylesheet_link_tag 'studentibicocca'
     -if @location && @location.respond_to?(:new_record?) && !@location.new_record?
       %link(href="#{custom_css_path(:obj_class => @location.class.to_s, :obj_id => @location.id)}" media="screen" rel="stylesheet" type="text/css")
     =javascript_include_tag :defaults
     %title= page_title
   %body
     =calendar_date_select_includes nil
-    =fb_connect_javascript_tag
-    =init_fb_connect "XFBML"
-    #main
-      #forum
-        #content_box
-          =render :partial => '/users/login_box'
-          =render :partial => '/banners/top_banner'
-          .spacer
-          -if @location
-            #breadcrumbs.breadcrumbs
-              =page_trail
-          .page-seq
-            =page_seq
-          =render :partial => '/common/flashes'
-          =yield
-          .page-seq
-            =page_seq
-          -if @location
-            #breadcrumbs_bottom.breadcrumbs_bottom
-              =page_trail
-          =render :partial => '/users/online'
+    -#=fb_connect_javascript_tag
+    -#=init_fb_connect "XFBML"
+    .forum
+      .header
+        =render :partial => '/users/login_box'
+        =render :partial => '/banners/top_banner'
+        =render :partial => '/common/flashes'
+        -if @location
+          .breadcrumbs
+            =page_trail
+        .page_seq
+          =page_seq
+
+      .main_body
+        =yield
+
+      .footer
+        .page_seq
+          =page_seq
+        -if @location
+          .breadcrumbs
+            =page_trail
+        =render :partial => '/users/online'
+
     =render :partial => '/common/google_analytics'
