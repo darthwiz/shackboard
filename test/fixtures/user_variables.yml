@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 182
+  key: key1
+  value: MyText
+
+two:
+  user_id: 182
+  key: key2
+  value: MyText
