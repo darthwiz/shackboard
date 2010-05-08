@@ -17,7 +17,7 @@ module PagerHelper
     label  = { :first   => '<< inizio', :back => '< indietro',
                :forward => 'avanti >',  :last => 'fine >>' }
     pages  = []
-    s      = ""
+    links  = []
     # first, current and last are items and not pages if ipp is present
     # so we convert them to pages
     if (ipp)
@@ -50,7 +50,7 @@ module PagerHelper
           else
             ctrl_opts[:page] = first
           end
-          s << link_to(label[:first], ctrl_opts) + "\n"
+          links << [ link_to(label[:first], ctrl_opts), :start ]
         end
         if extral.include?(:back)
           if ipp
@@ -58,7 +58,7 @@ module PagerHelper
           else
             ctrl_opts[:page] = cur - 1
           end
-          s << link_to(label[:back], ctrl_opts) + "\n"
+          links << [ link_to(label[:back], ctrl_opts), :back ]
         end
       end
     else
@@ -68,7 +68,7 @@ module PagerHelper
         else
           ctrl_opts[:page] = first
         end
-        s << link_to(label[:first], ctrl_opts) + "\n"
+        links << [ link_to(label[:first], ctrl_opts), :start ]
       end
     end
 
@@ -81,18 +81,18 @@ module PagerHelper
         else
           ctrl_opts[:page] = ((prev + p) / 2 -1 ) + 1
         end
-        s << link_to('...', ctrl_opts) + "\n"
+        links << [ link_to('...', ctrl_opts), p ]
       end
       if cur
         if p == cur
-          s << content_tag('span', p, :class => 'current') + "\n"
+          links << [ link_to(p, '#'), :current ]
         else
           if ipp
             ctrl_opts[:start] = (p - 1) * ipp + 1
           else
             ctrl_opts[:page] = p
           end
-          s << link_to(p, ctrl_opts) + "\n"
+          links << [ link_to(p, ctrl_opts), p ]
         end
       else
         if ipp
@@ -100,7 +100,7 @@ module PagerHelper
         else
           ctrl_opts[:page] = p
         end
-        s << link_to(p, ctrl_opts) + "\n"
+        links << [ link_to(p, ctrl_opts), p ]
       end
       prev = p
     end
@@ -114,7 +114,7 @@ module PagerHelper
           else
             ctrl_opts[:page] = cur + 1
           end
-          s << link_to(label[:forward], ctrl_opts) + "\n"
+          link << [ link_to(label[:forward], ctrl_opts), :forward ]
         end
         if extral.include?(:last)
           if (ipp)
@@ -122,7 +122,7 @@ module PagerHelper
           else
             ctrl_opts[:page] = last
           end
-          s << link_to(label[:last], ctrl_opts) + "\n"
+          links << [ link_to(label[:last], ctrl_opts), :last ]
         end
       end
     else
@@ -132,12 +132,14 @@ module PagerHelper
         else
           ctrl_opts[:page] = last
         end
-        s << link_to(label[:last], ctrl_opts) + "\n"
+        links << [ link_to(label[:last], ctrl_opts), :last ]
       end
     end
 
     return '' if cur && cur == first && cur == last
-    content_tag('span', s, :class => 'page_seq')
+    content_tag('ul', :class => 'page_seq') do
+      links.collect { |l| content_tag('li', l[0], :class => "page_#{l[1]}") }
+    end
   end
 
 end
