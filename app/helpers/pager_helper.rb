@@ -20,7 +20,7 @@ module PagerHelper
     s      = ""
     # first, current and last are items and not pages if ipp is present
     # so we convert them to pages
-    if (ipp) then
+    if (ipp)
       first = ((first - 1)/ ipp) + 1
       last  = ((last - 1)/ ipp) + 1
       cur   = ((cur - 1)/ ipp) + 1 if cur
@@ -42,18 +42,18 @@ module PagerHelper
     getp.each { |pname| ctrl_opts[pname] = params[pname] }
     extrap.each_pair { |key, value| ctrl_opts[key] = value }
     # first and back links
-    if (cur)
-      if (cur > first) then
-        if (extral.include? :first) then
-          if (ipp) then
+    if cur
+      if cur > first
+        if extral.include?(:first)
+          if ipp
             ctrl_opts[:start] = (first - 1) * ipp + 1
           else
             ctrl_opts[:page] = first
           end
           s << link_to(label[:first], ctrl_opts) + "\n"
         end
-        if (extral.include? :back) then
-          if (ipp) then
+        if extral.include?(:back)
+          if ipp
             ctrl_opts[:start] = (cur - 2) * ipp + 1
           else
             ctrl_opts[:page] = cur - 1
@@ -62,8 +62,8 @@ module PagerHelper
         end
       end
     else
-      if (extral.include? :first) then
-        if (ipp) then
+      if extral.include?(:first)
+        if ipp
           ctrl_opts[:start] = (first - 1) * ipp + 1
         else
           ctrl_opts[:page] = first
@@ -75,19 +75,19 @@ module PagerHelper
     # numbered pages loop
     prev = first
     pages.sort.uniq.each do |p|
-      if (p > prev + 1) then
-        if (ipp) then
+      if p > prev + 1
+        if ipp
           ctrl_opts[:start] = ((prev + p) / 2 - 1) * ipp + 1
         else
           ctrl_opts[:page] = ((prev + p) / 2 -1 ) + 1
         end
         s << link_to('...', ctrl_opts) + "\n"
       end
-      if (cur) then
-        if (p == cur) then
+      if cur
+        if p == cur
           s << content_tag('span', p, :class => 'current') + "\n"
         else
-          if (ipp) then
+          if ipp
             ctrl_opts[:start] = (p - 1) * ipp + 1
           else
             ctrl_opts[:page] = p
@@ -95,7 +95,7 @@ module PagerHelper
           s << link_to(p, ctrl_opts) + "\n"
         end
       else
-        if (ipp) then
+        if ipp
           ctrl_opts[:start] = (p - 1) * ipp + 1
         else
           ctrl_opts[:page] = p
@@ -106,18 +106,18 @@ module PagerHelper
     end
 
     # forward and last links
-    if (cur)
-      if (cur < last) then
-        if (extral.include? :forward) then
-          if (ipp) then
+    if cur
+      if cur < last
+        if extral.include?(:forward)
+          if ipp
             ctrl_opts[:start] = cur * ipp + 1
           else
             ctrl_opts[:page] = cur + 1
           end
           s << link_to(label[:forward], ctrl_opts) + "\n"
         end
-        if (extral.include? :last) then
-          if (ipp) then
+        if extral.include?(:last)
+          if (ipp)
             ctrl_opts[:start] = (last - 1) * ipp + 1
           else
             ctrl_opts[:page] = last
@@ -126,8 +126,8 @@ module PagerHelper
         end
       end
     else
-      if (extral.include? :last) then
-        if (ipp) then
+      if extral.include?(:last)
+        if ipp
           ctrl_opts[:start] = (last - 1) * ipp + 1
         else
           ctrl_opts[:page] = last
@@ -136,7 +136,7 @@ module PagerHelper
       end
     end
 
-    return '' if (cur && cur == first && cur == last)
+    return '' if cur && cur == first && cur == last
     content_tag('span', s, :class => 'page_seq')
   end
 
