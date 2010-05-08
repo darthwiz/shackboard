@@ -4,4 +4,6 @@
   %ul.posts
     -@posts.each do |post|
       %li.post[post]
+        -if post == @posts.try(:last)
+          %a(name="last_post")
         =render :partial => '/posts/post', :locals => { :post => post, :can_post => @topic.can_post?(@user), :can_moderate => @topic.can_moderate?(@user) }

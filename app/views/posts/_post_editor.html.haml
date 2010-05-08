@@ -1,11 +1,12 @@
 -td_class = 'post_text' + (@post.moderator_post? ? ' moderator_post' : '')
-%td{ :height => 120, :valign => "top", :colspan => 2, :class => td_class, :id => "post_text_#{@post.id}" }
-  .maxpostwidth
-    -remote_form_for(@post) do |f|
-      =f.hidden_field :id
+%div(id="post_text_#{@post.id}")
+  -remote_form_for(@post) do |f|
+    =f.hidden_field :id
+    .text
       =f.text_area :message
-      -if @post.topic.can_moderate?(@user) && @user == @post.user
-        =f.check_box :moderator_post
-        intervento di moderazione
-        %br
-      =f.submit 'salva'
+    -if @post.topic.can_moderate?(@user) && @user == @post.user
+      .moderator_toggle
+      =f.check_box :moderator_post
+      intervento di moderazione
+    .submit
+    =f.submit 'salva'

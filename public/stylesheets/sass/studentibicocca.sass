@@ -323,6 +323,12 @@ div.topic
       margin: 0 0 0.5em 0
       position: relative
 
+      div.moderator_post
+        .message
+          background: url(http://img685.imageshack.us/img685/1400/exclamation.png)
+          background-repeat: no-repeat
+          background-position: top right
+
       .box
         padding: 0.5em
 
@@ -346,10 +352,10 @@ div.topic
 
         .role,
         .author_info,
-        .online
+        div.online
           font-size: 85%
 
-        .online
+        div.online
           //
             position: absolute
             bottom: 0.5em
@@ -366,6 +372,13 @@ div.topic
         border-bottom = "1px solid" !color_nice_box_border
         span.label
           margin-left: 1em
+        .box
+          overflow: auto
+          .post_time
+            float: left
+          .permalink
+            float: right
+            font-size: 85%
 
       .message
         margin-left = !info_column_width

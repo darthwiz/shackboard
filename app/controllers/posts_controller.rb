@@ -133,9 +133,11 @@ class PostsController < ApplicationController
         format.js do
           render :update do |page|
             # FIXME these have to go and be replaced by eager loading
-            @post.cached_user    = @post.user
-            @post.cached_smileys = @post.cached_user.smileys + Smiley.all
-            page.replace "post_text_#{@post.id}", :partial => '/posts/post_text', :locals => { :p => @post }
+            @post.cached_user     = @post.user
+            @post.cached_smileys  = @post.cached_user.smileys + Smiley.all
+            @post.cached_can_edit = @post.can_edit?(@user)
+            page.replace_html "post_#{@post.id}", :partial => '/posts/post',
+              :locals => { :post => @post, :can_moderate => @post.topic.can_moderate?(@user), :can_post => @post.topic.can_post?(@user) }
           end
         end
       end

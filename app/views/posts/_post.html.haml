@@ -2,7 +2,8 @@
 -moderators   = post.topic.forum.moderators
 -can_post     = false unless defined?(can_post)
 -can_moderate = false unless defined?(can_moderate)
-.post(class="#{domid(post.user)}")[post]
+-post_class   = [ domid(post.user), post.moderator_post? ? 'moderator_post' : '' ].join(' ')
+.post(class="#{post_class}")
 
   .author
     .box
@@ -38,23 +39,27 @@
 
   .post_info
     .box
-      %span.label inviato il
-      %span.info= post.created_at.strftime("%d/%m/%Y, %H.%M")
+      .post_time
+        %span.label inviato il
+        %span.info= post.created_at.strftime("%d/%m/%Y, %H.%M")
+      .permalink
+        =link_to("permalink", post)
 
   .message
     .box
       .text
-        =BbText.new(post.message, post.cached_smileys).to_html(:controller => self)
-        -unless post.cached_user.signature.blank? || post.cached_user.anonymized?
-          .signature
-            .hr
-            .text
-              =cleanup(post.cached_user.signature).gsub("\n", '<br />')
-        -if post.edituser && (post.updated_at - post.created_at > 2.minutes)
-          .post_updated
-            modificato da
-            =post.updated_by ? cleanup(post.updated_by.username) : 'utente sconosciuto'
-            ="il #{post.updated_at.strftime('%d/%m/%Y')} alle #{post.updated_at.strftime('%H.%M')}"
+        %div(id="post_text_#{post.id}")
+          =BbText.new(post.message, post.cached_smileys).to_html(:controller => self)
+          -unless post.cached_user.signature.blank? || post.cached_user.anonymized?
+            .signature
+              .hr
+              .text
+                =cleanup(post.cached_user.signature).gsub("\n", '<br />')
+          -if post.edituser && (post.updated_at - post.created_at > 2.minutes)
+            .post_updated
+              modificato da
+              =post.updated_by ? cleanup(post.updated_by.username) : 'utente sconosciuto'
+              ="il #{post.updated_at.strftime('%d/%m/%Y')} alle #{post.updated_at.strftime('%H.%M')}"
 
   -if @user.is_a?(User)
     .operations
