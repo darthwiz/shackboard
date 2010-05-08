@@ -21,6 +21,10 @@
 !color_post_operation_button_background_hover = !color_nice_box_border
 !color_topic_title_background = !color_nice_box_border
 !color_topic_title_text = white
+!color_navigation_button_border = #484848
+!color_navigation_button_background_hover = #484848
+!color_navigation_button_current_border = #484848
+!color_navigation_button_current_background_hover = #484848
 
 =nice_box
   padding: 1.5em
@@ -45,6 +49,18 @@ a
     text-decoration: underline
   &:visited
     color = !color_link_visited
+
+div.page_seq
+  ul.page_seq
+    list-style: none
+    margin: 0.5em auto
+    padding: 0
+    text-align: center
+
+    li
+      display: inline
+      a
+        padding: 0.1em 0.5em
 
 
 .header
@@ -78,11 +94,31 @@ a
       text-decoration: none
 
   .breadcrumbs
-    padding: 0.5em 1em
     a:hover
       text-decoration: underline
 
-.welcome
+// top and bottom pager
+.navigation
+  .page_seq
+    ul.page_seq
+      li
+        a
+          border = "1px solid" !color_navigation_button_border
+          border-radius: 4px
+          margin: 0 0.2em
+          padding: 0.1em 0.6em
+          &:hover
+            background-color = !color_navigation_button_background_hover
+            text-decoration: none
+      li.page_current
+        a
+          border = "1px solid" !color_navigation_button_current_border
+          color = !color_navbar_text
+          background-color = !color_navigation_button_current_background_hover
+          font-weight: bold
+
+
+div.welcome
   .header
     .navigation
       text-align: center
@@ -91,24 +127,18 @@ a
 
       ul
         list-style: none
-        margin: 0
+        margin: 0.2em 0
         padding: 0
-        margin-left: auto
-        margin-right: auto
 
         li
           display: inline
-          border: 2px solid #383838
-          -moz-border-radius: 5px
-          -webkit-border-radius: 5px
 
           a
-            padding: 0.2em 1em
-            margin-left: 1em
-            margin-right: 1em
-
-          &:hover
-            background-color: #383838
+            padding: 0.1em 2em
+            border = "2px solid" !color_navigation_button_border
+            border-radius: 5px
+            &:hover
+              background-color = !color_navigation_button_background_hover
 
 
 #login_box
@@ -255,10 +285,10 @@ div#login_box input
 .footer
   clear: both
   overflow: auto
-  color: white
-  background-color: #303030
+  color = !color_navbar_text
+  background-color = !color_navbar_background
   padding: 0.5em 1em 0.5em 1em
-  border-top: 4px solid #181818
+  border-top = "4px solid" !color_navbar_border
   margin: 1em 0 0 0
 
   a
@@ -269,7 +299,7 @@ div#login_box input
 
 !info_column_width = 140px
 
-div.topic 
+div.topic
   .title
     background-color = !color_topic_title_background
     color = !color_topic_title_text
