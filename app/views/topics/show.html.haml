@@ -1,4 +1,6 @@
 .topic[@topic]
+  .title
+    %h1= cleanup(@topic.title)
   %ul.posts
     -@posts.each do |post|
       %li.post[post]

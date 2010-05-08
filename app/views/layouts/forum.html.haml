@@ -17,21 +17,23 @@
         =render :partial => '/users/login_box'
         =render :partial => '/banners/top_banner'
         =render :partial => '/common/flashes'
-        -if @location
-          .breadcrumbs
-            =page_trail
-        .page_seq
-          =page_seq
+        .navigation
+          -if @location
+            .breadcrumbs
+              =page_trail
+          .page_seq
+            =page_seq
 
       .main_body
         =yield
 
       .footer
-        .page_seq
-          =page_seq
-        -if @location
-          .breadcrumbs
-            =page_trail
+        .navigation
+          .page_seq
+            =page_seq
+          -if @location
+            .breadcrumbs
+              =page_trail
         =render :partial => '/users/online'
 
     =render :partial => '/common/google_analytics'

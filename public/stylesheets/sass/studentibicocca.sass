@@ -19,6 +19,8 @@
 !color_post_operation_button_border_hover = !color_nice_box_background
 !color_post_operation_button_text_hover = !color_nice_box_background
 !color_post_operation_button_background_hover = !color_nice_box_border
+!color_topic_title_background = !color_nice_box_border
+!color_topic_title_text = white
 
 =nice_box
   padding: 1.5em
@@ -61,8 +63,7 @@ a
     margin-left: 1em
     font-family: "Trebuchet MS", sans-serif
 
-  .nav,
-  .breadcrumbs
+  .navigation
     clear: both
     overflow: visible
     background-color = !color_navbar_background
@@ -267,7 +268,18 @@ div#login_box input
 !info_column_width = 140px
 
 .topic 
+  .title
+    background-color = !color_topic_title_background
+    color = !color_topic_title_text
+    border = "2px solid black"
+    margin-bottom: 0
+    h1
+      font-family: Trebuchet MS, Verdana, sans-serif
+      padding: 0.3em 0.4em
+      margin: 0
+
   ul.posts
+    margin-top: 0.5em
     list-style: none
     padding: 0
 
@@ -277,6 +289,7 @@ div#login_box input
       overflow: auto
       clear: both
       margin: 0 0 0.5em 0
+      position: relative
 
       .box
         padding: 0.5em
@@ -300,8 +313,21 @@ div#login_box input
             max-width: 100%
 
         .role,
-        .author_info
+        .author_info,
+        .online
           font-size: 85%
+
+        .online
+          //
+            position: absolute
+            bottom: 0.5em
+            left: 0.5em
+          margin-top: 0.7em
+          font-weight: bold
+          span.online
+            color: green
+          span.offline
+            color: red
 
       .post_info
         margin-left = !info_column_width
@@ -343,7 +369,7 @@ div#login_box input
           text-align: right
           li
             float: left
-            margin-right: 0.2em
+            margin: 0.2em
             a
               display: block
               padding: 0.2em 0.6em
@@ -354,3 +380,19 @@ div#login_box input
                 background-color = !color_post_operation_button_background_hover
                 color = !color_post_operation_button_text_hover
                 text-decoration: none
+          li.voting
+            display: none
+            a
+              display: inline
+              border: none
+              background-color: none
+              padding: 0
+              &:hover
+                background-color: none
+                color: none
+                text-decoration: none
+
+      .ip
+        position: absolute
+        bottom: 0.5em
+        right: 0.5em

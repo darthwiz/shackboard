@@ -30,6 +30,11 @@
         -if post.cached_user.has_blog?
           .blog
             =link_to("blog", blog_list_path(:username => post.cached_user.username))
+      .online
+        -if post.cached_online
+          %span.online= "online"
+        -else
+          %span.offline= "offline"
 
   .post_info
     .box
@@ -65,3 +70,8 @@
             %li.delete= link_to("elimina", post_path(post), :method  => :delete, :confirm => "Sei sicuro di voler cancellare questo messaggio?")
           -if @user
             %li.report= link_to("segnala", report_post_path(post))
+            %li.voting= button_for_voting(post)
+
+  -if can_moderate
+    .ip
+      =image_tag(images_url + 'ip.gif', :title => post.useip)
