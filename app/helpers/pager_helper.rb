@@ -114,7 +114,7 @@ module PagerHelper
           else
             ctrl_opts[:page] = cur + 1
           end
-          link << [ link_to(label[:forward], ctrl_opts), :forward ]
+          links << [ link_to(label[:forward], ctrl_opts), :forward ]
         end
         if extral.include?(:last)
           if (ipp)
