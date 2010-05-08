@@ -13,6 +13,11 @@ common:
   default_theme: "nostalgia"
   default_page_title: "Forum degli studenti della Bicocca"
 
+  home_page:
+    default_modules:
+      primary: "file_area, forum_70, forum_69, forum_61, forum_67, forum_52, forum_57, forum_59, forum_55"
+      secondary: "announcements, forum_27, forum_171, forum_164, forum_109, blogs"
+
   email_notifier:
     subscription_subject: "La tua password per StudentiBicocca.it"
     mail_from: "StudentiBicocca.it <portale.studentibicocca@gmail.com>"

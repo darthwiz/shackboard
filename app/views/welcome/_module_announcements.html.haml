@@ -1,0 +1,13 @@
+-cache("/home/modules/announcements") do
+  -announcements = Announcement.find_latest
+  %div{ :class => 'announcements', :id => "module_content_announcements" }
+    .title
+      %h3= link_to("Avvisi", announcements_path)
+    .content
+      %ul.announcements
+        -if announcements.blank?
+          %li.empty Non ci sono avvisi al momento.
+        -else
+          -announcements.each do |a|
+            %li
+              =link_to(a.title, a)

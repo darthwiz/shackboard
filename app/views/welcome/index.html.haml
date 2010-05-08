@@ -1,0 +1,19 @@
+.primary
+  .content
+    %ul#modules_primary.modules
+      %li(style="display: none;")
+      -@modules[:primary].each do |m|
+        =render_module(:primary, m)
+
+.secondary
+  .content
+    %ul#modules_secondary.modules
+      %li(style="display: none;")
+      -@modules[:secondary].each do |m|
+        =render_module(:secondary, m)
+
+-containment = [ 'modules_primary', 'modules_secondary' ]
+-format      = '/^module_[a-z]*_(.*)$/'
+-update_func =  "function() {" + remote_function(:url => welcome_update_path, :with => 'Sortable.serialize("modules_primary") + "&" + Sortable.serialize("modules_secondary")') + "}"
+=sortable_element(:modules_primary,   :constraint => false, :containment => containment, :format => format, :onUpdate => update_func)
+=sortable_element(:modules_secondary, :constraint => false, :containment => containment, :format => format, :onUpdate => update_func)

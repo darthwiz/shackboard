@@ -1,0 +1,18 @@
+-cache("/home/modules/blogs") do
+  -posts = BlogPost.find_latest
+  %div{ :class => 'blogs', :id => "module_content_blogs" }
+    .title
+      %h3= link_to("Blog", blogs_path)
+    .content
+      %ul.blogs
+        -if posts.blank?
+          %li.empty Non ci sono messaggi nei blog
+        -else
+          -posts.each do |p|
+            %li
+              %span.title
+                =link_to(p.title.strip.blank? ? content_tag(:em, "senza titolo") : cleanup(p.title), p, :class => 'title')
+              %span.author
+                %span.label di
+                =link_to(cleanup(p.user.username), p.user)
+                =post_time(p.created_at)

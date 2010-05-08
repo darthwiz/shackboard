@@ -1,9 +1,0 @@
-<%# vim: set ft=eruby nowrap:-%>
-          <div id="generic_static_content">
-            <div class="content_box">
-              <div class="section_header" id="<%=domid(@page_text)%>">
-                <%=render :partial => '/static_content/editable_static_content',
-                          :locals  => { :sc => @page_text }%>
-              </div>
-            </div>
-          </div>

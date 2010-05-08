@@ -58,8 +58,8 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  # map.root :controller => "welcome"
-  map.root :controller => 'cms_pages', :action => 'show', :slug => 'welcome'
+  map.root :controller => "welcome"
+  # map.root :controller => 'cms_pages', :action => 'show', :slug => 'welcome'
 
   map.admin           '/admin', :controller => 'admin', :action => 'index'
   map.forum_root      '/forum', :controller => 'forums', :action => 'index'
@@ -74,6 +74,7 @@ ActionController::Routing::Routes.draw do |map|
   map.banners         '/banners/show', :controller => 'banners', :action => 'show'
   map.notifications   '/notifications', :controller => 'notifications', :action => 'index'
   map.trivia          '/trivia', :controller => 'trivia', :action => 'index'
+  map.welcome_update  '/welcome/modules', :controller => 'welcome', :action => 'update_modules'
 
   # SEO routes
   map.tag_index     'tags', :controller => 'tags', :action => 'index'
