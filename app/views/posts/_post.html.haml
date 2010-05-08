@@ -1,0 +1,67 @@
+-images_url   = 'http://www.studentibicocca.it/portale/forum/images/'
+-moderators   = post.topic.forum.moderators
+-can_post     = false unless defined?(can_post)
+-can_moderate = false unless defined?(can_moderate)
+.post(class="#{domid(post.user)}")[post]
+
+  .author
+    .box
+      .username
+        %span.label autore:
+        %span.info= link_to cleanup(post.user.username), post.user
+      .role
+        -if post.cached_user.rank.is_a?(Rank)
+          =post.cached_user.rank.title
+          .stars
+            =image_tag(images_url + 'star.gif', :alt => '*') * post.cached_user.rank.stars
+        -if moderators.include?(post.cached_user)
+          %span.moderator= t(sexified(:Moderator, post.cached_user.sex))
+      .avatar
+        -unless post.cached_user.avatar.blank?
+          %img.avatar(src="#{post.cached_user.avatar}")
+      .author_info
+        .posting
+          -if post.cached_user.postnum > 1000
+            ="%0.2f messaggi per giorno" % post.cached_user.posts_per_day
+          -else
+            ="#{post.cached_user.postnum} messaggi"
+        .registration
+          ="Registrato: #{Time.at(post.cached_user.regdate).strftime('%m/%Y')}"
+        -if post.cached_user.has_blog?
+          .blog
+            =link_to("blog", blog_list_path(:username => post.cached_user.username))
+
+  .post_info
+    .box
+      %span.label inviato il
+      %span.info= post.created_at.strftime("%d/%m/%Y, %H.%M")
+
+  .message
+    .box
+      .text
+        =BbText.new(post.message, post.cached_smileys).to_html(:controller => self)
+        -unless post.cached_user.signature.blank? || post.cached_user.anonymized?
+          .signature
+            .hr
+            .text
+              =cleanup(post.cached_user.signature).gsub("\n", '<br />')
+        -if post.edituser && (post.updated_at - post.created_at > 2.minutes)
+          .post_updated
+            modificato da
+            =post.updated_by ? cleanup(post.updated_by.username) : 'utente sconosciuto'
+            ="il #{post.updated_at.strftime('%d/%m/%Y')} alle #{post.updated_at.strftime('%H.%M')}"
+
+  -if @user.is_a?(User)
+    .operations
+      .box
+        %ul
+          -if can_post
+            %li.reply_post= link_to("rispondi", reply_post_path(post))
+          -if @user
+            %li.reply_pm= link_to("rispondi in privato", post_reply_pm_path(post))
+          -if post.cached_can_edit
+            %li.edit= link_to_remote("modifica", :url => edit_post_path(post), :method => :get)
+          -if post.cached_can_edit
+            %li.delete= link_to("elimina", post_path(post), :method  => :delete, :confirm => "Sei sicuro di voler cancellare questo messaggio?")
+          -if @user
+            %li.report= link_to("segnala", report_post_path(post))

@@ -1,21 +1,36 @@
-!nice_box_border_color = #4060a0
-!nice_box_background_color = white
-!color_navbar_inside = #303030
+!font_family_page = "Verdana, sans-serif"
+!font_size_page = 13px
+!color_page_background = #6080ff
+!color_page_text = black
+!color_nice_box_border = #4060a0
+!color_nice_box_background = white
+!color_navbar_background = #303030
 !color_navbar_border = #181818
 !color_navbar_link = yellow
 !color_navbar_text = #e8e8e8
 !color_header_background = yellow
+!color_quote_border = #d0d8fe
+!color_quote_background = #f5f2f7
+!color_link = blue
+!color_link_visited = blue
+!color_post_operation_button_border = !color_nice_box_border
+!color_post_operation_button_text = !color_link
+!color_post_operation_button_background = !color_nice_box_background
+!color_post_operation_button_border_hover = !color_nice_box_background
+!color_post_operation_button_text_hover = !color_nice_box_background
+!color_post_operation_button_background_hover = !color_nice_box_border
+
 =nice_box
   padding: 1.5em
-  border = "1px" "solid" !nice_box_border_color
-  background-color = !nice_box_background_color
+  border = "1px solid" !color_nice_box_border
+  background-color = !color_nice_box_background
   margin: 0.5em
 
 html, body
-  color: #000000
-  background-color: #6080ff
-  font-size: 13px
-  font-family: Verdana, sans-serif
+  color = !color_page_text
+  background-color = !color_page_background
+  font-size = !font_size_page
+  font-family = !font_family_page
   margin: 0
   padding: 0
   height: 100%
@@ -23,8 +38,11 @@ html, body
 
 a
   text-decoration: none
+  color = !color_link
   &:hover
     text-decoration: underline
+  &:visited
+    color = !color_link_visited
 
 
 .header
@@ -47,7 +65,7 @@ a
   .breadcrumbs
     clear: both
     overflow: visible
-    background-color = !color_navbar_inside
+    background-color = !color_navbar_background
     padding: 0.3em 1em 0.3em 1em
     border-top = "4px solid" !color_navbar_border
     border-bottom = "4px solid" !color_navbar_border
@@ -193,11 +211,11 @@ div#login_box input
     div
       h3
         margin: 0
-        background-color = !nice_box_border_color
-        color = !nice_box_background_color
+        background-color = !color_nice_box_border
+        color = !color_nice_box_background
         padding: 0.3em
         a
-          color = !nice_box_background_color
+          color = !color_nice_box_background
 
       ul
         list-style: none
@@ -242,3 +260,97 @@ div#login_box input
 
   a
     color: yellow
+
+
+// topic view
+
+!info_column_width = 140px
+
+.topic 
+  ul.posts
+    list-style: none
+    padding: 0
+
+    li.post
+      background-color = !color_nice_box_background
+      border = "1px solid" !color_nice_box_border
+      overflow: auto
+      clear: both
+      margin: 0 0 0.5em 0
+
+      .box
+        padding: 0.5em
+
+      .author
+        float: left
+        width = !info_column_width
+        border-right = "1px solid" !color_nice_box_border
+        overflow: hidden
+
+        .username
+          margin-bottom: 0.3em
+          span.label
+            display: none
+          span.info
+            font-weight: bold
+
+        .avatar
+          margin: 0.5em 0
+          img
+            max-width: 100%
+
+        .role,
+        .author_info
+          font-size: 85%
+
+      .post_info
+        margin-left = !info_column_width
+        border-bottom = "1px solid" !color_nice_box_border
+        span.label
+          margin-left: 1em
+
+      .message
+        margin-left = !info_column_width
+        border-left = "1px solid" !color_nice_box_border
+        .box
+          padding: 1em
+        .text
+          max-width: 60em
+        .signature
+          margin: 4em 0 0 0
+          font-size: 85%
+          .hr
+            background-color = !color_page_text
+            color: black
+            height: 1px
+            margin: 0 0 1em 0
+            width: 18em
+        .quote
+          border = "1px solid" !color_quote_border
+          background-color = !color_quote_background
+          font-size: 85%
+          padding: 0.5em 1em
+
+      .operations
+        margin-left = !info_column_width
+        border-left = "1px solid" !color_nice_box_border
+        border-top = "1px solid" !color_nice_box_border
+
+        ul
+          list-style: none
+          padding: 0
+          overflow: auto
+          text-align: right
+          li
+            float: left
+            margin-right: 0.2em
+            a
+              display: block
+              padding: 0.2em 0.6em
+              border = "1px solid" !color_post_operation_button_border
+              background-color = !color_post_operation_button_background
+              border-radius: 4px
+              &:hover
+                background-color = !color_post_operation_button_background_hover
+                color = !color_post_operation_button_text_hover
+                text-decoration: none

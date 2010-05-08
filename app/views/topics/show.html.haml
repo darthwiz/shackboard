@@ -1,0 +1,5 @@
+.topic[@topic]
+  %ul.posts
+    -@posts.each do |post|
+      %li.post[post]
+        =render :partial => '/posts/post', :locals => { :post => post, :can_post => @topic.can_post?(@user), :can_moderate => @topic.can_moderate?(@user) }
