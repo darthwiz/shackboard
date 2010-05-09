@@ -1,6 +1,9 @@
 .topic[@topic]
   .title
     %h1= cleanup(@topic.title)
+    -if @page_seq_opts[:current].to_i > 1
+      %span.page_number
+        ="(pagina #{@page_seq_opts[:current] / @opts[:ppp] + 1})"
   %ul.posts
     -@posts.each do |post|
       %li.post[post]

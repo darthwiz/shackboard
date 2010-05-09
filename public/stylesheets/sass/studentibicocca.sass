@@ -1,5 +1,7 @@
 !font_family_page = "Verdana, sans-serif"
 !font_size_page = 13px
+!font_family_titles = "Trebuchet MS, Verdana, sans-serif"
+!font_size_titles = 17px
 !color_page_background = #6080ff
 !color_page_text = black
 !color_nice_box_border = #4060a0
@@ -82,7 +84,7 @@ div.page_seq
   h1
     float: left
     margin-left: 1em
-    font-family: "Trebuchet MS", sans-serif
+    font-family = !font_family_titles
 
   .navigation
     clear: both
@@ -127,8 +129,8 @@ div.welcome
   .header
     .navigation
       text-align: center
-      font-family: "Trebuchet MS", sans-serif
-      font-size: 17px
+      font-family = !font_family_titles
+      font-size = !font_size_titles
 
       ul
         list-style: none
@@ -229,6 +231,10 @@ div#login_box input
           margin: 0.7em 0.7em 0.7em 0.35em
         border: 2px solid black
 
+        #module_content_forum_27
+          .content
+            background: url(http://img63.imageshack.us/img63/222/agoraz.png) bottom right no-repeat
+
 
 .welcome
   .header
@@ -310,9 +316,10 @@ div.topic
     color = !color_topic_title_text
     border = "2px solid black"
     margin-bottom: 0
+    font-family = !font_family_titles
+    padding: 0.7em
     h1
-      font-family: Trebuchet MS, Verdana, sans-serif
-      padding: 0.3em 0.4em
+      display: inline
       margin: 0
 
   ul.posts
