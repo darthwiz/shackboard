@@ -107,40 +107,44 @@ class TopicsController < ApplicationController
     end
   end
 
+  def edit
+    @topic = Topic.find(params[:id].to_i)
+    render :nothing => true and return unless @topic.can_edit?(@user)
+    respond_to do |format|
+      format.js do
+        @post_icons = Smiley.post_icons
+        render :update do |page|
+          page.replace_html "options_#{domid(@topic)}", :partial => 'moderation_options',
+            :locals => { :can_moderate => @topic.can_moderate?(@user) }
+          page.toggle "options_#{domid(@topic)}"
+        end
+      end
+    end
+  end
+
   def update
     @topic = Topic.find(params[:id].to_i)
-    if request.xhr?
-      if @topic.can_edit? @user
-        if params['topic']
-          @topic.title  = params['topic']['title']
-          @topic.icon   = params['topic']['icon'] == 'on' ? nil : params['topic']['icon']
+    render :nothing => true and return unless @topic.can_edit?(@user)
+    if params['topic']
+      @topic.title = params['topic']['title']
+    end
+    if @topic.can_moderate? @user
+      if params['topic']
+        @topic.pinned = params['topic']['pinned'] == 'true' ? true : false
+        @topic.locked = params['topic']['locked'] == 'true' ? true : false
+        new_fid       = params['topic']['fid'].to_i
+        if new_fid > 0 && @topic.fid != new_fid
+          forum = Forum.find(new_fid)
+          @topic.move_to(forum)
         end
       end
-      if @topic.can_moderate? @user
-        if params['topic']
-          @topic.pinned = params['topic']['pinned'] == 'true' ? true : false
-          @topic.locked = params['topic']['locked'] == 'true' ? true : false
-          new_fid       = params['topic']['fid'].to_i
-          if new_fid > 0 && @topic.fid != new_fid
-            forum = Forum.find(new_fid)
-            @topic.move_to(forum)
-          end
+    end
+    @topic.save!
+    respond_to do |format|
+      format.js do
+        render :update do |page|
+          page.replace_html "title_#{domid(@topic)}", :partial => 'title'
         end
-      end
-      @topic.save!
-      ppp            = ((@opts[:ppp] - 1) / @post_block_size + 1) * @post_block_size
-      @location      = @topic
-      @post_icons    = Smiley.post_icons
-      @page_seq_opts = { :last        => @topic.replies + 1,
-                         :action      => :show,
-                         :ipp         => ppp,
-                         #:current     => start + 1,
-                         :id          => @topic.id,
-                         :extra_links => [ :first, :forward, :back, :last ] }
-      render :update do |page|
-        page.replace_html 'moderator-panel-top', :partial => 'moderation_options', :locals => { :can_moderate => @topic.can_moderate?(@user) }
-        #page.replace_html 'breadcrumbs',         :partial => '/common/breadcrumbs'
-        #page.replace_html 'breadcrumbs_bottom',  :partial => '/common/breadcrumbs'
       end
     end
   end

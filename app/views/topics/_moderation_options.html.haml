@@ -1,0 +1,43 @@
+-update_id    = "moderation_options_#{@topic.id}"
+-hidden       = false unless hidden
+-style        = hidden ? 'display: none;' : ''
+-can_moderate = false unless defined?(can_moderate)
+%div(class="moderation_options" id="moderation_options_#{domid(@topic)}")
+  -remote_form_for @topic do |f|
+    .title
+      %span.label Titolo:
+      =f.text_field :title, :value => @topic.title
+    -if can_moderate
+      .pinned
+        =radio_button 'topic', 'pinned', 'false'
+        %span.not_pinned Normale
+        =radio_button 'topic', 'pinned', 'true'
+        %span.pinned In evidenza
+      .locked
+        =radio_button 'topic', 'locked', 'false'
+        %span.not_locked Aperta
+        =radio_button 'topic', 'locked', 'true'
+        %span.locked Chiusa
+    -#
+      .post_icon
+        %span.label Icona:
+        =radio_button('topic', 'icon', nil, :id => 'topic_icon_radio_null') + " (nessuna)"
+        -@post_icons.each do |i|
+          =radio_button 'topic', 'icon', i[:url], :id => "topic_icon_radio_#{i.id}"
+          =image_tag(i.url, :alt => '')
+    -if can_moderate
+      .move_to
+        %span.label Sposta in
+        =f.select :fid, Forum.flattened_list.collect { |i| [ Sanitizer.sanitize_html(i.name, ''), i.id ] }
+    .commit
+      =f.submit 'Aggiorna', :disabled => true
+  =button_to 'Elimina', @topic, :method => :delete, :confirm => "Vuoi veramente cancellare questa discussione?"
+  %script(type="text/javascript")
+    -watch_ids  = []
+    -watch_ids += [ 'topic_pinned_true', 'topic_pinned_false', 'topic_locked_true', 'topic_locked_false', 'topic_fid' ] if can_moderate
+    -watch_ids += @post_icons.collect { |i| "topic_icon_radio_#{i.id}" }
+    -watch_ids += [ 'topic_icon_radio_null' ]
+    function activate_commit_button() { $('topic_submit').disabled = false }
+    $('topic_title').onkeypress = activate_commit_button
+    -watch_ids.each do |id|
+      ="$('#{id}').onchange = activate_commit_button"

@@ -28,6 +28,7 @@
 !color_navigation_button_current_border = #484848
 !color_navigation_button_current_background_hover = #484848
 !color_post_updated_text = gray
+!color_title_border = black
 
 =border-radius(!border_radius)
   -moz-border-radius = !border_radius
@@ -312,16 +313,39 @@ div#login_box input
 
 div.topic
   .title
-    background-color = !color_topic_title_background
-    color = !color_topic_title_text
-    border = "2px solid black"
-    margin-bottom: 0
-    font-family = !font_family_titles
-    padding: 0.7em
-    h1
-      display: inline
-      margin: 0
-
+    .box
+      background-color = !color_topic_title_background
+      color = !color_topic_title_text
+      border = "2px solid" !color_title_border
+      margin-bottom: 0
+      padding: 0.7em
+      .info
+        font-family = !font_family_titles
+        h1
+          display: inline
+          margin: 0
+        span.options_link
+          display: block
+          float: right
+          margin: 1em 0 0 0
+          font-family = !font_family_page
+          font-weight: bold
+          a
+            // XXX refactor colors
+            background-color = !color_page_background
+            color = !color_nice_box_background
+            +border-radius(4px)
+            padding: 0.2em 0.5em
+            &:hover
+              text-decoration: none
+              color = !color_navbar_link
+      .options
+        margin: 0.5em 0 0 0
+        padding: 0.5em
+        font-family = !font_family_page
+        background-color = !color_nice_box_background
+        border = "1px solid" !color_title_border
+        color = !color_page_text
   ul.posts
     margin-top: 0.5em
     list-style: none
@@ -459,3 +483,17 @@ div.topic
         position: absolute
         bottom: 0.5em
         right: 0.5em
+  .new_post
+    text-align: right
+    a
+      // XXX refactor colors
+      font-weight: bold
+      border = "2px solid" !color_nice_box_border
+      background-color = !color_nice_box_border
+      color = !color_nice_box_background
+      padding: 0.2em 0.5em
+      font-size: 15px
+      +border-radius(5px)
+      &:hover
+        color = !color_navbar_link
+        text-decoration: none

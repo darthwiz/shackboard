@@ -1,0 +1,12 @@
+.title(id="title_#{domid(@topic)}")
+  .box
+    .info
+      %h1= cleanup(@topic.title)
+      -# FIXME find a way to show the page number again after update
+      -if @page_seq_opts && @page_seq_opts[:current].to_i > 1
+        %span.page_number
+          ="(pagina #{@page_seq_opts[:current] / @opts[:ppp] + 1})"
+      -if @topic.can_edit?(@user)
+        %span.options_link
+          =link_to_remote("opzioni", :url => edit_topic_path(@topic), :method => :get)
+    .options(id="options_#{domid(@topic)}" style="display: none;")
