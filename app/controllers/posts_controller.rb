@@ -152,7 +152,7 @@ class PostsController < ApplicationController
       @post.delete(@user)
       cache_expire({:object => :topic, :id => @post.topic.id})
       respond_to do |format|
-        format.html { redirect_to topic_path(@post.topic, :start => seq, :anchor => "pid#{pid}") }
+        format.html { redirect_to topic_path(@post.topic, :start => seq, :anchor => "post_#{pid}") }
       end
     end
   end
