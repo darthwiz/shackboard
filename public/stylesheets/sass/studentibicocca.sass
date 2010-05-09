@@ -25,6 +25,7 @@
 !color_navigation_button_background_hover = #484848
 !color_navigation_button_current_border = #484848
 !color_navigation_button_current_background_hover = #484848
+!color_post_updated_text = gray
 
 =nice_box
   padding: 1.5em
@@ -394,13 +395,17 @@ div.topic
             background-color = !color_page_text
             color: black
             height: 1px
-            margin: 0 0 1em 0
+            margin: 0 0 0.3em 0
             width: 18em
         .quote
           border = "1px solid" !color_quote_border
           background-color = !color_quote_background
           font-size: 85%
           padding: 0.5em 1em
+        .post_updated
+          font-size: 85%
+          margin: 0.5em 0 0 0
+          color = !color_post_updated_text
 
       .operations
         margin-left = !info_column_width
