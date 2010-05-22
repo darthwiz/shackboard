@@ -2,62 +2,54 @@
   form_name = 'new_message'
   text_name = 'post[message]'
 =javascript_include_tag 'editor.js'
-#new_post
-  -form_for(@post, :html => { :id => 'new_message' }) do |f|
-    #preview
-      .label
-        %h3 Anteprima
-      .content
-        #post_preview
-          .message
-            =BbText.new(@post.message, Smiley.all(@user)).to_html(:controller => self)
-    .input_area
-      #message
+.new_post
+  =render :partial => '/topics/title', :locals => { :hide_options => true, :new_post => true }
+  .panel
+    -form_for(@post, :html => { :id => 'new_message' }) do |f|
+      .preview
         .label
-          %h3 Messaggio
+          %h3 Anteprima
         .content
-          =f.text_area :message
-          =hidden_field_tag 'draft_id', @draft.id if @draft
-          =f.hidden_field :topic_id if @topic
-          =f.hidden_field :id if !@post.new_record?
-          =f.hidden_field :reply_to_pid
-          =f.hidden_field :reply_to_uid
-          .control
-            -if @post.topic.can_moderate?(@user)
-              =f.check_box :moderator_post
-              intervento di moderazione
-              %br
-            =submit_tag 'Invia'
-            %span#draft_saved(style="display: none;")
-      #format-commands
-        .label
-          %h3 Formattazione
-        .content
-          %ul
-            %li= format_button('b', 'bb_bold.gif', 'grassetto')
-            %li= format_button('i', 'bb_italicize.gif', 'corsivo')
-            %li= format_button('u', 'bb_underline.gif', 'sottolineato')
-            %li= format_button('quote', 'bb_quote.gif', 'citazione')
-            %li= format_button('img', 'bb_image.gif', 'immagine')
-            %li= format_button('list', 'bb_list.gif', 'lista')
-            %li= format_button('code', 'bb_code.gif', 'codice')
-      #smiley_list
-        .label
-          %h3 Faccine
-        .content
-          =render :partial => '/smileys/list'
-  =observe_form 'new_message', :frequency => 5, :update => "post_preview", :url => { :controller => :text_preview, :action => :text_to_html }
-  =observe_form 'new_message', :frequency => 10, :update => 'draft_saved', :url => save_draft_new_post_path if @post.new_record?
-
--if @latest_posts
-  %br
-  %br
-  -t    = @opts[:theme]
-  -flip = 0
-  %table(cellspacing="0" cellpadding="0" border="0" width="100%" align="center")
-    %tr
-      %td{ :bgcolor => t.bordercolor }
-        %table(border="0" cellspacing="1" cellpadding="6" width="100%")
-          -@latest_posts.each do |p|
-            =render :partial => '/posts/post', :locals => { :post => p, :flip => flip, :buttons => false }
-            -flip = 1 - flip
+          #post_preview
+            .message
+              =BbText.new(@post.message, Smiley.all(@user)).to_html(:controller => self)
+      .input_area
+        .message
+          .box
+            .label
+              %h3 Messaggio
+            .content
+              =f.text_area :message
+              =hidden_field_tag 'draft_id', @draft.id if @draft
+              =f.hidden_field :topic_id if @topic
+              =f.hidden_field :id if !@post.new_record?
+              =f.hidden_field :reply_to_pid
+              =f.hidden_field :reply_to_uid
+              .control
+                -if @post.topic.can_moderate?(@user)
+                  =f.check_box :moderator_post
+                  intervento di moderazione
+                  %br
+                =submit_tag 'Invia'
+                %span#draft_saved(style="display: none;")
+        .format_commands
+          .box
+            .label
+              %h3 Formattazione
+            .content
+              %ul
+                %li= format_button('b', 'bb_bold.gif', 'grassetto')
+                %li= format_button('i', 'bb_italicize.gif', 'corsivo')
+                %li= format_button('u', 'bb_underline.gif', 'sottolineato')
+                %li= format_button('quote', 'bb_quote.gif', 'citazione')
+                %li= format_button('img', 'bb_image.gif', 'immagine')
+                %li= format_button('list', 'bb_list.gif', 'lista')
+                %li= format_button('code', 'bb_code.gif', 'codice')
+        .smiley_list
+          .box
+            .label
+              %h3 Faccine
+            .content
+              =render :partial => '/smileys/list'
+    =observe_form 'new_message', :frequency => 5, :update => "post_preview", :url => { :controller => :text_preview, :action => :text_to_html }
+    =observe_form 'new_message', :frequency => 10, :update => 'draft_saved', :url => save_draft_new_post_path if @post.new_record?

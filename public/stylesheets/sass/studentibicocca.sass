@@ -310,42 +310,44 @@ div#login_box input
 // topic view
 
 !info_column_width = 140px
+=topic_title
+  .box
+    background-color = !color_topic_title_background
+    color = !color_topic_title_text
+    border = "2px solid" !color_title_border
+    margin-bottom: 0.5em
+    padding: 0.7em
+    .info
+      font-family = !font_family_titles
+      h1
+        display: inline
+        margin: 0
+      span.options_link
+        display: block
+        float: right
+        margin: 1em 0 0 0
+        font-family = !font_family_page
+        font-weight: bold
+        a
+          // XXX refactor colors
+          background-color = !color_page_background
+          color = !color_nice_box_background
+          +border-radius(4px)
+          padding: 0.2em 0.5em
+          &:hover
+            text-decoration: none
+            color = !color_navbar_link
+    .options
+      margin: 0.5em 0 0 0
+      padding: 0.5em
+      font-family = !font_family_page
+      background-color = !color_nice_box_background
+      border = "1px solid" !color_title_border
+      color = !color_page_text
 
 div.topic
   .title
-    .box
-      background-color = !color_topic_title_background
-      color = !color_topic_title_text
-      border = "2px solid" !color_title_border
-      margin-bottom: 0
-      padding: 0.7em
-      .info
-        font-family = !font_family_titles
-        h1
-          display: inline
-          margin: 0
-        span.options_link
-          display: block
-          float: right
-          margin: 1em 0 0 0
-          font-family = !font_family_page
-          font-weight: bold
-          a
-            // XXX refactor colors
-            background-color = !color_page_background
-            color = !color_nice_box_background
-            +border-radius(4px)
-            padding: 0.2em 0.5em
-            &:hover
-              text-decoration: none
-              color = !color_navbar_link
-      .options
-        margin: 0.5em 0 0 0
-        padding: 0.5em
-        font-family = !font_family_page
-        background-color = !color_nice_box_background
-        border = "1px solid" !color_title_border
-        color = !color_page_text
+    +topic_title
   ul.posts
     margin-top: 0.5em
     list-style: none
@@ -497,3 +499,49 @@ div.topic
       &:hover
         color = !color_navbar_link
         text-decoration: none
+
+
+// new post
+
+div.new_post
+  h3
+    margin: 0.5em
+  .title
+    +topic_title
+  .panel
+    .preview
+      border = "1px solid" !color_nice_box_border
+      background-color = !color_nice_box_background
+      #post_preview
+        height: 20em
+        overflow: auto
+    .input_area
+      overflow: auto
+      .message
+        float: left
+        width: 60%
+        .box
+          border = "1px solid" !color_nice_box_border
+          background-color = !color_nice_box_background
+      .format_commands,
+      .smiley_list
+        float: right
+        width: 40%
+        ul
+          list-style: none
+          padding: 0
+          overflow: auto
+          li
+            float: left
+        .box
+          border = "1px solid" !color_nice_box_border
+          background-color = !color_nice_box_background
+      .smiley_list
+        li
+          height: 22px
+          padding: 2px 0 0 0
+          text-align: center
+          width: 4.8em
+        img
+          max-width: 4.5em
+          max-height: 20px
