@@ -30,9 +30,19 @@ class BlogsController < ApplicationController
       @blog = @blog_user.blogs.find_by_slug(params[:slug])
     end
     if @blog.is_a? Blog
-      @posts      = @blog.posts.by_created_at_desc.range(0...5)
+      ipp         = 5
+      rstart      = [ 0, params[:start].to_i - 1 ].max
+      rend        = rstart + ipp
+      @posts      = @blog.posts.by_created_at_desc.range(rstart...rend)
       @page_title = @blog.name
       @blog.increment! :view_count
+      @page_seq_opts = {
+        :first       => 1,
+        :last        => @blog.posts.count,
+        :current     => rstart + 1,
+        :ipp         => 5,
+        :extra_links => [ :first, :back, :forward, :last ],
+      }
     end
     @location = @blog
   end
