@@ -25,8 +25,9 @@ module UsersHelper
   end
 
   def profile_field_editor(user, field, options={})
-    type     = options[:type]  ? options[:type].to_sym : :text_field
-    li_class = options[:class] ? options[:class].to_s  : field.to_s
+    type     = options[:type]                 ? options[:type].to_sym : :text_field
+    li_class = options[:class]                ? options[:class].to_s  : field.to_s
+    choices  = options[:choices].is_a?(Array) ? options[:choices]     : user.choices_for(field)
     li_id    = "edit_user_#{field}"
     begin
       value = options[:value] ? options[:value].to_s : cleanup(user.send(field.to_sym).to_s).gsub("\n", "<br />\n")
@@ -44,6 +45,8 @@ module UsersHelper
             concat 'nuova: '    + password_field_tag('new_password')     + '<br />'
             concat 'conferma: ' + password_field_tag('confirm_password') + '<br />'
             concat '</dd>'
+          elsif !choices.blank?
+            concat content_tag(:dd, f.select(field.to_sym, choices.collect { |i| [ i, i ] }))
           else
             concat content_tag(:dd, f.send(type, field.to_sym))
           end

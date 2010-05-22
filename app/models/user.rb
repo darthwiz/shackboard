@@ -136,6 +136,10 @@ class User < ActiveRecord::Base
     self.postnum
   end
 
+  def choices_for(attribute)
+    { :theme => Theme.all.collect(&:name).sort, :sex => [ 'F', 'M' ] }[attribute.to_sym]
+  end
+
   def rename!(new_username)
     if User.find_by_username(new_username)
       raise DuplicateUserError, "user #{new_username.inspect} already exists"
